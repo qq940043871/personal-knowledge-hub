@@ -412,3 +412,18 @@ ffmpeg -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i ...
 ---
 
 *文档完成*
+
+## 附：循环推流与多目标推送脚本（自 02-常用命令 旧稿并入）
+
+# 循环推流（直播场景）
+ffmpeg -re -stream_loop -1 -i input.mp4 \
+  -c copy -f flv rtmp://server/live/stream
+```
+
+## 附：循环推流与多目标推送脚本（自 02-常用命令 旧稿并入）
+
+# multi_push.sh - 同时推流到多个目标
+
+INPUT="rtsp://camera/live"
+FFMPEG="/usr/local/bin/ffmpeg"
+```

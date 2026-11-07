@@ -47,7 +47,7 @@
 
 - 将数据分散到多个数据库实例，解决单库性能瓶颈。
 
-  - [查看详情](database-sharding.html)
+  - [查看详情](database-sharding.md)
 
 ### CDN加速
 
