@@ -43,8 +43,8 @@ Nginx 的答案：
   <rect x="740" y="238" width="140" height="56" rx="6" fill="#FFFBEB" stroke="#F59E0B"/><text x="810" y="262" text-anchor="middle" font-size="12" fill="#92400E">共享内存</text><text x="810" y="280" text-anchor="middle" font-size="11" fill="#78350F">限流/统计/ ups状态</text>
   <rect x="60" y="330" width="840" height="84" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
   <text x="480" y="356" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B21B6">平滑重启（nginx -s reload）的时序：</text>
-  <text x="90" y="378" font-size="12" fill="#4C1D95">master 读新配置并校验 → 失败则拒绝(旧配置继续服务) → fork 新 worker（用新配置，继承同一 listen fd）</text>
-  <text x="90" y="398" font-size="12" fill="#4C1D95">→ 通知旧 worker：不再 accept，处理完存量连接后退出 → 全程端口不关、连接不掉</text>
+  <text x="90" y="378" font-size="12" fill="#4C1D95" text-anchor="start">master 读新配置并校验 → 失败则拒绝(旧配置继续服务) → fork 新 worker（用新配置，继承同一 listen fd）</text>
+  <text x="90" y="398" font-size="12" fill="#4C1D95" text-anchor="start">→ 通知旧 worker：不再 accept，处理完存量连接后退出 → 全程端口不关、连接不掉</text>
   <text x="480" y="420" text-anchor="middle" font-size="12" fill="#7C3AED">对比 Redis(03篇)：数据在共享内存所以只能单进程；Nginx 连接无状态 → 进程可以随意换血</text>
 </svg>
 
@@ -79,9 +79,9 @@ Nginx 的演进：
   <rect x="330" y="180" width="200" height="70" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
   <text x="430" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#991B1B">数据没到位？</text>
   <text x="430" y="230" text-anchor="middle" font-size="12" fill="#7F1D1D">注册事件 → 立即返回循环</text>
-  <rect x="590" y="180" width="200" height="70" rx="8" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
-  <text x="690" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B21B6">写响应</text>
-  <text x="690" y="230" text-anchor="middle" font-size="12" fill="#4C1D95">sendfile / proxy_buffering</text>
+  <rect x="590" y="180" width="214" height="70" rx="8" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
+  <text x="697" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B21B6">写响应</text>
+  <text x="697" y="230" text-anchor="middle" font-size="12" fill="#4C1D95">sendfile / proxy_buffering</text>
   <rect x="70" y="180" width="200" height="70" rx="8" fill="#FFF7ED" stroke="#F97316" stroke-width="2"/>
   <text x="170" y="208" text-anchor="middle" font-size="13" font-weight="bold" fill="#9A3412">三条铁律</text>
   <text x="170" y="230" text-anchor="middle" font-size="11" fill="#7C2D12">不阻塞·非阻塞fd·内存池</text>
@@ -90,12 +90,12 @@ Nginx 的演进：
   <line x1="690" y1="135" x2="530" y2="205" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="330" y1="215" x2="275" y2="215" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="530" y1="215" x2="585" y2="215" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="690" y1="255" x2="690" y2="140" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="697" y1="255" x2="697" y2="140" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <rect x="70" y="290" width="860" height="90" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
   <text x="480" y="316" text-anchor="middle" font-size="13" font-weight="bold" fill="#374151">三条铁律的物理出处</text>
-  <text x="90" y="340" font-size="12" fill="#6B7280">铁律1 永不阻塞：阻塞 1ms = 几万连接陪等 1ms（成本模型 O(活跃事件) 的自杀行为）</text>
-  <text x="90" y="360" font-size="12" fill="#6B7280">铁律2 非阻塞fd + ET/LT 触发模式：ET 只提醒一次，必须一口气读写到 EAGAIN</text>
-  <text x="90" y="380" font-size="12" fill="#6B7280">铁律3 内存池：连接级预分配，请求结束整池回收 —— malloc/free 本身也是账单</text>
+  <text x="90" y="340" font-size="12" fill="#6B7280" text-anchor="start">铁律1 永不阻塞：阻塞 1ms = 几万连接陪等 1ms（成本模型 O(活跃事件) 的自杀行为）</text>
+  <text x="90" y="360" font-size="12" fill="#6B7280" text-anchor="start">铁律2 非阻塞fd + ET/LT 触发模式：ET 只提醒一次，必须一口气读写到 EAGAIN</text>
+  <text x="90" y="380" font-size="12" fill="#6B7280" text-anchor="start">铁律3 内存池：连接级预分配，请求结束整池回收 —— malloc/free 本身也是账单</text>
 </svg>
 
 ## 三、第三问：静态资源为什么快？——零拷贝的组合拳

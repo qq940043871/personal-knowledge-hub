@@ -122,7 +122,7 @@ GC 的根本矛盾：**标记/整理需要"世界静止"，而业务要求"永�
   <text x="480" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#1F2937">GC 演进史 = 对 STW 的逐次突围（纵轴：停顿感受）</text>
   <line x1="80" y1="250" x2="900" y2="250" stroke="#9CA3AF" stroke-width="2"/>
   <line x1="80" y1="60" x2="80" y2="250" stroke="#9CA3AF" stroke-width="2"/>
-  <text x="60" y="150" font-size="12" fill="#6B7280" transform="rotate(-90 60 150)">停顿时间</text>
+  <text x="60" y="150" font-size="12" fill="#6B7280" transform="rotate(-90 60 150)" text-anchor="start">停顿时间</text>
   <rect x="110" y="80" width="110" height="170" fill="#FECACA" stroke="#EF4444"/>
   <text x="165" y="105" text-anchor="middle" font-size="13" font-weight="bold" fill="#991B1B">Serial</text>
   <text x="165" y="128" text-anchor="middle" font-size="12" fill="#7F1D1D">单线程全程停</text>
@@ -135,7 +135,7 @@ GC 的根本矛盾：**标记/整理需要"世界静止"，而业务要求"永�
   <text x="445" y="185" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400E">CMS</text>
   <text x="445" y="208" text-anchor="middle" font-size="12" fill="#92400E">并发标记清除</text>
   <text x="445" y="226" text-anchor="middle" font-size="11" fill="#A16207">几十ms，有碎片</text>
-  <rect x="530" y="190" width="110" height="60" fill="#D1FAE5" stroke="#10B981"/>
+  <rect x="515" y="190" width="140" height="60" fill="#D1FAE5" stroke="#10B981"/>
   <text x="585" y="215" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">G1</text>
   <text x="585" y="235" text-anchor="middle" font-size="11" fill="#047857">Region 化+停顿目标</text>
   <rect x="670" y="215" width="110" height="35" fill="#A7F3D0" stroke="#10B981"/>

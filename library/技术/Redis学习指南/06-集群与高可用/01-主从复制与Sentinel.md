@@ -91,6 +91,44 @@ REPLICAOF host port
 REPLICAOF NO ONE
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">主从复制与Sentinel架构</text>
+  <rect x="110" y="56" width="120" height="40" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="170" y="81" text-anchor="middle" font-size="13" fill="#1e293b">Sentinel 1</text>
+  <rect x="300" y="56" width="120" height="40" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="360" y="81" text-anchor="middle" font-size="13" fill="#1e293b">Sentinel 2</text>
+  <rect x="490" y="56" width="120" height="40" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="550" y="81" text-anchor="middle" font-size="13" fill="#1e293b">Sentinel 3</text>
+  <rect x="270" y="150" width="180" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="172" text-anchor="middle" font-size="13" fill="#1e293b">Master（读写）</text>
+  <text x="360" y="190" text-anchor="middle" font-size="12" fill="#475569">192.168.1.100</text>
+  <rect x="60" y="280" width="180" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="150" y="302" text-anchor="middle" font-size="13" fill="#1e293b">Slave 1（只读）</text>
+  <text x="150" y="320" text-anchor="middle" font-size="12" fill="#475569">replicaof主节点</text>
+  <rect x="270" y="280" width="180" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="302" text-anchor="middle" font-size="13" fill="#1e293b">Slave 2（只读）</text>
+  <text x="360" y="320" text-anchor="middle" font-size="12" fill="#475569">replicaof主节点</text>
+  <rect x="480" y="280" width="180" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="570" y="302" text-anchor="middle" font-size="13" fill="#1e293b">Slave 3（只读）</text>
+  <text x="570" y="320" text-anchor="middle" font-size="12" fill="#475569">replicaof主节点</text>
+  <line x1="170" y1="96" x2="290" y2="146" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="360" y1="96" x2="360" y2="144" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="550" y1="96" x2="430" y2="146" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="360" y="120" text-anchor="start" font-size="12" fill="#475569">监控</text>
+  <line x1="330" y1="200" x2="185" y2="276" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="360" y1="200" x2="360" y2="276" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="390" y1="200" x2="535" y2="276" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="415" y="245" text-anchor="start" font-size="12" fill="#475569">复制</text>
+  <text x="360" y="400" text-anchor="middle" font-size="13" fill="#475569">主节点故障时Sentinel自动选举新主完成故障转移</text>
+</svg>
+
+*图：主从复制与Sentinel架构示意（依正文整理）*
+
 ---
 
 ## 二、Sentinel哨兵

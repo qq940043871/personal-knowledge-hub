@@ -20,6 +20,33 @@ Engine（引擎）
   Wrapper：Servlet包装器，封装单个Servlet
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Container四层结构</text>
+  <rect x="60" y="56" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="145" y="83" text-anchor="middle" font-size="13" fill="#1e293b">Engine 引擎</text>
+  <rect x="100" y="140" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="185" y="167" text-anchor="middle" font-size="13" fill="#1e293b">Host 虚拟主机</text>
+  <rect x="140" y="224" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="225" y="251" text-anchor="middle" font-size="13" fill="#1e293b">Context 应用</text>
+  <rect x="180" y="308" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="335" text-anchor="middle" font-size="13" fill="#1e293b">Wrapper 包装器</text>
+  <path d="M145,100 V120 H185 V138" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M185,184 V204 H225 V222" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M225,268 V288 H265 V306" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="250" y="83" text-anchor="start" font-size="12" fill="#475569">全局引擎，管理多个虚拟主机</text>
+  <text x="290" y="167" text-anchor="start" font-size="12" fill="#475569">虚拟主机，对应一个域名</text>
+  <text x="330" y="251" text-anchor="start" font-size="12" fill="#475569">Web应用，对应Context Path</text>
+  <text x="370" y="335" text-anchor="start" font-size="12" fill="#475569">封装单个Servlet</text>
+  <text x="360" y="382" text-anchor="middle" font-size="13" fill="#475569">每层容器持有Pipeline，invoke逐层下传</text>
+</svg>
+
+*图：Container四层结构示意（依正文整理）*
+
 ---
 
 ## 二、接口设计

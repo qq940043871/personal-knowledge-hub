@@ -39,7 +39,7 @@
   <line x1="490" y1="301" x2="505" y2="301" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="710" y1="301" x2="725" y2="301" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="480" y1="176" x2="480" y2="215" stroke="#6B7280" stroke-width="2.5" marker-end="url(#arr)"/>
-  <text x="560" y="200" font-size="12" fill="#6B7280">适配成 Request/Response（对象池回收复用）</text>
+  <text x="560" y="200" font-size="12" fill="#6B7280" text-anchor="start">适配成 Request/Response（对象池回收复用）</text>
   <rect x="40" y="374" width="880" height="56" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
   <text x="480" y="398" text-anchor="middle" font-size="13" font-weight="bold" fill="#374151">这是所有"分层"的通用公式：把"被底层约束推着变的部分"和"业务语义要稳定的部分"切开</text>
   <text x="480" y="420" text-anchor="middle" font-size="12" fill="#6B7280">对照 MySQL：Server 层与 InnoDB 层分开，理由一模一样（04篇 binlog/redo 两本日志的根源）</text>
@@ -83,9 +83,9 @@ accept() → 每个连接 new 一个线程 → 阻塞 read
   <line x1="460" y1="150" x2="495" y2="150" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <rect x="40" y="260" width="880" height="120" rx="10" fill="#F5F3FF" stroke="#8B5CF6" stroke-width="2"/>
   <text x="480" y="286" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B21B6">Nginx 对照（05篇）：同样是事件驱动，为什么 Nginx 连线程池都没有？</text>
-  <text x="70" y="312" font-size="12" fill="#4C1D95">Nginx 不执行业务，"处理"就是搬字节 → 单线程状态机足矣</text>
-  <text x="70" y="332" font-size="12" fill="#4C1D95">Tomcat 要执行业务（Servlet 是阻塞语义）→ 保留线程池，但把"等 IO"全部交给 epoll</text>
-  <text x="70" y="352" font-size="12" fill="#4C1D95">Netty（《Netty源码剖析与实战》）= 同一思想的通用引擎：主从 Reactor + 线程池，Spring WebFlux/gRPC 底层都是它</text>
+  <text x="70" y="312" font-size="12" fill="#4C1D95" text-anchor="start">Nginx 不执行业务，"处理"就是搬字节 → 单线程状态机足矣</text>
+  <text x="70" y="332" font-size="12" fill="#4C1D95" text-anchor="start">Tomcat 要执行业务（Servlet 是阻塞语义）→ 保留线程池，但把"等 IO"全部交给 epoll</text>
+  <text x="70" y="352" font-size="12" fill="#4C1D95" text-anchor="start">Netty（《Netty源码剖析与实战》）= 同一思想的通用引擎：主从 Reactor + 线程池，Spring WebFlux/gRPC 底层都是它</text>
   <text x="480" y="376" text-anchor="middle" font-size="12" fill="#7C3AED">同一个约束（线程贵），两种业务前提，两种答案 —— 这就是"为什么这么设计"的标准思考路径</text>
 </svg>
 

@@ -19,6 +19,38 @@ Spring Cloud是Spring官方提供的微服务架构解决方案，它提供了�
 - **Config/Nacos**：配置中心
 - **Sleuth/Zipkin**：链路追踪
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Spring Cloud微服务架构</text>
+  <rect x="60" y="70" width="120" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="120" y="98" text-anchor="middle" font-size="13" fill="#1e293b">客户端</text>
+  <rect x="270" y="70" width="180" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="98" text-anchor="middle" font-size="13" fill="#1e293b">Gateway 网关</text>
+  <line x1="182" y1="93" x2="264" y2="93" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="120" y="180" width="150" height="56" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="195" y="213" text-anchor="middle" font-size="13" fill="#1e293b">服务A</text>
+  <rect x="300" y="180" width="150" height="56" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="375" y="213" text-anchor="middle" font-size="13" fill="#1e293b">服务B</text>
+  <rect x="480" y="180" width="150" height="56" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="555" y="213" text-anchor="middle" font-size="13" fill="#1e293b">服务C</text>
+  <path d="M330,116 V148 H195 V176" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M360,116 V176" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M390,116 V148 H555 V176" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="270" y="300" width="180" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="320" text-anchor="middle" font-size="13" fill="#1e293b">Nacos</text>
+  <text x="360" y="340" text-anchor="middle" font-size="12" fill="#475569">注册与配置中心</text>
+  <path d="M195,236 V268 H310 V296" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#ar1)"/>
+  <path d="M375,236 V296" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#ar1)"/>
+  <path d="M555,236 V268 H410 V296" fill="none" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#ar1)"/>
+  <text x="360" y="394" text-anchor="middle" font-size="13" fill="#475569">服务间OpenFeign声明式调用，Sentinel熔断限流保护</text>
+</svg>
+
+*图：Spring Cloud微服务架构示意（依正文整理）*
+
 ---
 
 ## 二、核心组件详解

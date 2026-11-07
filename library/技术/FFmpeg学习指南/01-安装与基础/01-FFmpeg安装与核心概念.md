@@ -103,6 +103,36 @@ AAC │ MP3 │ OPUS │ FLAC │ PCM
 -progress url   # 输出进度到文件
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 460" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">FFmpeg转码处理流程</text>
+  <rect x="260" y="56" width="200" height="44" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="83" text-anchor="middle" font-size="13" fill="#1e293b">输入文件 input</text>
+  <path d="M320,100 V126 H220 V146" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M400,100 V146" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="100" y="150" width="240" height="54" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="220" y="172" text-anchor="middle" font-size="13" fill="#1e293b">视频流</text>
+  <text x="220" y="192" text-anchor="middle" font-size="12" fill="#475569">编码 H.264·H.265·AV1</text>
+  <rect x="380" y="150" width="240" height="54" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="500" y="172" text-anchor="middle" font-size="13" fill="#1e293b">音频流</text>
+  <text x="500" y="192" text-anchor="middle" font-size="12" fill="#475569">编码 AAC·MP3·OPUS</text>
+  <path d="M220,204 V230 H330 V250" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M500,204 V230 H390 V250" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="260" y="254" width="200" height="54" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="276" text-anchor="middle" font-size="13" fill="#1e293b">封装格式 Container</text>
+  <text x="360" y="296" text-anchor="middle" font-size="12" fill="#475569">MP4·MKV·FLV·TS</text>
+  <line x1="360" y1="308" x2="360" y2="350" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="260" y="354" width="200" height="44" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="381" text-anchor="middle" font-size="13" fill="#1e293b">输出文件 output</text>
+  <text x="360" y="434" text-anchor="middle" font-size="13" fill="#475569">ffmpeg -i input.avi output.mp4 转换封装与编码</text>
+</svg>
+
+*图：FFmpeg转码处理流程示意（依正文整理）*
+
 ---
 
 ## 四、常用命令

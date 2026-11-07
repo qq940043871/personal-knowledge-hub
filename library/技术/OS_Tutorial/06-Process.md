@@ -38,6 +38,44 @@
         └────── 僵尸（Zombie）──── 父进程 wait() ──▶ 消亡
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">进程状态机</text>
+  <rect x="50" y="70" width="110" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="105" y="98" text-anchor="middle" font-size="13" fill="#1e293b">创建</text>
+  <rect x="290" y="70" width="170" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="375" y="98" text-anchor="middle" font-size="13" fill="#1e293b">就绪（Ready）</text>
+  <rect x="290" y="190" width="170" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="375" y="218" text-anchor="middle" font-size="13" fill="#1e293b">运行（Running）</text>
+  <rect x="560" y="190" width="130" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="625" y="218" text-anchor="middle" font-size="13" fill="#1e293b">阻塞</text>
+  <rect x="290" y="310" width="170" height="46" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="375" y="338" text-anchor="middle" font-size="13" fill="#1e293b">僵尸（Zombie）</text>
+  <rect x="560" y="310" width="130" height="46" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="625" y="338" text-anchor="middle" font-size="13" fill="#1e293b">消亡</text>
+  <line x1="162" y1="93" x2="284" y2="93" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="224" y="84" text-anchor="middle" font-size="12" fill="#475569">schedule()</text>
+  <line x1="345" y1="116" x2="345" y2="184" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="322" y="155" text-anchor="end" font-size="12" fill="#475569">dispatch</text>
+  <line x1="405" y1="184" x2="405" y2="120" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="428" y="155" text-anchor="start" font-size="12" fill="#475569">preempt/yield</text>
+  <line x1="462" y1="213" x2="554" y2="213" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="508" y="204" text-anchor="middle" font-size="12" fill="#475569">等待事件</text>
+  <path d="M625,188 V93 H466" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="545" y="84" text-anchor="middle" font-size="12" fill="#475569">事件发生</text>
+  <line x1="375" y1="236" x2="375" y2="304" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="408" y="276" text-anchor="start" font-size="12" fill="#475569">退出</text>
+  <line x1="462" y1="333" x2="554" y2="333" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="508" y="324" text-anchor="middle" font-size="12" fill="#475569">wait()</text>
+  <text x="360" y="412" text-anchor="middle" font-size="13" fill="#475569">阻塞进程只能被事件唤醒后回到就绪队列</text>
+</svg>
+
+*图：进程状态机示意（依正文整理）*
+
 ---
 
 ## 6.3 进程控制块实现

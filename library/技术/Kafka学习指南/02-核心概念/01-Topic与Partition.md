@@ -32,6 +32,56 @@ Topic是Kafka中消息的逻辑分类
 - **并行处理**：不同Partition可并行消费
 - **顺序保证**：同一Partition内消息有序
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 440" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="380" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Topic与Partition结构</text>
+  <rect x="40" y="140" width="110" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="95" y="168" text-anchor="middle" font-size="13" fill="#1e293b">Producer</text>
+  <line x1="152" y1="163" x2="204" y2="163" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="178" y="154" text-anchor="middle" font-size="12" fill="#475569">按key路由</text>
+  <rect x="210" y="64" width="380" height="220" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="224" y="88" text-anchor="start" font-size="13" fill="#1e293b">Topic: orders</text>
+  <rect x="228" y="100" width="110" height="140" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="283" y="122" text-anchor="middle" font-size="13" fill="#1e293b">Partition 0</text>
+  <rect x="240" y="136" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="283" y="152" text-anchor="middle" font-size="12" fill="#1e293b">msg1</text>
+  <rect x="240" y="164" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="283" y="180" text-anchor="middle" font-size="12" fill="#1e293b">msg4</text>
+  <rect x="240" y="192" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="283" y="208" text-anchor="middle" font-size="12" fill="#1e293b">msg7</text>
+  <rect x="348" y="100" width="110" height="140" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="403" y="122" text-anchor="middle" font-size="13" fill="#1e293b">Partition 1</text>
+  <rect x="360" y="136" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="403" y="152" text-anchor="middle" font-size="12" fill="#1e293b">msg2</text>
+  <rect x="360" y="164" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="403" y="180" text-anchor="middle" font-size="12" fill="#1e293b">msg5</text>
+  <rect x="360" y="192" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="403" y="208" text-anchor="middle" font-size="12" fill="#1e293b">msg8</text>
+  <rect x="468" y="100" width="110" height="140" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="523" y="122" text-anchor="middle" font-size="13" fill="#1e293b">Partition 2</text>
+  <rect x="480" y="136" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="523" y="152" text-anchor="middle" font-size="12" fill="#1e293b">msg3</text>
+  <rect x="480" y="164" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="523" y="180" text-anchor="middle" font-size="12" fill="#1e293b">msg6</text>
+  <rect x="480" y="192" width="86" height="22" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="523" y="208" text-anchor="middle" font-size="12" fill="#1e293b">msg9</text>
+  <line x1="400" y1="284" x2="400" y2="314" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="430" y="304" text-anchor="start" font-size="12" fill="#475569">并行消费·分区内有序</text>
+  <rect x="210" y="320" width="380" height="80" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="224" y="344" text-anchor="start" font-size="13" fill="#1e293b">Consumer Group</text>
+  <rect x="240" y="352" width="140" height="36" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="310" y="375" text-anchor="middle" font-size="13" fill="#1e293b">Consumer A</text>
+  <rect x="420" y="352" width="140" height="36" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="490" y="375" text-anchor="middle" font-size="13" fill="#1e293b">Consumer B</text>
+  <text x="600" y="424" text-anchor="middle" font-size="13" fill="#475569">多分区可并行读写</text>
+</svg>
+
+*图：Topic与Partition结构示意（依正文整理）*
+
 ---
 
 ## 二、Partition详解

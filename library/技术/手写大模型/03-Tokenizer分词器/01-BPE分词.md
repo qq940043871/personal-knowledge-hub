@@ -20,6 +20,38 @@ BPE（Byte Pair Encoding）：
   4. 重复步骤2-3，直到词表达到目标大小
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 450" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="320" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">BPE训练流程</text>
+  <rect x="220" y="56" width="200" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="84" text-anchor="middle" font-size="13" fill="#1e293b">初始化：拆分为单字符</text>
+  <line x1="320" y1="102" x2="320" y2="128" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="134" width="200" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="162" text-anchor="middle" font-size="13" fill="#1e293b">统计相邻token对频率</text>
+  <line x1="320" y1="180" x2="320" y2="206" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="212" width="200" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="240" text-anchor="middle" font-size="13" fill="#1e293b">合并最高频token对</text>
+  <line x1="320" y1="258" x2="320" y2="284" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="290" width="200" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="318" text-anchor="middle" font-size="13" fill="#1e293b">新token加入词表</text>
+  <line x1="320" y1="336" x2="320" y2="362" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="210" y="368" width="220" height="50" rx="24" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="320" y="398" text-anchor="middle" font-size="13" fill="#1e293b">词表达到目标大小？</text>
+  <line x1="430" y1="393" x2="464" y2="393" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="448" y="384" text-anchor="middle" font-size="12" fill="#475569">是</text>
+  <rect x="470" y="368" width="130" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="535" y="398" text-anchor="middle" font-size="13" fill="#1e293b">训练结束</text>
+  <path d="M210,393 H100 V157 H214" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="160" y="384" text-anchor="middle" font-size="12" fill="#475569">否</text>
+  <text x="320" y="442" text-anchor="middle" font-size="13" fill="#475569">GPT系列、LLaMA均采用BPE</text>
+</svg>
+
+*图：BPE训练迭代流程示意（依正文整理）*
+
 ---
 
 ## 二、BPE训练实现

@@ -126,11 +126,11 @@ innodb_flush_log_at_trx_commit：
 
 ### 3.3 两阶段提交：为什么这么绕？
 
-<svg style="max-width:100%;height:auto" width="960" height="360" viewBox="0 0 960 360" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+<svg style="max-width:100%;height:auto" width="1000" height="360" viewBox="0 0 1000 360" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
   <defs>
     <marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#6B7280"/></marker>
   </defs>
-  <text x="480" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#1F2937">UPDATE 的七步 + 两阶段提交：两本日志的原子绑定</text>
+  <text x="500" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#1F2937">UPDATE 的七步 + 两阶段提交：两本日志的原子绑定</text>
   <line x1="120" y1="70" x2="120" y2="320" stroke="#8B5CF6" stroke-width="2"/>
   <text x="120" y="62" text-anchor="middle" font-size="13" font-weight="bold" fill="#5B21B6">执行路径</text>
   <line x1="480" y1="70" x2="480" y2="320" stroke="#EF4444" stroke-width="2"/>
@@ -147,14 +147,14 @@ innodb_flush_log_at_trx_commit：
   <text x="60" y="190" text-anchor="middle" font-size="12" fill="#4C1D95">③ 改内存页</text>
   <text x="60" y="208" text-anchor="middle" font-size="12" fill="#4C1D95">成脏页</text>
   <line x1="120" y1="230" x2="115" y2="230" stroke="#EF4444" stroke-width="2"/>
-  <text x="35" y="235" text-anchor="middle" font-size="12" fill="#991B1B">④ redo log</text>
-  <text x="35" y="253" text-anchor="middle" font-size="12" fill="#991B1B">prepare 状态</text>
+  <text x="42" y="235" text-anchor="middle" font-size="12" fill="#991B1B">④ redo log</text>
+  <text x="42" y="253" text-anchor="middle" font-size="12" fill="#991B1B">prepare 状态</text>
   <line x1="120" y1="275" x2="115" y2="275" stroke="#F97316" stroke-width="2"/>
-  <text x="35" y="280" text-anchor="middle" font-size="12" fill="#9A3412">⑤ 写 binlog</text>
-  <text x="35" y="298" text-anchor="middle" font-size="12" fill="#9A3412">并 fsync</text>
+  <text x="42" y="280" text-anchor="middle" font-size="12" fill="#9A3412">⑤ 写 binlog</text>
+  <text x="42" y="298" text-anchor="middle" font-size="12" fill="#9A3412">并 fsync</text>
   <line x1="120" y1="318" x2="115" y2="318" stroke="#10B981" stroke-width="2"/>
-  <text x="35" y="323" text-anchor="middle" font-size="12" fill="#166534">⑥ redo log</text>
-  <text x="35" y="341" text-anchor="middle" font-size="12" fill="#166534">commit ✓</text>
+  <text x="42" y="323" text-anchor="middle" font-size="12" fill="#166534">⑥ redo log</text>
+  <text x="42" y="341" text-anchor="middle" font-size="12" fill="#166534">commit ✓</text>
   <text x="500" y="110" text-anchor="middle" font-size="13" fill="#7F1D1D">崩溃点A：redo=prepare，binlog=无</text>
   <text x="500" y="132" text-anchor="middle" font-size="12" fill="#6B7280">恢复规则①：binlog 不完整 → 回滚（主库从库都没发生）</text>
   <text x="500" y="190" text-anchor="middle" font-size="13" fill="#7F1D1D">崩溃点B：redo=prepare，binlog=完整</text>

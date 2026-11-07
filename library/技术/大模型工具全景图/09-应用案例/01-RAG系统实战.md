@@ -51,6 +51,42 @@ RAG系统流程：
 └─────────────┘
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 490" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="280" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">RAG系统流程</text>
+  <rect x="180" y="56" width="200" height="44" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="280" y="83" text-anchor="middle" font-size="13" fill="#1e293b">用户问题</text>
+  <rect x="180" y="118" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="145" text-anchor="middle" font-size="13" fill="#1e293b">问题改写</text>
+  <rect x="180" y="180" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="207" text-anchor="middle" font-size="13" fill="#1e293b">向量检索（Embedding）</text>
+  <rect x="180" y="242" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="269" text-anchor="middle" font-size="13" fill="#1e293b">重排序</text>
+  <rect x="180" y="304" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="331" text-anchor="middle" font-size="13" fill="#1e293b">上下文构建</text>
+  <rect x="180" y="366" width="200" height="44" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="280" y="393" text-anchor="middle" font-size="13" fill="#1e293b">LLM生成</text>
+  <rect x="180" y="428" width="200" height="44" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="280" y="455" text-anchor="middle" font-size="13" fill="#1e293b">最终答案</text>
+  <line x1="280" y1="100" x2="280" y2="114" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="280" y1="162" x2="280" y2="176" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="280" y1="224" x2="280" y2="238" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="280" y1="286" x2="280" y2="300" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="280" y1="348" x2="280" y2="362" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <line x1="280" y1="410" x2="280" y2="424" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="400" y="145" text-anchor="start" font-size="12" fill="#475569">Query Rewrite</text>
+  <text x="400" y="207" text-anchor="start" font-size="12" fill="#475569">Retrieval</text>
+  <text x="400" y="269" text-anchor="start" font-size="12" fill="#475569">Rerank</text>
+  <text x="400" y="331" text-anchor="start" font-size="12" fill="#475569">Context Building</text>
+  <text x="400" y="393" text-anchor="start" font-size="12" fill="#475569">Generation</text>
+</svg>
+
+*图：RAG系统流程示意（依正文整理）*
+
 ---
 
 ## 三、实际业务应用场景

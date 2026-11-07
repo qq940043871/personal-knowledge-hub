@@ -25,6 +25,44 @@
 └─────────────┘      └─────────────┘      └─────────────┘
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Nginx负载均衡</text>
+  <rect x="60" y="90" width="120" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="120" y="118" text-anchor="middle" font-size="13" fill="#1e293b">客户端</text>
+  <rect x="300" y="90" width="140" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="370" y="118" text-anchor="middle" font-size="13" fill="#1e293b">Nginx LB</text>
+  <line x1="182" y1="113" x2="294" y2="113" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="210" y="210" width="150" height="56" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="285" y="232" text-anchor="middle" font-size="13" fill="#1e293b">Backend 1</text>
+  <text x="285" y="252" text-anchor="middle" font-size="12" fill="#475569">192.168.1.10</text>
+  <rect x="380" y="210" width="150" height="56" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="455" y="232" text-anchor="middle" font-size="13" fill="#1e293b">Backend 2</text>
+  <text x="455" y="252" text-anchor="middle" font-size="12" fill="#475569">192.168.1.11</text>
+  <rect x="550" y="210" width="150" height="56" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="625" y="232" text-anchor="middle" font-size="13" fill="#1e293b">Backend 3</text>
+  <text x="625" y="252" text-anchor="middle" font-size="12" fill="#475569">192.168.1.12</text>
+  <path d="M370,136 V170 H285 V206" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M370,136 V206" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M370,136 V170 H625 V206" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="360" y="312" text-anchor="middle" font-size="13" fill="#475569">负载均衡算法</text>
+  <rect x="30" y="330" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="357" text-anchor="middle" font-size="13" fill="#1e293b">轮询（默认）</text>
+  <rect x="220" y="330" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="300" y="357" text-anchor="middle" font-size="13" fill="#1e293b">加权轮询 weight</text>
+  <rect x="410" y="330" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="490" y="357" text-anchor="middle" font-size="13" fill="#1e293b">ip_hash 会话保持</text>
+  <rect x="590" y="330" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="650" y="357" text-anchor="middle" font-size="13" fill="#1e293b">least_conn</text>
+  <text x="360" y="414" text-anchor="middle" font-size="13" fill="#475569">backup服务器仅在其余服务器不可用时启用</text>
+</svg>
+
+*图：Nginx负载均衡架构示意（依正文整理）*
+
 ---
 
 ## 二、upstream配置

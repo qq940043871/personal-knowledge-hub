@@ -64,6 +64,34 @@ Client                              Server
   │   (服务端进入CLOSED)               │
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="320" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">TCP三次握手</text>
+  <rect x="60" y="56" width="140" height="44" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="130" y="83" text-anchor="middle" font-size="13" fill="#1e293b">Client</text>
+  <rect x="440" y="56" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="510" y="83" text-anchor="middle" font-size="13" fill="#1e293b">Server</text>
+  <line x1="130" y1="100" x2="130" y2="300" stroke="#64748b" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="510" y1="100" x2="510" y2="300" stroke="#64748b" stroke-width="1" stroke-dasharray="4,4"/>
+  <line x1="132" y1="140" x2="506" y2="140" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="320" y="132" text-anchor="middle" font-size="12" fill="#475569">SYN，seq=x</text>
+  <text x="130" y="162" text-anchor="middle" font-size="12" fill="#475569">SYN_SENT</text>
+  <line x1="508" y1="200" x2="134" y2="200" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="320" y="192" text-anchor="middle" font-size="12" fill="#475569">SYN+ACK，seq=y，ack=x+1</text>
+  <text x="510" y="222" text-anchor="middle" font-size="12" fill="#475569">SYN_RCVD</text>
+  <line x1="132" y1="260" x2="506" y2="260" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="320" y="252" text-anchor="middle" font-size="12" fill="#475569">ACK，ack=y+1</text>
+  <text x="130" y="284" text-anchor="middle" font-size="12" fill="#16a34a">ESTABLISHED</text>
+  <text x="510" y="284" text-anchor="middle" font-size="12" fill="#16a34a">ESTABLISHED</text>
+  <text x="320" y="390" text-anchor="middle" font-size="13" fill="#475569">至少三次确认，确保双方收发能力正常</text>
+</svg>
+
+*图：TCP三次握手时序示意（依正文整理）*
+
 ### 3. HTTP协议演进
 
 ```

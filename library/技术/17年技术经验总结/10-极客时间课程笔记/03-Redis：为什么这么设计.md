@@ -164,16 +164,16 @@ ZSET 的日常操作：按 score 范围查询 + 排名
   <line x1="820" y1="60" x2="820" y2="360" stroke="#EF4444" stroke-width="2"/>
   <text x="820" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#991B1B">内核（页表/COW）</text>
   <line x1="140" y1="95" x2="475" y2="95" stroke="#8B5CF6" stroke-width="2"/>
-  <text x="150" y="86" font-size="12" fill="#5B21B6">① 收到 BGSAVE：fork() —— 只复制页表，不复制物理页（几十ms）</text>
+  <text x="150" y="86" font-size="12" fill="#5B21B6" text-anchor="start">① 收到 BGSAVE：fork() —— 只复制页表，不复制物理页（几十ms）</text>
   <line x1="480" y1="140" x2="815" y2="140" stroke="#10B981" stroke-width="2"/>
-  <text x="490" y="131" font-size="12" fill="#166534">② 子进程遍历虚拟页 → 触发缺页 → 内核建立真实映射 → 序列化写 RDB</text>
+  <text x="490" y="131" font-size="12" fill="#166534" text-anchor="start">② 子进程遍历虚拟页 → 触发缺页 → 内核建立真实映射 → 序列化写 RDB</text>
   <line x1="140" y1="200" x2="815" y2="200" stroke="#EF4444" stroke-width="2"/>
-  <text x="150" y="191" font-size="12" fill="#991B1B">③ 主进程此刻起改数据：写某页 → 内核复制该页(COW) → 主进程改副本</text>
-  <text x="150" y="222" font-size="12" fill="#7F1D1D">   子进程看到的永远是 fork 那一刻的"照片"</text>
+  <text x="150" y="191" font-size="12" fill="#991B1B" text-anchor="start">③ 主进程此刻起改数据：写某页 → 内核复制该页(COW) → 主进程改副本</text>
+  <text x="150" y="222" font-size="12" fill="#7F1D1D" text-anchor="start">   子进程看到的永远是 fork 那一刻的"照片"</text>
   <line x1="480" y1="270" x2="140" y2="270" stroke="#10B981" stroke-width="2" marker-end="url(#arr)"/>
-  <text x="300" y="261" font-size="12" fill="#166534">④ 子进程写完 → 临时文件原子替换 → 退出，通知主进程</text>
+  <text x="300" y="261" font-size="12" fill="#166534" text-anchor="start">④ 子进程写完 → 临时文件原子替换 → 退出，通知主进程</text>
   <line x1="140" y1="320" x2="475" y2="320" stroke="#8B5CF6" stroke-width="2" marker-end="url(#arr)"/>
-  <text x="150" y="311" font-size="12" fill="#5B21B6">⑤ 继续服务，全程只付"fork页表 + 被改页的复制"两笔账</text>
+  <text x="150" y="311" font-size="12" fill="#5B21B6" text-anchor="start">⑤ 继续服务，全程只付"fork页表 + 被改页的复制"两笔账</text>
   <rect x="60" y="355" width="850" height="34" rx="6" fill="#FEF2F2" stroke="#EF4444"/>
   <text x="485" y="377" text-anchor="middle" font-size="13" font-weight="bold" fill="#991B1B">为什么实例要控制在 10GB 内：fork 时长 ∝ 页表大小，20GB 实例 fork 可能几百 ms——单线程世界里=所有请求卡几百ms</text>
 </svg>

@@ -37,6 +37,38 @@ ZAB协议两种模式:
 └─────────────────────────────────────────────────────────────┘
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 490" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="320" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">ZAB消息广播流程</text>
+  <rect x="220" y="56" width="200" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="320" y="84" text-anchor="middle" font-size="13" fill="#1e293b">客户端写请求</text>
+  <line x1="320" y1="102" x2="320" y2="130" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="134" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="156" text-anchor="middle" font-size="13" fill="#1e293b">Leader生成Proposal</text>
+  <text x="320" y="176" text-anchor="middle" font-size="12" fill="#475569">分配全局唯一ZXID</text>
+  <line x1="320" y1="190" x2="320" y2="210" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="214" width="200" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="242" text-anchor="middle" font-size="13" fill="#1e293b">向Follower广播Proposal</text>
+  <line x1="320" y1="260" x2="320" y2="290" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="294" width="200" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="322" text-anchor="middle" font-size="13" fill="#1e293b">Follower返回ACK</text>
+  <line x1="320" y1="340" x2="320" y2="370" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="210" y="374" width="220" height="50" rx="24" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="320" y="404" text-anchor="middle" font-size="13" fill="#1e293b">收到过半ACK？</text>
+  <line x1="430" y1="399" x2="464" y2="399" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="448" y="390" text-anchor="middle" font-size="12" fill="#475569">是</text>
+  <rect x="470" y="374" width="140" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="540" y="404" text-anchor="middle" font-size="13" fill="#1e293b">Commit提交</text>
+  <text x="150" y="404" text-anchor="middle" font-size="12" fill="#475569">未过半则等待</text>
+  <text x="320" y="462" text-anchor="middle" font-size="13" fill="#475569">Commit后Follower执行更新并响应客户端</text>
+</svg>
+
+*图：ZAB消息广播两阶段提交示意（依正文整理）*
+
 ---
 
 ## 二、消息广播

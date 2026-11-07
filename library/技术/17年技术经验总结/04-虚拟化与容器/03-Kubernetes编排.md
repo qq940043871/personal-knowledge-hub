@@ -72,6 +72,42 @@ DaemonSet：
   - 日志采集、监控代理
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 430" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Kubernetes集群架构</text>
+  <rect x="50" y="56" width="280" height="290" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="64" y="80" text-anchor="start" font-size="13" fill="#1e293b">Master Node</text>
+  <rect x="90" y="96" width="200" height="40" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="190" y="121" text-anchor="middle" font-size="13" fill="#1e293b">API Server</text>
+  <rect x="90" y="148" width="200" height="40" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="190" y="173" text-anchor="middle" font-size="13" fill="#1e293b">etcd 键值存储</text>
+  <rect x="90" y="200" width="200" height="40" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="190" y="225" text-anchor="middle" font-size="13" fill="#1e293b">Scheduler 调度器</text>
+  <rect x="90" y="252" width="200" height="40" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1"/>
+  <text x="190" y="277" text-anchor="middle" font-size="13" fill="#1e293b">Controller Manager</text>
+  <text x="190" y="326" text-anchor="middle" font-size="12" fill="#475569">集群状态统一经API Server</text>
+  <line x1="332" y1="180" x2="416" y2="180" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="374" y="170" text-anchor="middle" font-size="12" fill="#475569">调度/上报</text>
+  <rect x="420" y="56" width="250" height="290" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="434" y="80" text-anchor="start" font-size="13" fill="#1e293b">Worker Node</text>
+  <rect x="455" y="96" width="180" height="40" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="545" y="121" text-anchor="middle" font-size="13" fill="#1e293b">kubelet 代理</text>
+  <rect x="455" y="148" width="180" height="40" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="545" y="173" text-anchor="middle" font-size="13" fill="#1e293b">kube-proxy</text>
+  <rect x="455" y="200" width="180" height="90" rx="6" fill="#ffffff" stroke="#16a34a" stroke-width="1"/>
+  <text x="545" y="224" text-anchor="middle" font-size="13" fill="#1e293b">Pod</text>
+  <text x="545" y="246" text-anchor="middle" font-size="12" fill="#475569">nginx</text>
+  <text x="545" y="266" text-anchor="middle" font-size="12" fill="#475569">redis</text>
+  <text x="545" y="326" text-anchor="middle" font-size="12" fill="#475569">Pod是最小调度单元</text>
+  <text x="360" y="396" text-anchor="middle" font-size="13" fill="#475569">API Server是所有操作的统一入口，etcd保存集群状态</text>
+</svg>
+
+*图：Kubernetes集群架构示意（依正文整理）*
+
 ---
 
 ## 二、实践应用

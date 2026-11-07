@@ -44,6 +44,52 @@ Expression（表达式）
 └── StarExpression（*）
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 460" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="380" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">AST节点体系</text>
+  <rect x="295" y="56" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="380" y="86" text-anchor="middle" font-size="13" fill="#1e293b">Statement 语句</text>
+  <path d="M380,106 V140 H76 V168" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,106 V140 H228 V168" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,106 V168" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,106 V140 H532 V168" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,106 V140 H684 V168" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="6" y="172" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="76" y="199" text-anchor="middle" font-size="13" fill="#1e293b">Select查询</text>
+  <rect x="158" y="172" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="228" y="199" text-anchor="middle" font-size="13" fill="#1e293b">Insert插入</text>
+  <rect x="310" y="172" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="380" y="199" text-anchor="middle" font-size="13" fill="#1e293b">Update更新</text>
+  <rect x="462" y="172" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="532" y="199" text-anchor="middle" font-size="13" fill="#1e293b">Delete删除</text>
+  <rect x="614" y="172" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="684" y="199" text-anchor="middle" font-size="13" fill="#1e293b">CreateTable建表</text>
+  <rect x="295" y="250" width="170" height="50" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="380" y="280" text-anchor="middle" font-size="13" fill="#1e293b">Expression 表达式</text>
+  <path d="M380,300 V332 H76 V360" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,300 V332 H228 V360" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,300 V360" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,300 V332 H532 V360" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <path d="M380,300 V332 H684 V360" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="6" y="364" width="140" height="44" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="76" y="391" text-anchor="middle" font-size="13" fill="#1e293b">Column列引用</text>
+  <rect x="158" y="364" width="140" height="44" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="228" y="391" text-anchor="middle" font-size="13" fill="#1e293b">Literal字面量</text>
+  <rect x="310" y="364" width="140" height="44" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="380" y="391" text-anchor="middle" font-size="13" fill="#1e293b">Binary二元运算</text>
+  <rect x="462" y="364" width="140" height="44" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="532" y="391" text-anchor="middle" font-size="13" fill="#1e293b">Function函数调用</text>
+  <rect x="614" y="364" width="140" height="44" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="684" y="391" text-anchor="middle" font-size="13" fill="#1e293b">StarExpression</text>
+  <text x="380" y="442" text-anchor="middle" font-size="13" fill="#475569">语句与表达式节点组成SQL的抽象语法树</text>
+</svg>
+
+*图：AST节点体系示意（依正文整理）*
+
 ---
 
 ## 二、节点定义

@@ -81,6 +81,53 @@ ETag / If-None-Match：
                        └────────┘
 ```
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="360" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">HTTP缓存决策流程</text>
+  <rect x="260" y="56" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="83" text-anchor="middle" font-size="13" fill="#1e293b">请求资源</text>
+  <line x1="360" y1="100" x2="360" y2="126" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="250" y="132" width="220" height="50" rx="24" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="162" text-anchor="middle" font-size="13" fill="#1e293b">本地有缓存？</text>
+  <line x1="248" y1="157" x2="156" y2="157" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="200" y="148" text-anchor="middle" font-size="12" fill="#475569">是</text>
+  <rect x="30" y="132" width="120" height="50" rx="24" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="90" y="162" text-anchor="middle" font-size="13" fill="#1e293b">强缓存有效？</text>
+  <line x1="90" y1="182" x2="90" y2="204" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="104" y="198" text-anchor="start" font-size="12" fill="#475569">是</text>
+  <rect x="20" y="210" width="140" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="90" y="230" text-anchor="middle" font-size="13" fill="#1e293b">直接使用缓存</text>
+  <text x="90" y="250" text-anchor="middle" font-size="12" fill="#475569">不发送请求</text>
+  <line x1="162" y1="235" x2="254" y2="235" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="208" y="226" text-anchor="middle" font-size="12" fill="#475569">否</text>
+  <line x1="360" y1="182" x2="360" y2="204" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="374" y="198" text-anchor="start" font-size="12" fill="#475569">否</text>
+  <rect x="260" y="210" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="237" text-anchor="middle" font-size="13" fill="#1e293b">发送请求+条件头</text>
+  <line x1="360" y1="254" x2="360" y2="280" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="250" y="286" width="220" height="50" rx="24" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="316" text-anchor="middle" font-size="13" fill="#1e293b">资源是否变化？</text>
+  <line x1="472" y1="311" x2="540" y2="311" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="505" y="302" text-anchor="middle" font-size="12" fill="#475569">变化</text>
+  <rect x="544" y="286" width="150" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="619" y="306" text-anchor="middle" font-size="13" fill="#1e293b">200 OK</text>
+  <text x="619" y="326" text-anchor="middle" font-size="12" fill="#475569">返回新资源并更新缓存</text>
+  <line x1="248" y1="311" x2="154" y2="311" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <text x="200" y="302" text-anchor="middle" font-size="12" fill="#475569">未变化</text>
+  <rect x="20" y="286" width="130" height="50" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="85" y="306" text-anchor="middle" font-size="13" fill="#1e293b">304</text>
+  <text x="85" y="326" text-anchor="middle" font-size="12" fill="#475569">Not Modified</text>
+  <text x="360" y="398" text-anchor="middle" font-size="13" fill="#475569">强缓存：Cache-Control / Expires</text>
+  <text x="360" y="424" text-anchor="middle" font-size="13" fill="#475569">协商缓存：ETag / Last-Modified</text>
+  <text x="360" y="450" text-anchor="middle" font-size="13" fill="#475569">优先级：Cache-Control高于Expires，ETag高于Last-Modified</text>
+</svg>
+
+*图：HTTP缓存决策流程示意（依正文整理）*
+
 ---
 
 ## 四、C++实现

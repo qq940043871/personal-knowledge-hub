@@ -84,26 +84,26 @@ JS 的答案（13篇事件循环的延伸）：
   </defs>
   <text x="480" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#1F2937">微任务检查点：渲染永远看到"一致"的状态</text>
   <line x1="60" y1="120" x2="900" y2="120" stroke="#9CA3AF" stroke-width="2"/>
-  <text x="906" y="124" font-size="11" fill="#6B7280">时间</text>
+  <text x="906" y="124" font-size="11" fill="#6B7280" text-anchor="start">时间</text>
   <rect x="90" y="95" width="150" height="50" rx="6" fill="#ECFDF5" stroke="#10B981"/>
   <text x="165" y="115" text-anchor="middle" font-size="12" fill="#14532D">宏任务1：状态改3次</text>
   <text x="165" y="135" text-anchor="middle" font-size="11" fill="#6B7280">count 0→1→2→3</text>
-  <rect x="255" y="95" width="130" height="50" rx="6" fill="#FFF7ED" stroke="#F97316"/>
-  <text x="320" y="115" text-anchor="middle" font-size="12" fill="#7C2D12">清空微任务</text>
-  <text x="320" y="135" text-anchor="middle" font-size="11" fill="#78350F">批处理在此触发渲染计划</text>
-  <rect x="400" y="90" width="120" height="60" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="460" y="115" text-anchor="middle" font-size="12" fill="#14532D">渲染一帧</text>
-  <text x="460" y="135" text-anchor="middle" font-size="11" fill="#065F46">用户只看到 3 ✓</text>
-  <rect x="560" y="95" width="150" height="50" rx="6" fill="#FEF2F2" stroke="#EF4444"/>
-  <text x="635" y="115" text-anchor="middle" font-size="12" fill="#7F1D1D">反例：两个宏任务各改一次</text>
-  <text x="635" y="135" text-anchor="middle" font-size="11" fill="#B91C1C">中间可能插渲染→跳变</text>
+  <rect x="255" y="95" width="154" height="50" rx="6" fill="#FFF7ED" stroke="#F97316"/>
+  <text x="332" y="115" text-anchor="middle" font-size="12" fill="#7C2D12">清空微任务</text>
+  <text x="332" y="135" text-anchor="middle" font-size="11" fill="#78350F">批处理在此触发渲染计划</text>
+  <rect x="424" y="90" width="120" height="60" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="484" y="115" text-anchor="middle" font-size="12" fill="#14532D">渲染一帧</text>
+  <text x="484" y="135" text-anchor="middle" font-size="11" fill="#065F46">用户只看到 3 ✓</text>
+  <rect x="560" y="95" width="176" height="50" rx="6" fill="#FEF2F2" stroke="#EF4444"/>
+  <text x="648" y="115" text-anchor="middle" font-size="12" fill="#7F1D1D">反例：两个宏任务各改一次</text>
+  <text x="648" y="135" text-anchor="middle" font-size="11" fill="#B91C1C">中间可能插渲染→跳变</text>
   <line x1="240" y1="120" x2="250" y2="120" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="385" y1="120" x2="395" y2="120" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="520" y1="120" x2="555" y2="120" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="409" y1="120" x2="419" y2="120" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="544" y1="120" x2="555" y2="120" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <rect x="60" y="180" width="840" height="90" rx="8" fill="#F9FAFB" stroke="#9CA3AF"/>
   <text x="480" y="206" text-anchor="middle" font-size="13" font-weight="bold" fill="#374151">对照后端的"事务"心智</text>
-  <text x="80" y="232" font-size="12" fill="#6B7280">MySQL：把多条变更捆进一个事务，崩溃时要么全提交要么全回滚（04篇）</text>
-  <text x="80" y="254" font-size="12" fill="#6B7280">前端：把一组状态变更捆进一个宏任务(+微任务)，渲染时机只会看到捆绑后的整体 —— "渲染级事务"</text>
+  <text x="80" y="232" font-size="12" fill="#6B7280" text-anchor="start">MySQL：把多条变更捆进一个事务，崩溃时要么全提交要么全回滚（04篇）</text>
+  <text x="80" y="254" font-size="12" fill="#6B7280" text-anchor="start">前端：把一组状态变更捆进一个宏任务(+微任务)，渲染时机只会看到捆绑后的整体 —— "渲染级事务"</text>
 </svg>
 
 > **对照 06 篇 JVM：volatile/CAS 解决的是多线程间的可见性与原子性；
@@ -145,29 +145,29 @@ JS 的答案（13篇事件循环的延伸）：
   <text x="390" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#9A3412">本地有副本？</text>
   <text x="390" y="102" text-anchor="middle" font-size="12" fill="#78350F">强缓存检查：</text>
   <text x="390" y="122" text-anchor="middle" font-size="12" fill="#78350F">Cache-Control/Expires</text>
-  <rect x="540" y="40" width="180" height="60" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <rect x="517" y="40" width="226" height="60" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
   <text x="630" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">未过期</text>
   <text x="630" y="88" text-anchor="middle" font-size="12" fill="#14532D">直接用本地副本(200 from cache)</text>
-  <rect x="540" y="130" width="180" height="70" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
+  <rect x="517" y="130" width="226" height="70" rx="8" fill="#FEF2F2" stroke="#EF4444" stroke-width="2"/>
   <text x="630" y="156" text-anchor="middle" font-size="13" font-weight="bold" fill="#991B1B">已过期 → 协商缓存</text>
   <text x="630" y="182" text-anchor="middle" font-size="12" fill="#7F1D1D">带 If-None-Match(ETag) /</text>
   <rect x="290" y="150" width="200" height="80" rx="8" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="2"/>
   <text x="390" y="178" text-anchor="middle" font-size="13" font-weight="bold" fill="#374151">无本地副本</text>
   <text x="390" y="202" text-anchor="middle" font-size="12" fill="#6B7280">正常发请求拿全量</text>
   <line x1="240" y1="95" x2="285" y2="95" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="490" y1="75" x2="535" y2="70" stroke="#10B981" stroke-width="2" marker-end="url(#arr)"/>
-  <line x1="490" y1="120" x2="535" y2="160" stroke="#EF4444" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="490" y1="75" x2="512" y2="70" stroke="#10B981" stroke-width="2" marker-end="url(#arr)"/>
+  <line x1="490" y1="120" x2="512" y2="160" stroke="#EF4444" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="240" y1="190" x2="285" y2="190" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <rect x="760" y="40" width="160" height="80" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
   <text x="840" y="70" text-anchor="middle" font-size="13" font-weight="bold" fill="#166534">304 Not Modified</text>
   <text x="840" y="94" text-anchor="middle" font-size="12" fill="#14532D">服务器确认副本有效</text>
   <text x="840" y="110" text-anchor="middle" font-size="12" fill="#14532D">续用本地(省流量)</text>
-  <line x1="720" y1="165" x2="755" y2="100" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
-  <text x="742" y="128" font-size="11" fill="#6B7280">未变</text>
+  <line x1="743" y1="165" x2="755" y2="100" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="714" y="124" font-size="11" fill="#6B7280" text-anchor="start">未变</text>
   <rect x="60" y="250" width="840" height="110" rx="8" fill="#FFFBEB" stroke="#F59E0B"/>
   <text x="480" y="278" text-anchor="middle" font-size="13" font-weight="bold" fill="#92400E">两层检查 = "先信本地(性能)，再问源头(一致)"的多级缓存标准折衷</text>
-  <text x="90" y="304" font-size="12" fill="#A16207">对照 03篇 Redis 与数据库：同一命题——副本何时过期、过期后如何低成本对账（删缓存 vs 304）</text>
-  <text x="90" y="328" font-size="12" fill="#A16207">Cookie 安全(33/34讲)：HttpOnly 防XSS偷Cookie、SameSite 防CSRF —— 私密数据不该让页面JS世界看见</text>
+  <text x="90" y="304" font-size="12" fill="#A16207" text-anchor="start">对照 03篇 Redis 与数据库：同一命题——副本何时过期、过期后如何低成本对账（删缓存 vs 304）</text>
+  <text x="90" y="328" font-size="12" fill="#A16207" text-anchor="start">Cookie 安全(33/34讲)：HttpOnly 防XSS偷Cookie、SameSite 防CSRF —— 私密数据不该让页面JS世界看见</text>
 </svg>
 
 ```
@@ -202,23 +202,23 @@ Broadcast Channel / storage 事件：多标签页间的一致性
   <text x="480" y="26" text-anchor="middle" font-size="18" font-weight="bold" fill="#1F2937">JS 的三层一致性设计：把并发问题逐层消化</text>
   <rect x="80" y="60" width="250" height="90" rx="8" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
   <text x="205" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#166534">第1层：单线程事件循环</text>
-  <text x="95" y="118" font-size="12" fill="#14532D">消灭线程竞争 —— 无锁设计</text>
-  <text x="95" y="138" font-size="11" fill="#6B7280">代价：长任务阻塞是原罪</text>
+  <text x="95" y="118" font-size="12" fill="#14532D" text-anchor="start">消灭线程竞争 —— 无锁设计</text>
+  <text x="95" y="138" font-size="11" fill="#6B7280" text-anchor="start">代价：长任务阻塞是原罪</text>
   <rect x="360" y="60" width="250" height="90" rx="8" fill="#FFFBEB" stroke="#F59E0B" stroke-width="2"/>
   <text x="485" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#92400E">第2层：微任务检查点</text>
-  <text x="375" y="118" font-size="12" fill="#78350F">消灭渲染撕裂 —— 批处理天然原子</text>
-  <text x="375" y="138" font-size="11" fill="#6B7280">代价：微任务本身可能堆积</text>
+  <text x="375" y="118" font-size="12" fill="#78350F" text-anchor="start">消灭渲染撕裂 —— 批处理天然原子</text>
+  <text x="375" y="138" font-size="11" fill="#6B7280" text-anchor="start">代价：微任务本身可能堆积</text>
   <rect x="640" y="60" width="250" height="90" rx="8" fill="#EFF6FF" stroke="#3B82F6" stroke-width="2"/>
   <text x="765" y="90" text-anchor="middle" font-size="14" font-weight="bold" fill="#1D4ED8">第3层：消息传递非共享</text>
-  <text x="655" y="118" font-size="12" fill="#1E3A8A">消灭共享状态竞争 —— postMessage</text>
-  <text x="655" y="138" font-size="11" fill="#6B7280">代价：克隆开销、无法直接共享</text>
+  <text x="655" y="118" font-size="12" fill="#1E3A8A" text-anchor="start">消灭共享状态竞争 —— postMessage</text>
+  <text x="655" y="138" font-size="11" fill="#6B7280" text-anchor="start">代价：克隆开销、无法直接共享</text>
   <line x1="330" y1="105" x2="355" y2="105" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <line x1="610" y1="105" x2="635" y2="105" stroke="#6B7280" stroke-width="2" marker-end="url(#arr)"/>
   <rect x="80" y="180" width="810" height="100" rx="8" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
   <text x="485" y="206" text-anchor="middle" font-size="13" font-weight="bold" fill="#991B1B">消化不了的部分，诚实退回 OS 层</text>
-  <text x="100" y="232" font-size="12" fill="#7F1D1D">计算密集 → Worker（消息传递）；真要共享内存 → SharedArrayBuffer + Atomics（硬件原子指令/内存屏障）</text>
-  <text x="100" y="254" font-size="12" fill="#7F1D1D">动态类型 → TypeScript 编译期对账；原型链状态突变 → 不可变模式(Object.freeze/immutable.js)</text>
-  <text x="100" y="274" font-size="11" fill="#B91C1C">—— 06篇 volatile/内存屏障、MESI 缓存一致性，是这条退路的知识底座</text>
+  <text x="100" y="232" font-size="12" fill="#7F1D1D" text-anchor="start">计算密集 → Worker（消息传递）；真要共享内存 → SharedArrayBuffer + Atomics（硬件原子指令/内存屏障）</text>
+  <text x="100" y="254" font-size="12" fill="#7F1D1D" text-anchor="start">动态类型 → TypeScript 编译期对账；原型链状态突变 → 不可变模式(Object.freeze/immutable.js)</text>
+  <text x="100" y="274" font-size="11" fill="#B91C1C" text-anchor="start">—— 06篇 volatile/内存屏障、MESI 缓存一致性，是这条退路的知识底座</text>
 </svg>
 
 ## 七、约束小结
