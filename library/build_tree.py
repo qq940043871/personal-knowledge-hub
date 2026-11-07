@@ -15,7 +15,9 @@ BASE = Path(__file__).resolve().parent
 OUTPUT = BASE / "tree.json"
 
 DOC_EXTS = {".md", ".markdown", ".pptx"}
-SKIP_DIRS = {"__pycache__", "node_modules", ".git", ".idea", ".vscode", ".atomcode"}
+SKIP_DIRS = {"__pycache__", "node_modules", ".git", ".idea", ".vscode", ".atomcode",
+             # 六主题知识库与备份元数据为本地内容(gitignore),不进公开站点树
+             "投资", "工作", "技术", "考证", "家庭", "创作", "_备份元数据"}
 
 
 def list_dirs(path):

@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const APPLY = process.argv.includes('--apply');
-const roots = ['投资', '工作', '技术', '考证', '家庭', '创作', '_备份元数据', 'library'];
+const roots = ['library'];
 
 function walkMd(dir, out = []) {
   let ents; try { ents = fs.readdirSync(dir, { withFileTypes: true }); } catch { return out; }

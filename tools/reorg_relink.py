@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""按 reorg_manifest.json 改写 library/ 与根目录 md 中指向四源备份的链接与文本提及。
+"""[已一次性完成使命 2026-11-07] 晚间六库并入 library/ 后，链接层级又经"降一级"处理（内联于会话脚本）。
+
+按 reorg_manifest.json 改写 library/ 与根目录 md 中指向四源备份的链接与文本提及。
 
 用法: python tools/reorg_relink.py
 - 链接级: markdown 链接 target 解析到根相对路径 → 查 manifest 文件映射 → 重算相对路径

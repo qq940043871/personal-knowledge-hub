@@ -24,7 +24,7 @@ SRC = {
     "tdoc": WS / "腾讯文档导出",
     "wiz": WS / "为知笔记迁移",
 }
-META = WS / "_备份元数据"
+META = WS / "library" / "_备份元数据"  # 2026-11-07 晚六库已并入 library/（链接层级见 reorg_relink 后续 shift）
 
 # 投资七册目标目录（目录名 = MOC 文件名去 .md，与 library/投资与交易 七册一一对应）
 BOOK_DIR = {k: f"投资/{v['file'][:-3]}" for k, v in GIM.MOCS.items()}
@@ -448,8 +448,9 @@ def os_walk_bottomup(root):
 
 
 def verify(moves, copies):
-    miss = [e["dst"] for e in moves if not (WS / e["dst"]).is_file()]
-    dup = [e for e in copies if not (WS / e["dst"]).is_file()]
+    # 2026-11-07 晚六库已并入 library/，manifest 记录的是当时仓库根口径
+    miss = [e["dst"] for e in moves if not (WS / "library" / e["dst"]).is_file()]
+    dup = [e for e in copies if not (WS / "library" / e["dst"]).is_file()]
     if miss:
         raise SystemExit(f"[校验失败] 目标缺失 {len(miss)}: {miss[:5]}")
     if dup:
@@ -457,7 +458,7 @@ def verify(moves, copies):
     # 图片引用完整性：六库内所有 md 的 images/ 引用必须命中同目录
     img_re = re.compile(r"!\[[^\]]*\]\(((?:\.{1,2}/)?images/[^)\s]+)\)|src=\"((?:\.{1,2}/)?images/[^\"]+)\"")
     bad = []
-    for kb in ["投资", "工作", "技术", "考证", "家庭", "创作"]:
+    for kb in ["library/投资", "library/工作", "library/技术", "library/考证", "library/家庭", "library/创作"]:
         for md in (WS / kb).rglob("*.md"):
             text = md.read_text(encoding="utf-8")
             for m in img_re.finditer(text):

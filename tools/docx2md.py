@@ -87,7 +87,7 @@ def convert(path: Path, out_dir: Path, rel_to_root: str):
 
     stem = path.stem
     online = ONLINE_LINKS.get(stem, "")
-    src_link = f"../../../考证/腾讯·职场进阶/项目管理师/软考论文/{path.name}"
+    src_link = f"../../考证/腾讯·职场进阶/项目管理师/软考论文/{path.name}"
     header = (
         f"> 📄 本文由腾讯文档导出的 docx 原样转换（2026-11-07，python-docx，未润色）。\n"
         f"> 原文件：[{src_link.split('/')[-1]}]({src_link})"
