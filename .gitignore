@@ -24,13 +24,40 @@ blog/_seed/post_*.b64
 blog/_seed/blocks.jsonl
 blog/_seed/seed_posts.jsonl
 
-# ---- 六主题知识库(2026-11-07 四源打乱重组并入 library/;本地不入库:语雀307M图+个人敏感数据,仓库为公开) ----
-library/投资/
-library/工作/
-library/技术/
-library/考证/
+# ---- 六主题知识库中的私有来源子目录(2026-11-07 精细忽略;成品保持公开,个人数据本地不入库) ----
+library/投资/01-我的实盘与成长史/
+library/投资/02-交易心理与悟道/
+library/投资/03-交易系统与实战战法/
+library/投资/04-游资与高手实录/
+library/投资/05-宏观与行业底层逻辑/
+library/投资/06-选股基金与量化/
+library/投资/07-新手学习路线/
+library/工作/客户跟踪/
+library/工作/技术方案/
+library/工作/腾讯项目文档/
+library/工作/飞书·项目经验/
+library/工作/求职与面试/
+library/工作/为知·工作记录/
+library/工作/飞书周报/
+library/技术/飞书·Agent开发/
+library/技术/飞书·Java架构师/
+library/技术/飞书·LLM底层/
+library/技术/飞书·人工智能/
+library/技术/飞书·技术架构/
+library/技术/飞书·飞天闪客/
+library/技术/飞书·工程化/
+library/技术/从0到1设计计算机/
+library/技术/语雀·工作与计算机/
+library/技术/语雀·人工智能/
+library/技术/为知·技术专栏/
+library/技术/为知·运维/
+library/考证/软考-架构师/
+library/考证/软考-管理师/
+library/考证/腾讯·职场进阶/
+library/考证/项目管理文章/
+library/考证/微权力下的项目管理/
+library/创作/自媒体与股林武侠/
 library/家庭/
-library/创作/
 library/_备份元数据/
 
 # ---- AI 工具与平台本地配置 ----
@@ -44,3 +71,4 @@ library/_备份元数据/
 .wiz-format-tools/
 skills/
 skills-lock.json
+tools/_quality_scan.json
