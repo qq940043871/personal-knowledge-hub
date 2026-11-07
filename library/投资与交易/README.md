@@ -4,6 +4,34 @@
 
 这是 2013 年以来个人投资交易线的**唯一知识层入口**。所有原文仍留在只读归档区（`语雀备份/`、`为知笔记迁移/`、`腾讯文档导出/`），本目录只放"地图"——7 册 MOC 按主题把 474 篇笔记串起来，直接点链接跳原文。
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="210" y="72" width="280" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="101" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">投资与交易 · 474篇 MOC</text>
+  <rect x="100" y="162" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="155" y="183" text-anchor="middle" font-size="13" fill="#1e293b">01 自著</text>
+  <text x="155" y="203" text-anchor="middle" font-size="13" fill="#475569">52 条</text>
+  <rect x="230" y="162" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="285" y="183" text-anchor="middle" font-size="13" fill="#1e293b">02 心法</text>
+  <text x="285" y="203" text-anchor="middle" font-size="13" fill="#475569">92 条</text>
+  <rect x="360" y="162" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="415" y="183" text-anchor="middle" font-size="13" fill="#1e293b">03 打法</text>
+  <text x="415" y="203" text-anchor="middle" font-size="13" fill="#475569">102 条</text>
+  <rect x="490" y="162" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="545" y="183" text-anchor="middle" font-size="13" fill="#1e293b">04 借鉴</text>
+  <text x="545" y="203" text-anchor="middle" font-size="13" fill="#475569">49 条</text>
+  <rect x="165" y="256" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="220" y="277" text-anchor="middle" font-size="13" fill="#1e293b">05 视野</text>
+  <text x="220" y="297" text-anchor="middle" font-size="13" fill="#475569">81 条</text>
+  <rect x="295" y="256" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="277" text-anchor="middle" font-size="13" fill="#1e293b">06 工具</text>
+  <text x="350" y="297" text-anchor="middle" font-size="13" fill="#475569">75 条</text>
+  <rect x="425" y="256" width="110" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="480" y="277" text-anchor="middle" font-size="13" fill="#1e293b">07 入门</text>
+  <text x="480" y="297" text-anchor="middle" font-size="13" fill="#475569">33 条</text>
+</svg>
+
+*图：七册结构地图示意*
+
 ## 一、七册地图
 
 | 册 | 主题 | 收录 | 一句话 |

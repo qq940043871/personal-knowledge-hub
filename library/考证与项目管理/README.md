@@ -4,6 +4,30 @@
 
 考证线（软考高项/架构师、PMP）与项目管理方法论的入口。核心资产是 2019-2020 年备考时**亲手写的九篇软考论文**——当年真实的答题范文，今日项目管理经验的第一手叙述。
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="400" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">考证与项目管理知识地图</text>
+  <line x1="315" y1="208" x2="240" y2="124" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="315" y1="232" x2="240" y2="324" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="485" y1="208" x2="560" y2="124" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="485" y1="232" x2="560" y2="324" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="315" y="195" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="400" y="225" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">考证与项目管理</text>
+  <rect x="40" y="100" width="200" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="140" y="120" text-anchor="middle" font-size="13" fill="#1e293b">软考论文九篇（本库成品）</text>
+  <text x="140" y="138" text-anchor="middle" font-size="13" fill="#1e293b">02-10缺01整合</text>
+  <rect x="40" y="300" width="200" height="48" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="140" y="320" text-anchor="middle" font-size="13" fill="#1e293b">语雀考试两库 29 篇</text>
+  <text x="140" y="338" text-anchor="middle" font-size="13" fill="#1e293b">（架构师7+管理师22）</text>
+  <rect x="560" y="100" width="200" height="48" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="660" y="120" text-anchor="middle" font-size="13" fill="#1e293b">PMP 素材</text>
+  <text x="660" y="138" text-anchor="middle" font-size="13" fill="#1e293b">PMBOK/49过程组/十大过程</text>
+  <rect x="560" y="300" width="200" height="48" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="660" y="320" text-anchor="middle" font-size="13" fill="#1e293b">为知·项目管理系列</text>
+  <text x="660" y="338" text-anchor="middle" font-size="13" fill="#1e293b">（7+41+9篇）</text>
+</svg>
+
+*图：考证与项目管理知识地图示意*
+
 ## 一、软考论文九篇（已转 md，本库唯一"成品"）
 
 > 系统集成项目管理工程师/信息系统项目管理师论文范文，覆盖十大知识领域中的九个（缺 01-整合管理，腾讯云端即无此篇）。摘要-正文-结尾结构完整，案例为"XX热力公司智能客服综合平台"，可作论文模板直接套改。

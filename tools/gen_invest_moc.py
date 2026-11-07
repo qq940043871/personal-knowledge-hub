@@ -208,6 +208,177 @@ MOCS = {
     },
 }
 
+# ---------------- 内联 SVG 示意图（注入各册文件头，不影响分组逻辑） ----------------
+SVG_BLOCKS = {
+    "01": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="280" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">实盘成长史回看路线</text>
+  <rect x="150" y="58" width="260" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="86" text-anchor="middle" font-size="13" fill="#1e293b">踩坑与心路（爬坑笔记1-3）</text>
+  <line x1="280" y1="104" x2="280" y2="130" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="150" y="134" width="260" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="162" text-anchor="middle" font-size="13" fill="#1e293b">年度/月度复盘轨迹（054-063）</text>
+  <line x1="280" y1="180" x2="280" y2="206" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="150" y="210" width="260" height="52" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="280" y="231" text-anchor="middle" font-size="13" fill="#1e293b">2026 作战方案三件套</text>
+  <text x="280" y="251" text-anchor="middle" font-size="13" fill="#1e293b">（方案/执行/预案）</text>
+  <line x1="280" y1="262" x2="280" y2="308" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ar1)"/>
+  <rect x="180" y="312" width="200" height="40" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="280" y="337" text-anchor="middle" font-size="13" fill="#1e293b">资产与账本孤本（外链区）</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+    "02": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="350" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">交易心理与悟道导图</text>
+  <rect x="265" y="185" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="215" text-anchor="middle" font-size="13" fill="#1e293b">交易心理与悟道</text>
+  <line x1="265" y1="195" x2="230" y2="100" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="265" y1="225" x2="230" y2="296" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="195" x2="470" y2="100" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="225" x2="470" y2="290" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="10" y="80" width="220" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="105" text-anchor="middle" font-size="13" fill="#1e293b">八位数花园·心理专辑（63篇）</text>
+  <rect x="470" y="80" width="190" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="565" y="105" text-anchor="middle" font-size="13" fill="#1e293b">交易系统·认知与世界观</text>
+  <rect x="40" y="270" width="190" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="291" text-anchor="middle" font-size="13" fill="#1e293b">爬坑·心法与境界</text>
+  <text x="135" y="311" text-anchor="middle" font-size="13" fill="#1e293b">（十大境界/武侠秘籍）</text>
+  <rect x="470" y="270" width="190" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="565" y="295" text-anchor="middle" font-size="13" fill="#1e293b">底层逻辑·杂谈</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+    "03": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="350" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">交易系统与战法导图</text>
+  <rect x="265" y="185" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="215" text-anchor="middle" font-size="13" fill="#1e293b">交易系统与实战战法</text>
+  <line x1="265" y1="195" x2="230" y2="100" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="265" y1="225" x2="230" y2="296" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="195" x2="470" y2="100" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="225" x2="470" y2="296" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="10" y="80" width="220" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="105" text-anchor="middle" font-size="13" fill="#1e293b">援军战法·七要素（121-128）</text>
+  <rect x="470" y="80" width="200" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="570" y="105" text-anchor="middle" font-size="13" fill="#1e293b">八大形态战法（136-143）</text>
+  <rect x="40" y="270" width="190" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="291" text-anchor="middle" font-size="13" fill="#1e293b">短线实战干货</text>
+  <text x="135" y="311" text-anchor="middle" font-size="13" fill="#1e293b">（盈亏比/震仓/低吸）</text>
+  <rect x="470" y="270" width="190" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="565" y="291" text-anchor="middle" font-size="13" fill="#1e293b">系统与执行</text>
+  <text x="565" y="311" text-anchor="middle" font-size="13" fill="#1e293b">（1-2-3法则/大小周期）</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+    "04": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="350" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">游资与高手实录导图</text>
+  <rect x="265" y="185" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="215" text-anchor="middle" font-size="13" fill="#1e293b">游资与高手实录</text>
+  <line x1="265" y1="195" x2="200" y2="100" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="195" x2="500" y2="100" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="350" y1="235" x2="350" y2="298" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="10" y="80" width="190" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="105" y="105" text-anchor="middle" font-size="13" fill="#1e293b">柚子系九大游资心法</text>
+  <rect x="500" y="80" width="190" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="105" text-anchor="middle" font-size="13" fill="#1e293b">财经课与交易员课</text>
+  <rect x="230" y="300" width="240" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="321" text-anchor="middle" font-size="13" fill="#1e293b">抖音连线实录</text>
+  <text x="350" y="341" text-anchor="middle" font-size="13" fill="#1e293b">（大毛哥/二万哥/野人哥）</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+    "05": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="350" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">宏观与行业底层逻辑导图</text>
+  <rect x="265" y="185" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="215" text-anchor="middle" font-size="13" fill="#1e293b">宏观与行业底层逻辑</text>
+  <line x1="265" y1="195" x2="230" y2="106" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="265" y1="225" x2="230" y2="296" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="195" x2="470" y2="106" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="435" y1="225" x2="470" y2="296" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="30" y="80" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="101" text-anchor="middle" font-size="13" fill="#1e293b">宏观及商业环境</text>
+  <text x="130" y="121" text-anchor="middle" font-size="13" fill="#1e293b">（黄金/关税/化债/AI）</text>
+  <rect x="470" y="80" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="570" y="101" text-anchor="middle" font-size="13" fill="#1e293b">政策与行业观察</text>
+  <text x="570" y="121" text-anchor="middle" font-size="13" fill="#1e293b">（十五五/软件）</text>
+  <rect x="30" y="270" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="291" text-anchor="middle" font-size="13" fill="#1e293b">行业解析专题</text>
+  <text x="130" y="311" text-anchor="middle" font-size="13" fill="#1e293b">（新能源/芯片/医美/咖啡）</text>
+  <rect x="470" y="270" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="570" y="291" text-anchor="middle" font-size="13" fill="#1e293b">行业周期与</text>
+  <text x="570" y="311" text-anchor="middle" font-size="13" fill="#1e293b">为知老笔记</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+    "06": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="400" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">选股基金与量化结构</text>
+  <rect x="315" y="90" width="170" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="400" y="120" text-anchor="middle" font-size="13" fill="#1e293b">选股、基金与量化</text>
+  <line x1="315" y1="115" x2="250" y2="115" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="485" y1="115" x2="550" y2="115" stroke="#64748b" stroke-width="1.5"/>
+  <rect x="60" y="89" width="190" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="155" y="110" text-anchor="middle" font-size="13" fill="#1e293b">选股/选基方法论与估值</text>
+  <text x="155" y="130" text-anchor="middle" font-size="13" fill="#1e293b">（底层逻辑）</text>
+  <rect x="550" y="89" width="190" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="645" y="110" text-anchor="middle" font-size="13" fill="#1e293b">财报披露与退市规则</text>
+  <text x="645" y="130" text-anchor="middle" font-size="13" fill="#1e293b">（爬坑）</text>
+  <rect x="30" y="245" width="150" height="34" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="105" y="267" text-anchor="middle" font-size="13" fill="#1e293b">Python 基础</text>
+  <line x1="182" y1="262" x2="216" y2="262" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="220" y="245" width="150" height="34" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="295" y="267" text-anchor="middle" font-size="13" fill="#1e293b">numpy/pandas</text>
+  <line x1="372" y1="262" x2="406" y2="262" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="410" y="245" width="170" height="34" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="495" y="267" text-anchor="middle" font-size="13" fill="#1e293b">动量/双均线/配对策略</text>
+  <line x1="582" y1="262" x2="616" y2="262" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="620" y="245" width="150" height="34" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="695" y="267" text-anchor="middle" font-size="13" fill="#1e293b">可视化</text>
+  <text x="400" y="307" text-anchor="middle" font-size="12" fill="#475569">量化路线共 19 篇（192-210 号）</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+    "07": """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 380" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="280" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">新手四步学习路线</text>
+  <rect x="140" y="58" width="280" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="86" text-anchor="middle" font-size="13" fill="#1e293b">①入门：新手炒股8讲</text>
+  <line x1="280" y1="104" x2="280" y2="130" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="140" y="134" width="280" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="162" text-anchor="middle" font-size="13" fill="#1e293b">②筑基：什么是真正的交易17讲</text>
+  <line x1="280" y1="180" x2="280" y2="206" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="140" y="210" width="280" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="238" text-anchor="middle" font-size="13" fill="#1e293b">③进阶：像证券交易员一样思考和行动6讲</text>
+  <line x1="280" y1="256" x2="280" y2="282" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="140" y="286" width="280" height="46" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="280" y="314" text-anchor="middle" font-size="13" fill="#1e293b">④开胃：三个汉堡经济学/慢慢变富</text>
+</svg>
+
+*图：本册主题结构示意（依各小节整理）*""",
+}
+
+# ---------------- 空文档墓碑（与已提交 MOC 逐字一致） ----------------
+# 三篇文章语雀导出为空、原件已清理：按已提交版本继续计入归类总数（474），
+# 并在各册 MOC 中以纯文本行留名（不生成链接）。若原文 reappear 于备份区则自动让位。
+EMPTY_DOCS = {
+    "爬坑笔记": ["052-交易笔记.md", "088-新手炒股.md", "093-6.新手跟庄实战技法.md"],
+}
+# 个别小节标题需与已提交版本逐字一致（量词/清理说明），其余小节用默认"（N 篇）"。
+SECTION_SUFFIX = {
+    ("07", "语雀·爬坑笔记——课程全记录（按学习顺序）"): "（{n} 讲，其中 088/093 导出为空已清理）",
+}
+
 MOC_ORDER = ["01", "02", "03", "04", "05", "06", "07"]
 
 
@@ -220,8 +391,13 @@ def main():
     # 1) 分配
     assign = {m: {lib: [] for lib in LIBS} for m in MOC_ORDER}
     unmatched = []
+    virtual_by_lib = {
+        lib: {v for v in EMPTY_DOCS.get(lib, []) if not (YUQUE / lib / v).exists()}
+        for lib in LIBS
+    }
     for lib in LIBS:
-        files = sorted(f for f in os.listdir(YUQUE / lib) if f.endswith(".md") and f != "README.md")
+        real = [f for f in os.listdir(YUQUE / lib) if f.endswith(".md") and f != "README.md"]
+        files = sorted(real + sorted(virtual_by_lib[lib]))
         rules = RULES[lib]
         for f in files:
             for moc_key, matchers in rules:
@@ -254,6 +430,8 @@ def main():
         cfg = MOCS[moc_key]
         lines = [f"# {cfg['title']}", "", "> 返回 [投资与交易总纲](<README.md>)", "",
                  cfg["intro"], ""]
+        if moc_key in SVG_BLOCKS:
+            lines += [SVG_BLOCKS[moc_key], ""]
         n = 0
         printed = set()
         pools = {lib: list(assign[moc_key][lib]) for lib in LIBS}
@@ -282,13 +460,18 @@ def main():
             if not files:
                 continue
             printed.update(files)
-            lines += [f"## {heading}（{len(files)} 篇）", ""]
+            suffix = SECTION_SUFFIX.get((moc_key, heading), "（{n} 篇）")
+            lines += [f"## {heading}" + suffix.format(n=len(files)), ""]
             if note:
                 lines += [note, ""]
             for f in files:
+                text = f[:-3]
+                if f in virtual_by_lib[lib]:
+                    lines.append(f"- {text}（语雀导出为空文档）")
+                    n += 1
+                    continue
                 link = f"../../语雀备份/{lib}/{f}"
                 assert (YUQUE / lib / f).exists(), f"链接目标不存在: {link}"
-                text = f[:-3]
                 lines.append(f"- [{text}](<{link}>)")
                 n += 1
             lines.append("")
@@ -299,12 +482,13 @@ def main():
         missed -= printed
         assert not missed, f"{cfg['file']} 漏印: {sorted(missed)[:3]}"
         path = OUT / cfg["file"]
-        path.write_text("\n".join(lines), encoding="utf-8")
+        with open(path, "w", encoding="utf-8", newline="\n") as fh:  # 强制 LF 行尾
+            fh.write("\n".join(lines))
         print(f"生成 {path}（{n} 条链接）")
 
     # 4) 各库覆盖数校验
     for lib in LIBS:
-        all_count = len([f for f in os.listdir(YUQUE / lib) if f.endswith(".md") and f != "README.md"])
+        all_count = len([f for f in os.listdir(YUQUE / lib) if f.endswith(".md") and f != "README.md"]) + len(virtual_by_lib[lib])
         got = sum(len(assign[m][lib]) for m in MOC_ORDER)
         print(f"{lib}: {got}/{all_count}")
 

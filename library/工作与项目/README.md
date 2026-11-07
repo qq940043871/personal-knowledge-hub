@@ -13,6 +13,44 @@
 | 2023-2025 | 客户交付与运维：信创、东盟分中心、门户 | 语雀·客户跟踪（180 篇） |
 | 2025 | 摄像头视频方案、智能体管理系统 | 飞书项目经验 → library 成品 |
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="420" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">四源工作项目时间线</text>
+  <line x1="60" y1="262" x2="780" y2="262" stroke="#64748b" stroke-width="2" marker-end="url(#ar1)"/>
+  <rect x="30" y="106" width="180" height="64" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="128" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563eb">2013-2017（为知）</text>
+  <text x="120" y="146" text-anchor="middle" font-size="13" fill="#1e293b">金融项目组/API网关</text>
+  <text x="120" y="164" text-anchor="middle" font-size="13" fill="#1e293b">清算所</text>
+  <line x1="120" y1="170" x2="120" y2="255" stroke="#64748b" stroke-width="1.5"/>
+  <circle cx="120" cy="262" r="5" fill="#2563eb" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="230" y="288" width="180" height="82" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="320" y="310" text-anchor="middle" font-size="13" font-weight="bold" fill="#d97706">~2022（腾讯）</text>
+  <text x="320" y="328" text-anchor="middle" font-size="13" fill="#1e293b">金融银行交付</text>
+  <text x="320" y="346" text-anchor="middle" font-size="13" fill="#1e293b">惠生活/校园配餐</text>
+  <text x="320" y="364" text-anchor="middle" font-size="13" fill="#1e293b">郑州热力/聚富通</text>
+  <line x1="320" y1="267" x2="320" y2="288" stroke="#64748b" stroke-width="1.5"/>
+  <circle cx="320" cy="262" r="5" fill="#d97706" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="430" y="88" width="180" height="82" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="520" y="110" text-anchor="middle" font-size="13" font-weight="bold" fill="#16a34a">2023-2025（语雀）</text>
+  <text x="520" y="128" text-anchor="middle" font-size="13" fill="#1e293b">客户交付与运维</text>
+  <text x="520" y="146" text-anchor="middle" font-size="13" fill="#1e293b">信创/东盟/门户</text>
+  <text x="520" y="164" text-anchor="middle" font-size="13" fill="#1e293b">客户跟踪180篇</text>
+  <line x1="520" y1="170" x2="520" y2="255" stroke="#64748b" stroke-width="1.5"/>
+  <circle cx="520" cy="262" r="5" fill="#16a34a" stroke="#ffffff" stroke-width="1.5"/>
+  <rect x="630" y="288" width="180" height="64" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="720" y="310" text-anchor="middle" font-size="13" font-weight="bold" fill="#7c3aed">2025（飞书）</text>
+  <text x="720" y="328" text-anchor="middle" font-size="13" fill="#1e293b">摄像头方案/智能体管理</text>
+  <text x="720" y="346" text-anchor="middle" font-size="13" fill="#1e293b">→library成品</text>
+  <line x1="720" y1="267" x2="720" y2="288" stroke="#64748b" stroke-width="1.5"/>
+  <circle cx="720" cy="262" r="5" fill="#7c3aed" stroke="#ffffff" stroke-width="1.5"/>
+</svg>
+
+*图：四源工作项目时间线示意*
+
 ## 二、已成品化项目（读这里就够了）
 
 ### 1. 摄像头视频方案（FFmpeg 拉流 → ZLM 推流/回放/集成）
