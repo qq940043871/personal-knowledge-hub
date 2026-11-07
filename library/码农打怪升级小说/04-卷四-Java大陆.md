@@ -227,7 +227,7 @@ Maven 城的物流官补了最后一课："构建打包走**流水线生命周�
 | DispatcherServlet | 前台总调度：绑定、校验、分发 | `Java框架全景图/02-Web开发/01-SpringMVC详解.md` |
 | 全局异常处理 | @RestControllerAdvice 一处捕获 | 同上 |
 | MyBatis vs JPA | 控制权 vs 效率 | `Java框架全景图/03-数据访问/01-MyBatis数据持久层.md` |
-| 微服务化动机与代价 | 独立部署/扩容/隔离，每道菜标着复杂性价签 | `Java框架全景图/05-微服务框架/01-SpringCloud微服务架构.md`、`为知笔记迁移/技术专栏笔记/云原生微服务架构实战/第01讲` |
+| 微服务化动机与代价 | 独立部署/扩容/隔离，每道菜标着复杂性价签 | `Java框架全景图/05-微服务框架/01-SpringCloud微服务架构.md`、`技术/为知·技术专栏/云原生微服务架构实战/第01讲` |
 | Spring Cloud 四件套 | Nacos 黄页/Gateway 保安/Feign 秘书/Sentinel 保险丝 | `Java框架全景图/05-微服务框架/01-SpringCloud微服务架构.md` |
 | Maven | 流水线生命周期+依赖快递+坐标身份证 | `Java框架全景图/09-构建工具/01-Maven项目管理.md` |
 

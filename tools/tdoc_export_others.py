@@ -13,6 +13,7 @@ SKILL = r"C:\Users\qq940\.workbuddy\plugins\cache\workbuddy-builtin\tencent-docs
 PY = r"C:\Users\qq940\anaconda3\python.exe"
 SCRIPT = os.path.join(SKILL, "tencentdocs.py")
 MANIFEST = r"D:\ai_person\personal-tech-knowledge\.workbuddy\tdoc_manifest.json"
+# DEPRECATED（2026-11-07）：输出目录已随四源重组拆分为 工作/腾讯项目文档、考证/腾讯·职场进阶、投资/01-我的实盘与成长史/账本 及 _备份元数据，本一次性导出工具不再适用。
 OUTDIR = r"D:\ai_person\personal-tech-knowledge\腾讯文档导出"
 EXT_FALLBACK = {"tencentsheet": ".xlsx", "mind": ".mind", "flowchart": ".flowchart",
                 "tencentdoc": ".docx", "jpeg": ".jpg", "png": ".png", "pdf": ".pdf"}

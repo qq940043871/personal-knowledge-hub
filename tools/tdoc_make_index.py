@@ -4,6 +4,7 @@
 import json
 import os
 
+# DEPRECATED（2026-11-07）：输出目录已随四源重组拆分为 工作/腾讯项目文档、考证/腾讯·职场进阶、投资/01-我的实盘与成长史/账本 及 _备份元数据，本一次性导出工具不再适用。
 OUTDIR = r"D:\ai_person\personal-tech-knowledge\腾讯文档导出"
 MANIFEST = r"D:\ai_person\personal-tech-knowledge\.workbuddy\tdoc_manifest.json"
 
