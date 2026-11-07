@@ -1,8 +1,8 @@
 # [模块名称] API 参考文档
 
-> **版本**：v1.0  
-> **Base URL**：`https://api.your-domain.com/v1`  
-> **认证方式**：Bearer Token（在 `Authorization` 请求头中传入）  
+> **版本**：v1.0
+> **Base URL**：`https://api.your-domain.com/v1`
+> **认证方式**：Bearer Token（在 `Authorization` 请求头中传入）
 > **数据格式**：请求体和响应体均为 JSON，`Content-Type: application/json`
 
 ---

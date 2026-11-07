@@ -10,6 +10,7 @@
 Spring MVC是基于Servlet API构建的Web框架，采用MVC（Model-View-Controller）设计模式，是Spring Framework的核心模块之一。
 
 ### 核心特性
+
 - **注解驱动** — `@Controller`、`@RequestMapping`等注解简化配置
 - **数据绑定** — 自动将请求参数绑定到Java对象
 - **视图解析** — 支持JSP、Thymeleaf、FreeMarker等多种视图技术

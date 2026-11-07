@@ -1432,3 +1432,4 @@ public enum OrderStatus {
 public void method() {
     if (condition) {
         doSomething();
+```

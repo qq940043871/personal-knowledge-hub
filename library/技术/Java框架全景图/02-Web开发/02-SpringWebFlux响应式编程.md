@@ -10,6 +10,7 @@
 Spring WebFlux是Spring 5引入的响应式Web框架，基于Reactor库实现非阻塞IO，适合高并发、低延迟的场景。
 
 ### 核心特性
+
 - **非阻塞IO** — 基于Netty，少量线程处理大量并发连接
 - **响应式流** — 支持背压（Backpressure）机制
 - **函数式端点** — RouterFunction定义路由

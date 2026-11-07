@@ -136,7 +136,7 @@ dashboard-overview.png
 
 在 `pom.xml` 中添加：
 
-```xml
+\```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-redis</artifactId>
@@ -185,7 +185,7 @@ redis-cli ping
 
 确认 `application.yml` 中的连接信息：
 
-```yaml
+\```yaml
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/your_db  # 检查这里
@@ -195,7 +195,7 @@ spring:
 
 **2. 验证数据库是否运行**
 
-```bash
+\```bash
 mysql -u root -p -h localhost -P 3306
 # 如果连接失败，说明数据库未启动或端口不对
 \```

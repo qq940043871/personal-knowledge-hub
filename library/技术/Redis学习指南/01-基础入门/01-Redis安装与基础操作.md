@@ -10,6 +10,7 @@
 Redis（Remote Dictionary Server）是开源的内存数据结构存储系统，可用作数据库、缓存和消息队列。
 
 ### 核心特性
+
 - **高性能** — 读写10万+ QPS
 - **丰富数据结构** — String/List/Hash/Set/ZSet等
 - **持久化** — RDB/AOF两种方式

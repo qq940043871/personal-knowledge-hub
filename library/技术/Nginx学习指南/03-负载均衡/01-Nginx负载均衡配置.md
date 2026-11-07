@@ -272,3 +272,4 @@ http {
         
         server 192.168.1.10:8080 weight=5 max_fails=3 fail_timeout=10s;
         server 192.168.1.11:8080 weight=5 max_fails
+```

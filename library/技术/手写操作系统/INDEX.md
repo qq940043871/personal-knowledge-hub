@@ -87,24 +87,28 @@
 ## 🎯 学习路线
 
 ### 快速入门（2周）
+
 1. 计算机硬件基础
 2. x86汇编语言
 3. 开发环境搭建
 4. MBR引导扇区
 
 ### 基础阶段（4周）
+
 5. BIOS与UEFI
 6. C与汇编混编
 7. 实模式到保护模式
 8. 内核架构设计
 
 ### 进阶阶段（6周）
+
 9. 进程管理
 10. 内存管理
 11. 文件系统
 12. 中断异常处理
 
 ### 高级阶段（4周）
+
 13. 设备驱动
 14. 网络协议栈
 15. 性能优化
@@ -163,18 +167,21 @@ qemu-system-i386 -fda boot.img
 ## 📖 推荐阅读
 
 ### 书籍
+
 - 《操作系统真象还原》- 郑钢
 - 《深入浅出计算机组成原理》- 徐文浩
 - 《Linux内核设计与实现》- Robert Love
 - 《x86汇编语言：从实模式到保护模式》- 李忠
 
 ### 在线资源
+
 - [OSDev.org](https://wiki.osdev.org/) - 操作系统开发社区
 - [Linux Kernel Documentation](https://www.kernel.org/doc/) - Linux内核文档
 - [Intel x86 Architecture Reference Manual](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
 - [QEMU Documentation](https://www.qemu.org/documentation/)
 
 ### 开源项目
+
 - [Linux Kernel](https://github.com/torvalds/linux)
 - [MINIX](https://github.com/Stichting-MINIX-Research-Foundation/minix)
 - [xv6](https://github.com/mit-pdos/xv6-public)

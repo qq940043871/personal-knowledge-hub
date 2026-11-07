@@ -15,6 +15,7 @@
 ## A.2 在线资源
 
 ### 官方规范文档
+
 - **Intel 手册**：[https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html](https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html)
   - Volume 1：基础架构
   - Volume 2：指令集参考
@@ -161,6 +162,7 @@ xxd kernel.bin | head -20
 完成本教程后，可以继续探索以下方向：
 
 ### 内核完善
+
 - [ ] SMP 多核支持（APIC 初始化，核间中断）
 - [ ] 写时复制（Copy-on-Write）优化 fork
 - [ ] 内存交换（Swap）到磁盘
@@ -168,12 +170,14 @@ xxd kernel.bin | head -20
 - [ ] POSIX 完整性（select/poll/epoll）
 
 ### 文件系统
+
 - [ ] EXT2/EXT4 文件系统
 - [ ] 网络文件系统（NFS）
 - [ ] tmpfs（内存文件系统）
 - [ ] 日志文件系统（防止损坏）
 
 ### 驱动程序
+
 - [ ] PCI 总线枚举与驱动框架
 - [ ] USB HID 键鼠驱动
 - [ ] E1000 网卡驱动 + TCP/IP 网络栈
@@ -181,12 +185,14 @@ xxd kernel.bin | head -20
 - [ ] VESA/GOP 图形显示
 
 ### 用户态
+
 - [ ] 完整的 C 标准库（musl libc 移植）
 - [ ] 动态链接器（ld.so）
 - [ ] 图形界面（Xorg 协议、Wayland 协议）
 - [ ] POSIX Shell（bash 移植）
 
 ### 安全
+
 - [ ] 内核地址空间布局随机化（KASLR）
 - [ ] 栈溢出保护（Stack Canary）
 - [ ] 执行保护（NX/XD 位）

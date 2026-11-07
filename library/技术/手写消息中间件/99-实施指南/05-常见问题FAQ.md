@@ -295,7 +295,7 @@ queue_messages_ready - consumer_offset
 
 基准参考（单节点）：
 - 小消息 (256B)：10万 msg/s
-- 中消息 (1KB)：5万 msg/s  
+- 中消息 (1KB)：5万 msg/s
 - 大消息 (10KB)：1万 msg/s
 
 ---

@@ -59,21 +59,25 @@ Java框架全景图/
 ## 学习路线建议
 
 ### 第一阶段：基础核心（1-2周）
+
 1. Spring Framework — 理解IoC容器与AOP原理
 2. Spring Boot — 掌握自动配置与快速启动
 3. MySQL基础 — 复习SQL与数据库设计
 
 ### 第二阶段：数据层（2-3周）
+
 4. MyBatis — 掌握SQL映射与动态SQL
 5. Spring Data JPA — 理解ORM与JPA规范
 6. Druid连接池 — 了解连接池原理与监控
 
 ### 第三阶段：中间件（3-4周）
+
 7. Redis — 掌握缓存策略与分布式锁
 8. RabbitMQ — 理解消息队列与异步解耦
 9. Kafka — 了解高吞吐消息架构
 
 ### 第四阶段：分布式（3-4周）
+
 10. Spring Cloud — 掌握微服务核心组件
 11. Elasticsearch — 了解全文检索与聚合
 

@@ -10,6 +10,7 @@
 Caffeine是Java 8+的高性能本地缓存库，由Google Guava Cache的作者开发，性能比Guava Cache提升显著。
 
 ### 核心特性
+
 - **高性能** — Window-TinyLFU淘汰算法，接近最优命中率
 - **自动加载** — 支持异步刷新和自动加载
 - **统计** — 内置缓存命中率统计

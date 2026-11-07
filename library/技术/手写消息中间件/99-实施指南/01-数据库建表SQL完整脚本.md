@@ -528,3 +528,4 @@ CREATE TABLE IF NOT EXISTS ops_record (
     INDEX idx_type (operation_type),
     INDEX idx_time (executed_at)
 ) ENGINE = InnoDB DEFAULT CHARS
+```

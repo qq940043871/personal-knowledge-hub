@@ -138,3 +138,4 @@ ollama create my-model -f ./Modelfile
 FROM ./llama3-8b.Q4_K_M.gguf
 PARAMETER temperature 0.7
 PARAMETER top_p 0
+```

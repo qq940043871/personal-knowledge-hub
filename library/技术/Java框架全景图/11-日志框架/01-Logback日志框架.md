@@ -10,6 +10,7 @@
 Logback是Log4j的继任者，是Spring Boot默认的日志框架，分为logback-core、logback-classic、logback-access三个模块。
 
 ### 核心特性
+
 - **高性能** — 比Log4j更快
 - **自动重载** — 配置文件修改后自动加载
 - **过滤器** — 丰富的过滤器支持

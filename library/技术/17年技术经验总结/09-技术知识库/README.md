@@ -22,8 +22,8 @@
 
 ## 边界
 
-- AI 技术笔记与博文 → `blog/`（博客「码潮 CodeTide」）  
-- 面试真题与八股 → `interview-kit/banks/`（含 face-exp）  
+- AI 技术笔记与博文 → `blog/`（博客「码潮 CodeTide」）
+- 面试真题与八股 → `interview-kit/banks/`（含 face-exp）
 - 本库 `06_ai` 只保留导读与链接桩页
 
 ---

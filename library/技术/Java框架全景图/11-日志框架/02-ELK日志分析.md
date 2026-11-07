@@ -10,6 +10,7 @@
 ELK是Elasticsearch + Logstash + Kibana的日志分析解决方案，用于集中收集、存储、分析和可视化日志数据。
 
 ### 架构组成
+
 - **Elasticsearch** — 分布式搜索引擎，存储和索引日志
 - **Logstash** — 数据收集和处理引擎
 - **Kibana** — 数据可视化平台

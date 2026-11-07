@@ -10,6 +10,7 @@
 Spring Cache是Spring提供的缓存抽象层，通过注解方式简化缓存操作，支持多种缓存实现（Redis、Ehcache、Caffeine等）。
 
 ### 核心特性
+
 - **注解驱动** — `@Cacheable`、`@CachePut`、`@CacheEvict`
 - **透明切换** — 切换缓存实现无需修改业务代码
 - **条件缓存** — 支持SpEL表达式条件判断

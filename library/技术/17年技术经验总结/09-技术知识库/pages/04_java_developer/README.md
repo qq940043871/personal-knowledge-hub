@@ -3,7 +3,7 @@
 > 覆盖 Java 语法基础、JVM 原理、Spring 全家桶、微服务架构到中间件实战。
 > 从开发到排障，从入门到精通。
 
-**适用版本**：Java 8 / 17 / 21，Spring Boot 2.x / 3.x，Spring Cloud 2021+  
+**适用版本**：Java 8 / 17 / 21，Spring Boot 2.x / 3.x，Spring Cloud 2021+
 **最后更新**：2026-04-22
 
 ---

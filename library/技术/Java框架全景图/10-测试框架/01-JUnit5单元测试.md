@@ -10,6 +10,7 @@
 JUnit 5是Java领域最主流的单元测试框架，由JUnit Platform、JUnit Jupiter、JUnit Vintage三部分组成。
 
 ### 核心特性
+
 - **注解驱动** — `@Test`、`@BeforeEach`、`@AfterEach`等
 - **断言增强** — 支持lambda表达式和消息Supplier
 - **参数化测试** — `@ParameterizedTest`

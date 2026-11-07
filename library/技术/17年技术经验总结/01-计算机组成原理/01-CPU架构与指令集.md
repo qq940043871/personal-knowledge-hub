@@ -312,15 +312,18 @@ perf stat -e branches,branch-misses ./program
 ## 四、延伸阅读
 
 ### 书籍
+
 - 《计算机组成与设计：硬件/软件接口》
 - 《深入理解计算机系统》（CSAPP）
 - 《现代体系结构上的UNIX系统》
 
 ### 文章
+
 - Intel 64 and IA-32 Architectures Software Developer's Manual
 - NUMA Best Practices for Dell PowerEdge Servers
 
 ### 工具
+
 - perf：Linux性能分析神器
 - Intel VTune：专业性能分析
 - perf-events：内核性能事件
