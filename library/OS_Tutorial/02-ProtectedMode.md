@@ -371,6 +371,6 @@ Ring 1, 2：通常不使用（Linux/Windows 都只用 0 和 3）
 
 ---
 
-**上一章** ← [第 1 章：Bootloader](./01_Bootloader.md)
+**上一章** ← [第 1 章：Bootloader](./01-Bootloader.md)
 
-**下一章** → [第 3 章：内核入口与 C 语言环境](./03_Kernel_Entry.md)
+**下一章** → [第 3 章：内核入口与 C 语言环境](./03-Kernel-Entry.md)

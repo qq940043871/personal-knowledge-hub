@@ -23,3 +23,20 @@ desktop.ini
 blog/_seed/post_*.b64
 blog/_seed/blocks.jsonl
 blog/_seed/seed_posts.jsonl
+
+# ---- 四源备份归档(不入库:语雀320M超大+含个人敏感数据,仓库为公开) ----
+语雀备份/
+飞书备份/
+腾讯文档导出/
+
+# ---- AI 工具与平台本地配置 ----
+.agents/
+.claude/
+.codebuddy/
+.qoder/
+.trae/
+.workbuddy/
+.zcode/
+.wiz-format-tools/
+skills/
+skills-lock.json

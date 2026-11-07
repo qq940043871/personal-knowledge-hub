@@ -570,6 +570,6 @@ static void page_fault_handler(InterruptFrame *frame)
 
 ---
 
-**上一章** ← [第 4 章：内存管理](./04_Memory.md)
+**上一章** ← [第 4 章：内存管理](./04-Memory.md)
 
-**下一章** → [第 6 章：进程管理与任务调度](./06_Process.md)
+**下一章** → [第 6 章：进程管理与任务调度](./06-Process.md)

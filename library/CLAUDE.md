@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal knowledge base and technical documentation repository (`library/`, part of the `personal-tech-knowledge` workspace). It contains 943 Markdown files across 27 directories covering Java engineering, system architecture, AI/ML, and "build from scratch" tutorials. A Flask web app provides a browsable document viewer.
+This is a personal knowledge base and technical documentation repository (`library/`, part of the `personal-tech-knowledge` workspace). It contains 871 Markdown files across 28 directories covering Java engineering, system architecture, AI/ML, and "build from scratch" tutorials. A Flask web app provides a browsable document viewer.
 
 ## Running the Document Viewer
 

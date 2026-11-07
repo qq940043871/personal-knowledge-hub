@@ -515,6 +515,6 @@ int 0x13
 
 ---
 
-**上一章** ← [第 0 章：前置知识](./00_Prerequisites.md)
+**上一章** ← [第 0 章：前置知识](./00-Prerequisites.md)
 
-**下一章** → [第 2 章：进入保护模式](./02_ProtectedMode.md)
+**下一章** → [第 2 章：进入保护模式](./02-ProtectedMode.md)

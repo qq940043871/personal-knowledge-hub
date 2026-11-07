@@ -1,0 +1,176 @@
+# 无标题
+
+> 当我们架设一个系统的时候通常需要考虑到如何与其他系统交互，所以我们首先需要知道各种系统之间是如何交互的，使用何种技术实现。
+
+### \. 不同系统不同语言之间的交互
+
+现在我们常见的不同系统不同语言之间的交互使用WebService，Http请求。WebService，即“Web 服务”，简写为 WS。从字面上理解，它其实就是“基于 Web 的服务”。而服务却是双方的，有服务需求方，就有服务提供方。服务提供方对外发布服务，服务需求方调用服务提供方所发布的服务。如果说得再专业一点，WS 其实就是建立在 HTTP 协议上实现异构系统通讯的工具。没错！WS 说白了还是基于 HTTP 协议的，也就是说，数据是通过 HTTP 进行传输的。最早我们是用CXF开发SOAP服务实现WS，后面我们是用REST服务实现WS(这个目前使用比较多，也最我用得最多的这一种)。基于CXF也可以开发REST服务，不过我们一般直接使用springMVC或者其他MVC框架实现REST服务。
+
+但是在很多人的印象中Web service的话一般指十来年前IBM主导的基于XML的各种交互技术，现在除了一些公司在用之外用得人也很少了。广义的话Webservice就是Web 服务了，一切皆服务。
+
+### \. 不同系统相同语言之间的交互
+
+常见的不同系统相同语言之间的交互用RPC(远程过程调用)，或者RMI(远程方法调用)实现，不用对外部提供服务，当然上面说的也可以使用在相同语言之间的交互,只是我常用的是RPC。
+
+**不同产品的架构**
+
+### \. 单个产品的架构演进
+
+一般我们只是一个产品的情况下的架构演进历程，如果需要对外提供webService，通常使用REST服务实现。
+
+以下一段内容来源于[知乎](http://www.zhihu.com/question//answer/)
+
+#### \. 分布式架构的演进系统架构演化历程-初始阶段架构
+
+[](https://dn-coding-net-production-pp.qbox.me/df-de-dcd-c-cpng)
+
+初始阶段 的小型系统 应用程序、数据库、文件等所有的资源都在一台服务器上通俗称为LAMP
+
+**特征：应用程序、数据库、文件等所有的资源都在一台服务器上。**
+
+**描述：通常服务器操作系统使用linux，应用程序使用PHP开发，然后部署在Apache上，数据库使用Mysql，汇集各种免费开源软件以及一台廉价服务器就可以开始系统的发展之路了。**
+
+#### \. 系统架构演化历程-应用服务和数据服务分离
+
+[](https://dn-coding-net-production-pp.qbox.me/d-d-d-dfe-cbefcpng)
+
+好景不长，发现随着系统访问量的再度增加，webserver机器的压力在高峰期会上升到比较高，这个时候开始考虑增加一台webserver
+
+**特征：应用程序、数据库、文件分别部署在独立的资源上。**
+
+**描述：数据量增加，单台服务器性能及存储空间不足，需要将应用和数据分离，并发处理能力和数据存储空间得到了很大改善。**
+
+#### \. 系统架构演化历程-使用缓存改善性能
+
+[](https://dn-coding-net-production-pp.qbox.me/fcd-ac-c-b-fdepng)
+
+**特征：数据库中访问较集中的一小部分数据存储在缓存服务器中，减少数据库的访问次数，降低数据库的访问压力。**
+
+**描述：系统访问特点遵循二八定律，即%的业务访问集中在%的数据上。缓存分为本地缓存和远程分布式缓存，本地缓存访问速度更快但缓存数据量有限，同时存在与应用程序争用内存的情况。**
+
+#### \. 系统架构演化历程-使用应用服务器集群
+
+[](https://dn-coding-net-production-pp.qbox.me/eff--af-ade-adpng)
+
+在做完分库分表这些工作后，数据库上的压力已经降到比较低了，又开始过着每天看着访问量暴增的幸福生活了，突然有一天，发现系统的访问又开始有变慢的趋势了，这个时候首先查看数据库，压力一切正常，之后查看webserver，发现apache阻塞了很多的请求，而应用服务器对每个请求也是比较快的，看来 是请求数太高导致需要排队等待，响应速度变慢
+
+**特征：多台服务器通过负载均衡同时向外部提供服务，解决单台服务器处理能力和存储空间上限的问题。**
+
+**描述：使用集群是系统解决高并发、海量数据问题的常用手段。通过向集群中追加资源，提升系统的并发处理能力，使得服务器的负载压力不再成为整个系统的瓶颈。**
+
+#### \. 系统架构演化历程-数据库读写分离
+
+[](https://dn-coding-net-production-pp.qbox.me/dd-de--e-aedcpng)
+
+享受了一段时间的系统访问量高速增长的幸福后，发现系统又开始变慢了，这次又是什么状况呢，经过查找，发现数据库写入、更新的这些操作的部分数据库连接的资源竞争非常激烈，导致了系统变慢
+
+**特征：多台服务器通过负载均衡同时向外部提供服务，解决单台服务器处理能力和存储空间上限的问题。**
+
+**描述：使用集群是系统解决高并发、海量数据问题的常用手段。通过向集群中追加资源，使得服务器的负载压力不在成为整个系统的瓶颈。**
+
+#### \. 系统架构演化历程-反向代理和CDN加速
+
+[](https://dn-coding-net-production-pp.qbox.me/ff-fa--e-cdaepng)
+
+**特征：采用CDN和反向代理加快系统的 访问速度。**
+
+**描述：为了应付复杂的网络环境和不同地区用户的访问，通过CDN和反向代理加快用户访问的速度，同时减轻后端服务器的负载压力。CDN与反向代理的基本原理都是缓存。**
+
+#### \. 系统架构演化历程-分布式文件系统和分布式数据库
+
+[](https://dn-coding-net-production-pp.qbox.me/ea-caf-f-b-cdffdadpng)
+
+随着系统的不断运行，数据量开始大幅度增长，这个时候发现分库后查询仍然会有些慢，于是按照分库的思想开始做分表的工作
+
+**特征：数据库采用分布式数据库，文件系统采用分布式文件系统。**
+
+**描述：任何强大的单一服务器都满足不了大型系统持续增长的业务需求，数据库读写分离随着业务的发展最终也将无法满足需求，需要使用分布式数据库及分布式文件系统来支撑。分布式数据库是系统数据库拆分的最后方法，只有在单表数据规模非常庞大的时候才使用，更常用的数据库拆分手段是业务分库，将不同的业务数据库部署在不同的物理服务器上。**
+
+#### \. 系统架构演化历程-使用NoSQL和搜索引擎
+
+[](https://dn-coding-net-production-pp.qbox.me/faae-a---aedacccpng)
+
+**特征：系统引入NoSQL数据库及搜索引擎。**
+
+**描述：随着业务越来越复杂，对数据存储和检索的需求也越来越复杂，系统需要采用一些非关系型数据库如NoSQL和分数据库查询技术如搜索引擎。应用服务器通过统一数据访问模块访问各种数据，减轻应用程序管理诸多数据源的麻烦。**
+
+#### \. 系统架构演化历程-业务拆分
+
+[](https://dn-coding-net-production-pp.qbox.me/af-fb---adfafapng)
+
+**特征：系统上按照业务进行拆分改造，应用服务器按照业务区分进行分别部署。**
+
+**描述：为了应对日益复杂的业务场景，通常使用分而治之的手段将整个系统业务分成不同的产品线，应用之间通过超链接建立关系，也可以通过消息队列进行数据分发，当然更多的还是通过访问同一个数据存储系统来构成一个关联的完整系统。纵向拆分：将一个大应用拆分为多个小应用，如果新业务较为独立，那么就直接将其设计部署为一个独立的Web应用系统纵向拆分相对较为简单，通过梳理业务，将较少相关的业务剥离即可。横向拆分：将复用的业务拆分出来，独立部署为分布式服务，新增业务只需要调用这些分布式服务横向拆分需要识别可复用的业务，设计服务接口，规范服务依赖关系。**
+
+#### \. 系统架构演化历程-分布式服务
+
+[](https://dn-coding-net-production-pp.qbox.me/e-ae-e-af-cdedapng)
+
+**特征：公共的应用模块被提取出来，部署在分布式服务器上供应用服务器调用。描述：随着业务越拆越小，应用系统整体复杂程度呈指数级上升，由于所有应用要和所有数据库系统连接，最终导致数据库连接资源不足，拒绝服务。**
+
+##### Q：分布式服务应用会面临哪些问题？
+
+() 当服务越来越多时，服务URL配置管理变得非常困难，F硬件负载均衡器的单点压力也越来越大。
+() 当进一步发展，服务间依赖关系变得错踪复杂，甚至分不清哪个应用要在哪个应用之前启动，架构师都不能完整的描述应用的架构关系。
+() 接着，服务的调用量越来越大，服务的容量问题就暴露出来，这个服务需要多少机器支撑？什么时候该加机器？
+() 服务多了，沟通成本也开始上升，调某个服务失败该找谁？服务的参数都有什么约定？
+() 一个服务有多个业务消费者，如何确保服务质量？
+() 随着服务的不停升级，总有些意想不到的事发生，比如cache写错了导致内存溢出，故障不可避免，每次核心服务一挂，影响一大片，人心慌慌，如何控制故障的影响面？服务是否可以功能降级？或者资源劣化？
+这个好像是[大型网站技术架构 核心原理与案例分析](http://item.jd.com/html)开篇的内容，不过作者总结得不错，我就转载一下吧。
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 600" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+      <path d="M0,0 L9,4.5 L0,9 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <text x="320" y="34" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Java 应用架构演进示意</text>
+  <rect x="160" y="58" width="320" height="42" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">初始阶段：单机 LAMP</text>
+  <text x="320" y="93" text-anchor="middle" font-size="11" fill="#475569">应用、数据库、文件都在一台服务器上</text>
+  <line x1="320" y1="100" x2="320" y2="122" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="124" width="320" height="42" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="320" y="141" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">应用服务与数据服务分离</text>
+  <text x="320" y="159" text-anchor="middle" font-size="11" fill="#475569">应用、数据库、文件分别独立部署</text>
+  <line x1="320" y1="166" x2="320" y2="188" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="190" width="320" height="42" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="320" y="207" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">引入缓存改善性能</text>
+  <text x="320" y="225" text-anchor="middle" font-size="11" fill="#475569">热点数据放缓存，二八定律减少数据库访问</text>
+  <line x1="320" y1="232" x2="320" y2="254" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="256" width="320" height="42" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="320" y="273" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">应用服务器集群</text>
+  <text x="320" y="291" text-anchor="middle" font-size="11" fill="#475569">负载均衡对外服务，突破单机处理上限</text>
+  <line x1="320" y1="298" x2="320" y2="320" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="322" width="320" height="42" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="320" y="339" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">数据库读写分离</text>
+  <text x="320" y="357" text-anchor="middle" font-size="11" fill="#475569">分离读写操作，缓解连接竞争</text>
+  <line x1="320" y1="364" x2="320" y2="386" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="388" width="320" height="42" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="320" y="405" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">反向代理与 CDN 加速</text>
+  <text x="320" y="423" text-anchor="middle" font-size="11" fill="#475569">应对复杂网络与多地区访问，原理是缓存</text>
+  <line x1="320" y1="430" x2="320" y2="452" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="454" width="320" height="42" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+  <text x="320" y="471" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">分布式文件系统与分布式数据库</text>
+  <text x="320" y="489" text-anchor="middle" font-size="11" fill="#475569">分库分表之后，再引入 NoSQL 与搜索引擎</text>
+  <line x1="320" y1="496" x2="320" y2="518" stroke="#64748b" stroke-width="1.5" marker-end="url(#ar1)"/>
+  <rect x="160" y="520" width="320" height="42" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="320" y="537" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">业务拆分与分布式服务</text>
+  <text x="320" y="555" text-anchor="middle" font-size="11" fill="#475569">纵向拆应用、横向拆服务，RPC 框架互调</text>
+</svg>
+*图：Java 应用架构演进示意（据原文重绘）*
+
+### \. 产品线的架构
+
+还有一种就是上面也有提到的**业务拆分**。现在我们需要做一个产品线，我们只需要一个数据层，一个通用业务逻辑层，前面还有各种应用和界面层,不需要对外部系统(外部公司的系统)提供服务的情况以前我们一般会选择用EJB等来构建分布式应用，但是现在我们可以使用dobbo、thrift、avro、hessian这类RPC框架来构建分布式应用实现不同应用和数据来源的交互。这种结构模式下我们需要对其他公司提供服务，可以专门写一个应用对外部系统提供rest服务。一般大多数互联网服务背后都要访问十几个甚至几百个内部服务，它们之间的通信方式一般都是RPC：就像访问一个远程方法那样，输入参数后等待返回结果。这对于构建复杂系统是最容易理解的方式。
+
+如下图的模型，文件系统，缓存那些没有画出来，大家理解就行。
+
+[](https://dn-coding-net-production-pp.qbox.me/adfc-fa-cd-bb-aeabpng)
+
+#### 结语：
+
+不管哪种架构我们都需要做好模块化(尽量做到模块复用)。
+不要为了架构而架构导致过度设计。
+不管何种架构都是为了更好满足业务需求，架构应该跟随业务的发展而发展。
+
+来源： [https://blog.coding.net/blog/General-architecture-for-Java-applications](https://blog.coding.net/blog/General-architecture-for-Java-applications)

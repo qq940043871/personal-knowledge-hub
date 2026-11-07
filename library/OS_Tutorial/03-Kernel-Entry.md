@@ -496,6 +496,6 @@ void kernel_panic(const char *message)
 
 ---
 
-**上一章** ← [第 2 章：保护模式](./02_ProtectedMode.md)
+**上一章** ← [第 2 章：保护模式](./02-ProtectedMode.md)
 
-**下一章** → [第 4 章：内存管理](./04_Memory.md)
+**下一章** → [第 4 章：内存管理](./04-Memory.md)

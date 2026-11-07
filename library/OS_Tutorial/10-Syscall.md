@@ -456,6 +456,6 @@ SECTIONS
 
 ---
 
-**上一章** ← [第 9 章：Shell](./09_Shell.md)
+**上一章** ← [第 9 章：Shell](./09-Shell.md)
 
-**下一章** → [第 11 章：用户态程序与 ELF 加载](./11_UserPrograms.md)
+**下一章** → [第 11 章：用户态程序与 ELF 加载](./11-UserPrograms.md)

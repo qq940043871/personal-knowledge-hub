@@ -589,6 +589,6 @@ void kernel_main(void)
 
 ---
 
-**上一章** ← [第 3 章：内核入口](./03_Kernel_Entry.md)
+**上一章** ← [第 3 章：内核入口](./03-Kernel-Entry.md)
 
-**下一章** → [第 5 章：中断与异常处理](./05_Interrupts.md)
+**下一章** → [第 5 章：中断与异常处理](./05-Interrupts.md)

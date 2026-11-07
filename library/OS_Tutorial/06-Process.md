@@ -468,6 +468,6 @@ void tss_update_esp0(uint32_t new_esp0)
 
 ---
 
-**上一章** ← [第 5 章：中断处理](./05_Interrupts.md)
+**上一章** ← [第 5 章：中断处理](./05-Interrupts.md)
 
-**下一章** → [第 7 章：文件系统](./07_FileSystem.md)
+**下一章** → [第 7 章：文件系统](./07-FileSystem.md)

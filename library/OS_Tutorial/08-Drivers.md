@@ -480,6 +480,6 @@ void disk_init(void)
 
 ---
 
-**上一章** ← [第 7 章：文件系统](./07_FileSystem.md)
+**上一章** ← [第 7 章：文件系统](./07-FileSystem.md)
 
-**下一章** → [第 9 章：Shell](./09_Shell.md)
+**下一章** → [第 9 章：Shell](./09-Shell.md)

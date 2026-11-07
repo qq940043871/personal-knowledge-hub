@@ -249,7 +249,7 @@ MIT License
 | 文件 | 用途 |
 |------|------|
 | [INDEX.md](./INDEX.md) | 全部文档导航索引 |
-| [SUMMARY.md](./SUMMARY.md) | 项目内容摘要 |
+| [SUMMARY.md](./INDEX.md) | 项目内容摘要 |
 | docs/ | 分章教程正文 |
 | code/ | 代码示例 |
 
