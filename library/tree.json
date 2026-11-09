@@ -278,12 +278,6 @@
         "microservices.md",
         "spring-cloud.md"
       ],
-      "09-技术知识库/pages/05_system_architect/distributed/message-queue": [
-        "kafka.md",
-        "message-system.md",
-        "rabbitmq.md",
-        "rocketmq.md"
-      ],
       "09-技术知识库/pages/05_system_architect/high-concurrency": [
         "caching-strategy.md",
         "cdn.md",
@@ -292,8 +286,10 @@
       ],
       "09-技术知识库/pages/05_system_architect/mq": [
         "kafka.md",
+        "message-system.md",
         "mq-overview.md",
-        "rabbitmq.md"
+        "rabbitmq.md",
+        "rocketmq.md"
       ],
       "10-极客时间课程笔记": [
         "01-操作系统：一切软件的物理定律.md",
@@ -404,7 +400,6 @@
         "01-FFmpeg安装与核心概念.md"
       ],
       "02-常用命令": [
-        "01-RTSP拉流与RTMP推流.md",
         "01-视频转码与格式转换.md",
         "02-音频处理命令.md"
       ],
@@ -552,9 +547,8 @@
       ],
       "05-网络管理": [
         "01-网络协议栈原理.md",
-        "01-网络管理基础.md",
-        "02-网络抓包分析.md",
-        "02-网络配置与诊断.md"
+        "02-网络配置与诊断.md",
+        "03-网络抓包分析.md"
       ],
       "06-文件系统": [
         "01-文件系统原理.md",
@@ -574,7 +568,7 @@
         "01-Java应用CPU飙升案例.md",
         "02-内存溢出OOM案例.md",
         "03-服务器负载异常案例.md",
-        "03-系统负载高排查案例.md"
+        "04-系统负载高排查案例.md"
       ]
     },
     "MiniIO学习指南": {
@@ -1030,7 +1024,7 @@
         "04-全文索引.md"
       ],
       "10-SQL支持": [
-        "01-SELECT查询.md",
+        "01-INSERT更新.md",
         "05-CREATE表创建.md"
       ],
       "11-工具与运维": [
@@ -1079,7 +1073,54 @@
         "03-XSS防护.md"
       ]
     },
-    "手写消息中间件": {
+    "手写游戏引擎": {
+      "_files": [
+        "00-总纲与架构设计.md",
+        "00-总览.md",
+        "README.md"
+      ],
+      "01-核心框架": [
+        "01-游戏循环.md",
+        "02-时间系统.md",
+        "03-内存管理.md",
+        "04-模块系统.md"
+      ],
+      "02-场景管理": [
+        "04-场景加载与切换.md"
+      ],
+      "03-实体组件系统": [
+        "01-ECS架构.md",
+        "02-实体管理.md",
+        "03-组件系统.md",
+        "04-系统调度.md"
+      ],
+      "04-渲染引擎": [
+        "01-渲染管线.md",
+        "02-着色器系统.md",
+        "03-材质与贴图.md",
+        "04-光照系统.md"
+      ],
+      "05-物理引擎": [
+        "02-碰撞检测.md",
+        "03-刚体动力学.md"
+      ],
+      "13-优化与调试": [
+        "03-渲染优化.md"
+      ]
+    },
+    "技术文档体系": {
+      "_files": [
+        "CONTRIBUTING_DOCS.md",
+        "DOC_SYSTEM.md",
+        "WRITING_GUIDE.md"
+      ],
+      "templates": [
+        "api-reference-template.md",
+        "feature-doc-template.md",
+        "readme-template.md"
+      ]
+    },
+    "消息中间件设计": {
       "_files": [
         "README.md"
       ],
@@ -1175,53 +1216,6 @@
         "09-字段数据字典.md",
         "10-分阶段开发路线图.md",
         "11-Glossary词汇表.md"
-      ]
-    },
-    "手写游戏引擎": {
-      "_files": [
-        "00-总纲与架构设计.md",
-        "00-总览.md",
-        "README.md"
-      ],
-      "01-核心框架": [
-        "01-游戏循环.md",
-        "02-时间系统.md",
-        "03-内存管理.md",
-        "04-模块系统.md"
-      ],
-      "02-场景管理": [
-        "04-场景加载与切换.md"
-      ],
-      "03-实体组件系统": [
-        "01-ECS架构.md",
-        "02-实体管理.md",
-        "03-组件系统.md",
-        "04-系统调度.md"
-      ],
-      "04-渲染引擎": [
-        "01-渲染管线.md",
-        "02-着色器系统.md",
-        "03-材质与贴图.md",
-        "04-光照系统.md"
-      ],
-      "05-物理引擎": [
-        "02-碰撞检测.md",
-        "03-刚体动力学.md"
-      ],
-      "13-优化与调试": [
-        "03-渲染优化.md"
-      ]
-    },
-    "技术文档体系": {
-      "_files": [
-        "CONTRIBUTING_DOCS.md",
-        "DOC_SYSTEM.md",
-        "WRITING_GUIDE.md"
-      ],
-      "templates": [
-        "api-reference-template.md",
-        "feature-doc-template.md",
-        "readme-template.md"
       ]
     }
   },

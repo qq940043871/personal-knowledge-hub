@@ -54,7 +54,7 @@ Top-level layout — six knowledge bases, each mixing public finished products (
 
 | Base | Public (git-tracked) | Private (local only) |
 |------|----------------------|----------------------|
-| `技术/` | 25 finished directories: `17年技术经验总结/`, `Java框架全景图/`, `Java避坑指南/`, learning guides (`Linux/`, `Nginx/`, `Redis/`, `Kafka/`, `Zookeeper/`, `MiniIO/`, `FFmpeg/`, `OpenCV学习指南/`), AI/LLM (`大模型工具全景图/`, `AI常用类库指南/`, `手写大模型/`, `ClaudeCode学习指南/`, `Openclaw学习指南/`), build-from-scratch series (`手写JVM/`, `手写Web容器/`, `手写操作系统/`, `手写数据库/`, `手写浏览器/`, `手写消息中间件/`, `手写游戏引擎/`), `OS_Tutorial/`, `技术文档体系/` | 12 source dirs: `飞书·Agent开发/`, `飞书·Java架构师/`, `飞书·LLM底层/`, `飞书·人工智能/`, `飞书·技术架构/`, `飞书·飞天闪客/`, `飞书·工程化/`, `从0到1设计计算机/`, `语雀·工作与计算机/`, `语雀·人工智能/`, `为知·技术专栏/`, `为知·运维/` |
+| `技术/` | 25 finished directories: `17年技术经验总结/`, `Java框架全景图/`, `Java避坑指南/`, learning guides (`Linux/`, `Nginx/`, `Redis/`, `Kafka/`, `Zookeeper/`, `MiniIO/`, `FFmpeg/`, `OpenCV学习指南/`), AI/LLM (`大模型工具全景图/`, `AI常用类库指南/`, `手写大模型/`, `ClaudeCode学习指南/`, `Openclaw学习指南/`), build-from-scratch series (`手写JVM/`, `手写Web容器/`, `手写操作系统/`, `手写数据库/`, `手写浏览器/`, `消息中间件设计/`, `手写游戏引擎/`), `OS_Tutorial/`, `技术文档体系/` | 12 source dirs: `飞书·Agent开发/`, `飞书·Java架构师/`, `飞书·LLM底层/`, `飞书·人工智能/`, `飞书·技术架构/`, `飞书·飞天闪客/`, `飞书·工程化/`, `从0到1设计计算机/`, `语雀·工作与计算机/`, `语雀·人工智能/`, `为知·技术专栏/`, `为知·运维/` |
 | `投资/` | `README.md` + `00-七册MOC/` (7 MOC volumes) | `01-我的实盘与成长史/` ~ `07-新手学习路线/` source volumes |
 | `工作/` | `README.md` + `实际工作项目/` — contains `摄像头视频方案/` and `智能体管理系统设计/` (with `ruoyi-agent/` code) | `客户跟踪/`, `技术方案/`, `腾讯项目文档/`, `飞书·项目经验/`, `求职与面试/`, `为知·工作记录/`, `飞书周报/` |
 | `考证/` | `README.md` + `软考论文/` (9 essays) | `软考-架构师/`, `软考-管理师/`, `腾讯·职场进阶/`, `项目管理文章/`, `微权力下的项目管理/` |

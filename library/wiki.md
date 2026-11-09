@@ -26,7 +26,7 @@
 | [手写Web容器](技术/手写Web容器/README.md) | 35 | HTTP 解析、Connector、Servlet 规范 |
 | [手写数据库](技术/手写数据库/README.md) | 34 | SQL 解析、存储引擎、事务、索引 |
 | [手写浏览器](技术/手写浏览器/README.md) | 22 | HTML/CSS 解析、布局、JS 引擎 |
-| [手写消息中间件](技术/手写消息中间件/README.md) | 72 | 协议、队列路由、高可用集群、性能 |
+| [消息中间件设计](技术/消息中间件设计/README.md) | 72 | 消息中间件存储层设计：协议、队列路由、高可用集群、性能（原"手写消息中间件"，不含引擎实现代码） |
 | [手写游戏引擎](技术/手写游戏引擎/README.md) | 19 | ECS、渲染、物理、音频、网络同步 |
 | [手写大模型](技术/手写大模型/README.md) | 28 | Attention、Tokenizer、RAG、Agent、MCP（AI 战线，另见第 2 节） |
 | [OS_Tutorial](技术/OS_Tutorial/README.md) | 14 | 英文教程：引导→内核→驱动→Shell |

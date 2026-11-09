@@ -40,7 +40,7 @@ Linux学习指南/
 │
 ├── 05-网络管理/
 │   ├── 01-网络协议栈原理.md             ← TCP/IP/Socket内核实现
-│   ├── 02-网络配置与诊断.md             ← ifconfig/ip/netstat/ss
+│   ├── 02-网络配置与诊断.md             ← ip/ss/netstat/tcpdump/nc
 │   └── 03-网络抓包分析.md               ← tcpdump/wireshark
 │
 ├── 06-文件系统/
@@ -60,7 +60,8 @@ Linux学习指南/
 └── 09-实战案例/
     ├── 01-Java应用CPU飙升案例.md        ← jstack/jmap排查
     ├── 02-内存溢出OOM案例.md            ← 完整排查过程
-    └── 03-服务器负载异常案例.md         ← 综合排查
+    ├── 03-服务器负载异常案例.md         ← 综合排查
+    └── 04-系统负载高排查案例.md         ← IO等待/D状态排查
 ```
 
 ---

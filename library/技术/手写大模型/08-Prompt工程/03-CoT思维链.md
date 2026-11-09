@@ -143,4 +143,4 @@ class SelfConsistencyCoT:
 
 ---
 
-*下一步：System-Prompt*
+*（本系列后续篇章未完成）*

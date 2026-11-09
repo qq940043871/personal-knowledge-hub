@@ -167,4 +167,4 @@ async def get_forecast(city: str, days: int = 3) -> Dict:
 
 ---
 
-*下一步：Prompt模板*
+*（本系列后续篇章未完成）*
