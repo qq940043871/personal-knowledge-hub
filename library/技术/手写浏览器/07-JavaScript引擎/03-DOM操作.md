@@ -66,5 +66,8 @@ public:
         wrapper->set("innerHTML", new JSString(element->innerHTML()));
         
         // 方法
-        wrapper
+        // 注：原稿自此处截断（方法注册等后续内容缺失），按上文缓存模式补齐收尾
+        elementBindings[element] = wrapper;
+        return wrapper;
+    }
 ```

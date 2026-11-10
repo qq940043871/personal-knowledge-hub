@@ -109,5 +109,5 @@ public:
     }
     
     // 替换节点
-    static void replaceChild(DOMNode* newChild, DOM
+    static void replaceChild(DOMNode* newChild, DOMNode* oldChild)  // 注：原导出截断，参数名为修复值
 ```

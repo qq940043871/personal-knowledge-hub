@@ -1433,3 +1433,5 @@ public void method() {
     if (condition) {
         doSomething();
 ```
+
+> 注：原稿自第五部分"三、注释规范"起缺失（源文件截断，上方代码块为半截示例），目录保留仅供参考。

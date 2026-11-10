@@ -271,5 +271,8 @@ http {
         ip_hash;
         
         server 192.168.1.10:8080 weight=5 max_fails=3 fail_timeout=10s;
-        server 192.168.1.11:8080 weight=5 max_fails
+        server 192.168.1.11:8080 weight=5 max_fails=3 fail_timeout=10s;
+        # 注：原稿此处截断，按常规配置补全（补齐该行指令与闭合花括号）
+    }
+}
 ```
