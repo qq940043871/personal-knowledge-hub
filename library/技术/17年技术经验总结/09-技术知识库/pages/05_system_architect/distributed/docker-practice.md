@@ -1,7 +1,5 @@
 # Docker实战 - 架构师学习笔记
 
-## Docker实战
-
 Docker作为容器化技术的代表，已经成为现代应用部署的标准。掌握Docker的实战技能对于架构师来说至关重要。
 
 Docker通过容器化技术解决了应用部署环境不一致的问题，实现了"一次构建，到处运行"的理念。
@@ -23,6 +21,32 @@ Docker通过容器化技术解决了应用部署环境不一致的问题，实�
 ### 数据卷(Volume)
 
 - 数据卷用于持久化存储容器中的数据，即使容器被删除，数据也不会丢失。
+
+*图：Docker 核心概念关系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="80" width="160" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="102" text-anchor="middle" font-size="14" fill="#1e293b">镜像 Image</text>
+  <text x="110" y="122" text-anchor="middle" font-size="12" fill="#475569">包含运行应用所需内容</text>
+  <line x1="190" y1="108" x2="280" y2="108" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="235" y="96" text-anchor="middle" font-size="12" fill="#475569">docker run</text>
+  <rect x="285" y="80" width="180" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="375" y="102" text-anchor="middle" font-size="14" fill="#1e293b">容器 Container</text>
+  <text x="375" y="122" text-anchor="middle" font-size="12" fill="#475569">镜像的运行实例</text>
+  <line x1="465" y1="100" x2="535" y2="54" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="465" y1="116" x2="535" y2="164" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="540" y="24" width="160" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="620" y="46" text-anchor="middle" font-size="14" fill="#1e293b">网络 Network</text>
+  <text x="620" y="66" text-anchor="middle" font-size="12" fill="#475569">容器间与宿主机通信</text>
+  <rect x="540" y="140" width="160" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="620" y="162" text-anchor="middle" font-size="14" fill="#1e293b">数据卷 Volume</text>
+  <text x="620" y="182" text-anchor="middle" font-size="12" fill="#475569">容器删除，数据不丢失</text>
+</svg>
 
 ## 常用Docker命令
 
@@ -198,8 +222,8 @@ docker-compose exec web /bin/bash
 ## Docker最佳实践
 
 - 使用.dockerignore文件排除不必要的文件
-- 合理使用多阶段构建减小镜像大小
+- **合理使用多阶段构建减小镜像大小**
 - 为镜像设置合适的标签
-- 避免在容器中存储数据，使用数据卷
+- **避免在容器中存储数据，使用数据卷**
 - 定期清理无用的镜像和容器
 - 使用健康检查确保容器正常运行

@@ -4,6 +4,7 @@
 **企业级RAG/IAG 落地「一定会遇到+高频致命」全维度问题**，全部是一线私有化项目真实痛点，不空谈、只讲实际落地卡点，可直接用来做方案汇报、风险评估、项目排坑。
 
 ## 一、文档解析与预处理层（100%必踩坑）
+
 1. **异构文档混杂，单一解析器上限锁死**
 Word、PDF、扫描件、截图、PPT、老旧红头文件、传真件、图片版表格混合；
 MinerU、Docling 只能搞定标准印刷文档，非标版式、手绘、截图化内容必崩。
@@ -23,6 +24,7 @@ RAG 同时召回新旧冲突内容，AI 回答前后矛盾。
 ---
 
 ## 二、权限与数据安全层（企业刚需，必出事）
+
 6. **多知识库、用户自建库、细粒度权限难管控**
 部门库、领导私密库、项目涉密库、个人私有库、全员共享库混合；
 仅靠简单登录拦截不够，必须做到**切片级权限隔离**。
@@ -39,6 +41,7 @@ RAG 同时召回新旧冲突内容，AI 回答前后矛盾。
 ---
 
 ## 三、向量检索与知识库架构层（中期必爆问题）
+
 10. **向量检索“看似相关、实际无用”**
 语义泛化严重，浅层语义匹配，不懂业务专属术语、内部简称、行话；
 外部通用Embedding 不适配企业私有业务语境。
@@ -58,6 +61,7 @@ RAG 同时召回新旧冲突内容，AI 回答前后矛盾。
 ---
 
 ## 四、大模型生成与业务体验层（用户感知最强）
+
 15. **幻觉无法根治，内部专业知识乱编**
 小众业务规则、非标流程、历史特殊政策，大模型自行编造答案；
 企业场景**错答比不答更可怕**。
@@ -74,6 +78,7 @@ AI给出结论，但不标注来源文档、页码、片段；
 ---
 
 ## 五、运维、成本、落地运营层（长期必遇到）
+
 19. **缺乏知识库运营体系，用完即废**
 只有技术平台，没有专人负责文档审核、归档、下架、更新；
 RAG 系统上线3个月后，数据老化、失效，价值快速衰减。
@@ -90,9 +95,52 @@ RAG 系统上线3个月后，数据老化、失效，价值快速衰减。
 ---
 
 ## 六、总结：企业RAG/IAG 三大本质瓶颈
+
 1. **数据层瓶颈**：企业文档天生非标、杂乱、无治理，解析和清洗是第一道天堑
 2. **安全层瓶颈**：多租户+细粒度权限+涉密管控，是企业和C端RAG最大区别
 3. **业务层瓶颈**：通用AI不懂内部业务，需要业务治理+混合检索+人机协同
+
+*图：五层落地问题归并为三大本质瓶颈（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="80" y="16" width="560" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="35" text-anchor="middle" font-size="14" fill="#1e293b">1. 文档解析与预处理层（问题1-5）</text>
+  <text x="360" y="54" text-anchor="middle" font-size="13" fill="#475569">异构文档混杂、图表公式丢失、版本混乱、脏数据、分块破坏语义</text>
+  <rect x="80" y="72" width="560" height="48" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="91" text-anchor="middle" font-size="14" fill="#1e293b">2. 权限与数据安全层（问题6-9）</text>
+  <text x="360" y="110" text-anchor="middle" font-size="13" fill="#475569">细粒度权限、越权泄露、组织架构不匹配、事后过滤不安全</text>
+  <rect x="80" y="128" width="560" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="147" text-anchor="middle" font-size="14" fill="#1e293b">3. 向量检索与知识库架构层（问题10-14）</text>
+  <text x="360" y="166" text-anchor="middle" font-size="13" fill="#475569">语义泛化、冷启动无治理、增量更新难、成本性能矛盾、混合检索缺失</text>
+  <rect x="80" y="184" width="560" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="203" text-anchor="middle" font-size="14" fill="#1e293b">4. 大模型生成与业务体验层（问题15-18）</text>
+  <text x="360" y="222" text-anchor="middle" font-size="13" fill="#475569">幻觉乱编、上下文超限截断、答案无溯源、并发弱卡顿</text>
+  <rect x="80" y="240" width="560" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="259" text-anchor="middle" font-size="14" fill="#1e293b">5. 运维、成本、落地运营层（问题19-22）</text>
+  <text x="360" y="278" text-anchor="middle" font-size="13" fill="#475569">无运营体系、组件堆叠复杂、国产化离线约束、预期错配</text>
+  <line x1="360" y1="288" x2="360" y2="296" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="296" x2="590" y2="296" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="296" x2="130" y2="312" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="296" x2="360" y2="312" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="590" y1="296" x2="590" y2="312" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="20" y="316" width="220" height="70" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="130" y="336" text-anchor="middle" font-size="14" fill="#1e293b">数据层瓶颈</text>
+  <text x="130" y="356" text-anchor="middle" font-size="13" fill="#475569">企业文档非标、杂乱、无治理</text>
+  <text x="130" y="374" text-anchor="middle" font-size="13" fill="#475569">解析和清洗是第一道天堑</text>
+  <rect x="250" y="316" width="220" height="70" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="360" y="336" text-anchor="middle" font-size="14" fill="#1e293b">安全层瓶颈</text>
+  <text x="360" y="356" text-anchor="middle" font-size="13" fill="#475569">多租户+细粒度权限+涉密管控</text>
+  <text x="360" y="374" text-anchor="middle" font-size="13" fill="#475569">是企业和C端RAG最大区别</text>
+  <rect x="480" y="316" width="220" height="70" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="590" y="336" text-anchor="middle" font-size="14" fill="#1e293b">业务层瓶颈</text>
+  <text x="590" y="356" text-anchor="middle" font-size="13" fill="#475569">通用AI不懂内部业务</text>
+  <text x="590" y="374" text-anchor="middle" font-size="13" fill="#475569">业务治理+混合检索+人机协同</text>
+</svg>
 
 ---
 

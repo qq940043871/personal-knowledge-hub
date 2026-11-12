@@ -1,14 +1,38 @@
-# pipeline表格ocr识别调整vlm识别
-
-## Pipeline处理流程
-
-![图片展示了Pipeline处理流程。从docx_analyze开始，依次进行Collect Page Info、batch_image_analyze、ModelSingleton等操作，最终进入Batch Processing。Batch Processing分为Memory-based Batch和OCR Batch Processing两部分，Memory-based Batch下有SortBlocksByBlock、DocLayoutHQLMModel等步骤，OCR Batch Processing下有PaddedOCR、YOLOWHModel等步骤。该图与上下文紧密相关，直观呈现了文档处理的各环节及流程。](https://feishu.cn/file/MY64btNYOoY5sMxaI9dcUixdnj8)
-
-![图片展示了AtomModelSingleton获取原子模型的流程图。从AtomModelSingleton开始，通过get_atom_model()方法，根据Model Type（OCR、layout、formula、table）选择不同模型。OCR对应OCR Model，layout对应Layout Model，formula对应Formula Model，table对应Table Model，其中Table Model下有RapidTable。各模型间存在Model Cache的关联。该图与文档中Pipeline处理流程相关，直观呈现了模型选择与获取的逻辑关系。](https://feishu.cn/file/DNVNbaJLNo66pzxetw9cOEr6nOd)
+# 表格OCR改VLM识别
 
 ## 修改目标
 
 从使用基于OCR的 `RapidTableModel` 改为使用VLM预测器。
+
+*图：表格识别双路径——VLM 与原 OCR（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="270" y="16" width="180" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="41" text-anchor="middle" font-size="14" fill="#1e293b">表格识别（table_enable）</text>
+  <line x1="360" y1="56" x2="360" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="280" y="84" width="160" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="109" text-anchor="middle" font-size="14" fill="#1e293b">use_vlm_table ?</text>
+  <line x1="310" y1="124" x2="210" y2="156" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="410" y1="124" x2="510" y2="156" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="230" y="140" text-anchor="middle" font-size="13" fill="#475569">true</text>
+  <text x="490" y="140" text-anchor="middle" font-size="13" fill="#475569">false</text>
+  <rect x="90" y="160" width="240" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="210" y="183" text-anchor="middle" font-size="14" fill="#1e293b">VLM：表格图转 base64</text>
+  <text x="210" y="203" text-anchor="middle" font-size="13" fill="#475569">batch_predict 逐表预测</text>
+  <rect x="390" y="160" width="240" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="510" y="183" text-anchor="middle" font-size="14" fill="#1e293b">OCR：get_atom_model('table')</text>
+  <text x="510" y="203" text-anchor="middle" font-size="13" fill="#475569">table_model.predict</text>
+  <line x1="210" y1="216" x2="320" y2="248" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="510" y1="216" x2="400" y2="248" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="160" y="252" width="400" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="279" text-anchor="middle" font-size="13" fill="#1e293b">校验以 &lt;/html&gt; 或 &lt;/table&gt; 结尾，写入 table_res['html']</text>
+  <text x="360" y="322" text-anchor="middle" font-size="12" fill="#475569">VLM 路径异常：logger.error 后 continue（可回退 OCR 或跳过）；OCR 失败仅告警</text>
+</svg>
 
 ## 详细修改
 
@@ -177,6 +201,6 @@ if self.table_enable:
                 )
 ```
 
-### 4.注意事项
+### 4. 注意事项
 
 1. **VLM输出格式解析**：需要根据实际的VLM输出格式实现 `extract_table_from_vlm_output` 和 `convert_vlm_table_to_html` 方法。

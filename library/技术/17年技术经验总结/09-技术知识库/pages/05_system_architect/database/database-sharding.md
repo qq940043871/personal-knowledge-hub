@@ -2,7 +2,7 @@
 
 数据库分片是一种水平分割数据库的技术，将大型数据库分割成更小、更快、更容易管理的部分，这些部分称为数据分片。分片可以显著提高数据库的性能和可扩展性，是解决大数据量和高并发访问的有效手段。
 
-## 分片概述
+## 分片概述：优势与挑战
 
 ### 分片优势
 
@@ -34,6 +34,28 @@
 | 范围分片 | 根据字段值范围划分分片 | 易于扩容 | 数据分布可能不均 |
 | 列表分片 | 根据字段值列表划分分片 | 精确控制 | 维护成本高 |
 | 复合分片 | 结合多种分片策略 | 灵活性高 | 复杂度高 |
+
+*图：分片路由链路（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="15" y="50" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="77" text-anchor="middle" font-size="14" fill="#1e293b">客户端 SQL</text>
+  <line x1="155" y1="72" x2="183" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="188" y="50" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="268" y="77" text-anchor="middle" font-size="14" fill="#1e293b">解析并提取分片键</text>
+  <line x1="348" y1="72" x2="376" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="381" y="50" width="160" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="461" y="77" text-anchor="middle" font-size="14" fill="#1e293b">分片算法计算路由</text>
+  <line x1="541" y1="72" x2="569" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="574" y="50" width="131" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="639" y="71" text-anchor="middle" font-size="14" fill="#1e293b">路由到目标分片</text>
+  <text x="639" y="88" text-anchor="middle" font-size="12" fill="#475569">ds0 / ds1 / …</text>
+</svg>
 
 ## 分片键选择
 
@@ -81,7 +103,7 @@ public class ShardingRouter {
 - ShardingSphere
 - Vitess
 
-## ShardingSphere
+## ShardingSphere 分片配置示例
 
 分片配置示例（application.yml）：
 
@@ -183,10 +205,10 @@ spring:
 
 ## 分片最佳实践
 
-- 合理设计分片键，避免数据倾斜
-- 预估业务增长，合理规划分片数量
+- **合理设计分片键**，避免数据倾斜
+- **预估业务增长**，合理规划分片数量
 - 选择合适的分片算法和中间件
 - 实施完善的监控和告警机制
 - 制定详细的数据迁移和扩容方案
-- 处理好分布式事务和数据一致性
+- **处理好分布式事务和数据一致性**
 - 定期分析和优化分片策略

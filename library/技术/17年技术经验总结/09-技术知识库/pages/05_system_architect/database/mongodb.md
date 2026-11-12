@@ -1,30 +1,28 @@
 # MongoDB - 架构师学习笔记
 
-## MongoDB
-
 MongoDB是一个基于分布式文件存储的开源数据库系统，属于NoSQL数据库的一种。它使用BSON（Binary JSON）格式存储数据，支持动态查询、索引、复制、分片等特性，适用于大数据量、高并发的Web应用。
 
-### MongoDB核心概念
+## MongoDB核心概念
 
-#### Database（数据库）
+### Database（数据库）
 
 - 数据库是集合的容器，一个MongoDB实例可以包含多个数据库。
 
-#### Collection（集合）
+### Collection（集合）
 
 - 集合类似于关系数据库中的表，是一组文档的集合。
 
-#### Document（文档）
+### Document（文档）
 
 - 文档是MongoDB中基本的数据单元，类似于关系数据库中的行记录。
 
-#### Field（字段）
+### Field（字段）
 
 - 字段是文档中的键值对，类似于关系数据库中的列。
 
-### 基本操作
+## 基本操作
 
-#### 插入操作
+### 插入操作
 
 ```javascript
 // 插入单个文档
@@ -42,7 +40,7 @@ db.users.insertMany([
 ])
 ```
 
-#### 查询操作
+### 查询操作
 
 ```javascript
 // 基本查询
@@ -62,7 +60,7 @@ db.users.aggregate([
 ])
 ```
 
-#### 更新操作
+### 更新操作
 
 ```javascript
 // 更新单个文档
@@ -84,7 +82,7 @@ db.users.updateOne(
 )
 ```
 
-#### 删除操作
+### 删除操作
 
 ```javascript
 // 删除单个文档
@@ -97,9 +95,9 @@ db.users.deleteMany({age: {$lt: 25}})
 db.users.deleteMany({})
 ```
 
-### 索引优化
+## 索引优化
 
-#### 索引类型
+### 索引类型
 
 | 索引类型 | 说明 | 创建语法 |
 |---------|------|----------|
@@ -109,48 +107,74 @@ db.users.deleteMany({})
 | 文本索引 | 为文本搜索创建索引 | db.collection.createIndex({content: "text"}) |
 | 地理空间索引 | 为地理位置数据创建索引 | db.collection.createIndex({location: "2dsphere"}) |
 
-#### 索引优化建议
+### 索引优化建议
 
 - 为经常查询的字段创建索引
-- 复合索引遵循最左前缀原则
+- **复合索引遵循最左前缀原则**
 - 定期分析索引使用情况
 - 删除未使用的索引
 - 避免过多索引影响写入性能
 
-### 复制集
+## 复制集
 
-#### 复制集架构
+### 复制集架构
 
 - Primary节点：处理所有读写操作
 - Secondary节点：复制Primary数据，可处理读操作
 - 仲裁节点：参与选举，不存储数据
 
-#### 故障转移
+*图：MongoDB 复制集架构（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="60" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="87" text-anchor="middle" font-size="14" fill="#1e293b">客户端读写</text>
+  <line x1="150" y1="82" x2="188" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="193" y="60" width="160" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="273" y="77" text-anchor="middle" font-size="14" fill="#1e293b">Primary 节点</text>
+  <text x="273" y="94" text-anchor="middle" font-size="12" fill="#475569">处理所有读写</text>
+  <line x1="353" y1="82" x2="391" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="396" y="60" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="486" y="77" text-anchor="middle" font-size="14" fill="#1e293b">Secondary 节点</text>
+  <text x="486" y="94" text-anchor="middle" font-size="12" fill="#475569">复制数据 · 可读</text>
+  <line x1="300" y1="104" x2="360" y2="146" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <line x1="460" y1="104" x2="406" y2="146" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="273" y="150" width="220" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="383" y="167" text-anchor="middle" font-size="14" fill="#1e293b">仲裁节点（Arbiter）</text>
+  <text x="383" y="184" text-anchor="middle" font-size="12" fill="#475569">参与选举 · 不存储数据</text>
+  <text x="620" y="172" text-anchor="middle" font-size="12" fill="#475569">故障时自动选举新 Primary</text>
+</svg>
+
+### 故障转移
 
 - 自动选举新的Primary节点
 - 数据一致性通过oplog保证
 - 支持读写分离
 - 提高数据可用性
 
-### 分片集群
+## 分片集群
 
-#### 分片架构
+### 分片架构
 
 - **Query Router**：mongos
 - **Config Server**：配置数据
 - **Shard 1**：数据分片
 - **Shard 2**：数据分片
 
-#### 分片键选择
+### 分片键选择
 
 - 选择基数大的字段作为分片键
 - 避免单调递增的字段
 - 考虑查询模式
 - 使用复合分片键提高分布均匀性
 
-### 聚合管道
+## 聚合管道
 
-#### 常用聚合阶段
+### 常用聚合阶段
 
 | 阶段 | 功能 | 示例 |
 |------|------|------|
@@ -160,7 +184,7 @@ db.users.deleteMany({})
 | $project | 投影 | {$project: {name: 1, age: 1}} |
 | $limit | 限制数量 | {$limit: 10} |
 
-#### 聚合示例
+### 聚合示例
 
 ```javascript
 // 计算每个类别的商品数量和平均价格
@@ -195,31 +219,31 @@ db.orders.aggregate([
 ])
 ```
 
-### 性能优化
+## 性能优化
 
-#### 查询优化
+### 查询优化
 
 - 使用explain()分析查询性能
 - 避免全表扫描
 - 合理使用索引
 - 限制返回结果集大小
 
-#### 存储优化
+### 存储优化
 
 - 使用压缩存储引擎
 - 合理设计文档结构
 - 避免大文档
 - 定期清理无用数据
 
-### 监控与诊断
+## 监控与诊断
 
-#### 监控工具
+### 监控工具
 
 - **MongoDB Compass**：官方图形化管理工具
 - **MongoDB Atlas**：云数据库监控
 - **第三方工具**：Prometheus, Grafana等
 
-#### 常用监控命令
+### 常用监控命令
 
 ```javascript
 // 数据库状态
@@ -236,7 +260,7 @@ db.currentOp()
 db.killOp(opid)
 ```
 
-### MongoDB最佳实践
+## MongoDB最佳实践
 
 - 合理设计文档结构，避免过度嵌套
 - 建立合适的索引策略

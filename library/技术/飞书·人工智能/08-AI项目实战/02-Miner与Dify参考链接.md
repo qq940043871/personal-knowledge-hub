@@ -1,4 +1,4 @@
-# Miner
+# Miner与Dify参考链接
 
 [Miner流程图](https://rwe4y37qwy.feishu.cn/wiki/XtsDwx6hti2EL0kbFnycuGkonDh)
 

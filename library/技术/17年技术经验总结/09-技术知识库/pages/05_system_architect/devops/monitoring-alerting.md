@@ -1,7 +1,5 @@
 # 监控与告警 - 架构师学习笔记
 
-## 监控与告警
-
 监控与告警是保障系统稳定运行的关键环节。通过建立完善的监控体系，我们可以及时发现系统异常，预防故障发生。
 
 好的监控系统应该具备全面性、实时性、可操作性和可扩展性，能够帮助团队快速定位和解决问题。
@@ -23,6 +21,33 @@
 ### 告警系统(Alerting)
 
 - 基于监控数据设置告警规则，及时通知相关人员处理异常情况。
+
+*图：监控体系四大组件（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="98" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="125" text-anchor="middle" font-size="14" fill="#1e293b">系统 / 应用 / 服务</text>
+  <line x1="170" y1="112" x2="245" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="170" y1="120" x2="245" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="170" y1="128" x2="245" y2="192" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="250" y="30" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="57" text-anchor="middle" font-size="14" fill="#1e293b">指标监控（Metrics）</text>
+  <rect x="250" y="100" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="127" text-anchor="middle" font-size="14" fill="#1e293b">日志监控（Logs）</text>
+  <rect x="250" y="170" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="197" text-anchor="middle" font-size="14" fill="#1e293b">链路追踪（Traces）</text>
+  <line x1="450" y1="52" x2="530" y2="108" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="450" y1="122" x2="530" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="450" y1="192" x2="530" y2="136" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="535" y="90" width="165" height="64" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="617" y="116" text-anchor="middle" font-size="14" fill="#1e293b">告警系统（Alerting）</text>
+  <text x="617" y="138" text-anchor="middle" font-size="12" fill="#475569">规则触发 · 通知处理</text>
+</svg>
 
 ## Prometheus监控
 
@@ -253,7 +278,7 @@ services:
 ## 监控与告警最佳实践
 
 - 建立分层监控体系，覆盖基础设施、应用和服务层面
-- 设置合理的告警阈值，避免告警风暴
+- **设置合理的告警阈值，避免告警风暴**
 - 定期审查和优化告警规则
 - 建立完善的监控面板，直观展示系统状态
 - 实施日志标准化，便于分析和排查问题

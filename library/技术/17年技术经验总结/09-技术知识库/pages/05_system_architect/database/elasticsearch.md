@@ -1,38 +1,36 @@
 # Elasticsearch - 架构师学习笔记
 
-## Elasticsearch
-
 Elasticsearch是一个基于Apache Lucene构建的开源、分布式、RESTful搜索引擎。它能够快速地存储、搜索和分析大量数据，广泛应用于全文搜索、日志分析、指标监控等场景。
 
-### Elasticsearch核心概念
+## Elasticsearch核心概念
 
-#### Index（索引）
+### Index（索引）
 
 - 索引是具有相似特征的文档集合，类似于关系数据库中的数据库。
 
-#### Document（文档）
+### Document（文档）
 
 - 文档是可被索引的基本单位，采用JSON格式表示，类似于关系数据库中的行。
 
-#### Type（类型）
+### Type（类型）
 
 - 类型是索引中逻辑类别/分区的容器，但在7.x版本后已被废弃。
 
-#### Shard（分片）
+### Shard（分片）
 
 - 分片是索引的子集，用于水平分割数据，提高性能和可扩展性。
 
-#### Replica（副本）
+### Replica（副本）
 
 - 副本是分片的拷贝，提供高可用性和数据冗余。
 
-#### Node（节点）
+### Node（节点）
 
 - 节点是Elasticsearch的单个服务器实例，存储数据并参与集群操作。
 
-### 基本操作
+## 基本操作
 
-#### 索引操作
+### 索引操作
 
 ```bash
 # 创建索引
@@ -55,7 +53,7 @@ POST /my_index/_open
 POST /my_index/_close
 ```
 
-#### 文档操作
+### 文档操作
 
 ```bash
 # 创建/更新文档
@@ -82,7 +80,7 @@ POST /my_index/_update/1
 DELETE /my_index/_doc/1
 ```
 
-#### 搜索操作
+### 搜索操作
 
 ```bash
 # 基本搜索
@@ -119,7 +117,7 @@ GET /my_index/_search
 }
 ```
 
-#### 映射操作
+### 映射操作
 
 ```bash
 # 创建映射
@@ -155,9 +153,9 @@ PUT /my_index/_mapping
 }
 ```
 
-### 查询DSL
+## 查询DSL
 
-#### 查询类型
+### 查询类型
 
 | 查询类型 | 说明 | 示例 |
 |---------|------|------|
@@ -167,7 +165,7 @@ PUT /my_index/_mapping
 | Bool Query | 复合查询 | {"bool": {"must": [...], "should": [...]}} |
 | Wildcard Query | 通配符查询 | {"wildcard": {"title": "elastic*"}} |
 
-#### 复合查询示例
+### 复合查询示例
 
 ```bash
 # 复杂查询示例
@@ -204,16 +202,16 @@ GET /articles/_search
 }
 ```
 
-### 分词器
+## 分词器
 
-#### 内置分词器
+### 内置分词器
 
 - Standard Analyzer：默认分词器，按词切分
 - Simple Analyzer：按非字母切分，转小写
 - Whitespace Analyzer：按空格切分
 - Keyword Analyzer：不分词，整体作为关键词
 
-#### 中文分词器
+### 中文分词器
 
 - IK Analyzer：最流行的中文分词器
 - Smart Chinese Analyzer：ES内置中文分词器
@@ -236,56 +234,81 @@ PUT /chinese_index
 }
 ```
 
-### 集群与分片
+## 集群与分片
 
-#### 集群架构
+### 集群架构
 
 - **Master Node**：管理集群状态
 - **Data Node**：存储数据
 - **Client Node**：处理请求
 
-#### 分片策略
+*图：Elasticsearch 集群节点架构（示意）*
 
-- 分片数量在创建索引时确定，之后不能更改
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="260" y="15" width="200" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="42" text-anchor="middle" font-size="14" fill="#1e293b">Master Node · 管理集群状态</text>
+  <line x1="360" y1="59" x2="360" y2="85" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="260" y="90" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="117" text-anchor="middle" font-size="14" fill="#1e293b">Client Node · 处理请求</text>
+  <line x1="300" y1="134" x2="120" y2="175" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="134" x2="360" y2="175" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="420" y1="134" x2="600" y2="175" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="20" y="180" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="207" text-anchor="middle" font-size="14" fill="#1e293b">Data Node · 存储数据</text>
+  <rect x="260" y="180" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="207" text-anchor="middle" font-size="14" fill="#1e293b">Data Node · 存储数据</text>
+  <rect x="500" y="180" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="600" y="207" text-anchor="middle" font-size="14" fill="#1e293b">Data Node · 存储数据</text>
+  <text x="360" y="248" text-anchor="middle" font-size="13" fill="#475569">分片：水平分割数据 · 副本：高可用与数据冗余</text>
+</svg>
+
+### 分片策略
+
+- **分片数量在创建索引时确定，之后不能更改**
 - 每个分片建议保持在10-40GB之间
 - 分片数量不应超过节点数量的20倍
 - 合理设置副本数量以平衡性能和可靠性
 
-### 聚合分析
+## 聚合分析
 
-#### 指标聚合
+### 指标聚合
 
 - Avg：平均值
 - Max/Min：最大值/最小值
 - Sum：求和
 - Cardinality：基数统计
 
-#### 桶聚合
+### 桶聚合
 
 - Terms：按字段值分组
 - Range：按范围分组
 - Date Histogram：按时间分组
 - Filters：按过滤条件分组
 
-### 性能优化
+## 性能优化
 
-#### 查询优化
+### 查询优化
 
 - 使用filter上下文代替query上下文
 - 合理使用_source字段过滤
 - 避免深度分页
 - 使用索引别名
 
-#### 内存优化
+### 内存优化
 
-- 设置合适的堆内存大小（不超过32GB）
+- 设置合适的堆内存大小（**不超过32GB**）
 - 启用字段数据缓存
 - 使用doc values代替fielddata
 - 定期清理未使用的索引
 
-### 监控与诊断
+## 监控与诊断
 
-#### 监控API
+### 监控API
 
 | API | 功能 |
 |-----|------|
@@ -294,7 +317,7 @@ PUT /chinese_index
 | _cat/indices | 索引信息 |
 | _tasks | 任务信息 |
 
-#### 常用监控命令
+### 常用监控命令
 
 ```bash
 # 集群健康状态
@@ -314,7 +337,7 @@ GET /_settings?include_defaults=true
 }
 ```
 
-### Elasticsearch最佳实践
+## Elasticsearch最佳实践
 
 - 合理设计索引和映射结构
 - 选择合适的分词器处理文本数据
