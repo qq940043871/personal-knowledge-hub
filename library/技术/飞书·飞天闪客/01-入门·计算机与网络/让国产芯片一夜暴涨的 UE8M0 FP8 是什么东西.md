@@ -1,15 +1,12 @@
 # 让国产芯片一夜暴涨的 UE8M0 FP8 是什么东西
 
-![](https://feishu.cn/file/CB1LbDjHjo9YUzxSpC5cLzpVnyh)
-
 ## 课程大纲：计算机中的数字表示——从定点数到浮点数
 
 **课程目标：**
+
 本课程旨在帮助学习者理解计算机如何表示和存储数字，特别是小数。通过讲解定点数与浮点数的原理及其演进，学习者将掌握从基础的二进制转换到高级的AI计算优化相关的核心概念，理解不同数据格式在精度、范围和计算效率之间的权衡。
 
 ---
-
-![](https://feishu.cn/file/OgttbGBeQoj3KixceEKcxWfEnve)
 
 ## 第一章：引入问题——数字的存储
 
@@ -28,18 +25,12 @@
 
 ---
 
-![](https://feishu.cn/file/Z36hbWepJoXDvJxXW7IciFEjnIb)
-
 ## 第二章：定点数——固定小数点
-
-![](https://feishu.cn/file/Yxb3bwkVPo3m1AxJ4wtco0eMnmd)
 
 - **2.1 定点数的定义**
 
   - 在固定的二进制位中划分整数部分和小数部分。
   - 示例：八位中，前四位为整数，后四位为小数。
-
-![](https://feishu.cn/file/QewAbHpVCoTAHexgYdCckGKgnUb)
 
 - **2.2 定点数的局限性**
 
@@ -63,25 +54,17 @@
 
 ---
 
-![](https://feishu.cn/file/BnlBbX8tNoVuD4xpaAocU7Cinng)
-
 ## 第三章：浮点数——科学计数法的二进制实现
-
-![](https://feishu.cn/file/BEs2bgdpNoAgUSxsVFCcx6dEnVc)
 
 - **3.1 从科学计数法理解浮点数**
 
   - 核心思想：用尾数（Mantissa）和指数（Exponent）表示数值。
   - 如何通过调整指数来**扩大表示范围**或**提高精度**。
 
-![](https://feishu.cn/file/AoFRbjLAHoOewzxFY4fcCENInKd)
-
 - **3.2 浮点数的本质权衡**
 
   - 牺牲大数的绝对精度，换取巨大的表示范围和可接受的相对精度。
   - 原理：大数之间的间隔本身也很大。
-
-![](https://feishu.cn/file/GBxebfQFXoJWHTxpU3acdYa9nCd)
 
 - **3.3 二进制浮点数的基本结构**
 
@@ -120,26 +103,18 @@
 
 ---
 
-![](https://feishu.cn/file/Cv9ebY7Kmo2nnZxIKrycYRKVncd)
-
 ## 第四章：FP8——为AI而生的极致格式
-
-![](https://feishu.cn/file/EHssbcfRnorWAtxa1HOctDG5nog)
 
 - **4.1 什么是FP8**
 
   - 八位浮点数的总称。
   - 设计目标：在存储和计算效率间取得新平衡。
 
-![](https://feishu.cn/file/RQsfb5eH2oZuo5xLLJXczeJTnmd)
-
 - **4.2 主要的FP8变体**
 
   - **E4M3**：4位指数，3位尾数。偏向精度。
   - **E5M2**：5位指数，2位尾数。偏向范围。
   - **UE8M0 FP8**：无符号，8位指数，0位尾数。专为高速幂次计算优化（如位移操作）。
-
-![](https://feishu.cn/file/BFSRb0NsQoLDeUxmpXkc4irGnec)
 
 - **4.3 硬件支持与应用**
 
@@ -158,6 +133,67 @@
 - **E5M2**：使用5位指数，2位尾数。相对更多的指数位赋予了它更大的**范围**，适合用于存储在训练过程中动态变化、范围较广的梯度（Gradients）。
 - **UE8M0 FP8**：这是一种更极致的变体。`U` 代表无符号，它使用全部8位表示指数，尾数位为0。这意味着它无法表示精细的小数，但非常适合快速进行**2的幂次计算**，因为乘法可以简化为高效的**位移操作**。这种格式在需要极致吞吐量但对绝对精度要求不高的特定计算场景中具有优势。
 
+*图：三种 FP8 变体的位分配对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="700" y="24" text-anchor="end" font-size="12" fill="#475569">S 符号位 · E 指数位 · M 尾数位</text>
+  <text x="20" y="62" font-size="14" font-weight="bold" fill="#1e293b">E4M3</text>
+  <rect x="100" y="40" width="44" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="122" y="62" text-anchor="middle" font-size="12" fill="#1e293b">S</text>
+  <rect x="144" y="40" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="166" y="62" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="188" y="40" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="210" y="62" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="232" y="40" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="254" y="62" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="276" y="40" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="298" y="62" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="320" y="40" width="44" height="36" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="342" y="62" text-anchor="middle" font-size="12" fill="#1e293b">M</text>
+  <rect x="364" y="40" width="44" height="36" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="386" y="62" text-anchor="middle" font-size="12" fill="#1e293b">M</text>
+  <rect x="408" y="40" width="44" height="36" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="430" y="62" text-anchor="middle" font-size="12" fill="#1e293b">M</text>
+  <text x="470" y="62" font-size="13" fill="#475569">偏向精度，适合权重</text>
+  <text x="20" y="122" font-size="14" font-weight="bold" fill="#1e293b">E5M2</text>
+  <rect x="100" y="100" width="44" height="36" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="122" y="122" text-anchor="middle" font-size="12" fill="#1e293b">S</text>
+  <rect x="144" y="100" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="166" y="122" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="188" y="100" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="210" y="122" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="232" y="100" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="254" y="122" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="276" y="100" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="298" y="122" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="320" y="100" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="342" y="122" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="364" y="100" width="44" height="36" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="386" y="122" text-anchor="middle" font-size="12" fill="#1e293b">M</text>
+  <rect x="408" y="100" width="44" height="36" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="430" y="122" text-anchor="middle" font-size="12" fill="#1e293b">M</text>
+  <text x="470" y="122" font-size="13" fill="#475569">偏向范围，适合梯度</text>
+  <text x="20" y="182" font-size="14" font-weight="bold" fill="#1e293b">UE8M0</text>
+  <rect x="100" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="122" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="144" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="166" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="188" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="210" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="232" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="254" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="276" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="298" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="320" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="342" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="364" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="386" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <rect x="408" y="160" width="44" height="36" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="430" y="182" text-anchor="middle" font-size="12" fill="#1e293b">E</text>
+  <text x="470" y="182" font-size="13" fill="#475569">无符号，乘法即位移</text>
+  <text x="360" y="226" text-anchor="middle" font-size="13" fill="#475569">FP8：总位宽 8 位，在精度损失可接受范围内极致压缩体积、提升吞吐</text>
+</svg>
+
 ### 4.3 硬件支持与应用
 
 软件格式的优化必须与硬件支持相结合。以**英伟达GPU**为例，其最新的架构已针对E4M3和E5M2这两种主流FP8格式提供了**原生硬件指令支持**，使得矩阵乘法等核心AI运算的吞吐量得到显著提升。
@@ -166,11 +202,7 @@
 
 ---
 
-![](https://feishu.cn/file/Ts2vbGJUGo7Cjnx8LG2c8C01nxd)
-
 ## 第五章：浮点数家族的发展脉络
-
-![](https://feishu.cn/file/NimUbLUHAoxywPxlW6qcebStnSe)
 
 - **5.1 常用浮点数标准**
 
@@ -178,14 +210,10 @@
   - **FP64（双精度）**：1符号位，11指数位，52尾数位。
   - 对应高级编程语言（如Java的`float`和`double`）。
 
-![](https://feishu.cn/file/WmiJb4ZAJoYjrFxQQEectvxenIh)
-
 - **5.2 发展驱动力：从通用计算到AI**
 
   - **FP16/BF16**：为深度学习节省内存与带宽而生的16位浮点数。
   - **FP8的兴起**：大模型时代对性能极致压榨的产物。
-
-![](https://feishu.cn/file/VbvVbFAZ9o3Bjhx8eYXcTQITnvb)
 
 - **5.3 格式的选择哲学**
 
@@ -218,11 +246,7 @@
 
 ---
 
-![](https://feishu.cn/file/BBb8boo7no4mEfxUGjic4cYdn6g)
-
 ## 第六章：总结与展望
-
-![](https://feishu.cn/file/L2H5bhdFeoyscUx7QBmcOr5znYc)
 
 - **6.1 核心概念回顾**
 
@@ -240,26 +264,3 @@
 1. **起点**：整数通过直接二进制转换存储（如`int8`），小数则面临如何表示“小数点”的根本问题。
 2. **定点数**：通过固定小数点位置来解决问题，简单直观，但陷入了**范围与精度不可兼得**的困境。
 3. **浮点数**：借鉴科学计数法，让小数点“浮动”（`尾数 × 2^指数`），通过**牺牲大数的绝对精度**，**换取了巨大的表示范围和可接受的相对精度**，成功突破了定点数的局限。
-
-![](https://feishu.cn/file/L8ERbknF5oYArGxN5RAc8bXVnkd)
-
-![](https://feishu.cn/file/JgBUbTYYOocEyZxdKppcUXp7n4d)
-
-![](https://feishu.cn/file/I2Z4btMg9o8FAKx5AJLcApOSn7c)
-
-![](https://feishu.cn/file/JWhrbepr9oEf4Lxei3bcZ6tRngc)
-
-![](https://feishu.cn/file/Z29Zbc7zUoH5iWx9mg5cdn4bnJf)
-
-![](https://feishu.cn/file/VVycbKHZCowMDfxKrn9c4EionYc)
-
-![](https://feishu.cn/file/TCM8bjLWEou5Vzx8EEqcZ9mznnh)
-
-![](https://feishu.cn/file/LFxGb4oCZoHs8ZxOR0lcA4KAnsh)
-
-![](https://feishu.cn/file/T2OobXg1boyjJyxCvH8cdpEgnVb)
-
-![](https://feishu.cn/file/RjyZbASMooFuntxocEBctcZenFf)
-
-![](https://feishu.cn/file/BFPabzTkRoyQq4xg7CEcTnnenmd)
-

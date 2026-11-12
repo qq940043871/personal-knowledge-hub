@@ -1,20 +1,16 @@
 # 如何给老妈讲明白 AI 的底层逻辑
 
-![](https://feishu.cn/file/SirdbZhdlo218kx3OYhcVpMvnGh)
+> 课程大纲：从考试解题到AI底层逻辑——用一个比喻理解人工智能的本质
 
-## 课程大纲：从考试解题到AI底层逻辑——用一个比喻理解人工智能的本质
+## 课程简介
 
-![](https://feishu.cn/file/ZUoBb8zy6ooMMOx80f5cxwXXnVb)
+在人工智能技术飞速发展的今天，理解其核心原理成为一种普遍需求。然而，复杂的数学模型和算法术语常令人望而却步。本课程旨在摒弃艰深的公式，运用一个极其生动、贴近生活的故事——“学生考试解题”——来系统性地解释人工智能，特别是大语言模型的底层逻辑。
 
-### 课程简介
-
-在人工智能技术飞速发展的今天，理解其核心原理成为一种普遍需求。然而，复杂的数学模型和算法术语常令人望而却步。本课程旨在摒弃艰深的公式，运用一个极其生动、贴近生活的故事——“学生考试解题”——来系统性地解释人工智能，特别是大语言模型的底层逻辑。通过这个贯穿始终的比喻，您将清晰地理解AI技术演进的三个关键阶段、其核心工作原理、当前的能力边界与局限性，以及未来可能的发展方向与哲学思考。
+通过这个贯穿始终的比喻，您将清晰地理解AI技术演进的三个关键阶段、其核心工作原理、当前的能力边界与局限性，以及未来可能的发展方向与哲学思考。
 
 ---
 
-![](https://feishu.cn/file/F1uDbaCsFoy08ax5n34c08eAnpz)
-
-### 第一部分：引言 - 为什么需要一个恰当的比喻？
+## 第一部分：引言 - 为什么需要一个恰当的比喻？
 
 向一位非技术背景的亲友解释“人工智能如何工作”，往往会陷入两难境地：要么使用大量专业术语（如神经网络、反向传播、Transformer），导致对方云里雾里；要么过度简化，沦为“它像人脑一样思考”这样的模糊表述，失去了准确性。
 
@@ -22,23 +18,41 @@
 
 ---
 
-![](https://feishu.cn/file/XCChbbVnQoxqsmxUHsPcCEv5nug)
-
-### 第二部分：核心比喻详解 - 三种解题方式
+## 第二部分：核心比喻详解 - 三种解题方式
 
 想象一位学生面对一套充满未知的试卷，他的解题策略经历了三次根本性的迭代，这恰恰对应了人工智能发展的三个时代。
 
-![](https://feishu.cn/file/TelIbwRq0ooOoAxXJI1ctxrtnBc)
+*图：三种解题方式对应AI三个时代，成绩逐级跃升（示意）*
 
-#### 模式一：硬套公式（符号主义与早期AI）
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 150" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="40" width="200" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="62" text-anchor="middle" font-size="13" fill="#1e293b">模式一：硬套公式</text>
+  <text x="120" y="81" text-anchor="middle" font-size="12" fill="#475569">符号主义 · 早期AI</text>
+  <text x="120" y="100" text-anchor="middle" font-size="12" fill="#475569">约60-70分</text>
+  <line x1="222" y1="75" x2="258" y2="75" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="260" y="40" width="200" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="62" text-anchor="middle" font-size="13" fill="#1e293b">模式二：寻找统计规律</text>
+  <text x="360" y="81" text-anchor="middle" font-size="12" fill="#475569">机器学习 · 深度学习</text>
+  <text x="360" y="100" text-anchor="middle" font-size="12" fill="#475569">80-90分</text>
+  <line x1="462" y1="75" x2="498" y2="75" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="500" y="40" width="200" height="70" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="600" y="62" text-anchor="middle" font-size="13" fill="#1e293b">模式三：极致规律工程</text>
+  <text x="600" y="81" text-anchor="middle" font-size="12" fill="#475569">大语言模型 · 智能涌现</text>
+  <text x="600" y="100" text-anchor="middle" font-size="12" fill="#16a34a">90分以上</text>
+</svg>
+
+### 模式一：硬套公式（符号主义与早期AI）
 
 - **对应行为**：这位学生最初是“好学生”的典范。他严谨地学习每一个数学公式、物理定律和语法结构，面对考题时，通过明确的逻辑链条，一步一步推导出答案。他理解的是题目背后的**因果关系和演绎逻辑**。
 - **结果**：然而，他的成绩却始终徘徊在及格线附近（60-70分）。面对复杂、开放或表述模糊的题目，他常常束手无策。无论他如何加倍努力地背诵和推演，成绩的提升都遇到了天花板。
 - **AI映射**：这正是**早期“符号主义”AI**的写照。研究者试图将人类的知识和逻辑规则（如“如果A则B”）编写成庞大的“知识库”和推理机。这类AI在规则清晰、领域固定的特定任务（如下棋、数学证明）中表现出色，但一旦遇到现实世界中充满歧义、规则模糊或需要大量常识的问题，便会迅速失效，且扩展性极差。它的“智能”依赖于人类预先植入的、显式的知识规则。
 
-![](https://feishu.cn/file/Ch5tbs3ySoBhjyxiHqccZK4YnOh)
-
-#### 模式二：寻找统计规律（机器学习与深度学习的崛起）
+### 模式二：寻找统计规律（机器学习与深度学习的崛起）
 
 - **对应行为**：屡屡受挫后，这位学生尝试了一条“离经叛道”的道路。他放弃了死磕公式，转而开始**观察海量的历史试卷**。他不去理解题目为什么用某个公式，而是纯粹从数据中寻找统计关联。他发现：“在选择题中，选项‘最长’的那个，正确的概率超过60%”；“凡是题目中出现‘π’的，最终答案包含‘π’的概率高达80%”；“当题目字数超过100字，正确答案选C的情况有99%”。
 - **结果**：他用这些看似毫无逻辑的“规律”去“蒙”答案，成绩竟然**飙升到了80-90分**，超越了那些刻苦学习的同学。
@@ -48,9 +62,7 @@
   - **崛起时刻**：后来，他积累了成千上万套试卷（数据爆炸），计算机技术（算力）让他能瞬间分析海量数据间的复杂关联。这时他发现的“规律”已经不再是简单的“三短一长”，而是题目中无数词汇、句法、语义特征与答案之间错综复杂的高维模式。这种能力，让他彻底碾压了“硬套公式”的方法。
 - **AI映射**：这对应了**机器学习与深度学习的崛起**。特别是深度学习，它不再依赖人类编写规则，而是让模型（可以理解为一个极其复杂的数学函数）直接从海量数据中**学习统计模式和相关性**。以图像识别为例，模型并不“知道”什么是猫，但通过学习数百万张图片，它学会了“有尖耳朵、胡须、特定皮毛纹理的像素组合，标签为‘猫’的概率很高”这一统计规律。这种方法的强大之处在于其泛化能力——从数据中直接“涌现”出解决问题的能力。
 
-![](https://feishu.cn/file/PZhRbpwblo0iXkxqGHJcR4Hrn3c)
-
-#### 模式三：极致化的规律工程（大语言模型与智能涌现）
+### 模式三：极致化的规律工程（大语言模型与智能涌现）
 
 - **对应行为**：
 
@@ -66,29 +78,21 @@
 
 ---
 
-![](https://feishu.cn/file/Ve7ebc3XLoFSwyxsMDOcfFjqnhc)
-
-### 第三部分：现实应用与局限 - 蒙题天才的成就与困境
+## 第三部分：现实应用与局限 - 蒙题天才的成就与困境
 
 当我们的“考试天才”声名鹊起后，人们开始委派给他更复杂的任务，同时也发现了他令人啼笑皆非的缺陷。
 
-![](https://feishu.cn/file/UCKEbzLtwonF8DxVd7bclVw0nQc)
-
-#### 能力扩展
+### 能力扩展
 
 - **对应行为**：人们不再只让他考试，而是让他**批改试卷（文本摘要、情感分析）、出考题（内容生成）、甚至协助进行科学研究（文献分析、假设生成）**。
 - **AI映射**：大模型被广泛应用于文本生成、代码编写、创意设计、辅助科研等复杂任务。在这些**对“精确逻辑”要求不严、但需要高度模式匹配和创造力**的领域，它表现出惊人的效用，极大地提升了效率。
 
-![](https://feishu.cn/file/YsRibkGP3oLwzrxgmNmcbF6cnhd)
-
-#### 固有缺陷
+### 固有缺陷
 
 - **对应行为**：然而，这位天才时常犯下令人费解的错误。他可能数不清一只手上究竟有几根手指（**多模态模型的空间推理缺陷**），会在简单的文字陷阱题上栽跟头（如“‘What has a heart but no other organs?’ A: An artichoke. 他却可能回答‘A human’”），或者一本正经地“编造”根本不存在的定理或文献（**“幻觉”问题**）。
 - **AI映射**：这是大模型的**根本性局限**。它的“知识”来源于数据中的统计规律，而非概念的真实理解与逻辑自洽。当问题偏离了训练数据中的常见模式，或需要精确的常识、逻辑或数学推理时，模型就可能产生看似合理实则完全错误的输出，即“**幻觉**”。它本质上是一个“概率接龙”游戏，追求的是在上下文中最“像”正确答案的序列，而非绝对的正确。
 
-![](https://feishu.cn/file/X08xbemLhoZuhJxAMbGcOZTvnBb)
-
-#### 信任与工程化约束
+### 信任与工程化约束
 
 - **对应行为**：为了在实际工作中安全地使用这位天才，人们为他制定了一系列守则：**答题前先仔细审题，明确所有要求（提示词工程）**；**在答题时，给他附上相关的背景资料或参考书（上下文工程/RAG技术）**；**答完题后，必须由另一位老师或一套标准答案进行复核（评估与对齐工程）**。
 - **AI映射**：
@@ -99,22 +103,41 @@
 
 ---
 
-![](https://feishu.cn/file/XObublx89o2OsTxqKoQcgRS2nKc)
+## 第四部分：现状与未来 - 从解题到探寻真理
 
-### 第四部分：现状与未来 - 从解题到探寻真理
-
-![](https://feishu.cn/file/ZjtKbIHp8oJRgBxWR4TcJBiinOb)
-
-#### 当前瓶颈
+### 当前瓶颈
 
 - **对应行为**：靠“蒙答案”接近满分的过程变得愈发困难。95分到100分的差距，远大于70分到90分的差距。与此同时，开源模型通过共享方法和数据，与顶级闭源模型的智力差距正在缩小。
 - **AI映射**：大模型性能的** scaling law （规模定律）**正在面临挑战，单纯的模型参数增长带来的收益递减。行业陷入一定程度的**同质化竞争**，前沿突破变难。因此，业界的焦点大规模转向**应用层创新**（各类Agent、垂直领域应用）和**流量争夺**，技术竞争进入深水区，同时显得有些浮躁。
 
-![](https://feishu.cn/file/Jf0ZbESmLoK5FjxHeftc47TEnfg)
-
-#### 未来的道路
+### 未来的道路
 
 面对“满分”的终极试卷，目前存在三种截然不同的思想路径：
+
+*图：逼近“满分”的三条思想路径（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="82" width="220" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="104" text-anchor="middle" font-size="14" fill="#1e293b">面对“满分”的终极试卷</text>
+  <text x="130" y="124" text-anchor="middle" font-size="12" fill="#475569">三条截然不同的思想路径</text>
+  <line x1="242" y1="100" x2="336" y2="45" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="242" y1="110" x2="336" y2="110" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="242" y1="120" x2="336" y2="175" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="340" y="17" width="350" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="515" y="39" text-anchor="middle" font-size="13" fill="#1e293b">路径一（当前主流）：优化“蒙答案”工程学</text>
+  <text x="515" y="58" text-anchor="middle" font-size="12" fill="#475569">统计规律精细化，逼近AGI的100分</text>
+  <rect x="340" y="82" width="350" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="515" y="104" text-anchor="middle" font-size="13" fill="#1e293b">路径二（回归本源）：回归符号主义·神经符号结合</text>
+  <text x="515" y="123" text-anchor="middle" font-size="12" fill="#475569">可解释、可验证、基于严格逻辑推理</text>
+  <rect x="340" y="147" width="350" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="515" y="169" text-anchor="middle" font-size="13" fill="#1e293b">路径三（哲学思考）：世界本质或许是概率性的</text>
+  <text x="515" y="188" text-anchor="middle" font-size="12" fill="#475569">极致统计可能已是在无限逼近真理</text>
+</svg>
 
 1. **路径一（当前主流）**：继续**优化“蒙答案”的工程学**。发展更强大的模型架构、更精密的对齐技术、更可靠的工程约束，试图通过“统计规律”的不断精细化，逼近乃至达到“通用人工智能（AGI）”的100分。这是一条实用主义但上限未知的道路。
 2. **路径二（回归本源）**：呼吁**回归“硬套公式”的符号主义**，并与神经符号结合。追求可解释、可验证、基于严格逻辑推理的智能。这条路承认深度学习在模式识别上的成功，但坚持认为真正的理解必须包含逻辑与因果，旨在建立可靠、可信的AI系统。
@@ -122,13 +145,9 @@
 
 ---
 
-![](https://feishu.cn/file/FhPxbbnNyo8pamxWBxYcK2BpnTU)
+## 第五部分：课程总结与讨论
 
-### 第五部分：课程总结与讨论
-
-![](https://feishu.cn/file/X2Fcb4qkzofGo3xglyJcXqvGn5b)
-
-#### 核心要点回顾
+### 核心要点回顾
 
 我们通过一个“学生考试解题”的比喻，串联起了人工智能发展的壮阔图景：
 
@@ -138,9 +157,7 @@
 - 当前的AI应用，建立在对这个“不靠谱天才”进行**工程化约束**（提示词、RAG、对齐）的基础之上。
 - 行业面临**性能瓶颈**，发展路径面临根本性的**哲学与技术抉择**。
 
-![](https://feishu.cn/file/XSnAby8UXo3m9cxmS8bc1IN9nUe)
-
-#### 开放讨论
+### 开放讨论
 
 1. **智能的本质**：你认为AI目前展现的“智能”，是某种形式的“理解”，还是仅仅是**极致复杂的模式匹配与统计相关**？
 2. **人机协作**：在你的工作和生活中，哪些任务可以放心地交给这位“蒙题天才”（如文案生成、代码补全、信息整理）？哪些任务必须坚守**人类的逻辑推导与最终判断**（如关键决策、原创研究、价值判断）？
@@ -154,30 +171,3 @@
 - **辨别**：请举出两个例子，说明AI在哪些方面已超越人类，又在哪些方面存在“反常识”的缺陷。
 - **评估**：如果你想用AI帮你撰写一份项目报告草稿，你会如何设计“提示词”并采取哪些后续措施来确保质量与可靠性？
 - **展望**：结合本课程内容，你认为“世界本质是概率性的”这一观点，对理解AI的未来有何启示？
-
-![](https://feishu.cn/file/D1c3bU7RZo3wgdxMPqkc5V2knbh)
-
-![](https://feishu.cn/file/MUE3bqrx1oLL0UxLXXEckjd3nOh)
-
-![](https://feishu.cn/file/Diveb3tD7oM55fxcyAccZEWunLc)
-
-![](https://feishu.cn/file/IxGAbiCl7o4sNwxY3EscXBewnmf)
-
-![](https://feishu.cn/file/JoRdbXTg4oOaYZxXzIFcMn24nkg)
-
-![](https://feishu.cn/file/BklkbMJvtoaQFfxYZLrcTgBUnwn)
-
-![](https://feishu.cn/file/Im74bnXmgoRXf3xXZXBc3dn5nte)
-
-![](https://feishu.cn/file/HgIAb0QAeoqC3ZxntI6cWmBNnPe)
-
-![](https://feishu.cn/file/U2fxbbjePoshshxY6CtcneSHnhg)
-
-![](https://feishu.cn/file/CuhEbdncfo6iOyxSrK1ckYs7nih)
-
-![](https://feishu.cn/file/WhA4brTG2okcqNxzu1sc0hl8nVh)
-
-![](https://feishu.cn/file/N2OubOMRqoodeOxLENKcnwXvnrb)
-
-![](https://feishu.cn/file/MGX9bIfyxoNNbsxxoDacXmfynKh)
-

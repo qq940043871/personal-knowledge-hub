@@ -55,6 +55,31 @@ RISC-V架构
   - 分支预测：猜测分支走向
 ```
 
+*图：经典 5 级流水线（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="12" y="68" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="72" y="95" text-anchor="middle" font-size="14" fill="#1e293b">IF（取指）</text>
+  <line x1="134" y1="90" x2="150" y2="90" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="156" y="68" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="216" y="95" text-anchor="middle" font-size="14" fill="#1e293b">ID（译码）</text>
+  <line x1="278" y1="90" x2="294" y2="90" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="300" y="68" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="95" text-anchor="middle" font-size="14" fill="#1e293b">EX（执行）</text>
+  <line x1="422" y1="90" x2="438" y2="90" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="444" y="68" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="504" y="95" text-anchor="middle" font-size="14" fill="#1e293b">MEM（访存）</text>
+  <line x1="566" y1="90" x2="582" y2="90" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="588" y="68" width="120" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="648" y="95" text-anchor="middle" font-size="14" fill="#1e293b">WB（写回）</text>
+  <text x="360" y="150" text-anchor="middle" font-size="12" fill="#475569">冒险类型：结构冒险 · 数据冒险 · 控制冒险</text>
+</svg>
+
 #### 分支预测
 
 ```
@@ -237,7 +262,7 @@ perf report
 ```
 
 **根因分析：**
-正则表达式匹配效率问题，特定输入触发大量回溯，导致CPU飙高。
+**正则表达式匹配效率问题，特定输入触发大量回溯，导致CPU飙高。**
 
 **解决方案：**
 1. 临时：重启服务，恢复业务
@@ -265,7 +290,7 @@ numastat -p <pid>
 ```
 
 **根因分析：**
-数据库进程未做NUMA绑定，内存跨节点访问，延迟增加。
+**数据库进程未做NUMA绑定，内存跨节点访问，延迟增加。**
 
 **解决方案：**
 ```bash
@@ -295,7 +320,7 @@ perf stat -e branches,branch-misses ./program
 ```
 
 **根因分析：**
-数据分布导致条件分支难以预测，流水线频繁清空。
+**数据分布导致条件分支难以预测，流水线频繁清空。**
 
 **解决方案：**
 1. 优化算法，减少分支

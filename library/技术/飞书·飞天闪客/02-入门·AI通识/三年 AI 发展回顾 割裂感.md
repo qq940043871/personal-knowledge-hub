@@ -1,26 +1,45 @@
 # 三年 AI 发展回顾 割裂感
 
-![](https://feishu.cn/file/JUlBbp2GYoDNOfxJnkLcNis0nrJ)
-
-## 破除AI的“割裂感”：理解技术进化、能力边界与人的价值
-
+> **破除AI的“割裂感”：理解技术进化、能力边界与人的价值**
+>
 > 2022年11月30日，OpenAI悄然发布ChatGPT，旋即引发全球震动。三年后，功能强大数个量级的GPT-5.2高调亮相，却反响平平。这种强烈对比所揭示的，正是AI时代一种普遍而深刻的体验——**“割裂感”**：我们一方面听到AI能力日新月异的凯歌，另一方面却在实际使用中深感其局限与“无用”。本文旨在系统剖析这一现象的根源，通过回顾AI发展的关键脉络，解析其能力边界，并最终回归一个根本性的哲学追问：在机器智能日益强大的时代，人类的独特价值究竟何在？
 
 ---
-
-![](https://feishu.cn/file/X298bkT1MoxVSExZVBMcwjytnm1)
 
 ## 第一部分：发展历程回顾——鸟瞰AI进化的节奏与脉络
 
 要理解“割裂感”，首先需要建立对AI发展全貌的客观认知。其进化并非匀速直线运动，而是呈现波次与脉冲式的特征。
 
-![](https://feishu.cn/file/XJEsbQySRomyOIx1UFkcwq5gnPe)
+*图：AI 进化四个阶段的波次时间线（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 150" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="10" y="50" width="160" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="72" text-anchor="middle" font-size="14" fill="#1e293b">1936-2021 前奏</text>
+  <text x="90" y="90" text-anchor="middle" font-size="12" fill="#475569">AlexNet·AlphaGo</text>
+  <line x1="172" y1="76" x2="188" y2="76" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="50" width="160" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="72" text-anchor="middle" font-size="14" fill="#1e293b">2022-2023 范式引爆</text>
+  <text x="270" y="90" text-anchor="middle" font-size="12" fill="#475569">ChatGPT·GPT-4·Llama</text>
+  <line x1="352" y1="76" x2="368" y2="76" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="370" y="50" width="160" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="450" y="72" text-anchor="middle" font-size="14" fill="#1e293b">2024 沉默爬坡</text>
+  <text x="450" y="90" text-anchor="middle" font-size="12" fill="#475569">Sora·o1·MCP·AutoGLM</text>
+  <line x1="532" y1="76" x2="548" y2="76" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="550" y="50" width="160" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="630" y="72" text-anchor="middle" font-size="14" fill="#1e293b">2025 工程质变</text>
+  <text x="630" y="90" text-anchor="middle" font-size="12" fill="#475569">DeepSeek-R1·Agent成型</text>
+</svg>
 
 ### 1. 前奏：从图灵机到深度学习觉醒 (1936-2021)
 
-AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念以及后来的“图灵测试”，它们为机器智能提供了哲学与计算模型上的想象空间。然而，AI的发展长期经历着“寒冬”与突破的交替。关键的转折点发生在2012年，**AlexNet**在ImageNet竞赛中以压倒性优势获胜，这标志着**深度学习**时代的真正开启，学界与工业界开始大规模投入资源。此后，以**AlphaGo**击败人类围棋世界冠军为里程碑，AI在特定、复杂的博弈领域展现出超越人类的潜力，逐步构建了公众对“AI很强”的初步认知。
+AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念以及后来的“图灵测试”，它们为机器智能提供了哲学与计算模型上的想象空间。然而，AI的发展长期经历着“寒冬”与突破的交替。
 
-![](https://feishu.cn/file/UwdZbzgUqoziX0xBMqacHndJnKg)
+关键的转折点发生在2012年，**AlexNet**在ImageNet竞赛中以压倒性优势获胜，这标志着**深度学习**时代的真正开启，学界与工业界开始大规模投入资源。此后，以**AlphaGo**击败人类围棋世界冠军为里程碑，AI在特定、复杂的博弈领域展现出超越人类的潜力，逐步构建了公众对“AI很强”的初步认知。
 
 ### 2. 2022-2023：范式引爆与新手秀
 
@@ -33,15 +52,11 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
   - **多模态探索：** 大模型的能力开始“外挂”到图像生成（如Midjourney、Stable Diffusion）、视频理解、编程辅助等多个领域。尽管这些应用在当时看来相对粗糙，但每一次“第一次”的探索都带来了强烈的冲击。
   - **原生多模态萌芽：** 年底**Google Gemini**的发布，首次在架构设计层面尝试将文本、图像、音频等模态进行统一建模，为下一代模型指明了方向。
 
-![](https://feishu.cn/file/LUzMbpkC7oEALGxrboKcY3tMntb)
-
 ### 3. 2024：沉默的爬坡期
 
 相较于前一年的密集爆点，2024年在公众感知中存在感较低。这并非发展停滞，而是处于“范式震撼”后的**积累与工程落地阶段**。
 
 - **关键铺垫：** **Sora**预告了文生视频的惊人可能性，但产品化延迟；**o1推理模型**开始探索慢思考与强化学习在复杂推理中的应用；**MCP协议**的提出旨在解决Agent与外部工具交互的标准化问题；**AutoGLM**等项目将2023年的AutoGPT思想推向可操作的终端实践。这一年的价值在于为下一轮质变完成了必要的技术储备与工程试错。
-
-![](https://feishu.cn/file/V4vBbqDFao9KE9xXMjxcrEMAnYb)
 
 ### 4. 2025：工程与生态的质变
 
@@ -55,17 +70,38 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
 
 ---
 
-![](https://feishu.cn/file/XN9obIlHooHA6gxOOCAcrgSNnde)
-
 ## 第二部分：深度剖析——“割裂感”的三大来源
 
-![](https://feishu.cn/file/Dv5hbqv0YosBqyxgpz2cNQ6pnwh)
+*图：“割裂感”的三大来源（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="20" width="240" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="150" y="37" text-anchor="middle" font-size="14" fill="#1e293b">① 感知错位</text>
+  <text x="150" y="55" text-anchor="middle" font-size="12" fill="#475569">只在临界事件中感知跃迁</text>
+  <rect x="30" y="78" width="240" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="150" y="95" text-anchor="middle" font-size="14" fill="#1e293b">② 能力边界</text>
+  <text x="150" y="113" text-anchor="middle" font-size="12" fill="#475569">简单OOD问题易出错</text>
+  <rect x="30" y="136" width="240" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="150" y="153" text-anchor="middle" font-size="14" fill="#1e293b">③ 生态制约</text>
+  <text x="150" y="171" text-anchor="middle" font-size="12" fill="#475569">协议·接口·合作壁垒</text>
+  <line x1="272" y1="42" x2="478" y2="88" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="272" y1="100" x2="478" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="272" y1="158" x2="478" y2="112" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="480" y="70" width="210" height="60" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="585" y="95" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">“割裂感”</text>
+  <text x="585" y="116" text-anchor="middle" font-size="11" fill="#475569">客观连续性与主观阶梯感的错位</text>
+</svg>
 
 ### 来源一：主观感知与客观发展的节奏错位
 
-如前所述，AI领域的真实进步是持续发生的，但公众乃至许多从业者的注意力，只有在技术跨越某个**应用临界点**时才会被集中捕获。例如，AlphaGo是“在人类最高智力博弈中取胜”的临界点；ChatGPT是“通用流畅对话与基础推理”的临界点；Midjourney V5是“图像生成真实感跨越恐怖谷”的临界点。在这些事件之外，公众对AI进步的感知是模糊甚至缺位的。这导致我们容易认为AI的能力是“突然”、“跳跃式”增长的，从而与其实质的、有时并不炫目的渐进式发展产生认知偏差。
+如前所述，AI领域的真实进步是持续发生的，但公众乃至许多从业者的注意力，只有在技术跨越某个**应用临界点**时才会被集中捕获。例如，AlphaGo是“在人类最高智力博弈中取胜”的临界点；ChatGPT是“通用流畅对话与基础推理”的临界点；Midjourney V5是“图像生成真实感跨越恐怖谷”的临界点。在这些事件之外，公众对AI进步的感知是模糊甚至缺位的。
 
-![](https://feishu.cn/file/K1MGbMgzsoVqBIx4rOdcabeQnVd)
+这导致我们容易认为AI的能力是“突然”、“跳跃式”增长的，从而与其实质的、有时并不炫目的渐进式发展产生认知偏差。
 
 ### 来源二：AI无法逾越的能力边界
 
@@ -84,8 +120,6 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
 
 一个严峻的趋势是：**模型的能力越强，其犯错的方式可能越隐蔽、越自信**。它会以极其流畅和权威的方式输出错误信息，这使得鉴别成本急剧升高。因此，当用户满怀期待地用强大AI处理一个“本应简单”的任务却失败时，强烈的“割裂感”便油然而生。
 
-![](https://feishu.cn/file/G7OZbq5NToTtS0xWUkQcgvPjndd)
-
 ### 来源三：人与技术生态的制约
 
 许多体验上的“无用”或“割裂”，并非源于AI模型本身的能力不足，而在于其依存的**外部生态**存在壁垒。
@@ -95,21 +129,15 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
 
 ---
 
-![](https://feishu.cn/file/MDYNbIJoAo0ZDxxu9QhcvHVDn0c)
-
 ## 第三部分：哲学思辨——AI时代，何以为人？
 
 当技术强大到足以模拟甚至超越人类诸多技能时，关于“取代”的焦虑便随之而来。然而，与其陷入具体岗位的对比，不如进行一次更深层的哲学思辨。
-
-![](https://feishu.cn/file/LqhSbEKf3oTdKWxHRF8ckOZUnIf)
 
 ### 1. 对“创造力”的解构与重构
 
 - **思想实验：** 假设一幅图片由固定分辨率的像素点组成，那么所有“可能”的图片，构成了一个庞大但有限的**可能性空间**。任何人的创作，无论多么天才，都只是从这个空间中“采样”出一个结果。
 - **AI的本质角色：** 大模型是一个极其高效的**可能性空间采样器**。它通过学习海量数据，掌握了这个空间的分布规律，因而能快速生成符合（或创造性组合）这些规律的新样本。
 - **核心追问：** 如果创造只是对既定可能性的采样，那么人类艺术家的灵感、痛苦与抉择，其意义何在？创作本身是否变得“无意义”了？
-
-![](https://feishu.cn/file/U0Vwbso3Ooi5h9xbGJWc87Ilneg)
 
 ### 2. 人的价值：有限性与选择
 
@@ -118,8 +146,6 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
 - **人的独特性：** 人类区别于AI的，不在于我们能采样出什么，而在于我们在无穷的可能性中进行**有限选择**的能力，并愿意且必须**为这个选择负责**。
 - **浪漫的根源：** 我们的生命是有限的，时间、精力、机会都是稀缺的。正是这种**有限性**，赋予了每一个选择以重量和意义。我们选择画这幅画、写这篇文章、爱一个人，是因为我们放弃了其他无数种可能，并将此刻的生命投入其中。
 - **AI的本质：** AI对可能性空间是“无所畏惧”且“不知疲倦”的。它可以在一秒内生成一万张图，无需为任何一张的审美价值、道德后果或商业意义负责。它的存在不以“有限”为前提。
-
-![](https://feishu.cn/file/L63Ub82FcoiCz4xAK9mcafLYn39)
 
 ### 3. 结论：AI与人的新关系
 
@@ -130,11 +156,7 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
 
 ---
 
-![](https://feishu.cn/file/PPb9b3CmooixlExTB3TcR9S6nfc)
-
 ## 第四部分：总结与展望
-
-![](https://feishu.cn/file/Xi7ZbkXVeo1GwBxFYCmcnmL2nkg)
 
 ### 课程总结
 
@@ -146,15 +168,11 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
    - **生态制约：** 许多瓶颈源于协议、接口与合作，是“人的问题”。
 3. **人的价值再认知：** 在AI作为高效采样器的时代，人类的意义根植于**有限生命中的“选择”与“负责”**。
 
-![](https://feishu.cn/file/IhXpbgCTdoUVV4xsi24cvF7Lntf)
-
 ### 未来展望 (2026及以后)
 
 - **技术生态的竞争与磨合：** 标准、协议与开放合作将成为关键战场。
 - **模型架构的新范式探索：** 能否突破当前自回归框架的理论限制，是解决根本缺陷的关键。
 - **持续观察“临界事件”：** 下一个可能引发全球震撼的突破点，或许来自具身智能、科学发现或与机器人技术的深度融合。
-
-![](https://feishu.cn/file/QaEGbv3T4odxpaxJmdCclyNnnJf)
 
 ### 互动与思考题
 
@@ -165,30 +183,7 @@ AI的理论基石可追溯至1936年艾伦·图灵提出的“图灵机”概念
 ---
 
 **教学形式建议：** 本文适合采用讲授结合案例（如文中NanoBanana图片问题）、思想实验（图片可能性空间）和课堂讨论（围绕思考题）的形式进行教学。
+
 **适合受众：** 对AI技术发展感兴趣、亲身感受到“割裂感”并希望获得系统性理解与深度思考的公众、学生及初级从业者。
+
 **课程目标：** 学员能够理性认知AI发展的真实图景与能力局限，破除盲目乐观或恐惧的迷思，并初步构建自身在AI时代的独特价值定位。
-
-![](https://feishu.cn/file/Sfn0bmbKLoM5JbxrVb4cOCuSn1c)
-
-![](https://feishu.cn/file/Smb7bUQDpoldC3xIJdvcPF9mnzg)
-
-![](https://feishu.cn/file/U2RSbTYdro5WfGxTE4Uc6BNXn0y)
-
-![](https://feishu.cn/file/Q0QUbeHUkoRC6fxUY1rcOVminQe)
-
-![](https://feishu.cn/file/Tin4bNuEsonAzSxBYXbc51xQnhc)
-
-![](https://feishu.cn/file/ZszCbW4GKo0vtbxDrQPcilANn1L)
-
-![](https://feishu.cn/file/HDpxb7fxaoVg8ixV9iwcQV67ngc)
-
-![](https://feishu.cn/file/NR4NbUC9noTygXx7NXrcnKf9neh)
-
-![](https://feishu.cn/file/QMMUbHwSyorlGLxkgLLcgrTynle)
-
-![](https://feishu.cn/file/Lqn0b1va2oIbZ8xxRZMcYOZtnRb)
-
-![](https://feishu.cn/file/QVy2bR1juo85ATxMXksc8iunn2d)
-
-![](https://feishu.cn/file/N2KxbAi2Mo2fVHxRKEPckJxIn9f)
-

@@ -1,34 +1,22 @@
 # 你管这破玩意叫GPU
 
-![](https://feishu.cn/file/X7kObHBb1oYUOIxwltYcGZNhn6f)
-
 ## 解密计算引擎：从CPU、GPU到NPU的架构与演进
-
-![](https://feishu.cn/file/ZgvObEWsCoO8oOx5PTyckakonhd)
 
 ## 课程概述
 
 本课程通过一个生动的拟人化故事引入，系统性地解析了现代计算芯片（CPU、GPU、NPU）的核心设计哲学、内部架构、应用场景及相互关系。课程旨在帮助学习者理解不同芯片如何各司其职，共同驱动从图形渲染到人工智能的各类计算任务，并展望技术发展脉络。
 
-![](https://feishu.cn/file/PKqibZ2FGoihBIxvPxEcEEFYngh)
-
 ## 引言：计算世界的效率革命
 
 在数字时代，计算能力是驱动创新与发展的核心引擎。然而，面对日益复杂的计算需求——从高清图形渲染到大规模人工智能模型训练——单一通用的计算方式已遭遇瓶颈。本课程将带领您深入计算核心，揭示CPU、GPU与NPU这三大计算引擎如何通过截然不同的设计哲学，共同演进并协作，以解决特定类型的计算难题。我们将从一个生动的困境开始，逐步解构这些芯片的内在奥秘。
 
-![](https://feishu.cn/file/QRlwbURFkoCxG1xtMzZcZrM8njh)
-
 ## 第一部分：认知篇 - 从“能力者”到“效率者”的转变
-
-![](https://feishu.cn/file/HOtCbBRW6o3TGFx8bVMcPYODned)
 
 ### 1.1 引入：一个关于计算效率的“困境”
 
 想象一下，中央处理器（CPU）是一位能力超群、思维缜密的“精英主管”。它精通处理各类复杂的逻辑判断、分支预测和串行任务。在很长一段时间里，它游刃有余。然而，某一天，它的主人（计算需求）突然丢给它海量的、简单重复的加减乘除运算任务。尽管每一项任务对这位“主管”来说都轻而易举，但它必须按顺序一个个处理。尽管它通过超线程等技术学会了“一心二用”，但任务队列依然越积越多，效率极其低下。这位“主管”感到委屈：“我能力这么强，却天天算这些简单玩意儿！”而它的主人（例如一个图形渲染程序或一个深度学习框架）同样不满：“就让你算个大矩阵乘法，怎么这么慢？”
 
 这个拟人化的故事精准地捕捉了现代计算的一个核心矛盾：**CPU强大的通用处理能力与海量同质化计算任务之间的效率瓶颈**。其根源在于，CPU的核心设计目标是降低单个任务的延迟（Latency），而非最大化单位时间内处理的任务数量（Throughput）。
-
-![](https://feishu.cn/file/WEfwbtlZCoBvRwxJIQgcYG4cn4b)
 
 ### 1.2 解决方案：并行计算的诞生
 
@@ -37,11 +25,7 @@
 - **目标**：通过大规模并行处理，实现对加减乘除等简单算术运算的高吞吐量（High Throughput），从根本上解决重复性计算任务的效率问题。
 - **关键点**：理解“并行”与“串行”的本质区别。CPU的串行处理像一条单车道，追求每辆车（任务）通过的速度；而GPU的并行处理像一条拥有成千上万条车道的高速公路，追求单位时间内通过的车流量。
 
-![](https://feishu.cn/file/BKuWbjLI0oMy9tx8h07cvB9ynFg)
-
 ## 第二部分：分析篇 - 走近真实的芯片架构
-
-![](https://feishu.cn/file/BONQbTJgKoWhSwxcLv8cd1C0nLc)
 
 ### 2.1 揭秘GPU：并行计算的实体化身
 
@@ -56,8 +40,6 @@
 - **数据计算**：通过架构层次，我们可以计算出这颗GPU的CUDA核心总数：`12 (GPC) × 8 (TPC) × 2 (SM) × 128 (CUDA核心) = 24,576个`。这直观地展现了其惊人的计算单元规模。
 - **对比认知**：同期的英特尔顶级消费级CPU酷睿Ultra 9拥有16个物理核心和22个线程。如果强行将GPU的SM单元类比为CPU的核心，将CUDA核心类比为线程，那么RTX 5090就相当于一颗拥有192个核心和24,576个线程的“超级CPU”。这种数量级上的悬殊差异，正是两者设计哲学不同的硬件体现。
 
-![](https://feishu.cn/file/HY7ObMs6ooxlr4xoaxBcYQu9nXe)
-
 ### 2.2 设计哲学对比：CPU vs. GPU
 
 通过上述对比，我们可以清晰地看到两者设计哲学的根本差异：
@@ -71,19 +53,13 @@
 
 **核心结论**：CPU与GPU并非优劣之分，而是为解决**不同类型问题**而生的专用架构。它们是互补关系，而非替代关系。
 
-![](https://feishu.cn/file/Rpo9bityvoJVHpxm6xccDerGnKf)
-
 ## 第三部分：拓展篇 - 从通用到专用的芯片演进
-
-![](https://feishu.cn/file/U4i6bAdyJo0YZXxGLbRcdNjmnae)
 
 ### 3.1 瓶颈与优化：硬件的进一步特化
 
 GPU的并行计算极大地加速了矩阵乘法等任务。但工程师们发现，即使是GPU，在处理矩阵运算时也存在优化空间。例如，计算一个大矩阵的元素值，需要先进行一系列乘法，再将结果相加。在传统GPU上，乘法的结果需要先存回显存或缓存，再被重新读入CUDA核心进行加法运算。这个“中间结果搬运”的过程会引入延迟，成为新的瓶颈。
 
 一个自然的思路浮现：**如果能够将乘、加、数据搬运这一系列固定流程，直接固化成一套硬件电路，数据在电路中流转即完成全部计算，岂不是能更快？** 这便是硬件专用化加速的核心思想。
-
-![](https://feishu.cn/file/EEVCbOhJUotgNRxdeWicMOcgnRL)
 
 ### 3.2 新一代计算引擎：张量核心与NPU
 
@@ -92,25 +68,49 @@ GPU的并行计算极大地加速了矩阵乘法等任务。但工程师们发�
 1. **张量核心**：这是集成在现代GPU（如NVIDIA的Volta架构及之后）内部的专用硬件单元。它不是一个独立的芯片，而是GPU内的“专家模块”。张量核心被设计用于高效执行**矩阵乘加运算**，能在单个时钟周期内完成一个4x4矩阵的乘加操作，效率远高于使用通用CUDA核心进行计算。它依然存在于GPU内，但专为AI和科学计算中的矩阵运算优化。
 2. **NPU**：神经网络处理器。这是一个全新的芯片类别，其设计哲学被推向极致。NPU可以看作是一个将矩阵乘法及相关神经网络运算完全“固化”的电路。它的内部结构、数据通路和指令集完全针对神经网络计算（如卷积、矩阵乘、激活函数）进行优化，去除了所有对通用计算无用的部件。
 
-- **核心权衡：效率 vs. 灵活性**
+**核心权衡：效率 vs. 灵活性**
+
 计算芯片的发展呈现出一条清晰的演进路径：**CPU → GPU → 张量核心 → NPU**。
 
-  - **效率**：专用性越强，针对特定任务的计算效率越高（单位能耗完成的计算量更大）。
-  - **灵活性**：专用性越强，能处理的任务范围越窄。CPU是“万能手”，能处理从文档编辑到科学模拟的各种任务；NPU则是“流水线上的专业技工”，几乎只能高效处理标准格式的矩阵乘法。哪怕是对神经网络计算稍作修改的任务，NPU也可能无法有效处理。
+- **效率**：专用性越强，针对特定任务的计算效率越高（单位能耗完成的计算量更大）。
+- **灵活性**：专用性越强，能处理的任务范围越窄。CPU是“万能手”，能处理从文档编辑到科学模拟的各种任务；NPU则是“流水线上的专业技工”，几乎只能高效处理标准格式的矩阵乘法。哪怕是对神经网络计算稍作修改的任务，NPU也可能无法有效处理。
 
-![](https://feishu.cn/file/V9A7bu0coo2n8Cxenwrc5rqynnc)
+*图：CPU → GPU → 张量核心 → NPU 专用化演进与权衡（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="40" width="150" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">CPU</text>
+  <text x="95" y="82" text-anchor="middle" font-size="12" fill="#475569">通用计算</text>
+  <line x1="170" y1="66" x2="194" y2="66" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="200" y="40" width="150" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="275" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">GPU</text>
+  <text x="275" y="82" text-anchor="middle" font-size="12" fill="#475569">大规模并行计算</text>
+  <line x1="350" y1="66" x2="374" y2="66" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="380" y="40" width="150" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="455" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">张量核心</text>
+  <text x="455" y="82" text-anchor="middle" font-size="12" fill="#475569">矩阵乘加专用模块</text>
+  <line x1="530" y1="66" x2="554" y2="66" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="560" y="40" width="140" height="52" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="630" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">NPU</text>
+  <text x="630" y="82" text-anchor="middle" font-size="12" fill="#475569">神经网络专用电路</text>
+  <line x1="20" y1="130" x2="690" y2="130" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="355" y="122" text-anchor="middle" font-size="13" fill="#475569">专用性增强</text>
+  <text x="20" y="170" font-size="13" fill="#16a34a">效率：单位能耗完成计算量 ↑</text>
+  <text x="700" y="170" text-anchor="end" font-size="13" fill="#dc2626">灵活性：可处理任务范围 ↓</text>
+</svg>
 
 ## 第四部分：应用与启示篇
-
-![](https://feishu.cn/file/TKdXb3zhwog7jzx08SDcX90cn2g)
 
 ### 4.1 开发者的视角：抽象与便利
 
 对于软件开发者而言，尽管底层芯片架构复杂多样，但上层工具和生态系统已经将这些复杂性很好地封装起来。以PyTorch为例，一个张量默认在CPU上计算。只需一行代码`tensor.to('cuda')`，计算任务就会被自动调度到GPU上；在支持NPU的平台上，类似地，`tensor.to('npu')`即可将计算任务交给NPU。
 
 - **生态的重要性**：CUDA生态的成熟是NVIDIA GPU在AI领域取得巨大成功的关键。开发者无需关心底层SM如何调度，只需调用高度优化的CUDA库（如cuBLAS、cuDNN）。目前，各大厂商（如华为昇腾）的NPU也在积极构建自己的开发者套件和软件生态（如MindSpore、Ascend Computing Language），但生态的统一与成熟仍需时间。
-
-![](https://feishu.cn/file/ODfWbyYlyovalUxtQ82cQ7jCnIc)
 
 ### 4.2 历史的回响：技术发展的启示
 
@@ -119,8 +119,6 @@ GPU的并行计算极大地加速了矩阵乘法等任务。但工程师们发�
 这带给我们深刻的启示：**每一项复杂技术的背后，其最初的核心思想往往都非常简单**。例如，“并行处理重复任务”、“专用硬件加速核心算法”、“用数据驱动学习规律”。这些思想经过不断迭代、组合和工程化，才演变成我们今天看到的庞大技术生态。
 
 理解这些根本性的、简单的核心思想，不仅能帮助我们更好地掌握当前的技术体系，更能让我们以更开阔的视角，洞察未来的技术趋势，并从其他领域汲取灵感。
-
-![](https://feishu.cn/file/Q4TgbydoMod6S2xNT6scRugzn4f)
 
 ## 课程总结与回顾
 
@@ -131,32 +129,3 @@ GPU的并行计算极大地加速了矩阵乘法等任务。但工程师们发�
 3. **核心思想**：所有复杂系统的构建，都源于一些简单而强大的基本原理。掌握这些原理，是理解和创新的基石。
 
 希望本课程能为您提供一个清晰的视角，去看待驱动数字世界发展的这些强大计算引擎。
-
-![](https://feishu.cn/file/EtKtb9SdTopyQox4ZIac1c8fnAK)
-
-![](https://feishu.cn/file/NJG0bwnmLo3FiIxVYjLccdLvnTe)
-
-![](https://feishu.cn/file/AVnwb4g3lofNN0xVl38cXrdhnzh)
-
-![](https://feishu.cn/file/JtIOb7VRvo28Fcx1ayQc93ESn1b)
-
-![](https://feishu.cn/file/Css7bo72CoFBSxxqUC1czOhenud)
-
-![](https://feishu.cn/file/YDlwbUgkToSorsxk88KczhzWnue)
-
-![](https://feishu.cn/file/UHCYbjgZFoc8RDxGWmAcYo69nif)
-
-![](https://feishu.cn/file/YiYwbV38mohj5Mx6vPSc8GGBnbb)
-
-![](https://feishu.cn/file/BslBbwyzGoc5b3xAjDVcFSEqnxj)
-
-![](https://feishu.cn/file/XMvmbDkhcoalFux7oGhcrgoSn9b)
-
-![](https://feishu.cn/file/AA0zbe5Eaoz3BrxM8RBcFPe7nsb)
-
-![](https://feishu.cn/file/P7BJbxDY8oR4XaxzLYqcXHy8nL1)
-
-![](https://feishu.cn/file/POOkbJCzUoPMJJxaV7tc05A8njc)
-
-![](https://feishu.cn/file/Qp7UbZF2uo4fBVxp6gacRH5mnnc)
-
