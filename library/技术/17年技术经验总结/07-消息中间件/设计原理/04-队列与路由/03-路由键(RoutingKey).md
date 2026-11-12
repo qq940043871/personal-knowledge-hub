@@ -1,10 +1,10 @@
-# 4.3 路由键 (Routing Key)
+# 路由键 (Routing Key)
 
-## 概述
+## 路由键：消息路由的核心机制
 
-路由键（Routing Key）是消息路由的核心机制。生产者发送消息时指定路由键，交换机根据路由键与绑定键的匹配规则决定消息投递到哪些队列。
+路由键（Routing Key）是消息路由的核心机制。生产者发送消息时指定路由键，**交换机根据路由键与绑定键的匹配规则决定消息投递到哪些队列**。
 
-## 数据库设计
+## 数据库设计：路由规则表 routing_rule
 
 ### 表结构：routing_rule（路由规则表）
 
@@ -47,9 +47,7 @@ CREATE TABLE routing_rule (
   COMMENT = '路由规则表';
 ```
 
----
-
-## 路由规则类型
+## 路由规则类型：Exact、Prefix、Wildcard、Regex 与 Composite
 
 ### Exact（精确匹配）
 
@@ -106,9 +104,37 @@ CREATE TABLE routing_rule (
 }
 ```
 
----
+*图：五种路由规则类型的匹配语义（示意）*
 
-## 路由决策流程
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="40" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="67" text-anchor="middle" font-size="14" fill="#1e293b">Exact 精确匹配</text>
+  <text x="230" y="57" font-size="13" fill="#475569">pattern: "order.created"</text>
+  <text x="230" y="77" font-size="13" fill="#1e293b">routing_key 与 pattern 完全相等才匹配</text>
+  <rect x="30" y="102" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="129" text-anchor="middle" font-size="14" fill="#1e293b">Prefix 前缀匹配</text>
+  <text x="230" y="119" font-size="13" fill="#475569">pattern: "order."</text>
+  <text x="230" y="139" font-size="13" fill="#1e293b">所有 order.* 开头的都匹配</text>
+  <rect x="30" y="164" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="191" text-anchor="middle" font-size="14" fill="#1e293b">Wildcard 通配符匹配</text>
+  <text x="230" y="181" font-size="13" fill="#475569">pattern: "order.*.pay"</text>
+  <text x="230" y="201" font-size="13" fill="#1e293b">order.created.pay 匹配，order.pay 不匹配</text>
+  <rect x="30" y="226" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="253" text-anchor="middle" font-size="14" fill="#1e293b">Regex 正则表达式</text>
+  <text x="230" y="243" font-size="13" fill="#475569">pattern: ^order\.(created|updated|cancelled)$</text>
+  <text x="230" y="263" font-size="13" fill="#1e293b">按正则表达式匹配</text>
+  <rect x="30" y="288" width="180" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="120" y="315" text-anchor="middle" font-size="14" fill="#1e293b">Composite 组合条件</text>
+  <text x="230" y="305" font-size="13" fill="#475569">pattern: "order.*" + condition_headers</text>
+  <text x="230" y="325" font-size="13" fill="#1e293b">路由键匹配与附加头条件组合</text>
+</svg>
+
+## 路由决策流程：按优先级遍历规则
 
 ```
 消息到达交换机
@@ -127,9 +153,7 @@ CREATE TABLE routing_rule (
       └─ 不匹配 ──▶ 继续下一条规则
 ```
 
----
-
-## 路由键命名规范
+## 路由键命名规范：点分隔的层级结构
 
 | 约定 | 格式 | 示例 |
 |------|------|------|
@@ -137,8 +161,6 @@ CREATE TABLE routing_rule (
 | 环境.服务.动作 | `env.service.action` | `prod.payment.process` |
 | 层级路由 | `parent.child.grandchild` | `system.app.module.task` |
 
-最佳实践：使用点分隔的层级结构，最左侧为最宽泛的分类。
-
----
+最佳实践：**使用点分隔的层级结构，最左侧为最宽泛的分类**。
 
 *文档版本：v1.0 | 更新日期：2026-03-29*

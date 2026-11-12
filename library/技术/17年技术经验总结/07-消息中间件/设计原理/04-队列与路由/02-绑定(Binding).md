@@ -1,10 +1,10 @@
-# 4.2 绑定 (Binding)
+# 绑定 (Binding)
 
-## 概述
+## 绑定语义：交换机与队列之间的关联及路由规则
 
-绑定（Binding）定义了交换机与队列之间的关联关系，包括路由规则。一条消息经过交换机时，根据绑定规则决定投递到哪些队列。
+绑定（Binding）定义了交换机与队列之间的关联关系，包括路由规则。一条消息经过交换机时，**根据绑定规则决定投递到哪些队列**。
 
-## 数据库设计
+## 数据库设计：绑定关系表 binding
 
 ### 表结构：binding（绑定关系表）
 
@@ -55,9 +55,7 @@ CREATE TABLE binding (
   COMMENT = '绑定关系表';
 ```
 
----
-
-## 绑定路由逻辑
+## 绑定路由逻辑：一条消息匹配所有 Binding 规则
 
 ```
                     ┌─────────────────────┐
@@ -76,9 +74,7 @@ CREATE TABLE binding (
            queue-A          queue-B         queue-C
 ```
 
----
-
-## API 操作
+## API 操作：创建、查询与删除绑定
 
 ### 创建绑定
 
@@ -103,7 +99,5 @@ GET /api/v1/bindings?exchange=order.exchange
 ```json
 DELETE /api/v1/bindings/{binding_id}
 ```
-
----
 
 *文档版本：v1.0 | 更新日期：2026-03-29*

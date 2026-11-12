@@ -1,43 +1,29 @@
 # 前端后端数据库终于被这个 AI 工具彻底打通了
 
-![](https://feishu.cn/file/Rxzcbge1NovySgxp5lPc8ZcAnwh)
-
-![](https://feishu.cn/file/L2RzbQHt4oobOUxruk5ccCfZnSc)
-
-## 课程大纲：AI驱动的高效前端开发——深入Trae的Solo模式与Figma集成
-
----
-
-![](https://feishu.cn/file/K0hDbBajToV5p2xnNrhcZEAgn2c)
-
 ## 引言：当AI成为你的结对编程伙伴
 
-在软件开发的演进历程中，我们从未停止对“效率”的极致追求。从命令行到图形界面，从瀑布流到敏捷开发，每一次范式转变都旨在缩短想法与产品之间的距离。如今，我们正站在AI驱动开发的新门槛上。传统的AI代码生成，虽能快速产出成果，却常因难以精确控制、调试成本高、前后端割裂而受限，仿佛在进行一场“一次性成功”的赌博。然而，一个成熟的开发伙伴，不仅能理解指令，更应能自主规划、调试并交付完整的产品。
+在软件开发的演进历程中，我们从未停止对“效率”的极致追求。从命令行到图形界面，从瀑布流到敏捷开发，每一次范式转变都旨在缩短想法与产品之间的距离。如今，我们正站在AI驱动开发的新门槛上。
 
-本课程将为你揭示一种全新的开发范式——**Trae IDE的Solo模式**。它超越了简单的“对话生成代码”，通过深度集成**Figma**这一业界标准设计工具，实现了从UI设计稿到前端代码的精准、结构化转换，并具备了自主调试、扩展逻辑乃至一键部署全栈应用的惊人能力。这不仅是工具的升级，更是开发思维的革新。无论你是渴望快速验证想法的产品经理、寻求高效交付的设计师，还是希望从重复劳动中解放的开发者，Solo模式都将成为你不可或缺的AI搭档，引领你体验“一人即全栈团队”的高效工作流。
+传统的AI代码生成，虽能快速产出成果，却常因难以精确控制、调试成本高、前后端割裂而受限，仿佛在进行一场“一次性成功”的赌博。然而，一个成熟的开发伙伴，不仅能理解指令，更应能自主规划、调试并交付完整的产品。
 
----
+本课程将为你揭示一种全新的开发范式——**Trae IDE的Solo模式**。它超越了简单的“对话生成代码”，通过深度集成**Figma**这一业界标准设计工具，实现了从UI设计稿到前端代码的精准、结构化转换，并具备了自主调试、扩展逻辑乃至一键部署全栈应用的惊人能力。这不仅是工具的升级，更是开发思维的革新。
 
-## 课程大纲
+无论你是渴望快速验证想法的产品经理、寻求高效交付的设计师，还是希望从重复劳动中解放的开发者，Solo模式都将成为你不可或缺的AI搭档，引领你体验“一人即全栈团队”的高效工作流。
 
-![](https://feishu.cn/file/EaKMbUso1ogjRqxFJXncCS1Tn0d)
-
-### 第一章：前端开发的现状与挑战
+## 第一章：前端开发的现状与挑战
 
 **学习目标：** 理解当前AI辅助开发的优势与局限性，明确精细化控制的需求。
 
-![](https://feishu.cn/file/Bh6lbYAW4oiqyIxWnFecqXitnJf)
+> 传统AI生成“失之毫厘，谬以千里”，开发者常陷入“生成-不满意-重新描述/换图-再生成”的循环。
 
-#### 1.1 当前AI生成前端页面的常见方式
+### 1.1 当前AI生成前端页面的常见方式
 
 目前，利用AI生成前端页面主要有两种路径：
 
 - **文字描述生成代码：** 开发者通过自然语言向AI描述期望的页面布局、元素和样式，AI据此生成对应的HTML、CSS和JavaScript代码。这种方式灵活度高，但严重依赖描述者的语言精准度和AI的语义理解能力。
 - **图片/截图生成代码：** 将现有的UI设计稿、网页截图或手绘草图提供给AI，通过图像识别技术提取视觉元素并生成代码。这种方式直观，但AI获取的是像素级的视觉信息，而非设计源文件的结构化数据。
 
-![](https://feishu.cn/file/YUQbbp1Q2oC03MxHcLuc8cYrnwh)
-
-#### 1.2 传统方式的痛点
+### 1.2 传统方式的痛点
 
 尽管上述方式降低了入门门槛，但在实际应用中暴露了显著瓶颈：
 
@@ -45,153 +31,176 @@
 - **过度依赖“一次性成功”的赌博式开发：** 复杂的页面布局很难通过一次描述或一张图片就完美复现。开发者常陷入“生成-不满意-重新描述/换图-再生成”的循环，过程充满不确定性。
 - **设计稿到代码的转换失真、沟通成本高：** 在传统协作中，设计师使用Figma等工具精心制作的原型，交付给前端开发者时，常因理解偏差、细节丢失而导致最终页面与设计稿存在差距，引发反复的沟通与返工。
 
-![](https://feishu.cn/file/S4bGbd5agoJuw2xhVTrcAgD6nrh)
-
-### 第二章：Trae的Solo模式与Figma集成简介
+## 第二章：Trae的Solo模式与Figma集成简介
 
 **学习目标：** 了解Trae Solo模式的核心价值，掌握Figma插件的功能定位。
 
-![](https://feishu.cn/file/CU60bP0WVouDpxx4stLcIuoNnFU)
+> Figma插件深度读取的是结构化数据——一份带设计语义的“蓝图”，而非模糊的“照片”。
 
-#### 2.1 Trae IDE及其Solo模式概述
+### 2.1 Trae IDE及其Solo模式概述
 
 - **什么是Solo模式？它如何模拟“真人开发者”的工作流？**
 Trae的Solo模式是一个高度自主的AI开发代理。与被动应答的聊天式AI不同，Solo模式在接收明确目标后，会像一位经验丰富的开发者一样，**主动规划任务步骤、创建文件、编写代码、在终端执行命令、运行测试、发现并修复错误**，直至完成整个开发任务。它模拟了人类开发者“思考-执行-调试”的完整闭环。
 - **Solo模式与传统AI对话模式的区别**
 传统AI对话模式是“你问我答”的单点交互，用户需要持续引导和纠正。而Solo模式是“目标驱动”的自主协作，用户只需定义“做什么”，AI会自主探索“怎么做”并处理过程中的问题，极大解放了用户的精力。
 
-![](https://feishu.cn/file/VhCKbEFXTopBtVxBRGXcUzHmnKf)
-
-#### 2.2 集成Figma插件的战略意义
+### 2.2 集成Figma插件的战略意义
 
 - **Figma在产品设计与开发流程中的角色（产品经理、设计师、前端工程师的协作）**
 Figma已成为产品设计、UI/UX设计和协作的核心平台。产品经理在此绘制原型，设计师完善视觉稿，前端工程师则根据设计稿进行开发。它是连接创意与实现的关键枢纽。
 - **插件如何解决“设计稿到代码”的最后一公里问题**
 Trae的Figma插件并非简单地截图，而是**深度读取Figma文件的结构化数据**（如组件树、约束、样式变量等）。这意味着传递给AI的是一份带有设计语义和逻辑的“蓝图”，而非模糊的“照片”。AI能据此理解设计意图，生成与设计系统高度一致、结构清晰且易于修改的代码，从根本上解决了转换失真和控制粒度粗糙的问题。
 
-![](https://feishu.cn/file/XHs1b7LX8oFbvXxaBxycPV6sn2O)
-
-### 第三章：核心实践——从Figma原型图生成精细前端代码
+## 第三章：核心实践——从Figma原型图生成精细前端代码
 
 **学习目标：** 掌握使用Figma插件在Trae中生成并调试前端页面的完整流程。
 
-![](https://feishu.cn/file/Vlr2bdMf9of7x9xm6rAcpcLanbe)
+> AI接收的是结构化数据，能精确理解并执行针对具体元素的指令。
 
-#### 3.1 准备工作：在Figma中设计或选择UI原型
+### 3.1 准备工作：在Figma中设计或选择UI原型
 
 在Figma中准备好你希望生成为代码的UI界面。可以是完整页面，也可以是按钮、卡片等独立组件。设计的质量与清晰度将直接影响生成结果。
 
-![](https://feishu.cn/file/BhIhbxv7OolmvUxgNpEc5fpknUe)
-
-#### 3.2 在Trae Solo模式中使用Figma插件
+### 3.2 在Trae Solo模式中使用Figma插件
 
 1. **框选组件与页面：** 在Trae内置的Figma视图中，用鼠标精确框选你想要转换的页面或特定组件区域。
 2. **“添加到对话”：** 点击插件按钮，将选中的部分**以结构化的Figma数据形式**添加到与AI的对话上下文中。这是与直接上传图片的**核心区别**。
 3. **下达精确指令：** 在输入框中，用自然语言向AI下达生成和修改要求。例如：“请基于这个设计稿生成React组件，使用Tailwind CSS实现样式。标题字体大小改为24px，主按钮颜色使用品牌蓝。” 由于AI接收的是结构化数据，它能精确理解并执行这些针对具体元素的指令。
 
-![](https://feishu.cn/file/CBjVbBcfqo2cU1xR0Y2c53Oqnfd)
-
-#### 3.3 生成过程与自动调试
+### 3.3 生成过程与自动调试
 
 - **AI如何解析Figma的结构化数据：** AI将分析组件的父子关系、布局约束、样式属性，将其映射为合适的HTML结构和CSS规则（如Flexbox、Grid布局）。
 - **自动发现代码错误并自我修正的演示：** 生成过程中，AI会模拟运行代码。如果遇到运行时错误（如缺少依赖、语法错误），它会像真人一样在终端查看报错信息，**自主修改代码文件**，再次尝试，直至页面正确渲染。这实现了从“生成代码”到“生成可运行代码”的关键飞跃。
 - **生成最终可运行页面的过程：** 经过可能的多轮自我调试，AI最终将输出一个可以直接在浏览器中查看的、视觉效果与Figma设计稿高度匹配的前端页面。
 
-![](https://feishu.cn/file/VcYxblTHYoY43rxMCe7cdAmJnye)
+*图：从Figma设计稿到可运行页面的自动调试流程（示意）*
 
-#### 3.4 与传统图片生成方式的对比
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 224" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="16" y="24" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="116" y="51" text-anchor="middle" font-size="14" fill="#1e293b">Figma 结构化数据</text>
+  <line x1="216" y1="46" x2="252" y2="46" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="256" y="24" width="220" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="366" y="51" text-anchor="middle" font-size="14" fill="#1e293b">解析组件关系与布局约束</text>
+  <line x1="476" y1="46" x2="512" y2="46" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="516" y="24" width="188" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="610" y="51" text-anchor="middle" font-size="14" fill="#1e293b">映射生成 HTML/CSS</text>
+  <polyline points="610,68 610,104 116,104 116,136" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="16" y="140" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="116" y="167" text-anchor="middle" font-size="14" fill="#1e293b">模拟运行，检查报错</text>
+  <line x1="216" y1="162" x2="252" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="256" y="140" width="220" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="366" y="167" text-anchor="middle" font-size="14" fill="#1e293b">自主修改代码（自动调试）</text>
+  <line x1="476" y1="162" x2="512" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="516" y="140" width="188" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="610" y="167" text-anchor="middle" font-size="14" fill="#1e293b">输出可运行页面</text>
+  <polyline points="366,184 366,204 116,204 116,188" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arw1)"/>
+  <text x="241" y="219" text-anchor="middle" font-size="11" fill="#475569">报错则再次尝试，直至页面正确渲染</text>
+</svg>
+
+### 3.4 与传统图片生成方式的对比
 
 - **结构化数据 vs. 像素信息：** Figma插件提供设计的结构和语义（如“这是一个按钮组件”），而图片只有色彩和像素。前者使AI能“理解”设计，后者只能“猜测”设计。
 - **精细控制能力与可编辑性的飞跃：** 基于结构数据的生成，允许用户在后续指令中精准定位到某个“图层”或“组件”进行修改，实现像素级的精细调整。而基于图片的生成，其内部代码结构可能是混乱和难以维护的“黑盒”。
 
-![](https://feishu.cn/file/XqATbLzSpoBa0LxukDccDQUNnNd)
-
-### 第四章：扩展功能——多页面、组件化与复杂交互
+## 第四章：扩展功能——多页面、组件化与复杂交互
 
 **学习目标：** 学习利用Solo模式生成更具复杂性的前端应用。
 
-![](https://feishu.cn/file/GFvLbmeS2oTRfhxkQVTcGIjJn6e)
+> Solo模式能够理解应用的整体结构，生成包含页面路由配置的完整项目框架。
 
-#### 4.1 批量生成多个关联页面
+### 4.1 批量生成多个关联页面
 
 你可以将网站的多个页面（如首页、列表页、详情页）的Figma设计稿依次添加到对话中，并告知AI它们之间的路由关系。Solo模式能够理解应用的整体结构，生成包含页面路由配置的完整项目框架。
 
-![](https://feishu.cn/file/EtccbJKProsZX0xcGSmcxZLtnge)
-
-#### 4.2 生成独立、可复用的UI组件
+### 4.2 生成独立、可复用的UI组件
 
 从设计稿中框选一个按钮、导航栏或模态框等组件，生成后，AI可以将其封装为独立的、可导入的前端组件代码（如React组件），便于在项目中多处复用，保持设计一致性。
 
-![](https://feishu.cn/file/DDh5bi8iKoDMytxLhuac1fWmn3e)
-
-#### 4.3 为生成的页面添加交互逻辑
+### 4.3 为生成的页面添加交互逻辑
 
 在静态页面生成后，你可以继续用自然语言描述交互行为。例如：“为‘提交’按钮添加点击事件，提交表单数据到/console/api接口，并在成功后显示提示信息。” AI会在此基础上添加JavaScript逻辑，使页面“活”起来。
 
-![](https://feishu.cn/file/RH9LbFF8eotezgxq3SUcccMknhg)
-
-#### 4.4 案例演示：生成一个带有多个页面的博客站点
+### 4.4 案例演示：生成一个带有多个页面的博客站点
 
 我们将通过一个完整的博客案例，演示如何从Figma中选取首页、文章列表页和文章详情页的设计稿，在Solo模式下依次生成，并最终组合成一个具备基本导航和页面跳转功能的多页面应用原型。
 
-![](https://feishu.cn/file/Kx0obylrpoNqk8x9DulciXsXnJb)
-
-### 第五章：全栈自动化——从后端逻辑到线上部署
+## 第五章：全栈自动化——从后端逻辑到线上部署
 
 **学习目标：** 掌握Trae Solo模式打通全栈开发与部署的能力。
 
-![](https://feishu.cn/file/JwaRbqodholRbcxCjH1cwgJFnOc)
+> 整个过程如同观看一位熟练的全栈工程师工作。
 
-#### 5.1 一键生成后端整体逻辑
+### 5.1 一键生成后端整体逻辑
 
 Solo模式的能力远不止于前端。你可以用自然语言描述数据结构和业务逻辑，例如：“我需要一个博客系统。后端使用Python FastAPI，数据库使用SQLite。需要‘文章’数据模型，包含标题、内容、创建时间字段。提供创建文章、获取文章列表的RESTful API。” AI将自动创建数据模型文件、API路由文件，并编写相应的业务代码。
 
-![](https://feishu.cn/file/AHWYbNTcloyvuNxAvsecKEUcnbd)
-
-#### 5.2 案例演示：生成“AI大事件时间轴”项目
+### 5.2 案例演示：生成“AI大事件时间轴”项目
 
 - **需求描述：** 输入一段目标描述：“生成一个展示AI发展历史的精美时间轴网页。需要一个前端展示页面，按时间顺序显示事件。同时，需要一个管理后台页面，可以增删改查事件数据。所有数据存储在数据库中。”
 - **观察Solo模式如何自动进行：** AI会开始一系列自主操作：创建项目目录、初始化前后端框架、生成数据库Schema、编写API接口、构建前端页面、连接前后端、执行数据库迁移、运行开发服务器进行测试。整个过程如同观看一位熟练的全栈工程师工作。
 - **最终成果：** 你将得到一个完整的全栈项目，包含前端展示、后台管理界面和持久化存储的数据库。
 
-![](https://feishu.cn/file/UwMabah34oTzB2xoLAJcQsahndh)
-
-#### 5.3 一键部署至线上
+### 5.3 一键部署至线上
 
 当项目在本地测试通过后，你可以直接指示Solo模式将应用部署到线上。它会集成常见的云服务（如Vercel、Netlify或自定义服务器），自动处理构建、打包和发布流程，最终返回一个公网可访问的URL，真正实现从想法到线上产品的“一键直达”。
 
-![](https://feishu.cn/file/VOm5bJxk3ovE4lx3O9xcMC0Nnhd)
-
-### 第六章：总结与展望
+## 第六章：总结与展望
 
 **学习目标：** 理解Trae Solo模式在开发范式上的创新意义与未来潜力。
 
-![](https://feishu.cn/file/WAAObZjUao6TZ2xUgS0c1LBonIg)
+> 无缝衔接设计、前端、后端、数据库、自动化测试、线上部署，形成完整的开发闭环。
 
-#### 6.1 Trae Solo模式的核心优势总结
+### 6.1 Trae Solo模式的核心优势总结
 
 - **全流程打通：** 无缝衔接**设计 -> 前端 -> 后端 -> 数据库 -> 自动化测试 -> 线上部署**，形成完整的开发闭环。
 - **精细控制：** 基于**结构化设计稿（Figma）** 的生成，而非模糊的图片或文本描述，实现了对生成结果的精确、可编辑的控制。
 - **高自主性：** AI代理具备**自主规划、调试、修正**的能力，能够像真人开发者一样推进复杂任务，大幅减少人为干预。
 
-![](https://feishu.cn/file/TUeTbQgI7oRTkNx0PDxcbduVnAb)
+*图：Solo模式打通的全栈开发闭环（示意）*
 
-#### 6.2 适用场景与角色
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="8" y="40" width="102" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="59" y="70" text-anchor="middle" font-size="13" fill="#1e293b">设计稿</text>
+  <line x1="110" y1="64" x2="124" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="127" y="40" width="102" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="178" y="70" text-anchor="middle" font-size="13" fill="#1e293b">前端代码</text>
+  <line x1="229" y1="64" x2="243" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="246" y="40" width="102" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="297" y="70" text-anchor="middle" font-size="13" fill="#1e293b">后端逻辑</text>
+  <line x1="348" y1="64" x2="362" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="365" y="40" width="102" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="416" y="70" text-anchor="middle" font-size="13" fill="#1e293b">数据库</text>
+  <line x1="467" y1="64" x2="481" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="484" y="40" width="102" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="535" y="70" text-anchor="middle" font-size="13" fill="#1e293b">自动化测试</text>
+  <line x1="586" y1="64" x2="600" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="603" y="40" width="102" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="654" y="70" text-anchor="middle" font-size="13" fill="#1e293b">线上部署</text>
+  <polyline points="654,88 654,106 360,106 360,116" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="140" y="120" width="440" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="147" text-anchor="middle" font-size="14" fill="#1e293b">基于Figma结构化设计稿，从想法到线上产品“一键直达”</text>
+</svg>
+
+### 6.2 适用场景与角色
 
 - **产品经理、设计师：** 无需等待开发资源，可直接将设计稿转化为可交互的高保真原型，甚至是最小可行产品（MVP），快速验证市场想法。
 - **前端开发者：** 从编写重复性的页面布局和样式代码中解放，将更多精力投入到复杂的业务逻辑、性能优化和创新功能上。
 - **全栈开发者/创业者：** 极大压缩从概念到可部署产品的周期，低成本、快速地构建和迭代产品。
 
-![](https://feishu.cn/file/PibrbSdDiofPttxDUc9cxsWTnQb)
-
-#### 6.3 未来展望
+### 6.3 未来展望
 
 - **AI开发工具的成熟度与完善空间：** 当前工具在处理极度复杂的业务逻辑、大型单体应用或特定领域的精细需求时，仍有提升空间。但其迭代速度令人瞩目。
 - **“人人都是开发者”时代的来临：技术门槛的进一步降低：** Trae Solo模式代表的趋势是，编程的核心能力将逐渐从“编写语法”转向“定义需求”和“系统思考”。自然语言作为新的编程接口，结合AI强大的实现能力，正在让“人人都是开发者”的愿景从口号变为现实，开启一个创意驱动而非技能驱动的新创新时代。
-
----
-
-![](https://feishu.cn/file/PlQEbZca6ovJCHxnp64cXZ2Tn0f)
 
 ## 课程目标
 
@@ -209,8 +218,3 @@ Solo模式的能力远不止于前端。你可以用自然语言描述数据结�
 与普通图片识别不同，该模式能识别Figma设计文件的真实结构，AI会自动调试代码直至效果正确，还支持多页面、组件化生成及交互实现。除了前端，Solo模式可同时生成后端逻辑、数据库管理界面，并一键部署上线，实现从需求描述到成品部署的全流程自动化。
 
 尽管功能仍在完善，Trae Solo模式已打通前后端、测试、部署全链路，大幅降低开发门槛，推动“人人皆可编程”的趋势向前发展。
-
-![](https://feishu.cn/file/OnPab8bYfoZou0xCCJDcmFRinJh)
-
-![](https://feishu.cn/file/XoYAbir0ioKhN8xCYy6cK7T7nQf)
-
