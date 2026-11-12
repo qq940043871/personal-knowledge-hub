@@ -16,11 +16,11 @@
 
 而LightGBM的核心思路就是：**不“逐个翻找”，而是“打包找”“按顺序找”，直接省掉大量无用功**。
 
-### 第二步：用“分快递”理解LightGBM的2个核心优化
+## 第二步：用“分快递”理解LightGBM的2个核心优化
 
 LightGBM之所以“快”，关键靠两个“聪明操作”，咱们用“给小区1000个快递分楼栋”来类比：
 
-#### 优化1：直方图算法（“打包称重”代替“逐个过秤”）
+### 优化1：直方图算法（“打包称重”代替“逐个过秤”）
 
 传统方式（比如GBDT）分快递：
 
@@ -32,7 +32,7 @@ LightGBM的直方图算法：
 
 比如发现“2kg以上的快递80%是3号楼的，2kg以下80%是1号楼的”，直接以“2kg”为界分，不用再逐个核对每个快递的重量——效率直接翻好几倍。
 
-#### 优化2：叶子节点优先生长（“先长细枝”代替“先长主干”）
+### 优化2：叶子节点优先生长（“先长细枝”代替“先长主干”）
 
 传统决策树分快递：
 
@@ -44,20 +44,43 @@ LightGBM的叶子节点优先：
 
 相当于“只补弱的，不浪费时间在已经做好的地方”，避免了大量无用的分支生长，树的结构更精简，速度也更快。
 
-### 第三步：再补2个“让模型更准”的小技巧
+## 第三步：再补2个“让模型更准”的小技巧
 
 LightGBM不只是快，准确率也高，靠两个额外设计：
 
-#### 1. 特征并行（“多个人同时找线索”）
+### 1. 特征并行（“多个人同时找线索”）
 
 分快递时，不止一个人干活：
 
 一个人专门研究“重量”怎么分，另一个人专门研究“收件人地址长度”怎么分，还有人研究“快递盒大小”怎么分——同时试多个特征，谁先找到“分的最准”的特征，就先用谁的，不用像传统方式那样“一个特征试完再试下一个”，进一步提速，还能找到更优的分界。
 
-#### 2. 袋外采样（“留一手检验”）
+### 2. 袋外采样（“留一手检验”）
 
 每次分快递时，故意留10%的快递不分（叫“袋外样本”），等这棵树分完后，用这10%的快递检验“这棵树分的准不准”——如果不准，就调整这棵树的分支方式；如果准，就保留。这样能避免“树长偏了”（过拟合），让最终的分类结果更可靠。
 
-### 第四步：一句话总结LightGBM
+## 第四步：一句话总结LightGBM
 
 LightGBM就是“一群聪明的小决策树组队干活”：它们不逐个核对数据，而是把数据打包找规律（直方图）；不盲目长分支，而是哪里分错了就补哪里（叶子优先）；还能多个人同时找线索（特征并行），留部分数据做检验（袋外采样）——最终既快又准，特别适合处理“数据量大、特征多”的问题（比如用户行为预测、商品推荐）。
+
+*图：传统梯度提升树（GBDT）与 LightGBM 核心差异对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="40" y="16" width="300" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="44" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">传统方式（如GBDT）</text>
+  <rect x="380" y="16" width="300" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="530" y="44" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">LightGBM</text>
+  <rect x="40" y="76" width="300" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="107" text-anchor="middle" font-size="13" fill="#1e293b">找分界：所有值逐个试（25岁、30岁…）</text>
+  <rect x="380" y="76" width="300" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="530" y="107" text-anchor="middle" font-size="13" fill="#1e293b">直方图：重量打包成段（0-1kg、1-2kg…）</text>
+  <rect x="40" y="140" width="300" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="171" text-anchor="middle" font-size="13" fill="#1e293b">长树：每层长满才往下长，分准了也硬凑</text>
+  <rect x="380" y="140" width="300" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="530" y="171" text-anchor="middle" font-size="13" fill="#1e293b">叶子优先：哪根枝没分准就先长哪根</text>
+  <rect x="40" y="204" width="300" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="235" text-anchor="middle" font-size="13" fill="#1e293b">特征：一个试完再试下一个</text>
+  <rect x="380" y="204" width="300" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="530" y="235" text-anchor="middle" font-size="13" fill="#1e293b">特征并行：多人同时找，谁准先用谁</text>
+  <rect x="60" y="272" width="600" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="301" text-anchor="middle" font-size="13" fill="#1e293b">额外小技巧：袋外采样——留10%样本检验，避免树长偏（过拟合）</text>
+</svg>
