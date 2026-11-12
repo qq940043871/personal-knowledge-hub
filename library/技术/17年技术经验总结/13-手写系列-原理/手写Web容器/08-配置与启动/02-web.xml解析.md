@@ -7,6 +7,8 @@
 
 ## 一、web.xml结构
 
+> **web.xml 描述一个应用的部署信息**：Servlet 及其 init-param、url-pattern 映射、Filter、Listener 与 Session 超时。
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
@@ -47,6 +49,8 @@
 ---
 
 ## 二、WebXmlParser
+
+> 解析顺序与配置项一一对应：Servlet → Servlet 映射 → Filter → Filter 映射 → Listener → Session 配置。
 
 ```java
 public class WebXmlParser {

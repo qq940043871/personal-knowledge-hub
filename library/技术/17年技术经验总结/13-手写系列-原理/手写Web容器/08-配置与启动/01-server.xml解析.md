@@ -7,6 +7,8 @@
 
 ## 一、server.xml结构
 
+> **server.xml 以 `Server` 为根**，按 Service → Connector / Engine → Host → Context 的层级组织整个容器。
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Server port="8005" shutdown="SHUTDOWN">
@@ -27,6 +29,8 @@
 ---
 
 ## 二、XML解析器
+
+> 用 DOM 方式逐层解析：每个 XML 元素对应一个容器对象，属性直接映射到 setter。
 
 ```java
 public class ServerXmlParser {
