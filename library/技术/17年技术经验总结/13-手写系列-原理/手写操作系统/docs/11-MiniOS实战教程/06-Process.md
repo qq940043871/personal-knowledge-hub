@@ -488,7 +488,7 @@ void tss_update_esp0(uint32_t new_esp0)
 
 ---
 
-## 6.7 章节小结
+## 6.7 本章实现清单
 
 本章实现了：
 - [x] 进程控制块（PCB）数据结构

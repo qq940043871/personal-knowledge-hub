@@ -228,6 +228,40 @@ systemctl restart service_name
 echo $((1024*1024*1024)) > /sys/fs/cgroup/memory/group_name/memory.limit_in_bytes
 ```
 
+*图：内存泄漏实战排查五步流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 134" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="72" y="30" text-anchor="middle" font-size="12" fill="#475569">步骤1</text>
+  <rect x="10" y="42" width="124" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="72" y="69" text-anchor="middle" font-size="13" fill="#1e293b">确认内存泄漏</text>
+  <text x="72" y="110" text-anchor="middle" font-size="12" fill="#475569">watch RSS 趋势</text>
+  <line x1="136" y1="64" x2="152" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="216" y="30" text-anchor="middle" font-size="12" fill="#475569">步骤2</text>
+  <rect x="154" y="42" width="124" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="216" y="69" text-anchor="middle" font-size="13" fill="#1e293b">分析内存分布</text>
+  <text x="216" y="110" text-anchor="middle" font-size="12" fill="#475569">pmap / smaps</text>
+  <line x1="280" y1="64" x2="296" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="360" y="30" text-anchor="middle" font-size="12" fill="#475569">步骤3</text>
+  <rect x="298" y="42" width="124" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="69" text-anchor="middle" font-size="13" fill="#1e293b">快照对比</text>
+  <text x="360" y="110" text-anchor="middle" font-size="12" fill="#475569">RSS 趋势采集</text>
+  <line x1="424" y1="64" x2="440" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="504" y="30" text-anchor="middle" font-size="12" fill="#475569">步骤4</text>
+  <rect x="442" y="42" width="124" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="504" y="69" text-anchor="middle" font-size="13" fill="#1e293b">工具定位</text>
+  <text x="504" y="110" text-anchor="middle" font-size="12" fill="#475569">Valgrind/jmap/pprof</text>
+  <line x1="568" y1="64" x2="584" y2="64" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="648" y="30" text-anchor="middle" font-size="12" fill="#475569">步骤5</text>
+  <rect x="586" y="42" width="124" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="648" y="69" text-anchor="middle" font-size="13" fill="#1e293b">临时缓解</text>
+  <text x="648" y="110" text-anchor="middle" font-size="12" fill="#475569">重启 / 限内存</text>
+</svg>
+
 ---
 
 *下一步：CPU调度原理*

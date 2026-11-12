@@ -131,6 +131,37 @@ pidstat -w -p PID 1               # 监控特定进程
 # nvcswch/s: 非自愿上下文切换(时间片用完,被抢占)
 ```
 
+*图：CPU上下文切换七步流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 185" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="10" y="28" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="55" text-anchor="middle" font-size="13" fill="#1e293b">1. 保存当前进程寄存器</text>
+  <line x1="172" y1="50" x2="186" y2="50" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="28" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="55" text-anchor="middle" font-size="13" fill="#1e293b">2. 保存程序计数器(PC)</text>
+  <line x1="352" y1="50" x2="366" y2="50" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="370" y="28" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="450" y="55" text-anchor="middle" font-size="13" fill="#1e293b">3. 保存堆栈指针</text>
+  <line x1="532" y1="50" x2="546" y2="50" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="550" y="28" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="630" y="55" text-anchor="middle" font-size="13" fill="#1e293b">4. 切换页表</text>
+  <path d="M630,72 L630,94 L180,94 L180,108" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="100" y="112" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="180" y="139" text-anchor="middle" font-size="13" fill="#1e293b">5. 恢复下一个进程状态</text>
+  <line x1="262" y1="134" x2="276" y2="134" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="280" y="112" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="139" text-anchor="middle" font-size="13" fill="#1e293b">6. 恢复寄存器</text>
+  <line x1="442" y1="134" x2="456" y2="134" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="460" y="112" width="160" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="540" y="139" text-anchor="middle" font-size="13" fill="#1e293b">7. 跳转到PC位置</text>
+  <text x="360" y="174" text-anchor="middle" font-size="13" fill="#475569">成本：约 3-5 微秒/次</text>
+</svg>
+
 ---
 
 ## 五、CPU亲和性

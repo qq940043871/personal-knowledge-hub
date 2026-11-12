@@ -207,6 +207,36 @@ jcmd PID VM.flags
 # - 加密/解密操作
 ```
 
+*图：CPU 飙升排查七步流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 400" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="190" y="14" width="340" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="39" text-anchor="middle" font-size="13" fill="#1e293b">1. top/uptime 确认CPU和负载</text>
+  <line x1="360" y1="54" x2="360" y2="66" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="70" width="340" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="95" text-anchor="middle" font-size="13" fill="#1e293b">2. top -H -p PID 找到高CPU线程</text>
+  <line x1="360" y1="110" x2="360" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="126" width="340" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="151" text-anchor="middle" font-size="13" fill="#1e293b">3. strace -p PID 跟踪系统调用</text>
+  <line x1="360" y1="166" x2="360" y2="178" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="182" width="340" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="207" text-anchor="middle" font-size="13" fill="#1e293b">4. perf top -p PID 查看热点函数</text>
+  <line x1="360" y1="222" x2="360" y2="234" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="238" width="340" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="263" text-anchor="middle" font-size="13" fill="#1e293b">5. jstack/gdb 获取线程堆栈</text>
+  <line x1="360" y1="278" x2="360" y2="290" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="294" width="340" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="319" text-anchor="middle" font-size="13" fill="#1e293b">6. 生成火焰图分析调用链</text>
+  <line x1="360" y1="334" x2="360" y2="346" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="190" y="350" width="340" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="375" text-anchor="middle" font-size="13" fill="#1e293b">7. 定位代码并修复</text>
+</svg>
+
 ---
 
 *下一步：网络协议栈原理*

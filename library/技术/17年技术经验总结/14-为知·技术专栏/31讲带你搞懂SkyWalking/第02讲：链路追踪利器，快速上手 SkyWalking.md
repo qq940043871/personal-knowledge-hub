@@ -467,7 +467,7 @@ demo-webpp 模块的入口 main() 方法与 demo-provider 相同，不再赘述�
 
 最后，我们将主 Tab 也切换到【告警】，这里展示了 Skywalking 发出来的告警信息，如下图所示，这里也提供了相应的查询条件和关键字搜索框。
 
-## 总结
+## 本课时小结：环境搭建、Agent 接入与 Rocketbot 使用
 
 本课时搭建 SkyWalking 的运行环境，完成 ElasticSearch、Kibana、Skywalking 等的安装，并搭建了 skywalking-demo 项目作为演示示例，带同学们上手体验了 Skywalking Agent 的接入的流程。
 

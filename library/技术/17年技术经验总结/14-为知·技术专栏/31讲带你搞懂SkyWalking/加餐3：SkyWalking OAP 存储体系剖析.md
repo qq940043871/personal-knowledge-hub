@@ -12,7 +12,7 @@
 
 假设我们查询该 JVM 实例跨度为一周的 Old GC 监控，将获得上万个点，监控图中点与点之间的距离会变得非常密。此时，就可以通过 DownSampling 的方式，将一个时间范围内的多个监控数据点聚合成单个点，从而减少需要绘制的点的个数。这里我们可以按照小时为时间窗口，计算一小时内 60 个采样点的平均值，作为该小时的 DownSampling 聚合结果。下图为某两个小时区间的 DownSampling 示意图，经过 DownSampling 之后，一周的监控数据只有几个点了。
 
-另外，Trace 也是时间相关的数据，其数据量会随时间不断增加，但不具备可聚合的特性。
+另外，**Trace 也是时间相关的数据**，其数据量会随时间不断增加，但**不具备可聚合的特性**。
 
 ## Model 与 ES 索引
 
@@ -27,7 +27,7 @@ Model 对象记录了对应 ES 索引的核心信息：
 * **deleteHistory（boolean类型）**：是否删除历史数据。
 * **scopeId（int类型）**：对应指标的全局唯一 ID。
 
-很明显，ES 索引的名称由三部分构成：Metric 名称、DownSampling、时间窗口（后面两部分只有时序数据才会有），而 ES 索引的别名由 Metric 名称和 DownSampling 构成。
+很明显，**ES 索引的名称由三部分构成**：Metric 名称、DownSampling、时间窗口（后面两部分只有时序数据才会有），而 ES 索引的别名由 Metric 名称和 DownSampling 构成。
 
 下图展示了 Model.columns 集合与 ES 索引中 Field 之间的映射关系，除了名称之间的映射关系之外，ModelColumn 中记录了每个 Field 的类型。
 
@@ -204,11 +204,11 @@ SkyWalking OAP 也提供了DAO 层抽象，如下图所示，大致可以分为�
 
 * **Receiver DAO 接口**：在各个 receiver 模块接收到 Agent 上报的 Metrics 数据、Trace 数据以及注册请求的时候，会通过 Receiver DAO 将数据持久化到底层存储，具体的接口如下图所示：
 
-* **IRegisterDAO 接口**：负责增删改查 RegisterSource 数据。
-* **IMetricsDAO 接口**：负责增删改查 Metrics 数据。
-* **IRecordDAO 接口**：负责增删改查 Record 数据。
-* **IBatchDAO 接口**：上述接口都是单条数据的操作接口，IBatchDAO 接口提供了批量写入的功能。
-* **IRegisterLockDAO 接口**：在处理 RegisterSource 数据的时候，需要维护一把全局的锁，这样才能保证写入生成的 ID 全局唯一。IRegisterLockDAO 接口的实现就提供了全局锁的功能。
+  * **IRegisterDAO 接口**：负责增删改查 RegisterSource 数据。
+  * **IMetricsDAO 接口**：负责增删改查 Metrics 数据。
+  * **IRecordDAO 接口**：负责增删改查 Record 数据。
+  * **IBatchDAO 接口**：上述接口都是单条数据的操作接口，IBatchDAO 接口提供了批量写入的功能。
+  * **IRegisterLockDAO 接口**：在处理 RegisterSource 数据的时候，需要维护一把全局的锁，这样才能保证写入生成的 ID 全局唯一。IRegisterLockDAO 接口的实现就提供了全局锁的功能。
 * **Cache DAO 接口**：在稳定集群中，RegisterSource 类型数据基本不会变化，这里的 Cache DAO 接口主要提供了 RegisterSource 数据的查询，相较于 IRegisterDAO，Cache DAO 的接口提供了更多维度的查询方式。
 
 如下图所示，每一种 RegisterSource 数据都对应一个 Cache，通过 Cache 的方式提高查询性能，每个 Cache 底层都关联了一个 Cache DAO 接口实现。
@@ -225,19 +225,19 @@ SkyWalking OAP 中 DAO 层的整体架构以及核心接口就介绍完了。
 
 在 DataTTLKeeperTimer 中会启动一个后台线程，定期执行一次清理操作，具体执行步骤如下：
 
-  通过 ClusterNodesQuery 查询到当前 OAP 集群中全部节点列表，如果当前节点为列表中第一个节点，才能继续执行后续的清理操作。这就保证不会出现多个 OAP 节点并发执行清理任务。
-  从 IModelGetter 中拿到全部 Model 对象，根据 Model 数据的 DownSampling 计算每个 Model 保留 ES 索引的范围。这里使用到了 StorageTTL 接口，其中会根据每个 Model 不同的 DownSampling 返回相应的 TTLCalculator，如下图所示：
+1. 通过 ClusterNodesQuery 查询到当前 OAP 集群中全部节点列表，如果当前节点为列表中第一个节点，才能继续执行后续的清理操作。这就保证不会出现多个 OAP 节点并发执行清理任务。
+2. 从 IModelGetter 中拿到全部 Model 对象，根据 Model 数据的 DownSampling 计算每个 Model 保留 ES 索引的范围。这里使用到了 StorageTTL 接口，其中会根据每个 Model 不同的 DownSampling 返回相应的 TTLCalculator，如下图所示：
 
 对于一个 Model，通过 TTLCalculator 计算之后会得到一个时间，在该时间之前的 ES 索引将被删除。
 
 在删除 ES 索引的过程成还有一些细节：
 
-  首先根据模板别名（也就是 Model.name）拿到该 Model 对应的全部 ES 索引。
-  根据 ES 索引的时间后缀，以及 TTLCalculator 计算得到的时间，确定哪些索引会要被删除。
-  如果该 Model 对应的全部索引都要被删除，则会创建一个新索引，为后面写入数据做准备。
-  循环调用 ElasticSearchClient.delete() 方法删除索引。
+- 首先根据模板别名（也就是 Model.name）拿到该 Model 对应的全部 ES 索引。
+- 根据 ES 索引的时间后缀，以及 TTLCalculator 计算得到的时间，确定哪些索引会要被删除。
+- 如果该 Model 对应的全部索引都要被删除，则会创建一个新索引，为后面写入数据做准备。
+- 循环调用 ElasticSearchClient.delete() 方法删除索引。
 
-## 总结
+## 小结：OAP 存储体系架构与核心接口
 
 本课时重点介绍了 SkyWalking OAP 持久化存储方面的架构设计以及核心接口功能。首先介绍了 Model 与底层 ES 索引之间的映射关系，之后介绍了 ModelInstaller 是如何在 OAP 启动时初始化 ES 索引的。接下来，介绍了 OAP 对不同持久化数据的抽象，以及对应的 DAO 层设计。最后介绍了定期删除过期数据的核心原理。
 
