@@ -87,10 +87,10 @@ IPC Namespace（进程间通信隔离）
 示例：
   # 限制内存为512MB
   docker run -m 512m nginx
-  
+
   # 限制CPU为0.5核
   docker run --cpus 0.5 nginx
-  
+
   # 限制IO
   docker run --device-write-iops bdev:rw=100 nginx
 ```
@@ -147,6 +147,44 @@ none（无网络）
   docker network create mynet
   容器间通过名字互相访问
 ```
+
+*图：Docker 五种网络模式（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 178" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="275" y="16" width="170" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="39" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Docker 网络模式</text>
+  <line x1="340" y1="52" x2="81" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="352" y1="52" x2="221" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="52" x2="360" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="368" y1="52" x2="499" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="380" y1="52" x2="639" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="14" y="84" width="134" height="78" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="81" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">bridge</text>
+  <text x="81" y="124" text-anchor="middle" font-size="12" fill="#1e293b">桥接模式，默认</text>
+  <text x="81" y="142" text-anchor="middle" font-size="11" fill="#475569">通过NAT访问外部</text>
+  <rect x="154" y="84" width="134" height="78" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="221" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">host</text>
+  <text x="221" y="124" text-anchor="middle" font-size="12" fill="#1e293b">主机模式</text>
+  <text x="221" y="142" text-anchor="middle" font-size="11" fill="#475569">共享宿主机网络</text>
+  <text x="221" y="156" text-anchor="middle" font-size="11" fill="#475569">性能最好，但端口冲突</text>
+  <rect x="294" y="84" width="134" height="78" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">container</text>
+  <text x="360" y="124" text-anchor="middle" font-size="12" fill="#1e293b">容器模式</text>
+  <text x="360" y="142" text-anchor="middle" font-size="11" fill="#475569">与另一容器共享网络栈</text>
+  <rect x="434" y="84" width="134" height="78" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="500" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">none</text>
+  <text x="500" y="124" text-anchor="middle" font-size="12" fill="#1e293b">无网络</text>
+  <text x="500" y="142" text-anchor="middle" font-size="11" fill="#475569">完全隔离，无网络接口</text>
+  <rect x="574" y="84" width="134" height="78" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="640" y="106" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">自定义网络</text>
+  <text x="640" y="124" text-anchor="middle" font-size="12" fill="#1e293b">推荐</text>
+  <text x="640" y="142" text-anchor="middle" font-size="11" fill="#475569">容器名即DNS名</text>
+</svg>
 
 ---
 
@@ -249,9 +287,11 @@ docker network inspect mynet
 ### 案例1：容器内时间不同步
 
 **问题现象：**
+
 容器内时间和宿主机不一致。
 
 **分析过程：**
+
 ```bash
 # 查看宿主机时间
 date
@@ -266,6 +306,7 @@ docker exec <container> date
 ```
 
 **解决方案：**
+
 ```dockerfile
 # 方案1：挂载时区文件
 docker run -v /etc/localtime:/etc/localtime:ro \
@@ -287,9 +328,11 @@ RUN apt-get update && apt-get install -y tzdata && \
 ### 案例2：容器无法解析DNS
 
 **问题现象：**
+
 容器内ping不通域名，但能ping通IP。
 
 **分析过程：**
+
 ```bash
 # 检查DNS配置
 docker exec <container> cat /etc/resolv.conf
@@ -305,9 +348,11 @@ docker network inspect bridge
 ```
 
 **根因分析：**
+
 DNS服务器无法访问，或DNS配置缺失。
 
 **解决方案：**
+
 ```bash
 # 方案1：指定DNS
 docker run --dns=8.8.8.8 --dns=114.114.114.114 nginx
@@ -325,9 +370,11 @@ iptables -t nat -L -n | grep DNS
 ### 案例3：存储空间不足
 
 **问题现象：**
+
 无法创建容器，磁盘空间不足。
 
 **分析过程：**
+
 ```bash
 # 查看Docker磁盘使用
 docker system df
@@ -339,6 +386,7 @@ docker system df -v
 ```
 
 **解决方案：**
+
 ```bash
 # 清理未使用的资源
 docker system prune -a    # 清理所有未使用镜像
@@ -358,8 +406,9 @@ docker image prune -a --filter "until=24h"
 ```
 
 **经验教训：**
-- 定期清理未使用资源
-- 监控磁盘使用率
+
+- **定期清理未使用资源**
+- **监控磁盘使用率**
 - 配置日志轮转
 
 ---
