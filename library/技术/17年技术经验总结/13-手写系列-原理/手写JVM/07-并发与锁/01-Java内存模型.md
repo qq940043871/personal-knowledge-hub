@@ -5,9 +5,9 @@
 
 ---
 
-## 一、JMM概述
+## 一、JMM概述：主内存与工作内存
 
-Java内存模型（JMM）定义了多线程程序中变量的访问规则，保证内存可见性和有序性。
+**Java内存模型（JMM）定义了多线程程序中变量的访问规则**，保证内存可见性和有序性。
 
 ### 1.1 主内存与工作内存
 
@@ -35,9 +35,38 @@ Java内存模型（JMM）定义了多线程程序中变量的访问规则，保�
 | store | 将工作内存变量传送到主内存 |
 | write | 将store的变量写入主内存 |
 
+*图：主内存与工作内存交互（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="250" y="18" width="220" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="40" text-anchor="middle" font-size="14" fill="#1e293b">主内存（Main Memory）</text>
+  <text x="360" y="60" text-anchor="middle" font-size="12" fill="#475569">lock / unlock</text>
+  <line x1="300" y1="70" x2="195" y2="166" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="150" y="115" text-anchor="middle" font-size="12" fill="#475569">read / load</text>
+  <line x1="260" y1="170" x2="365" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="360" y="120" text-anchor="middle" font-size="12" fill="#475569">store / write</text>
+  <line x1="420" y1="70" x2="525" y2="166" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="570" y="115" text-anchor="middle" font-size="12" fill="#475569">read / load</text>
+  <line x1="460" y1="170" x2="355" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="560" y="120" text-anchor="middle" font-size="12" fill="#475569">store / write</text>
+  <rect x="80" y="170" width="230" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="195" y="192" text-anchor="middle" font-size="14" fill="#1e293b">工作内存1（线程1）</text>
+  <text x="195" y="212" text-anchor="middle" font-size="12" fill="#475569">use / assign</text>
+  <rect x="410" y="170" width="230" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="525" y="192" text-anchor="middle" font-size="14" fill="#1e293b">工作内存2（线程2）</text>
+  <text x="525" y="212" text-anchor="middle" font-size="12" fill="#475569">use / assign</text>
+</svg>
+
 ---
 
 ## 二、volatile关键字
+
+> volatile 保证可见性与有序性：写入立即可见于其他线程，并禁止指令重排序。
 
 ### 2.1 可见性
 
@@ -89,6 +118,8 @@ class VolatileVariable {
 
 ## 三、happens-before规则
 
+> happens-before 是保证内存可见性的核心规则集：程序顺序、监视器锁、volatile、线程启动/终止与传递性。
+
 ### 3.1 规则列表
 
 | 规则 | 说明 |
@@ -103,6 +134,8 @@ class VolatileVariable {
 ---
 
 ## 四、synchronized关键字
+
+> 底层是 Monitor：owner 持有者 + EntryList 入口列表 + WaitSet 等待集合；未抢到锁的线程进入 EntryList 阻塞。
 
 ### 4.1 使用方式
 
@@ -156,6 +189,8 @@ class Monitor {
 
 ## 五、final关键字
 
+> 构造函数结束后，final 字段对其他线程可见（构造写入后插入写屏障）。
+
 ### 5.1 语义保证
 
 ```java
@@ -187,6 +222,8 @@ void constructor_end() {
 
 ## 六、原子操作
 
+> CAS（Compare And Swap）依赖 CPU 原子指令，实现无锁的原子比较并交换。
+
 ### 6.1 CAS操作
 
 ```java
@@ -212,6 +249,8 @@ bool cas(int* addr, int expected, int new_value) {
 ---
 
 ## 七、线程安全
+
+> 不可变对象天然线程安全；并发场景优先使用线程安全集合。
 
 ### 7.1 不可变对象
 
