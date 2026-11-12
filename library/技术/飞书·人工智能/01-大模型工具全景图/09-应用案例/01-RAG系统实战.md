@@ -10,6 +10,7 @@
 RAG（Retrieval-Augmented Generation，检索增强生成）是一种结合知识检索和LLM生成的架构，让模型能够基于外部知识回答问题。
 
 **核心价值**：
+
 - 解决模型知识过时问题
 - 减少幻觉
 - 支持实时知识
@@ -51,6 +52,8 @@ RAG系统流程：
 └─────────────┘
 ```
 
+*图：RAG系统流程示意（依正文整理）*
+
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 490" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
   <defs>
     <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -84,8 +87,6 @@ RAG系统流程：
   <text x="400" y="331" text-anchor="start" font-size="12" fill="#475569">Context Building</text>
   <text x="400" y="393" text-anchor="start" font-size="12" fill="#475569">Generation</text>
 </svg>
-
-*图：RAG系统流程示意（依正文整理）*
 
 ---
 
@@ -245,6 +246,8 @@ docs = ensemble_retriever.get_relevant_documents(query)
 
 ## 四、生产级RAG架构
 
+> 生产级RAG需要考虑查询改写、重排序、混合搜索等多个环节。
+
 ```python
 class ProductionRAG:
     def __init__(self):
@@ -332,9 +335,10 @@ print(result)
 
 ## 六、总结
 
-RAG是大模型应用的核心架构，生产级RAG需要考虑查询改写、重排序、混合搜索等多个环节。
+**RAG是大模型应用的核心架构**，生产级RAG需要考虑查询改写、重排序、混合搜索等多个环节。
 
 **学习要点**：
+
 1. 理解RAG核心流程
 2. 掌握文档分块策略
 3. 熟练使用向量检索

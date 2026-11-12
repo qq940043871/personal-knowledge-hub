@@ -1,4 +1,4 @@
-# Label Studio数据标注
+# Label Studio标注平台
 
 > 模块：数据处理
 > 更新时间：2026-03-29
@@ -13,6 +13,7 @@ Label Studio是一个开源的数据标注平台，支持多种数据类型（�
 **GitHub**：https://github.com/HumanSignal/label-studio
 
 **核心特点**：
+
 - 多数据类型支持
 - 灵活的标注配置
 - 团队协作
@@ -217,9 +218,10 @@ class MyModel(LabelStudioMLBase):
 
 ## 八、总结
 
-Label Studio是企业级数据标注的首选工具，支持复杂标注任务和团队协作。
+**Label Studio是企业级数据标注的首选工具**，支持复杂标注任务和团队协作。
 
 **适用场景**：
+
 - 训练数据标注
 - 模型评估数据标注
 - 团队协作标注

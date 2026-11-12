@@ -10,6 +10,7 @@
 提示词工程是优化与LLM交互的技术，通过设计高质量提示词获得更好的输出。
 
 **核心原则**：
+
 - 清晰具体
 - 结构化输出
 - 提供示例
@@ -133,6 +134,34 @@ REACT_PROMPT = """
 请开始：
 """
 ```
+
+*图：提示词工程四大核心技巧（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="260" y="16" width="200" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="41" text-anchor="middle" font-size="15" fill="#1e293b">提示词工程核心技巧</text>
+  <line x1="360" y1="56" x2="90" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="56" x2="270" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="56" x2="450" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="56" x2="630" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="20" y="122" width="140" height="64" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="148" text-anchor="middle" font-size="14" fill="#1e293b">结构化提示词</text>
+  <text x="90" y="170" text-anchor="middle" font-size="13" fill="#475569">角色 / 任务 / 要求</text>
+  <rect x="200" y="122" width="140" height="64" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="148" text-anchor="middle" font-size="14" fill="#1e293b">Few-Shot提示</text>
+  <text x="270" y="170" text-anchor="middle" font-size="13" fill="#475569">提供示例</text>
+  <rect x="380" y="122" width="140" height="64" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="450" y="148" text-anchor="middle" font-size="14" fill="#1e293b">CoT思维链</text>
+  <text x="450" y="170" text-anchor="middle" font-size="13" fill="#475569">逐步推理给出答案</text>
+  <rect x="560" y="122" width="140" height="64" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="630" y="148" text-anchor="middle" font-size="14" fill="#1e293b">ReAct推理+行动</text>
+  <text x="630" y="170" text-anchor="middle" font-size="13" fill="#475569">思考 / 行动 / 观察</text>
+</svg>
 
 ---
 
@@ -259,7 +288,7 @@ CRISP_TEMPLATE = """
 
 ## 五、常见问题解决
 
-### 1. 输出格式不稳定
+### 1. 输出格式不稳定：更严格的格式定义 + 后处理
 
 ```python
 # 解决方案：更严格的格式定义 + 后处理
@@ -277,7 +306,7 @@ def extract_json(text):
     return {"raw_text": text}
 ```
 
-### 2. 幻觉问题
+### 2. 幻觉问题：要求标注信息来源
 
 ```python
 # 解决方案：要求标注信息来源
@@ -297,7 +326,7 @@ HALLUCINATION_PROMPT = """
 """
 ```
 
-### 3. 重复生成
+### 3. 重复生成：限制输出长度+要求简洁
 
 ```python
 # 解决方案：限制输出长度+要求简洁
@@ -313,9 +342,10 @@ CONCISE_PROMPT = """
 
 ## 六、总结
 
-提示词工程是使用LLM的核心技能，需要不断实践和优化。
+**提示词工程是使用LLM的核心技能**，需要不断实践和优化。
 
 **学习要点**：
+
 1. 理解结构化提示词
 2. 掌握Few-Shot和CoT技巧
 3. 学会角色扮演设定

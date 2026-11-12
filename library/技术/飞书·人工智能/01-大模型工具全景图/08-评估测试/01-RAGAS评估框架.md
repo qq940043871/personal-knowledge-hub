@@ -7,6 +7,8 @@
 
 ## 一、RAGAS框架介绍
 
+> RAGAS 是专注 RAG 系统质量评估的开源框架，无需人工标注即可评估 RAG 管道，提供 4 个核心评估指标。
+
 ```
 RAGAS（Retrieval Augmented Generation Assessment）：
   - 专注RAG系统质量评估的开源框架
@@ -147,6 +149,8 @@ class AnswerRelevanceEvaluator:
 ---
 
 ## 四、与LangSmith Evals对比
+
+> 选型建议：纯 RAG 系统评估 → RAGAS；LangChain 生态 + 需要全面监控 → LangSmith；两者结合使用效果最佳。
 
 ```
 RAGAS vs LangSmith Evals：
