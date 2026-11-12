@@ -9,7 +9,7 @@
 
 JavaScript 的事件循环和微任务是两个紧密相关的概念，它们对于理解 JavaScript 的异步行为和执行顺序非常重要。
 
-## 事件循环（Event Loop）：
+## 事件循环（Event Loop）
 事件循环是 JavaScript 运行时用来处理异步事件（如定时器、用户交互、网络请求等）的机制。它不断地检查是否有待处理的事件，然后按照一定的顺序处理这些事件。
 
 事件循环的工作流程如下：
@@ -17,25 +17,51 @@ JavaScript 的事件循环和微任务是两个紧密相关的概念，它们对
 1. **执行栈（Execution Context Stack）**：这是保存正在执行的函数和其相关环境的栈。当一个函数被调用时，它会被推入执行栈。
 2. **微任务队列（Microtask Queue）**：这是一个队列，用于存放微任务。当一个微任务被添加到队列中时，它会被立即执行。
 3. **宏任务队列（Macrotask Queue）**：这是一个队列，用于存放宏任务。当一个宏任务被添加到队列中时，它不会被立即执行，而是等待当前执行栈为空后，再由事件循环取出并执行。
-4. **事件循环**：事件循环从宏任务队列中取出一个宏任务，执行它，然后清空执行栈。如果执行栈为空，事件循环会检查微任务队列，执行所有微任务。当微任务队列也被清空，事件循环会再次从宏任务队列中取出一个宏任务并执行。这个过程会一直重复下去。
+4. **事件循环**：事件循环从宏任务队列中取出一个宏任务，执行它，然后清空执行栈。如果执行栈为空，事件循环会检查微任务队列，执行所有微任务。当微任务队列也被清空，事件循环会再次从宏任务队列中取出一个宏任务并执行。**这个过程会一直重复下去**。
 
-## 微任务（Microtasks）：
+*图：事件循环执行流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="270" y="30" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="64" text-anchor="middle" font-size="13" fill="#1e293b">取出一个宏任务并执行</text>
+  <text x="360" y="104" text-anchor="middle" font-size="12" fill="#475569">宏任务：script、setTimeout、setInterval、I/O、UI渲染、AJAX</text>
+  <polyline points="450,58 590,58 590,126" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="500" y="130" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="590" y="164" text-anchor="middle" font-size="13" fill="#1e293b">执行后清空执行栈</text>
+  <polyline points="590,186 590,242 454,242" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="270" y="210" width="180" height="64" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="236" text-anchor="middle" font-size="13" fill="#1e293b">检查微任务队列</text>
+  <text x="360" y="256" text-anchor="middle" font-size="13" fill="#1e293b">执行所有微任务</text>
+  <text x="360" y="292" text-anchor="middle" font-size="12" fill="#475569">微任务：Promise回调、process.nextTick、MutationObserver</text>
+  <polyline points="270,242 136,242 136,190" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="40" y="130" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="152" text-anchor="middle" font-size="13" fill="#1e293b">微任务队列清空后</text>
+  <text x="130" y="172" text-anchor="middle" font-size="13" fill="#1e293b">取出下一个宏任务</text>
+  <polyline points="130,130 130,58 266,58" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+</svg>
+
+## 微任务（Microtasks）
 微任务是 JavaScript 中的一种异步任务，包括 Promise.then、Promise.catch、process.nextTick（在 Node.js 中）等。当一个微任务被添加到微任务队列中时，它会被立即执行。
 
-在事件循环中，当执行栈为空时，会检查微任务队列并执行所有的微任务。然后再清空执行栈，检查微任务队列……这个过程会一直重复下去，直到所有的宏任务和微任务都被处理完。
+在事件循环中，当执行栈为空时，会检查微任务队列并执行所有的微任务。然后再清空执行栈，检查微任务队列……**这个过程会一直重复下去，直到所有的宏任务和微任务都被处理完**。
 
 总结一下，JavaScript 的事件循环和微任务是两个密切相关的概念。事件循环负责处理异步事件，而微任务是其中的一种异步任务，会在事件循环的特定时刻被立即执行。
 
 ## JavaScript执行机制基于其单线程特性
 主要由以下关键概念构成：
 
-1. **单线程**： JavaScript是单线程语言，这意味着它一次只能执行一个任务。这种设计是为了避免多线程环境中的复杂同步问题，尤其是在处理DOM（文档对象模型）时，因为DOM不是线程安全的。
+1. **单线程**： JavaScript是单线程语言，这意味着它一次只能执行一个任务。这种设计是为了避免多线程环境中的复杂同步问题，尤其是在处理DOM（文档对象模型）时，**因为DOM不是线程安全的**。
 2. **事件循环（Event Loop）**： 由于JavaScript是单线程的，它依赖于事件循环来处理异步操作。事件循环的工作原理是：
     - 首先，JavaScript引擎会从脚本中取出一段可执行的代码（宏任务）并执行。
     - 当遇到异步操作（如setTimeout、Promise、Ajax等）时，引擎不会等待这些操作完成，而是将它们交给浏览器的其他线程（如网络线程、定时器线程等）处理。
     - 当这些异步操作完成后，它们的结果并不会直接返回给JavaScript引擎，而是被放入一个任务队列中。
     - 与此同时，事件循环会持续检查任务队列。如果队列中有待处理的任务，引擎就会取出第一个任务（微任务）并执行。
-    - 这个过程会一直重复，即执行宏任务 -> 执行所有微任务 -> 检查任务队列 -> 执行宏任务 -> ...，形成了所谓的"事件循环"。
+    - 这个过程会一直重复，即**执行宏任务 -> 执行所有微任务 -> 检查任务队列 -> 执行宏任务 -> ...**，形成了所谓的"事件循环"。
 3. **任务队列（Task Queue）**： 任务队列分为宏任务队列和微任务队列。不同的异步操作会被放入不同的队列中。
 4. **宏任务（Macro-task）**： 宏任务包括：
     - 整体的script代码
@@ -51,10 +77,10 @@ JavaScript 的事件循环和微任务是两个紧密相关的概念，它们对
 
 执行顺序如下：
 
-+ 主线程开始执行全局脚本，这被视为一个宏任务。
-+ 在执行过程中，如果遇到异步操作，会将其交给相应线程处理，并继续执行后续代码。
-+ 当当前宏任务执行完毕后，检查微任务队列。如果有微任务，就依次执行所有微任务。
-+ 执行完所有微任务后，事件循环会从宏任务队列中取出下一个宏任务执行。
-+ 这个过程不断重复，直到所有任务队列都为空。
+- 主线程开始执行全局脚本，这被视为一个宏任务。
+- 在执行过程中，如果遇到异步操作，会将其交给相应线程处理，并继续执行后续代码。
+- 当当前宏任务执行完毕后，检查微任务队列。如果有微任务，就依次执行所有微任务。
+- 执行完所有微任务后，事件循环会从宏任务队列中取出下一个宏任务执行。
+- 这个过程不断重复，直到所有任务队列都为空。
 
-通过这种机制，JavaScript能够处理异步操作并保持其单线程的特性，同时保证了UI的响应性和程序的运行效率。
+通过这种机制，**JavaScript能够处理异步操作并保持其单线程的特性，同时保证了UI的响应性和程序的运行效率**。

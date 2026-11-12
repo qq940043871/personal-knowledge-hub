@@ -1,22 +1,14 @@
 # 语言居然可以被计算出来 从 RNN 到 Transformer
 
-![](https://feishu.cn/file/CAIKb0PVDo0irhxIicvcOBLfnlh)
-
-## 从文本编码到序列建模：神经网络处理自然语言的基础
-
-![](https://feishu.cn/file/TIwEbj7eioYRp5xX4wFcOahEnKh)
+> 从文本编码到序列建模：神经网络处理自然语言的基础
 
 ## 引言
 
-你是否曾好奇，当你对智能助手说“帮我订一杯咖啡”时，机器是如何理解并回应的？或者，机器是如何判断一句话中每个词的情感倾向的？这一切的起点，源于一个根本性的问题：**如何将人类的文字语言，转化为机器能够理解并处理的数学形式？** 本课程将带你踏上这段旅程，从最基础的文本编码开始，逐步揭示神经网络，特别是循环神经网络（RNN）是如何作为基石，开启现代自然语言处理（NLP）大门的。
+你是否曾好奇，当你对智能助手说“帮我订一杯咖啡”时，机器是如何理解并回应的？或者，机器是如何判断一句话中每个词的情感倾向的？
 
----
-
-![](https://feishu.cn/file/UE83bw2pgoIgMGxRRy6ck1R1n3g)
+这一切的起点，源于一个根本性的问题：**如何将人类的文字语言，转化为机器能够理解并处理的数学形式？** 本课程将带你踏上这段旅程，从最基础的文本编码开始，逐步揭示神经网络，特别是循环神经网络（RNN）是如何作为基石，开启现代自然语言处理（NLP）大门的。
 
 ## 第一部分：问题引言与核心需求
-
-![](https://feishu.cn/file/UxaSbpvUToW9LzxFfR1cdz7WnDh)
 
 ### 1.1 典型的自然语言处理（NLP）任务
 
@@ -25,52 +17,38 @@
 1. **语言生成任务**：给定一个句子的开头，如“今天天气真”，要求模型预测并生成下一个最可能的词，例如“好”或“不错”。
 2. **序列标注任务**：给定一个句子，如“这家餐厅的菜品非常美味”，要求模型判断句子中每个词的情感色彩（褒/贬）或词性（名词/动词/形容词等）。
 
-![](https://feishu.cn/file/YZsOb6V6Fovwq2xWll7cPt2knQf)
-
 ### 1.2 核心挑战
 
-这两个任务都依赖于机器对语言的“理解”。然而，计算机的底层逻辑是数学计算，它无法直接处理“苹果”、“快乐”这样的离散文字符号。因此，我们面临的核心挑战是：**如何将离散的文本符号（字、词）转换为神经网络能够理解和计算的数值形式？** 这是所有NLP任务的第一步，也是至关重要的一步——**文本编码**。
+这两个任务都依赖于机器对语言的“理解”。然而，计算机的底层逻辑是数学计算，它无法直接处理“苹果”、“快乐”这样的离散文字符号。
 
----
-
-![](https://feishu.cn/file/Zrj6bpF5qoDM5pxL9fgckry4nKd)
+因此，我们面临的核心挑战是：**如何将离散的文本符号（字、词）转换为神经网络能够理解和计算的数值形式？** 这是所有NLP任务的第一步，也是至关重要的一步——**文本编码**。
 
 ## 第二部分：文本的数字化：编码
-
-![](https://feishu.cn/file/DsapbXtoEoGC8RxW0TIcaqx7n1e)
 
 ### 2.1 编码的必要性
 
 “编码”即将文字转换为计算机可识别的数字的过程。没有这一步，任何先进的算法都如同无源之水。我们需要一种系统化的方法，为词表中的每一个词分配一个唯一的、可计算的数值表示。
 
-![](https://feishu.cn/file/Pjpvbc0JposV0Hxgk70cn9Ginje)
-
 ### 2.2 编码的两种极端方式及其缺陷
-
-![](https://feishu.cn/file/VtrVbrUIRoVsmaxSfmRcOtoxnlb)
 
 #### 2.2.1 低维离散编码
 
 - **方法**：为词表中的每个词分配一个唯一的整数ID，例如：`“我”->1`, `“你”->2`, `“地球”->3568`。
 - **缺点**：
-
   1. **维度极低**：仅用一个数字表示，相当于一维向量，信息承载能力有限。
   2. **无语义**：数字ID的大小（如“地球”的3568远大于“你”的2）本身不携带任何语义信息，无法通过数学运算（如相减）来衡量“地球”与“你”的关联性。
-
-![](https://feishu.cn/file/RG2gbTV5poTKloxer27cjKNDnzc)
 
 #### 2.2.2 高维稀疏编码：独热编码（One-Hot Encoding）
 
 - **方法**：构建一个长度等于词表大小的向量。对于词表中的第`i`个词，将其对应向量位置的值设为`1`，其余位置全为`0`。例如，假设词表为`["我", "你", "快乐"]`，则：
-`“我” -> [1, 0, 0]`
-`“你” -> [0, 1, 0]`
-`“快乐” -> [0, 0, 1]`
-- **缺点**：
 
+  `“我” -> [1, 0, 0]`
+  `“你” -> [0, 1, 0]`
+  `“快乐” -> [0, 0, 1]`
+
+- **缺点**：
   1. **维度灾难与极度稀疏**：若词表有10万个词，则每个词都需用10万维的向量表示，其中仅1个位置为有效值（1），计算和存储效率极低。
   2. **正交性与语义缺失**：所有词向量两两正交（点积为0），这意味着从数学上看，任何两个词都是完全不相关的。这显然不符合语言现实（“快乐”与“幸福”应强相关）。
-
-![](https://feishu.cn/file/ZzPLbviR4ofdbBxsvSncJYk9nAd)
 
 ### 2.3 理想方案：词嵌入（Word Embedding）
 
@@ -79,7 +57,31 @@
 - **关键优势**：词向量能够通过**数学方法（点积、余弦相似度）量化词与词之间的语义相关性**。相似的词在向量空间中的位置也相近。
 - **神奇示例**：在训练良好的词嵌入空间中，可能会发现 `向量(国王) - 向量(男人) + 向量(女人) ≈ 向量(女王)` 的线性关系，这直观地体现了词向量捕捉到的语义类比能力。
 
-![](https://feishu.cn/file/GDUQbhdatoArjFxY2rhccvT6n3e)
+*图：三种文本编码方式的演进与取舍（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="25" y="50" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="77" text-anchor="middle" font-size="14" fill="#1e293b">低维离散编码</text>
+  <text x="95" y="120" text-anchor="middle" font-size="13" fill="#475569">维度极低、无语义</text>
+  <line x1="165" y1="72" x2="199" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="205" y="50" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="275" y="77" text-anchor="middle" font-size="14" fill="#1e293b">One-Hot 编码</text>
+  <text x="275" y="120" text-anchor="middle" font-size="13" fill="#475569">高维稀疏、正交无语义</text>
+  <line x1="345" y1="72" x2="379" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="385" y="50" width="150" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="460" y="77" text-anchor="middle" font-size="14" fill="#1e293b">词嵌入（理想方案）</text>
+  <text x="460" y="120" text-anchor="middle" font-size="13" fill="#475569">稠密适中维度、可量化语义</text>
+  <line x1="535" y1="72" x2="569" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="575" y="50" width="130" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="640" y="70" text-anchor="middle" font-size="14" fill="#1e293b">嵌入矩阵 E</text>
+  <text x="640" y="88" text-anchor="middle" font-size="13" fill="#475569">由海量文本训练</text>
+  <text x="640" y="120" text-anchor="middle" font-size="13" fill="#475569">构成潜空间</text>
+</svg>
 
 ### 2.4 嵌入矩阵与潜空间
 
@@ -87,24 +89,15 @@
 - **潜空间（Latent Space）**：这些高维词向量所构成的数学空间称为潜空间。
 - **可视化**：为了直观理解，我们可以使用**t-SNE**等降维技术，将高维潜空间投影到2D或3D平面。可视化后，我们常会发现语义相似的词（如所有动物、所有国家）会自然地聚集在一起，这是词嵌入成功的有力证据。
 
----
-
-![](https://feishu.cn/file/CeHibF9bfoO25bxFM5vcVVFdnTe)
-
 ## 第三部分：从词向量到神经网络输入：序列建模的需求
-
-![](https://feishu.cn/file/YB3NbJeFKoCQJ1xdUqAccL5YnOg)
 
 ### 3.1 最简单的平铺输入法
 
 获得每个词的向量后，一个直观的想法是：将一句话中所有词的词向量**首尾相接（平铺）**，拼接成一个超长向量，作为传统全连接神经网络的输入。
 
 - **存在的问题**：
-
   1. **变长输入**：不同句子的长度不同，导致输入层神经元的数量不稳定，网络结构无法固定。
   2. **丢失顺序信息**：“我爱你”和“你爱我”平铺后得到的向量完全相同，但语义截然不同。这种简单的平铺完全丧失了词语间的**顺序关系**。
-
-![](https://feishu.cn/file/Ixyxb5G3YomBJ0xw2kjcVoKRnWw)
 
 ### 3.2 引入序列建模的必要性
 
@@ -115,13 +108,7 @@
 
 这就引出了**序列模型**，而**循环神经网络（RNN）** 正是解决这类问题的经典基石。
 
----
-
-![](https://feishu.cn/file/BEAmbAo8tozYppxpftmcK0XKnge)
-
 ## 第四部分：循环神经网络：RNN
-
-![](https://feishu.cn/file/Nx9TbccMBoQbz8xFQPIcgL2qn4f)
 
 ### 4.1 RNN的核心思想
 
@@ -129,68 +116,90 @@ RNN的核心在于其**循环结构**。与传统神经网络不同，RNN在每�
 
 - **隐藏状态（Hidden State, h）**：这是RNN的“记忆单元”。它是一个向量，**封装了网络从序列开始到当前时间步为止所处理过的所有历史信息**。它随着序列的推进而不断更新。
 
-![](https://feishu.cn/file/Z0c4bEz6noHq6pxujQLcRw8Wnac)
-
 ### 4.2 RNN的工作流程（分步详解）
 
 假设我们有一个句子：“我 爱 中国”。
 
 1. **时间步 t=1**：
-
    - 输入：第一个词“我”的词向量 `x1`。
    - 计算：网络结合 `x1` 和一个初始隐藏状态 `h0`（通常为零向量），计算出新的隐藏状态 `h1`。
    - 输出：`h1` 经过计算得到第一个时间步的输出 `y1`（例如，对“我”的情感判断）。**关键：`h1` 现在包含了“我”的信息。**
 2. **时间步 t=2**：
-
    - 输入：第二个词“爱”的词向量 `x2` **与上一步的隐藏状态 `h1`**。
    - 计算：网络结合 `x2` 和 `h1`，计算出新的隐藏状态 `h2`。
    - 输出：由 `h2` 得到 `y2`。**关键：`h2` 同时包含了“我”和“爱”的信息。**
 3. **时间步 t=3**：
-
    - 输入：第三个词“中国”的词向量 `x3` **与 `h2`**。
    - 计算：网络结合 `x3` 和 `h2`，计算出 `h3`。
    - 输出：由 `h3` 得到 `y3`。**最终，`h3` 包含了整个句子“我爱中国”的上下文信息。**
 
-![](https://feishu.cn/file/BYZub9iBkoOwEjxTY3zcLkNdnTf)
+*图：RNN 按时间步展开的工作流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="40" y="20" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="45" text-anchor="middle" font-size="14" fill="#1e293b">x1：词向量“我”</text>
+  <rect x="280" y="20" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="45" text-anchor="middle" font-size="14" fill="#1e293b">x2：词向量“爱”</text>
+  <rect x="520" y="20" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="600" y="45" text-anchor="middle" font-size="14" fill="#1e293b">x3：词向量“中国”</text>
+  <line x1="120" y1="60" x2="120" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="360" y1="60" x2="360" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="600" y1="60" x2="600" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="40" y="100" width="160" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="120" y="127" text-anchor="middle" font-size="14" fill="#1e293b">隐藏状态 h1</text>
+  <rect x="280" y="100" width="160" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="127" text-anchor="middle" font-size="14" fill="#1e293b">隐藏状态 h2</text>
+  <rect x="520" y="100" width="160" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="600" y="127" text-anchor="middle" font-size="14" fill="#1e293b">隐藏状态 h3</text>
+  <line x1="200" y1="122" x2="280" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="440" y1="122" x2="520" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="240" y="158" text-anchor="middle" font-size="13" fill="#475569">传递历史信息</text>
+  <text x="480" y="158" text-anchor="middle" font-size="13" fill="#475569">传递历史信息</text>
+  <line x1="120" y1="144" x2="120" y2="180" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="360" y1="144" x2="360" y2="180" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <line x1="600" y1="144" x2="600" y2="180" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="40" y="180" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="205" text-anchor="middle" font-size="14" fill="#1e293b">输出 y1</text>
+  <rect x="280" y="180" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="205" text-anchor="middle" font-size="14" fill="#1e293b">输出 y2</text>
+  <rect x="520" y="180" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="600" y="205" text-anchor="middle" font-size="14" fill="#1e293b">输出 y3</text>
+  <text x="360" y="232" text-anchor="middle" font-size="13" fill="#475569">最终 h3 包含了整个句子“我爱中国”的上下文信息</text>
+</svg>
 
 ### 4.3 RNN的参数与公式
 
 RNN在每一个时间步共享同一组参数，这使得它能够处理任意长度的序列。
 
 - **关键权重矩阵**：
-
   - `W_xh`：作用于当前输入向量 `x_t`。
   - `W_hh`：作用于前一时刻的隐藏状态 `h_{t-1}`。
   - `W_hy`：将隐藏状态 `h_t` 映射到输出空间。
 - **核心公式**：
-`h_t = tanh(W_xh * x_t + W_hh * h_{t-1} + b_h)`
-`y_t = W_hy * h_t + b_y`
-其中，`tanh` 是激活函数，`b_h` 和 `b_y` 是偏置项。
 
-![](https://feishu.cn/file/I9yRbtsVMoZsH6x9buKc3iqenPf)
+  `h_t = tanh(W_xh * x_t + W_hh * h_{t-1} + b_h)`
+  `y_t = W_hy * h_t + b_y`
+
+其中，`tanh` 是激活函数，`b_h` 和 `b_y` 是偏置项。
 
 ### 4.4 RNN的能力与局限性
 
 - **能力**：RNN成功解决了变长输入和顺序建模问题，是早期NLP任务（如词性标注、情感分析、文本生成、机器翻译）的强大工具。
 - **局限性**：
-
   1. **梯度消失/爆炸问题**：在反向传播时，梯度需要沿着时间步连续相乘。当序列很长时，梯度可能变得极小（消失）或极大（爆炸），导致网络**难以捕捉长距离依赖**（例如，一句话开头的代词指代的是结尾处的名词）。
   2. **顺序计算瓶颈**：`h_t` 的计算必须等待 `h_{t-1}` 完成，这使得RNN**无法并行计算**，处理长序列时效率低下。
 
----
-
-![](https://feishu.cn/file/HaNNbQ1fCoGue6xAfipcriusnFc)
-
 ## 第五部分：总结与展望
-
-![](https://feishu.cn/file/QgjAbtwuRojvMWxbpM1cEg7JnUb)
 
 ### 5.1 核心概念回顾
 
 - **文本编码**：将文字转化为数字的过程。**词嵌入**是最优方案，通过训练生成**嵌入矩阵**，使词向量在**潜空间**中能通过**点积或余弦相似度**反映语义关系。
 - **序列建模**：为处理顺序数据，**RNN**通过**隐藏状态**在时间步间传递历史信息，赋予了神经网络“记忆”序列上下文的能力。
-
-![](https://feishu.cn/file/JDMybh19EoKDwXxdVLjcv4kAnAg)
 
 ### 5.2 未来发展方向
 
@@ -199,23 +208,8 @@ RNN的局限性催生了更强大的模型：
 1. **RNN的改进**：为解决长距离依赖，引入了**门控机制**，如**LSTM（长短期记忆网络）** 和**GRU（门控循环单元）**。它们通过精心设计的“门”来调控信息的流动与保留，有效缓解了梯度消失问题。
 2. **范式转变**：为彻底解决顺序计算的瓶颈，**Transformer** 架构应运而生。它抛弃了循环结构，通过**自注意力机制**，让序列中的每一个元素都能**并行地、直接地**关注其他所有元素，从而全局性地捕捉依赖关系，极大地提升了效率和性能，开启了NLP的新纪元。
 
+---
+
 **关键词**：编码, one-hot编码, 词嵌入, 嵌入矩阵, 潜空间, 词向量, 点积或余弦相似度, 神经网络, 循环神经网络, 隐藏状态
 
-**核心摘要**：将文字输入神经网络前需先编码为数字。传统方式如数字标识或独热编码存在维度失衡、缺乏语义关联等问题。词嵌入技术通过训练生成适中维度的词向量（组成嵌入矩阵），使向量能通过点积或余弦相似度反映词间语义关系。
-获得词向量后，直接平铺输入神经网络无法处理词序且参数冗余。循环神经网络（RNN）引入隐藏状态在时间步间传递信息，从而保留序列顺序，适用于情感分析、文本生成等任务。但RNN存在长期依赖难捕捉、顺序计算低效等问题。
-虽有LSTM、GRU等改进，但仍受限于逐步处理模式。最终，Transformer架构通过自注意力机制彻底抛弃顺序计算，实现并行处理，成为更高效的解决方案。
-
-![](https://feishu.cn/file/GBVHb7Hp6o6oJGx6YHecd9IjnFg)
-
-![](https://feishu.cn/file/F8lVbnDVEoyRhfxay9gcPdK6n5e)
-
-![](https://feishu.cn/file/LIq2bDjUDoqV0vxGOK7cmJkenLd)
-
-![](https://feishu.cn/file/WaLvbXvbpo9rOnxtFFhcllnpnUh)
-
-![](https://feishu.cn/file/BOKobH8pXoTR4AxdYCWcUoXgnGf)
-
-![](https://feishu.cn/file/OuYVbEg8FoCI37xdozIcH0Y5nmg)
-
-![](https://feishu.cn/file/HJrXbkYyYopNNrxzDwscekecn1d)
-
+**核心摘要**：将文字输入神经网络前需先编码为数字。传统方式如数字标识或独热编码存在维度失衡、缺乏语义关联等问题。词嵌入技术通过训练生成适中维度的词向量（组成嵌入矩阵），使向量能通过点积或余弦相似度反映词间语义关系。获得词向量后，直接平铺输入神经网络无法处理词序且参数冗余。循环神经网络（RNN）引入隐藏状态在时间步间传递信息，从而保留序列顺序，适用于情感分析、文本生成等任务。但RNN存在长期依赖难捕捉、顺序计算低效等问题。虽有LSTM、GRU等改进，但仍受限于逐步处理模式。最终，Transformer架构通过自注意力机制彻底抛弃顺序计算，实现并行处理，成为更高效的解决方案。

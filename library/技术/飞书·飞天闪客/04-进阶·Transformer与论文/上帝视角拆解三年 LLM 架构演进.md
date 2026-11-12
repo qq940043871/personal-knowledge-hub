@@ -1,21 +1,17 @@
 # 上帝视角拆解三年 LLM 架构演进
 
-![](https://feishu.cn/file/Mh2HbyNjuoAExaxMkYLcxkain5d)
-
 ## 课程大纲：大语言模型架构发展：困境、创新与未来展望
 
 **课程目标**：通过梳理2019-2024年核心开源模型的架构变迁，从上帝视角理解Transformer架构的演进逻辑，剖析当前模型能力提升面临的瓶颈，并探讨未来AI发展的可能方向。
 
----
-
-![](https://feishu.cn/file/D4x1bxUwMorKyKxPFSicHnZDnvf)
-
 ## 第一部分：引言与核心问题
 
 **现象观察：震撼感的消退与差距的收敛**
+
 自GPT-3与ChatGPT引发全球关注，再到GPT-4发布时展现出的压倒性能力差距，人工智能领域仿佛进入了一个加速狂奔的时代。然而，近一两年来，一个有趣的趋势正在显现：从GPT-2到DeepSeek-V4等众多模型的性能差距正在逐渐缩小，鲜有能再次带来类似GPT-4发布时那种颠覆性震撼的模型出现。模型能力的提升似乎从“阶跃式”变为了“渐进式”。
 
 **核心问题提出**
+
 这一现象引发了我们对当前发展路径的深层思考，并凝练为三个核心问题：
 
 1. **大语言模型的发展是否已到尽头？** 这并非指技术的停滞，而是指当前以Transformer为核心架构的发展范式，其增长曲线是否已进入平台期。
@@ -23,8 +19,6 @@
 3. **AI的发展是否遭遇了根本性瓶颈？** 瓶颈是源于工程与数据的限制，还是源于当前技术路线本身的理论局限？
 
 本文将基于对2019至2024年间67个核心开源模型的架构分析，尝试从技术演进的细节出发，为这些宏观问题提供一个系统性的解答。
-
-![](https://feishu.cn/file/YeaebT7ZGoJ6AcxxWkvc7tlgngh)
 
 ## 第二部分：Transformer架构核心组件演进解析
 
@@ -36,7 +30,27 @@
 
 基于这个框架，我们来逐一审视其内部组件的演进。
 
-![](https://feishu.cn/file/Qd7eb9ML2oV6xcxtVJKc6UIJn1g)
+*图：Transformer 架构的简化三步框架（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="50" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="74" text-anchor="middle" font-size="14" fill="#1e293b">1. 编码</text>
+  <text x="130" y="94" text-anchor="middle" font-size="13" fill="#475569">文字（token）→ 向量（embedding）</text>
+  <line x1="230" y1="78" x2="260" y2="78" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="260" y="50" width="200" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="74" text-anchor="middle" font-size="14" fill="#1e293b">2. 计算</text>
+  <text x="360" y="94" text-anchor="middle" font-size="13" fill="#475569">注意力层 + 前馈神经网络层</text>
+  <line x1="460" y1="78" x2="490" y2="78" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="490" y="50" width="200" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="590" y="74" text-anchor="middle" font-size="14" fill="#1e293b">3. 解码</text>
+  <text x="590" y="94" text-anchor="middle" font-size="13" fill="#475569">输出预测的下一个 token</text>
+  <text x="360" y="150" text-anchor="middle" font-size="13" fill="#475569">注意力层使词向量融合上下文信息；前馈网络对每个词向量做非线性变换，是生成最终预测的关键</text>
+</svg>
 
 ### 1. 位置编码
 
@@ -48,8 +62,6 @@
 - **理论探索**：**无位置编码**。有研究发现在某些特定架构或任务中，即使不显式添加位置信息，模型也能隐式学习到顺序，证明了位置信息的注入并非绝对必要，但此路径尚未成为主流。
 - **当前状态**：**技术路径基本收束，创新空间有限**。RoPE及其变体已成为事实标准，后续改进多集中于如何更好地支持超长上下文，本质创新已非常罕见。
 
-![](https://feishu.cn/file/LfDbblzRWo2W3Ax4BBxcz8tHnad)
-
 ### 2. 归一化技术
 
 **作用**：稳定网络训练过程，防止数值异常。
@@ -60,8 +72,6 @@
 - **作用域扩展**：归一化不仅可用于主干向量，还可扩展至注意力机制内部。应用于Query、Key、Value向量上分别形成**Q-Norm、K-Norm、V-Norm**，或同时应用于QK、KV向量对形成**QK-Norm、KV-Norm**等。
 - **当前状态**：**所有可能的组合已被广泛探索，创新空间基本饱和**。从算法到位置，再到作用域，几乎所有排列组合都已被研究和应用，该领域的创新已进入细节优化和工程调优阶段。
 
-![](https://feishu.cn/file/SfS8bzakoolv0ZxCOP7c9riCnac)
-
 ### 3. 残差连接
 
 **作用**：缓解深层网络训练的梯度消失问题，是构建深层模型的关键。
@@ -70,21 +80,16 @@
 - **近期改良**：近期，字节跳动、DeepSeek、Kimi等团队先后提出了HCM、Hc-Attention、ResiDual等方案，尝试对这一经典设计进行优化，例如在残差连接中引入更复杂的门控或结构。
 - **当前状态**：**仍处于探索阶段，但改动空间相对有限**。这些新尝试尚不普及，且其收益需要在大规模实验中验证。残差连接的核心思想极其稳固，颠覆性改动的可能性不大。
 
-![](https://feishu.cn/file/F9izb80d9oGy1AxCwrVcG98ynQd)
-
 ### 4. 前馈神经网络层
 
 **作用**：对每个token的向量进行非线性变换，是模型记忆知识的主要部分。
 
 - **传统架构**：一个或多个全连接层，参数量巨大，占据了模型大部分参数。
 - **革命性创新：混合专家模型**
-
   - **核心思想**：将一个巨大的FFN层拆分为多个较小的“专家”子网络，并增加一个**路由网络**。对于每个token，路由网络会选择性地激活其中一小部分专家进行计算。
   - **代表模型**：**MoE** → **DeepSeek-MoE**。后者通过引入更细粒度的专家和**共享专家**机制，进一步提升了效率和效果。
 - **模型范式转变**：这标志着模型从**Dense（稠密）模型**（所有参数参与计算）向**Sparse（稀疏）模型**（仅部分参数激活）的根本性转变，在维持甚至提升能力的同时，大幅降低了推理成本。
 - **当前状态**：**MoE已成为主流架构选择**。当前的优化焦点已转向专家数量、粒度、路由策略的精细化设计，而非思想本身。
-
-![](https://feishu.cn/file/Cd0DbMbvko8H5rxWholcgNmUnBh)
 
 ### 5. 注意力机制
 
@@ -92,22 +97,15 @@
 
 - **核心挑战**：标准注意力的计算复杂度与序列长度的平方成正比，导致处理长序列时计算和内存开销巨大，被称为“token烧”。
 - **优化路径一：减少计算量，但保持计算数量**
-
   - **MHA → MQA → GQA → MLA**。这条路径的核心是通过**共享**Key和Value的投影矩阵来减少KV缓存的大小和计算量。从多头注意力（MHA）到多查询注意力（MQA），再到分组查询注意力（GQA）和DeepSeek提出的多潜注意力（MLA），优化层层递进，已成为标准实践。
 - **优化路径二：减少计算数量（稀疏注意力）**
-
   - **DSA、SWA、CSA、HCA等**。这类方法不再计算所有token对之间的关系，而是基于固定窗口（如滑动窗口SWA）、局部块或稀疏筛选机制，只计算最相关的一部分连接，从而将复杂度降至线性或接近线性。
 - **优化路径三：改变计算复杂度（线性注意力）**
-
   - **KDA、Gated-Delta-Net、Lightning Attention、Mamba等**。这类方法试图从根本上改变注意力计算的数学形式，利用核函数等技巧，将复杂度直接降低到与序列长度成线性关系。其中，基于状态空间模型的**Mamba**架构引发了广泛关注。
 - **混合范式**：由于线性注意力可能在某些方面不如传统注意力，**Hybrid Attention**（混合注意力）被提出，即在模型的不同层或模块中混合使用传统注意力和线性注意力。
 - **当前状态**：**百花齐放，但基础创新点已被充分挖掘**。注意力机制的优化是过去几年创新最密集的领域，但主要方向（共享KV、稀疏化、线性化）都已被充分探索，属于“已死”但仍在被不断改良的领域，难以出现颠覆性的新范式。
 
-![](https://feishu.cn/file/VMyMbv7vRouWQDxLg1EcsqHZnWd)
-
 ## 第三部分：架构创新的瓶颈与宏观视角
-
-![](https://feishu.cn/file/PFodb8HMqofMq5xBhC0cCmX5nGb)
 
 ### 1. 架构层面的总结
 
@@ -120,15 +118,54 @@
 
 综上，**Transformer架构底座的各个“零件”都已被充分拆解、改进和重新组装，依靠架构内部的精巧设计带来性能飞跃的红利期正在过去。**
 
-![](https://feishu.cn/file/TUCBbzL6solby0xNpGrccCPcnNc)
+*图：五大核心组件演进与创新空间对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 385" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="85" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">组件</text>
+  <text x="340" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">演进路径</text>
+  <text x="610" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">当前状态</text>
+  <rect x="20" y="45" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="78" text-anchor="middle" font-size="14" fill="#1e293b">位置编码</text>
+  <text x="165" y="67" font-size="13" fill="#1e293b">固定正余弦 → 旋转位置编码 → RoPE</text>
+  <text x="165" y="87" font-size="13" fill="#475569">无位置编码：仅特定场景可行，尚未成主流</text>
+  <rect x="520" y="45" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="610" y="67" text-anchor="middle" font-size="13" fill="#1e293b">路径基本收束</text>
+  <text x="610" y="87" text-anchor="middle" font-size="13" fill="#475569">创新空间有限</text>
+  <rect x="20" y="111" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="144" text-anchor="middle" font-size="14" fill="#1e293b">归一化技术</text>
+  <text x="165" y="133" font-size="13" fill="#1e293b">LayerNorm → RMSNorm</text>
+  <text x="165" y="153" font-size="13" fill="#475569">Pre/Post-Norm；QK-Norm、KV-Norm 等</text>
+  <rect x="520" y="111" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="610" y="133" text-anchor="middle" font-size="13" fill="#1e293b">组合探索基本饱和</text>
+  <text x="610" y="153" text-anchor="middle" font-size="13" fill="#475569">进入细节优化阶段</text>
+  <rect x="20" y="177" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="210" text-anchor="middle" font-size="14" fill="#1e293b">残差连接</text>
+  <text x="165" y="199" font-size="13" fill="#1e293b">恒等映射（默认设置）</text>
+  <text x="165" y="219" font-size="13" fill="#475569">HCM、Hc-Attention、ResiDual 等尝试</text>
+  <rect x="520" y="177" width="180" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="610" y="199" text-anchor="middle" font-size="13" fill="#1e293b">仍在探索早期</text>
+  <text x="610" y="219" text-anchor="middle" font-size="13" fill="#475569">改动空间相对有限</text>
+  <rect x="20" y="243" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="276" text-anchor="middle" font-size="14" fill="#1e293b">前馈网络层</text>
+  <text x="165" y="265" font-size="13" fill="#1e293b">Dense 全连接层 → MoE</text>
+  <text x="165" y="285" font-size="13" fill="#475569">DeepSeek-MoE：细粒度专家 + 共享专家</text>
+  <rect x="520" y="243" width="180" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="610" y="265" text-anchor="middle" font-size="13" fill="#1e293b">MoE 成为主流</text>
+  <text x="610" y="285" text-anchor="middle" font-size="13" fill="#475569">进入应用深化阶段</text>
+  <rect x="20" y="309" width="130" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="342" text-anchor="middle" font-size="14" fill="#1e293b">注意力机制</text>
+  <text x="165" y="331" font-size="13" fill="#1e293b">MHA → MQA → GQA → MLA</text>
+  <text x="165" y="351" font-size="13" fill="#475569">稀疏注意力（SWA 等）；线性注意力（Mamba 等）</text>
+  <rect x="520" y="309" width="180" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="610" y="331" text-anchor="middle" font-size="13" fill="#1e293b">基础创新已被充分挖掘</text>
+  <text x="610" y="351" text-anchor="middle" font-size="13" fill="#475569">边际效益递减</text>
+</svg>
 
 ### 2. 发展放缓的证据
 
 - **数据证据**：开源模型与闭源顶尖模型的能力差距在持续缩小。各大厂推出的模型在架构选择上高度趋同（如普遍采用RoPE、RMSNorm、GQA、MoE等），表明技术路径正在收敛。
 - **体感证据**：研究者和从业者普遍感到，能带来显著、稳定性能提升的“简单手段”越来越少，更多优化停留在“点状”的边际改进上。
 - **模式证据**：若技术发展呈线性或指数增长，领先者与追随者的差距应保持不变或拉大。当前差距缩小的现象，恰恰是**发展曲线进入平台期**的典型特征。
-
-![](https://feishu.cn/file/LbTSbABR4ozESvxcTnDc60z1nob)
 
 ### 3. AI发展的三大定律与悖论
 
@@ -138,11 +175,7 @@
 - **Bitter Lesson（惨痛教训）**：该定律认为，长期来看，利用算力的通用方法终将胜过人类设计的复杂技巧。这暗示着，**当前为优化Transformer架构而进行的大量精细工程，在未来更大规模的算力面前，可能反而成为一种历史包袱或阻碍。**
 - **莫拉维克悖论**：该悖论指出，对人类而言简单（如常识、直觉、物理世界交互）的智力活动，对机器极难；反之，对人类困难（如复杂数学计算）的，对机器却相对容易。当前大模型在语言任务上的成功，可能掩盖了一个根本问题：**它底层的Transformer架构及其训练范式，可能并非通向具备常识与具身理解能力的通用人工智能的正确路径。**
 
-![](https://feishu.cn/file/J6Jrb9EbEoQ5xFxRA8scypd8nHe)
-
 ## 第四部分：未来展望与思考
-
-![](https://feishu.cn/file/UxVObTbn9oUPl7xFqXlcUDwQnec)
 
 ### 1. 可能的突破方向
 
@@ -150,8 +183,6 @@
 
 - **多模态融合**：超越当前“将图像/音频编码后与文本对齐”的初级阶段，追求**真正的跨模态推理与理解**，使模型能够像人类一样，在不同感官信息间建立深层、统一的语义关联。
 - **世界模型**：旨在构建对物理世界运行规律、因果结构的理解和模拟能力。虽然其定义和边界尚不清晰，但**从学习语言统计规律转向学习世界运行规律**，可能是通往更高级智能的关键一步。
-
-![](https://feishu.cn/file/Yuy8bx5J7o7llax9g4LcAPB7nBf)
 
 ### 2. 对技术发展的辩证思考
 
@@ -168,34 +199,3 @@
 **关键词**：大语言模型，Transformer架构，位置编码，归一化，残差连接，注意力机制，前馈神经网络，混合专家模型，Scaling Law，多模态，世界模型。
 
 **核心摘要**：本文系统剖析了Transformer架构五大核心组件的演进史，论证了当前架构内部创新的边际效益已大幅递减。模型能力差距的缩小、Scaling Law的短期瓶颈、Bitter Lesson的警示以及莫拉维克悖论的映照，共同指向一个结论：单纯优化现有架构已难以带来能力的质变。未来突破需寄望于多模态融合、世界模型等更底层的范式创新，同时需以辩证眼光看待技术发展，平衡对单一技术的审慎与对累积进步的信心。
-
-![](https://feishu.cn/file/LkXTbtJPSoxZJPxwHqVcTHc1nE6)
-
-![](https://feishu.cn/file/RKQ1bB8lBoJUqmxZ0cMc6Q6jnFb)
-
-![](https://feishu.cn/file/MbS3bV6WqomfNKxv4ICc5YWPnUb)
-
-![](https://feishu.cn/file/YZtIboVSeoPVwDxi7Ryc8WH0nch)
-
-![](https://feishu.cn/file/P3y6ba574oGTKcxu5pscB5FRnXg)
-
-![](https://feishu.cn/file/OIQsb8DKiowrqyxQCdNctUBinSc)
-
-![](https://feishu.cn/file/KfVJb9ti7oXGXZxjZdMcwDYenYg)
-
-![](https://feishu.cn/file/MEKDbflVDojmqIxgjIkcv8dqnrg)
-
-![](https://feishu.cn/file/PAMYb8baKoWyiuxOfkzczXHLn0N)
-
-![](https://feishu.cn/file/RMTPbxSW1ozeTdxf0nkcSgyTnTf)
-
-![](https://feishu.cn/file/MlmJbkF4bo7Hz2xTNjVcBEqJnuJ)
-
-![](https://feishu.cn/file/Z5n6bBPgyoGa9ZxRHCucB5ZUnmV)
-
-![](https://feishu.cn/file/ItiEbImoIo79Ssx1kXNceCKknsc)
-
-![](https://feishu.cn/file/VI0KbWQpWopKUax7zwucUQAunmc)
-
-![](https://feishu.cn/file/Tr9BbefH2oZYaIxpDhccKyWjnYg)
-

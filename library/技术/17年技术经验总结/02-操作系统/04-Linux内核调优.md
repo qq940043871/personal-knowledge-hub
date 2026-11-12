@@ -5,7 +5,7 @@
 
 ---
 
-## 一、理论基础
+## 理论基础：内核参数体系
 
 ### 1. 内核参数体系
 
@@ -105,7 +105,7 @@ options <module_name> <param>=<value>
 
 ---
 
-## 二、实践应用
+## 实践应用：调优脚本与验证
 
 ### 1. 完整调优脚本
 
@@ -212,7 +212,7 @@ wrk -t4 -c1000 -d30s http://localhost/
 
 ---
 
-## 三、生产环境问题案例
+## 生产环境问题案例
 
 ### 案例1：突发大量连接导致连接失败
 
@@ -241,7 +241,7 @@ sysctl net.ipv4.tcp_max_syn_backlog
 ```
 
 **根因分析：**
-tcp_max_syn_backlog和somaxconn默认值太小，无法应对突发。
+**tcp_max_syn_backlog和somaxconn默认值太小，无法应对突发。**
 
 **解决方案：**
 ```bash
@@ -260,7 +260,7 @@ server {
 ```
 
 **经验教训：**
-- 高并发服务要调整连接队列
+- **高并发服务要调整连接队列**
 - 队列长度要和应用accept能力匹配
 - 监控SYN_RECV连接数
 
@@ -286,7 +286,7 @@ netstat -an | awk '/^tcp/ && $6=="TIME_WAIT" {s++} END {print s}'
 ```
 
 **根因分析：**
-ip_local_port_range范围不够 + TIME_WAIT连接占用端口。
+**ip_local_port_range范围不够 + TIME_WAIT连接占用端口。**
 
 **解决方案：**
 ```bash
@@ -303,8 +303,8 @@ sysctl -w net.ipv4.tcp_tw_reuse=1
 
 **经验教训：**
 - 大量短连接场景要扩大端口范围
-- 优先使用长连接/连接池
-- TIME_WAIT状态会占用端口
+- **优先使用长连接/连接池**
+- **TIME_WAIT状态会占用端口**
 
 ---
 
@@ -333,7 +333,7 @@ ps aux | grep :8080
 ```
 
 **根因分析：**
-进程异常退出但socket未正确关闭，状态残留。
+**进程异常退出但socket未正确关闭，状态残留。**
 
 **解决方案：**
 ```bash
@@ -356,11 +356,11 @@ sysctl -w net.ipv4.tcp_fin_timeout=15  # 缩短FIN_WAIT_2超时
 **经验教训：**
 - 服务要有优雅退出机制
 - 配置reuseaddr/reuseport
-- CLOSE_WAIT积压说明代码有bug
+- **CLOSE_WAIT积压说明代码有bug**
 
 ---
 
-## 四、调优checklist
+## 调优checklist
 
 ### 新机器上线前必做
 
