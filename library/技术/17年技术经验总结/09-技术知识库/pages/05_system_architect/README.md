@@ -14,8 +14,8 @@
 |------|------|----------|--------|
 | 数据库 | `database/` | MySQL、Redis、MongoDB、Elasticsearch | 6 篇 |
 | 分布式系统 | `distributed/` | 微服务、Docker、K8S、消息队列、分布式事务 | 11 篇 |
-| 高并发处理 | `high-concurrency/` | 缓存策略、CDN、负载均衡、限流 | 待补充 |
-| DevOps | `devops/` | 监控告警、CI/CD、日志收集 | 待补充 |
+| 高并发处理 | `high-concurrency/` | 缓存策略、CDN、负载均衡、限流 | 4 篇 |
+| DevOps | `devops/` | 监控告警、CI/CD、日志收集 | 3 篇 |
 
 ---
 

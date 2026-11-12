@@ -35,25 +35,25 @@
 
 - 通过负载均衡器将请求分发到多个服务器实例，提高系统处理能力和可用性。
 
-  - [查看详情](load-balancing.html)
+  - [查看详情](load-balancing.md)
 
 ### 缓存策略
 
 - 利用缓存减少数据库访问，提高响应速度和系统吞吐量。
 
-  - [查看详情](caching-strategy.html)
+  - [查看详情](caching-strategy.md)
 
 ### 数据库分片
 
 - 将数据分散到多个数据库实例，解决单库性能瓶颈。
 
-  - [查看详情](database-sharding.md)
+  - [查看详情](../database/database-sharding.md)
 
 ### CDN加速
 
 - 利用CDN分发静态资源，减少网络延迟，提高用户访问速度。
 
-  - [查看详情](cdn.html)
+  - [查看详情](cdn.md)
 
 ## 性能指标
 

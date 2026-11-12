@@ -13,11 +13,11 @@
 | 模块 | 目录 | 内容 | 状态 |
 |------|------|------|------|
 | 语法基础 | `01_syntax/` | 集合、并发、泛型、Lambda | ✅ 有内容 |
-| JVM 原理 | `02_jvm/` | 内存模型、GC、类加载、性能调优 | 🔶 待补充 |
-| Web 开发 | `03_web/` | Servlet、HTTP、RESTful | 🔶 待补充 |
-| Spring 框架 | `04_spring/` | IoC/AOP、事务、Security | 🔶 待补充 |
-| Spring Boot | `04_springboot/` | 自动装配、Actuator、配置 | 🔶 待补充 |
-| Spring Cloud | `04_springcloud/` | 注册中心、网关、熔断、链路追踪 | 🔶 待补充 |
+| JVM 原理 | `02_jvm/` | 内存模型、GC、类加载、性能调优 | 🚧 规划中 |
+| Web 开发 | `03_web/` | Servlet、HTTP、RESTful | 🚧 规划中 |
+| Spring 框架 | `04_spring/` | IoC/AOP、事务、Security | 🚧 规划中 |
+| Spring Boot | `04_springboot/` | 自动装配、Actuator、配置 | 🚧 规划中 |
+| Spring Cloud | `04_springcloud/` | 注册中心、网关、熔断、链路追踪 | 🚧 规划中 |
 | 中间件 | `99_middleware/` | Flowable 工作流、OCR、可视化 | ✅ 有内容 |
 
 ---
