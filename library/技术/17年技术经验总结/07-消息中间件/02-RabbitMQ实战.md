@@ -5,7 +5,7 @@
 
 ---
 
-## 一、核心概念
+## 一、核心概念：架构、Exchange类型与常用命令
 
 ### 1. 架构
 
@@ -54,7 +54,7 @@ rabbitmq-plugins enable rabbitmq_management
 
 ---
 
-## 二、Spring Boot集成
+## 二、Spring Boot集成：配置、生产者与消费者
 
 ### 1. 配置
 
@@ -150,9 +150,45 @@ public class OrderConsumer {
 
 ---
 
-## 三、常见问题
+## 三、常见问题：消息丢失与消息重复
+
+> **消息丢失分三个环节：生产者丢失用 Confirm 确认，MQ 丢失用持久化 + Mirror 队列，消费者丢失用手动 ACK。**
 
 ### 1. 消息丢失
+
+*图：消息丢失的三个环节与对应解决方案（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="40" y="30" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="57" text-anchor="middle" font-size="14" fill="#1e293b">生产者 Producer</text>
+  <line x1="220" y1="52" x2="265" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="242" y="44" text-anchor="middle" font-size="12" fill="#475569">发送</text>
+  <rect x="270" y="30" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="57" text-anchor="middle" font-size="14" fill="#1e293b">RabbitMQ</text>
+  <line x1="450" y1="52" x2="495" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="472" y="44" text-anchor="middle" font-size="12" fill="#475569">投递</text>
+  <rect x="500" y="30" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="590" y="57" text-anchor="middle" font-size="14" fill="#1e293b">消费者 Consumer</text>
+
+  <line x1="130" y1="74" x2="130" y2="126" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="155" y="105" font-size="12" fill="#dc2626">场景1：生产者丢失</text>
+  <line x1="360" y1="74" x2="360" y2="126" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="385" y="105" font-size="12" fill="#dc2626">场景2：MQ丢失</text>
+  <line x1="590" y1="74" x2="590" y2="126" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="615" y="105" font-size="12" fill="#dc2626">场景3：消费者丢失</text>
+
+  <rect x="40" y="130" width="180" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="130" y="157" text-anchor="middle" font-size="14" fill="#1e293b">Confirm确认机制</text>
+  <rect x="270" y="130" width="180" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="157" text-anchor="middle" font-size="14" fill="#1e293b">持久化 + Mirror队列</text>
+  <rect x="500" y="130" width="180" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="590" y="157" text-anchor="middle" font-size="14" fill="#1e293b">手动ACK</text>
+</svg>
 
 ```java
 // 场景1：生产者丢失
@@ -183,6 +219,8 @@ public void handle(Message msg, Channel channel) {
 ```
 
 ### 2. 消息重复
+
+**解决：业务幂等。**
 
 ```java
 // 解决：业务幂等
