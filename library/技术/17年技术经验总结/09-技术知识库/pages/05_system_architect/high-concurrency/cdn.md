@@ -1,8 +1,6 @@
 # CDN加速 - 架构师学习笔记
 
-## CDN加速
-
-CDN（Content Delivery Network，内容分发网络）是一种分布式网络架构，通过将内容分发到全球各地的边缘节点，使用户能够从最近的节点获取所需内容，从而显著提高网站访问速度和用户体验。
+CDN（Content Delivery Network，内容分发网络）是一种**分布式网络架构**，通过将内容分发到全球各地的边缘节点，使用户能够从**最近的节点**获取所需内容，从而显著提高网站访问速度和用户体验。
 
 ## CDN工作原理
 
@@ -15,37 +13,48 @@ CDN（Content Delivery Network，内容分发网络）是一种分布式网络�
 
 ### 核心组件
 
-- 边缘节点：分布在全球各地的缓存服务器
-- 源站服务器：内容源站，存储原始内容
-- 负载均衡系统：智能调度用户请求到最优节点
-- DNS系统：将域名解析到最近的CDN节点
-- 监控系统：实时监控CDN节点状态和性能
+- **边缘节点**：分布在全球各地的缓存服务器
+- **源站服务器**：内容源站，存储原始内容
+- **负载均衡系统**：智能调度用户请求到最优节点
+- **DNS系统**：将域名解析到最近的CDN节点
+- **监控系统**：实时监控CDN节点状态和性能
+
+*图：CDN 请求处理流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="83" width="100" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="80" y="110" text-anchor="middle" font-size="14" fill="#1e293b">用户请求</text>
+  <line x1="130" y1="105" x2="173" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="152" y="95" text-anchor="middle" font-size="12" fill="#475569">DNS解析</text>
+  <rect x="175" y="83" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="235" y="110" text-anchor="middle" font-size="14" fill="#1e293b">智能DNS</text>
+  <line x1="295" y1="105" x2="338" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="317" y="95" text-anchor="middle" font-size="12" fill="#475569">最近节点IP</text>
+  <rect x="340" y="83" width="130" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="405" y="110" text-anchor="middle" font-size="14" fill="#1e293b">边缘节点</text>
+  <line x1="470" y1="93" x2="518" y2="66" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="492" y="70" text-anchor="middle" font-size="12" fill="#475569">命中</text>
+  <line x1="470" y1="117" x2="518" y2="146" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="492" y="146" text-anchor="middle" font-size="12" fill="#475569">未命中</text>
+  <rect x="520" y="40" width="170" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="605" y="67" text-anchor="middle" font-size="14" fill="#1e293b">返回缓存内容</text>
+  <rect x="520" y="130" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="605" y="157" text-anchor="middle" font-size="14" fill="#1e293b">回源站获取</text>
+</svg>
 
 ## CDN优势
 
-### 提高访问速度
-
-- 用户从就近节点获取内容，大幅减少网络延迟。
-
-### 增强可靠性
-
-- 分布式架构提供冗余，单点故障不影响整体服务。
-
-### 降低源站负载
-
-- 大部分请求由CDN节点处理，减轻源站压力。
-
-### 全球覆盖
-
-- 节点遍布全球，为世界各地用户提供优质服务。
-
-### 安全防护
-
-- 提供DDoS防护、WAF等安全功能。
-
-### 节省带宽成本
-
-- 减少源站带宽消耗，降低运营成本。
+- **提高访问速度**：用户从就近节点获取内容，大幅减少网络延迟。
+- **增强可靠性**：分布式架构提供冗余，单点故障不影响整体服务。
+- **降低源站负载**：大部分请求由CDN节点处理，减轻源站压力。
+- **全球覆盖**：节点遍布全球，为世界各地用户提供优质服务。
+- **安全防护**：提供DDoS防护、WAF等安全功能。
+- **节省带宽成本**：减少源站带宽消耗，降低运营成本。
 
 ## CDN缓存策略
 
@@ -64,7 +73,6 @@ ETag: "33a64df551425fcc55e4d42a148795d5f8b7c6"
 #### CDN控制台配置
 
 - 通过CDN服务商控制台配置缓存规则
-
   - 目录刷新
   - URL预热
   - 缓存过期时间设置
@@ -81,24 +89,21 @@ ETag: "33a64df551425fcc55e4d42a148795d5f8b7c6"
 
 ### 阿里云CDN
 
-- 阿里巴巴集团旗下的CDN服务，覆盖全球2800+节点。
-
+- 阿里巴巴集团旗下的CDN服务，覆盖**全球2800+节点**。
   - 智能调度
   - 安全防护
   - 实时监控
 
 ### 腾讯云CDN
 
-- 腾讯云提供的CDN服务，拥有1200+国内外节点。
-
+- 腾讯云提供的CDN服务，拥有**1200+国内外节点**。
   - 动态加速
   - 视频直播
   - HTTPS优化
 
 ### Cloudflare
 
-- 国际知名CDN服务商，提供免费和付费服务。
-
+- 国际知名CDN服务商，提供**免费和付费服务**。
   - DDoS防护
   - WAF防火墙
   - 全球Anycast网络
@@ -167,24 +172,24 @@ ETag: "33a64df551425fcc55e4d42a148795d5f8b7c6"
 
 ### 关键指标
 
-- 命中率：CDN节点缓存命中比例
-- 响应时间：用户访问资源的平均时间
-- 带宽使用：CDN节点的带宽消耗情况
-- 请求数：CDN节点处理的请求数量
+- **命中率**：CDN节点缓存命中比例
+- **响应时间**：用户访问资源的平均时间
+- **带宽使用**：CDN节点的带宽消耗情况
+- **请求数**：CDN节点处理的请求数量
 
 ### 常见问题排查
 
-- 缓存未更新：检查缓存时间设置
-- 资源404：检查源站资源是否存在
-- 访问缓慢：检查节点分布和网络状况
-- 安全攻击：启用防护功能
+- **缓存未更新**：检查缓存时间设置
+- **资源404**：检查源站资源是否存在
+- **访问缓慢**：检查节点分布和网络状况
+- **安全攻击**：启用防护功能
 
 ## CDN最佳实践
 
-- 合理规划CDN节点分布
-- 设置合适的缓存策略和过期时间
-- 启用压缩和HTTPS优化
-- 实施安全防护措施
-- 建立完善的监控和告警机制
-- 定期分析访问日志和性能数据
-- 制定应急预案和故障处理流程
+- 合理规划**CDN节点分布**
+- 设置合适的**缓存策略和过期时间**
+- 启用**压缩和HTTPS**优化
+- 实施**安全防护**措施
+- 建立完善的**监控和告警**机制
+- 定期分析**访问日志和性能数据**
+- 制定**应急预案**和故障处理流程

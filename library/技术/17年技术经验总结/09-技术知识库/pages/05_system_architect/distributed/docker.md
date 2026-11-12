@@ -1,14 +1,12 @@
 # Docker容器 - 架构师学习笔记
 
-## Docker容器
-
-Docker是一个开源的应用容器引擎，基于Go语言并遵从Apache2.0协议开源。Docker可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。
+Docker是一个开源的应用容器引擎，基于Go语言并遵从Apache2.0协议开源。Docker可以让开发者打包他们的应用以及依赖包到一个**轻量级、可移植的容器**中，然后发布到任何流行的Linux机器上，也可以实现虚拟化。
 
 ## Docker核心概念
 
 ### 镜像（Image）
 
-Docker镜像是一个轻量级、独立的可执行软件包，包含运行应用程序所需的所有内容：代码、运行时、系统工具、系统库和设置。
+Docker镜像是一个**轻量级、独立的可执行软件包**，包含运行应用程序所需的所有内容：代码、运行时、系统工具、系统库和设置。
 
 - 只读模板
 - 可以基于其他镜像创建
@@ -16,7 +14,7 @@ Docker镜像是一个轻量级、独立的可执行软件包，包含运行应�
 
 ### 容器（Container）
 
-容器是镜像的运行实例，可以被启动、开始、停止、删除。每个容器都是相互隔离的、安全的平台。
+容器是**镜像的运行实例**，可以被启动、开始、停止、删除。每个容器都是相互隔离的、安全的平台。
 
 - 镜像的运行时实例
 - 具有状态和生命周期
@@ -24,7 +22,7 @@ Docker镜像是一个轻量级、独立的可执行软件包，包含运行应�
 
 ### 仓库（Registry）
 
-集中存放镜像文件的场所，分为公开仓库（如Docker Hub）和私有仓库。
+集中存放镜像文件的场所，分为**公开仓库**（如Docker Hub）和**私有仓库**。
 
 - 存储和分发Docker镜像
 - 分为公有和私有仓库
@@ -37,6 +35,32 @@ Docker镜像是一个轻量级、独立的可执行软件包，包含运行应�
 - 自动化构建镜像
 - 包含一系列构建指令
 - 支持版本控制
+
+*图：Dockerfile、镜像、容器、仓库的对象关系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="40" y="40" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="67" text-anchor="middle" font-size="14" fill="#1e293b">Dockerfile</text>
+  <line x1="210" y1="62" x2="278" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="244" y="52" text-anchor="middle" font-size="12" fill="#475569">docker build</text>
+  <rect x="280" y="40" width="160" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="67" text-anchor="middle" font-size="14" fill="#1e293b">镜像（只读模板）</text>
+  <line x1="440" y1="62" x2="508" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="474" y="52" text-anchor="middle" font-size="12" fill="#475569">docker run</text>
+  <rect x="510" y="40" width="170" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="595" y="67" text-anchor="middle" font-size="14" fill="#1e293b">容器（运行实例）</text>
+  <rect x="280" y="150" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="177" text-anchor="middle" font-size="14" fill="#1e293b">仓库（Registry）</text>
+  <line x1="330" y1="146" x2="330" y2="88" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="314" y="122" text-anchor="end" font-size="12" fill="#475569">docker pull</text>
+  <line x1="390" y1="88" x2="390" y2="146" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="406" y="122" text-anchor="start" font-size="12" fill="#475569">docker push</text>
+</svg>
 
 ## 常用Docker命令
 
@@ -119,10 +143,10 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 ### 网络模式
 
-- bridge：默认网络模式，为容器分配IP
-- host：容器使用宿主机网络
-- none：容器无网络
-- container：与其他容器共享网络
+- **bridge**：默认网络模式，为容器分配IP
+- **host**：容器使用宿主机网络
+- **none**：容器无网络
+- **container**：与其他容器共享网络
 
 ### 网络操作
 
@@ -173,7 +197,7 @@ docker run -v /host/path:/container/path:ro nginx
 
 ### 多容器应用编排
 
-Docker Compose是用于定义和运行多容器Docker应用程序的工具。
+Docker Compose是用于**定义和运行多容器Docker应用程序**的工具。
 
 ```yaml
 # docker-compose.yml示例
@@ -215,10 +239,10 @@ docker-compose logs
 
 ## Docker最佳实践
 
-- 使用.dockerignore文件排除不必要的文件
-- 合理使用多阶段构建减小镜像体积
-- 为镜像打标签，便于版本管理
-- 使用非root用户运行容器
+- 使用**.dockerignore**文件排除不必要的文件
+- 合理使用**多阶段构建**减小镜像体积
+- 为镜像**打标签**，便于版本管理
+- 使用**非root用户**运行容器
 - 定期清理无用的镜像和容器
-- 使用健康检查确保容器正常运行
-- 配置资源限制防止容器耗尽系统资源
+- 使用**健康检查**确保容器正常运行
+- 配置**资源限制**防止容器耗尽系统资源

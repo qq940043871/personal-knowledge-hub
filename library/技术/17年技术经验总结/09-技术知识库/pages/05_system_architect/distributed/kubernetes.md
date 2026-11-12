@@ -1,14 +1,12 @@
 # Kubernetes - 架构师学习笔记
 
-## Kubernetes
-
-Kubernetes（简称K8s）是Google开源的容器编排平台，用于自动化部署、扩展和管理容器化应用程序。它提供了服务发现、负载均衡、存储编排、自动部署和回滚、自动装箱、自我修复、密钥与配置管理等功能。
+Kubernetes（简称K8s）是Google开源的**容器编排平台**，用于自动化部署、扩展和管理容器化应用程序。它提供了服务发现、负载均衡、存储编排、自动部署和回滚、自动装箱、自我修复、密钥与配置管理等功能。
 
 ## Kubernetes核心概念
 
 ### Pod
 
-Kubernetes中最小的可部署单元，可以包含一个或多个容器，共享网络和存储资源。
+Kubernetes中**最小的可部署单元**，可以包含一个或多个容器，共享网络和存储资源。
 
 - 最小部署单元
 - 共享网络和存储
@@ -16,7 +14,7 @@ Kubernetes中最小的可部署单元，可以包含一个或多个容器，共�
 
 ### Service
 
-为一组Pod提供稳定的网络访问入口，实现服务发现和负载均衡。
+为一组Pod提供**稳定的网络访问入口**，实现服务发现和负载均衡。
 
 - 稳定访问入口
 - 负载均衡
@@ -24,7 +22,7 @@ Kubernetes中最小的可部署单元，可以包含一个或多个容器，共�
 
 ### Deployment
 
-用于管理Pod和ReplicaSet，提供声明式的更新和部署能力。
+用于管理Pod和ReplicaSet，提供**声明式的更新和部署**能力。
 
 - 声明式部署
 - 滚动更新
@@ -32,7 +30,7 @@ Kubernetes中最小的可部署单元，可以包含一个或多个容器，共�
 
 ### Volume
 
-为Pod提供持久化存储，支持多种存储类型。
+为Pod提供**持久化存储**，支持多种存储类型。
 
 - 持久化存储
 - 多种存储类型
@@ -57,6 +55,40 @@ Kubernetes中最小的可部署单元，可以包含一个或多个容器，共�
 | kubelet | 负责节点上的Pod管理 |
 | kube-proxy | 实现服务网络代理和负载均衡 |
 | 容器运行时 | 负责运行容器（如Docker、containerd） |
+
+*图：Kubernetes 控制平面与节点组件（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="36" width="680" height="114" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="36" y="60" font-size="14" font-weight="bold" fill="#1e293b">控制平面组件</text>
+  <rect x="33" y="76" width="126" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="96" y="101" text-anchor="middle" font-size="12" fill="#1e293b">kube-apiserver</text>
+  <rect x="165" y="76" width="126" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="228" y="101" text-anchor="middle" font-size="12" fill="#1e293b">etcd</text>
+  <rect x="297" y="76" width="126" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="101" text-anchor="middle" font-size="12" fill="#1e293b">kube-scheduler</text>
+  <rect x="429" y="76" width="126" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="492" y="93" text-anchor="middle" font-size="12" fill="#1e293b">kube-controller</text>
+  <text x="492" y="109" text-anchor="middle" font-size="12" fill="#1e293b">-manager</text>
+  <rect x="561" y="76" width="126" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="624" y="93" text-anchor="middle" font-size="12" fill="#1e293b">cloud-controller</text>
+  <text x="624" y="109" text-anchor="middle" font-size="12" fill="#1e293b">-manager</text>
+  <line x1="360" y1="150" x2="360" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="372" y="163" text-anchor="start" font-size="12" fill="#475569">调度Pod到节点</text>
+  <rect x="20" y="170" width="680" height="86" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-dasharray="4 3"/>
+  <text x="36" y="192" font-size="14" font-weight="bold" fill="#1e293b">节点组件</text>
+  <rect x="40" y="200" width="200" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="140" y="225" text-anchor="middle" font-size="13" fill="#1e293b">kubelet</text>
+  <rect x="260" y="200" width="200" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="225" text-anchor="middle" font-size="13" fill="#1e293b">kube-proxy</text>
+  <rect x="480" y="200" width="200" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="580" y="225" text-anchor="middle" font-size="13" fill="#1e293b">容器运行时</text>
+</svg>
 
 ## 常用kubectl命令
 
@@ -210,9 +242,9 @@ data:
 
 ### 网络模型
 
-- Pod间通信：所有Pod都在一个可以直接连通的、扁平的网络空间中
-- Pod与Service通信：通过Service的ClusterIP实现
-- 外部与Service通信：通过NodePort、LoadBalancer或Ingress实现
+- **Pod间通信**：所有Pod都在一个可以直接连通的、扁平的网络空间中
+- **Pod与Service通信**：通过Service的ClusterIP实现
+- **外部与Service通信**：通过NodePort、LoadBalancer或Ingress实现
 
 ### Ingress示例
 
@@ -237,10 +269,10 @@ spec:
 
 ## Kubernetes最佳实践
 
-- 合理设置资源请求和限制，避免资源浪费
-- 使用健康检查（liveness和readiness probes）确保应用健康
-- 实施标签和注解策略，便于资源管理和查询
-- 使用命名空间隔离不同环境和团队的资源
-- 定期备份etcd数据，确保集群状态可恢复
-- 实施安全策略，如RBAC、网络策略等
-- 监控和日志收集，使用Prometheus、Grafana等工具
+- 合理设置**资源请求和限制**，避免资源浪费
+- 使用**健康检查**（liveness和readiness probes）确保应用健康
+- 实施**标签和注解策略**，便于资源管理和查询
+- 使用**命名空间**隔离不同环境和团队的资源
+- 定期备份**etcd**数据，确保集群状态可恢复
+- 实施**安全策略**，如RBAC、网络策略等
+- **监控和日志收集**，使用Prometheus、Grafana等工具
