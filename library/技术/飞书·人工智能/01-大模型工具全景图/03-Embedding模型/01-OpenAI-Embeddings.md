@@ -5,9 +5,9 @@
 
 ---
 
-## 一、模型介绍
+## 一、模型介绍与可用模型
 
-OpenAI Embeddings是将文本转换为向量表示的模型服务，用于文本相似度计算、语义搜索等场景。
+OpenAI Embeddings是**将文本转换为向量表示的模型服务**，用于文本相似度计算、语义搜索等场景。
 
 **官网**：https://platform.openai.com/docs/guides/embeddings
 
@@ -15,6 +15,31 @@ OpenAI Embeddings是将文本转换为向量表示的模型服务，用于文本
 - `text-embedding-3-large`：最新最强，3072维
 - `text-embedding-3-small`：新性价比模型，1536维
 - `text-embedding-ada-002`：经典模型，1536维
+
+*图：文本向量化与语义搜索流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 120" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="2" y="30" width="155" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="79" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">① 文本输入</text>
+  <text x="79" y="73" text-anchor="middle" font-size="13" fill="#475569">documents / query</text>
+  <line x1="157" y1="58" x2="187" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="189" y="30" width="155" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="266" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">② Embeddings API</text>
+  <text x="266" y="73" text-anchor="middle" font-size="13" fill="#475569">text-embedding-3-*</text>
+  <line x1="344" y1="58" x2="374" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="376" y="30" width="155" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="453" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">③ 向量表示</text>
+  <text x="453" y="73" text-anchor="middle" font-size="13" fill="#475569">1536 / 3072 维</text>
+  <line x1="531" y1="58" x2="561" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="563" y="30" width="155" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="640" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">④ 相似度与排序</text>
+  <text x="640" y="73" text-anchor="middle" font-size="13" fill="#475569">cosine · Top-K</text>
+</svg>
 
 ---
 
@@ -147,7 +172,7 @@ print(classify(text))  # 输出: 人工智能
 
 ---
 
-## 三、维度缩减
+## 三、维度缩减（dimensions 参数）
 
 ```python
 # text-embedding-3支持维度缩减
@@ -160,9 +185,9 @@ response = client.embeddings.create(
 
 ---
 
-## 四、总结
+## 四、总结与适用场景
 
-OpenAI Embeddings是最方便使用的Embedding服务，适合快速原型和小型应用。
+OpenAI Embeddings是**最方便使用的Embedding服务**，适合快速原型和小型应用。
 
 **适用场景**：
 - 快速原型开发

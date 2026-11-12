@@ -5,9 +5,9 @@
 
 ---
 
-## 一、框架介绍
+## 一、框架介绍与核心特点
 
-Chroma是一个开源的向量数据库，专门为LLM应用设计，专注于存储和检索嵌入向量。
+Chroma是一个**开源的向量数据库，专门为LLM应用设计**，专注于存储和检索嵌入向量。
 
 **官网**：https://www.trychroma.com
 **GitHub**：https://github.com/chroma-core/chroma
@@ -19,9 +19,38 @@ Chroma是一个开源的向量数据库，专门为LLM应用设计，专注于�
 - 支持Python和JavaScript
 - 本地存储，无需云服务
 
+*图：Chroma 从添加数据到查询结果的流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 120" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="3" y="30" width="122" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="64" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">① 添加数据</text>
+  <text x="64" y="73" text-anchor="middle" font-size="13" fill="#475569">documents+metadata</text>
+  <line x1="127" y1="58" x2="149" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="151" y="30" width="122" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="212" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">② 向量嵌入</text>
+  <text x="212" y="73" text-anchor="middle" font-size="13" fill="#475569">Embedding</text>
+  <line x1="275" y1="58" x2="297" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="299" y="30" width="122" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">③ Collection 存储</text>
+  <text x="360" y="73" text-anchor="middle" font-size="13" fill="#475569">HNSW 索引</text>
+  <line x1="423" y1="58" x2="445" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="447" y="30" width="122" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="508" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">④ 相似查询</text>
+  <text x="508" y="73" text-anchor="middle" font-size="13" fill="#475569">query + where 过滤</text>
+  <line x1="571" y1="58" x2="593" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="595" y="30" width="122" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="656" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">⑤ 返回结果</text>
+  <text x="656" y="73" text-anchor="middle" font-size="13" fill="#475569">n_results 条</text>
+</svg>
+
 ---
 
-## 二、核心概念
+## 二、核心概念：Collection、Embedding 与 Metadata
 
 ```
 Chroma核心概念：
@@ -165,7 +194,7 @@ results = collection.query(
 
 ---
 
-## 四、高级特性
+## 四、高级特性：批量操作与距离度量
 
 ### 1. 批量操作
 
@@ -227,7 +256,7 @@ collection = client.create_collection(
 
 ---
 
-## 五、部署方式
+## 五、部署方式：本地 / 服务 / Docker
 
 ### 1. 本地模式（开发）
 
@@ -263,9 +292,9 @@ services:
 
 ---
 
-## 六、总结
+## 六、总结与适用场景
 
-Chroma是入门向量数据库的最佳选择，轻量、简单、功能齐全。
+Chroma是**入门向量数据库的最佳选择**，轻量、简单、功能齐全。
 
 **学习要点**：
 1. 理解Collection和Document概念

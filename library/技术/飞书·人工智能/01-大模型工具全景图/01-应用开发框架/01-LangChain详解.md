@@ -1,11 +1,11 @@
-# LangChain
+# LangChain详解
 
 > 模块：应用开发框架
 > 更新时间：2026-03-29
 
 ---
 
-## 一、框架介绍
+## 一、框架介绍与核心价值
 
 LangChain是一个用于构建基于大语言模型应用的开发框架，由Harrison Chase创建于2022年。它提供了一套抽象和工具，帮助开发者快速构建LLM应用。
 
@@ -18,9 +18,48 @@ LangChain是一个用于构建基于大语言模型应用的开发框架，由Ha
 - 丰富的集成生态
 - 支持多种LLM和工具
 
+*图：LangChain 核心组件分层（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="24" y="45" font-size="16" font-weight="bold" fill="#1e293b">应用场景</text>
+  <rect x="120" y="20" width="130" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="185" y="45" text-anchor="middle" font-size="13" fill="#1e293b">RAG 问答系统</text>
+  <rect x="270" y="20" width="130" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="335" y="45" text-anchor="middle" font-size="13" fill="#1e293b">多步骤 Agent</text>
+  <rect x="420" y="20" width="130" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="485" y="45" text-anchor="middle" font-size="13" fill="#1e293b">对话式 Memory</text>
+  <rect x="570" y="20" width="130" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="635" y="45" text-anchor="middle" font-size="13" fill="#1e293b">输出解析器</text>
+  <line x1="185" y1="62" x2="185" y2="106" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="335" y1="62" x2="335" y2="106" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="485" y1="62" x2="485" y2="106" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="635" y1="62" x2="635" y2="106" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="24" y="135" font-size="16" font-weight="bold" fill="#1e293b">核心抽象</text>
+  <rect x="120" y="110" width="130" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="185" y="135" text-anchor="middle" font-size="13" fill="#1e293b">Prompt Template</text>
+  <rect x="270" y="110" width="130" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="335" y="135" text-anchor="middle" font-size="13" fill="#1e293b">Chain 链式调用</text>
+  <rect x="420" y="110" width="130" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="485" y="135" text-anchor="middle" font-size="13" fill="#1e293b">Memory 记忆</text>
+  <rect x="570" y="110" width="130" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="635" y="135" text-anchor="middle" font-size="13" fill="#1e293b">Agent + Tool</text>
+  <line x1="185" y1="152" x2="185" y2="196" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="335" y1="152" x2="335" y2="196" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="485" y1="152" x2="485" y2="196" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="635" y1="152" x2="635" y2="196" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="24" y="227" font-size="16" font-weight="bold" fill="#1e293b">模型与生态</text>
+  <rect x="120" y="200" width="580" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="410" y="227" text-anchor="middle" font-size="13" fill="#1e293b">Model I/O（ChatOpenAI 等）· LCEL 表达式语言 · LangSmith 监控调试</text>
+</svg>
+
 ---
 
-## 二、核心概念
+## 二、核心概念：Model I/O、Prompt Template 与 Chain
 
 ### 1. Model I/O - 模型交互
 
@@ -249,7 +288,7 @@ print(parsed.movies)
 
 ---
 
-## 四、LangChain生态
+## 四、LangChain生态：LCEL 与 LangSmith
 
 ### LangChain表达式语言（LCEL）
 
@@ -285,9 +324,9 @@ os.environ["LANGCHAIN_PROJECT"] = "my-project"
 
 ---
 
-## 五、总结
+## 五、总结与学习要点
 
-LangChain是大模型应用开发的首选框架，掌握它能快速构建各种LLM应用。
+LangChain是**大模型应用开发的首选框架**，掌握它能快速构建各种LLM应用。
 
 **学习要点**：
 1. 理解Model I/O和Prompt Template

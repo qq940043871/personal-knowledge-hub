@@ -1,13 +1,13 @@
-# LlamaIndex
+# LlamaIndex详解
 
 > 模块：应用开发框架
 > 更新时间：2026-03-29
 
 ---
 
-## 一、框架介绍
+## 一、框架介绍与核心特点
 
-LlamaIndex（formerly GPT Index）是专门为构建RAG（检索增强生成）系统而设计的框架，专注于知识检索和问答。
+LlamaIndex（formerly GPT Index）是**专门为构建RAG（检索增强生成）系统而设计的框架**，专注于知识检索和问答。
 
 **官网**：https://www.llamaindex.ai
 **GitHub**：https://github.com/run-llama/llama_index
@@ -18,9 +18,34 @@ LlamaIndex（formerly GPT Index）是专门为构建RAG（检索增强生成）�
 - 更好的检索性能
 - 简洁的API设计
 
+*图：LlamaIndex 从文档到答案的 RAG 流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="40" y="20" width="640" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="44" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">① 数据加载与解析</text>
+  <text x="360" y="64" text-anchor="middle" font-size="13" fill="#475569">SimpleDirectoryReader · PDFReader · Document / Node</text>
+  <line x1="360" y1="78" x2="360" y2="100" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="40" y="102" width="640" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">② 索引构建 Index</text>
+  <text x="360" y="146" text-anchor="middle" font-size="13" fill="#475569">VectorStoreIndex 向量索引 · SummaryIndex 摘要索引</text>
+  <line x1="360" y1="160" x2="360" y2="182" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="40" y="184" width="640" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="208" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">③ 检索与后处理</text>
+  <text x="360" y="228" text-anchor="middle" font-size="13" fill="#475569">向量 / 关键词 / 混合融合 Retriever · 相似度与关键词 Postprocessor</text>
+  <line x1="360" y1="242" x2="360" y2="264" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="40" y="266" width="640" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="290" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">④ Query Engine 查询与响应</text>
+  <text x="360" y="310" text-anchor="middle" font-size="13" fill="#475569">similarity_top_k · response_mode（compact / tree_summarize）· 流式输出</text>
+</svg>
+
 ---
 
-## 二、核心概念
+## 二、核心概念：Document、Index 与 Query Engine
 
 ### 1. Document和Node
 
@@ -191,15 +216,15 @@ query_engine = index.as_query_engine(
 | 学习曲线 | 较陡 | 较平缓 |
 
 **建议**：
-- 简单RAG场景：用LlamaIndex
-- 复杂Agent场景：用LangChain
+- 简单RAG场景：用 **LlamaIndex**
+- 复杂Agent场景：用 **LangChain**
 - 可以两者结合使用
 
 ---
 
-## 五、总结
+## 五、总结与学习要点
 
-LlamaIndex是构建RAG系统的最佳选择，学习曲线平缓，文档质量好。
+LlamaIndex是**构建RAG系统的最佳选择**，学习曲线平缓，文档质量好。
 
 **学习要点**：
 1. 理解Document和Node的概念

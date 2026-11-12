@@ -5,9 +5,9 @@
 
 ---
 
-## 一、框架介绍
+## 一、框架介绍与核心特点
 
-Milvus是Apache软件基金会的顶级项目，是一个开源的分布式向量数据库，专为大规模向量相似性搜索设计。
+Milvus是Apache软件基金会的顶级项目，是一个**开源的分布式向量数据库，专为大规模向量相似性搜索设计**。
 
 **官网**：https://milvus.io
 **GitHub**：https://github.com/milvus-io/milvus
@@ -21,7 +21,7 @@ Milvus是Apache软件基金会的顶级项目，是一个开源的分布式向�
 
 ---
 
-## 二、核心概念
+## 二、核心概念：Collection、Partition 与 Segment
 
 ```
 Milvus核心概念：
@@ -179,7 +179,7 @@ index_params = {
 
 ---
 
-## 五、部署方式
+## 五、部署方式：Docker Compose 与 Kubernetes
 
 ### 1. Docker Compose（开发）
 
@@ -246,6 +246,31 @@ spec:
       type: minio
 ```
 
+*图：Milvus Docker Compose 部署组成（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="92" width="160" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="115" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">客户端应用</text>
+  <text x="100" y="135" text-anchor="middle" font-size="13" fill="#475569">PyMilvus SDK</text>
+  <line x1="180" y1="120" x2="236" y2="120" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="240" y="92" width="180" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="330" y="115" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Milvus 服务</text>
+  <text x="330" y="135" text-anchor="middle" font-size="13" fill="#475569">端口 :19530</text>
+  <line x1="420" y1="112" x2="500" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="420" y1="128" x2="500" y2="164" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="504" y="40" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="594" y="63" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">etcd :2379</text>
+  <text x="594" y="83" text-anchor="middle" font-size="13" fill="#475569">元数据存储</text>
+  <rect x="504" y="140" width="180" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="594" y="163" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">MinIO :9000</text>
+  <text x="594" y="183" text-anchor="middle" font-size="13" fill="#475569">对象存储</text>
+</svg>
+
 ---
 
 ## 六、Attu图形界面
@@ -259,9 +284,9 @@ docker run -d -p 8000:3000 -e MILVUS_URL=http://localhost:19530 zilliz/attu:late
 
 ---
 
-## 七、总结
+## 七、总结与适用场景
 
-Milvus是企业级向量数据库的首选，支持大规模数据、高并发、分布式部署。
+Milvus是**企业级向量数据库的首选**，支持大规模数据、高并发、分布式部署。
 
 **学习要点**：
 1. 理解Collection和Partition概念

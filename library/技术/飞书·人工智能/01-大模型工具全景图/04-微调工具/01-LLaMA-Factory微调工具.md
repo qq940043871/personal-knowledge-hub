@@ -5,9 +5,9 @@
 
 ---
 
-## 一、框架介绍
+## 一、框架介绍与核心特点
 
-LLaMA-Factory是一个一站式大模型微调平台，支持多种模型的LoRA、QLoRA等高效微调方法。
+LLaMA-Factory是一个**一站式大模型微调平台**，支持多种模型的LoRA、QLoRA等高效微调方法。
 
 **官网**：https://github.com/hiyouga/LLaMA-Factory
 **GitHub**：https://github.com/hiyouga/LLaMA-Factory
@@ -21,7 +21,7 @@ LLaMA-Factory是一个一站式大模型微调平台，支持多种模型的LoRA
 
 ---
 
-## 二、快速开始
+## 二、快速开始：安装、数据准备与训练
 
 ### 1. 安装
 
@@ -81,7 +81,7 @@ llamafactory-cli train \
 
 ---
 
-## 三、微调方法详解
+## 三、微调方法详解：LoRA / QLoRA / 全参数
 
 ### 1. LoRA微调
 
@@ -123,9 +123,32 @@ llamafactory-cli train \
     --gradient_accumulation_steps 16
 ```
 
+*图：三种微调方法与显存需求对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="80" y="20" width="560" height="60" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="44" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">QLoRA 微调（量化 + LoRA）</text>
+  <text x="360" y="66" text-anchor="middle" font-size="13" fill="#475569">--quantization_bit 4 · 显存需求低，适合显存有限的场景</text>
+  <line x1="360" y1="82" x2="360" y2="104" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="80" y="106" width="560" height="60" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">LoRA 微调</text>
+  <text x="360" y="152" text-anchor="middle" font-size="13" fill="#475569">--finetuning_type lora · lora_target: q_proj,v_proj 或 all · 显存需求中等</text>
+  <line x1="360" y1="168" x2="360" y2="190" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="80" y="192" width="560" height="60" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="360" y="216" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">全参数微调（Full-tuning）</text>
+  <text x="360" y="238" text-anchor="middle" font-size="13" fill="#475569">--finetuning_type full · 显存需求高，需要更多显存</text>
+  <text x="40" y="197" text-anchor="middle" font-size="13" fill="#475569">显存</text>
+  <text x="40" y="216" text-anchor="middle" font-size="13" fill="#475569">递增</text>
+</svg>
+
 ---
 
-## 四、训练数据配置
+## 四、训练数据配置：dataset_info.json
 
 ```json
 // dataset_info.json
@@ -151,7 +174,7 @@ llamafactory-cli train \
 
 ---
 
-## 五、模型推理
+## 五、模型推理：导出 LoRA 权重与推理
 
 ```bash
 # 导出LoRA权重
@@ -176,7 +199,7 @@ llamafactory-cli inference \
 
 ---
 
-## 六、常见问题
+## 六、常见问题：显存不足与训练效果调优
 
 ### 显存不足？
 
@@ -206,9 +229,9 @@ llamafactory-cli inference \
 
 ---
 
-## 七、总结
+## 七、总结与学习要点
 
-LLaMA-Factory是中文开源社区最活跃的微调工具，Web界面友好，适合快速实验。
+LLaMA-Factory是**中文开源社区最活跃的微调工具**，Web界面友好，适合快速实验。
 
 **学习要点**：
 1. 理解LoRA和QLoRA原理

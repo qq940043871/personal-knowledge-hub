@@ -1,10 +1,38 @@
 # 8.2 授权与 ACL
 
-## 概述
+## ACL 的职责：定义用户对哪些资源执行哪些操作
 
-ACL（Access Control List）基于角色的权限控制，定义用户能对哪些资源执行哪些操作。
+ACL（Access Control List）基于角色的权限控制，定义**用户能对哪些资源执行哪些操作**。
 
-## 数据库设计
+## 授权模型：用户 → 角色 → 资源
+
+授权链路由 `user_role`（用户角色关联表）把用户挂到角色，再由 `permission`（权限表）把角色映射到可操作的资源。
+
+*图：用户-角色-资源授权模型（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="60" width="150" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">用户</text>
+  <text x="95" y="102" text-anchor="middle" font-size="12" fill="#475569">user</text>
+  <line x1="170" y1="86" x2="285" y2="86" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="227" y="76" text-anchor="middle" font-size="12" fill="#475569">user_role 授予角色</text>
+  <rect x="285" y="60" width="150" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">角色</text>
+  <text x="360" y="102" text-anchor="middle" font-size="12" fill="#475569">role（支持角色继承）</text>
+  <line x1="435" y1="86" x2="550" y2="86" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="492" y="76" text-anchor="middle" font-size="12" fill="#475569">permission 定义可操作资源</text>
+  <rect x="550" y="60" width="150" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="625" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">资源</text>
+  <text x="625" y="102" text-anchor="middle" font-size="12" fill="#475569">vhost + 资源类型/名称</text>
+  <text x="360" y="145" text-anchor="middle" font-size="12" fill="#475569">parent_role_id 支持角色继承；actions 指定允许的操作（configure / write / read / manage）</text>
+</svg>
+
+## 数据库设计：role / permission / user_role 三张表
 
 ### 表结构：role（角色表）
 
@@ -87,7 +115,7 @@ CREATE TABLE user_role (
 
 ---
 
-## 预置角色
+## 预置角色：admin / monitor / producer / consumer / developer
 
 | 角色 | 权限 | 说明 |
 |------|------|------|
@@ -99,7 +127,7 @@ CREATE TABLE user_role (
 
 ---
 
-## ACL 检查流程
+## ACL 检查流程：匹配则允许，无匹配则拒绝
 
 ```
 操作请求
