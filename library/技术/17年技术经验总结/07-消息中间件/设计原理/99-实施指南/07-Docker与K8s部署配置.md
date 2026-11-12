@@ -1,6 +1,8 @@
-# Docker Compose 单机部署
+# Docker 与 K8s 部署配置
 
-## 1. docker-compose.yml
+## Docker Compose 单机部署
+
+### 1. docker-compose.yml
 
 ```yaml
 version: '3.8'
@@ -169,7 +171,7 @@ networks:
     driver: bridge
 ```
 
-## 2. prometheus.yml
+### 2. prometheus.yml
 
 ```yaml
 global:
@@ -193,7 +195,7 @@ scrape_configs:
       - targets: ['postgres:5432']
 ```
 
-## 3. 一键启动脚本
+### 3. 一键启动脚本
 
 ```bash
 #!/bin/bash
@@ -249,7 +251,7 @@ echo "默认账号: admin / admin123"
 
 以下 YAML 清单完成消息中间件在 Kubernetes 上的集群化部署，依次创建命名空间、配置、Broker StatefulSet、三类 Service、Secret 与 HPA。
 
-## 4. namespace.yaml
+### 4. namespace.yaml
 
 ```yaml
 apiVersion: v1
@@ -261,7 +263,7 @@ metadata:
     app.kubernetes.io/version: v1.0
 ```
 
-## 5. configmap.yaml
+### 5. configmap.yaml
 
 ```yaml
 apiVersion: v1
@@ -304,7 +306,7 @@ data:
         port: 9090
 ```
 
-## 6. statefulset.yaml（Broker 集群）
+### 6. statefulset.yaml（Broker 集群）
 
 ```yaml
 apiVersion: apps/v1
@@ -446,7 +448,7 @@ spec:
             storage: 50Gi
 ```
 
-## 7. service.yaml
+### 7. service.yaml
 
 ```yaml
 # Headless Service（集群内部通信）
@@ -509,7 +511,7 @@ spec:
       targetPort: 15672
 ```
 
-## 8. secret.yaml
+### 8. secret.yaml
 
 ```yaml
 apiVersion: v1
@@ -524,7 +526,7 @@ stringData:
   admin-password: admin123
 ```
 
-## 9. hpa.yaml（自动扩缩容）
+### 9. hpa.yaml（自动扩缩容）
 
 ```yaml
 apiVersion: autoscaling/v2
