@@ -23,7 +23,7 @@ KV-Cache：O(n) 每次生成
 
 ---
 
-## 二、实现
+## 二、带KV-Cache的生成实现
 
 ```python
 class TransformerWithCache:

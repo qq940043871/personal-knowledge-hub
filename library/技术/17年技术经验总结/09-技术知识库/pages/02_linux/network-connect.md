@@ -75,6 +75,35 @@ How Networks Connect - 深入理解网络连接的原理。
 - 传输层：解封装TCP段，得到HTTP请求
 - 应用层：服务器处理HTTP请求，生成响应
 
+*图：数据自上而下逐层封装、自下而上逐层解封装（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="180" y="20" width="360" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="45" text-anchor="middle" font-size="14" fill="#1e293b">应用层：HTTP / SMTP / DNS / SSH</text>
+  <text x="560" y="45" font-size="13" fill="#475569">HTTP 请求</text>
+  <line x1="360" y1="60" x2="360" y2="78" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="80" width="360" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="105" text-anchor="middle" font-size="14" fill="#1e293b">传输层：TCP / UDP / SCTP</text>
+  <text x="560" y="105" font-size="13" fill="#475569">TCP 段</text>
+  <line x1="360" y1="120" x2="360" y2="138" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="140" width="360" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="165" text-anchor="middle" font-size="14" fill="#1e293b">网络层：IP / ICMP / ARP</text>
+  <text x="560" y="165" font-size="13" fill="#475569">IP 数据包</text>
+  <line x1="360" y1="180" x2="360" y2="198" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="200" width="360" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="225" text-anchor="middle" font-size="14" fill="#1e293b">数据链路层：Ethernet / Wi-Fi / PPP</text>
+  <text x="560" y="225" font-size="13" fill="#475569">以太网帧</text>
+  <line x1="360" y1="240" x2="360" y2="258" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="260" width="360" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="285" text-anchor="middle" font-size="14" fill="#1e293b">物理层：通过物理介质传输</text>
+  <text x="560" y="285" font-size="13" fill="#475569">比特流</text>
+</svg>
+
 ## 网络寻址
 
 ### IP地址
@@ -153,7 +182,7 @@ How Networks Connect - 深入理解网络连接的原理。
 - 入侵检测：检测异常行为
 - 安全更新：修复漏洞
 
-## 总结
+## 总结：分层架构与协议实现设备间数据传输
 
-- 网络连接是一个复杂但有序的过程，通过分层架构和各种协议，实现了设备之间的数据传输。
+- **网络连接是一个复杂但有序的过程**，通过分层架构和各种协议，实现了设备之间的数据传输。
 - 理解网络连接的原理，有助于我们更好地设计和维护网络系统，也为学习更高级的网络知识打下基础。

@@ -6,6 +6,31 @@ How Programs Run - 深入理解程序的执行过程。
 
 编译（Compilation）→ 链接（Linking）→ 加载（Loading）→ 执行（Execution）
 
+*图：程序从源代码到运行的四步流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 150" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="40" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="67" text-anchor="middle" font-size="14" fill="#1e293b">编译</text>
+  <line x1="160" y1="62" x2="198" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="200" y="40" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="67" text-anchor="middle" font-size="14" fill="#1e293b">链接</text>
+  <line x1="340" y1="62" x2="378" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="380" y="40" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="450" y="67" text-anchor="middle" font-size="14" fill="#1e293b">加载</text>
+  <line x1="520" y1="62" x2="558" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="560" y="40" width="140" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="630" y="67" text-anchor="middle" font-size="14" fill="#1e293b">执行</text>
+  <text x="90" y="115" text-anchor="middle" font-size="13" fill="#475569">源代码→目标代码</text>
+  <text x="270" y="115" text-anchor="middle" font-size="13" fill="#475569">目标文件→可执行文件</text>
+  <text x="450" y="115" text-anchor="middle" font-size="13" fill="#475569">可执行文件→内存</text>
+  <text x="630" y="115" text-anchor="middle" font-size="13" fill="#475569">CPU 取指并执行</text>
+</svg>
+
 ## 1. 编译过程
 
 编译器将源代码转换为目标代码：
@@ -112,7 +137,7 @@ CPU执行程序的过程：
 - 终止：完成任务或异常终止
 - 回收：系统回收资源
 
-## 总结
+## 总结：从源代码到CPU指令的完整过程
 
-- 程序的执行是一个从源代码到可执行文件，再到内存中运行的完整过程。不同的编程语言有不同的执行方式，但核心原理都是将代码转换为CPU可以理解的指令。
+- **程序的执行是一个从源代码到可执行文件，再到内存中运行的完整过程。** 不同的编程语言有不同的执行方式，但核心原理都是将代码转换为CPU可以理解的指令。
 - 理解程序的执行过程，有助于我们更好地编写和调试程序，也为学习更高级的计算机知识打下基础。

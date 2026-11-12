@@ -4,6 +4,31 @@
 
 深入理解软件基础有助于架构师设计出高效、稳定、可维护的软件系统。
 
+*图：软件基础的六大知识域（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 230" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="260" y="16" width="200" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="41" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">软件基础</text>
+  <rect x="40" y="88" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="140" y="111" text-anchor="middle" font-size="14" fill="#1e293b">操作系统原理</text>
+  <text x="140" y="131" text-anchor="middle" font-size="12" fill="#475569">进程线程 / 内存 / 文件系统</text>
+  <rect x="260" y="88" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="111" text-anchor="middle" font-size="14" fill="#1e293b">编译原理</text>
+  <text x="360" y="131" text-anchor="middle" font-size="12" fill="#475569">编译流程 / 虚拟机与解释器</text>
+  <rect x="480" y="88" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="580" y="111" text-anchor="middle" font-size="14" fill="#1e293b">数据结构与算法</text>
+  <text x="580" y="131" text-anchor="middle" font-size="12" fill="#475569">常用结构 / 经典算法</text>
+  <rect x="40" y="156" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="140" y="179" text-anchor="middle" font-size="14" fill="#1e293b">网络基础</text>
+  <text x="140" y="199" text-anchor="middle" font-size="12" fill="#475569">OSI 七层 / TCP/IP 栈</text>
+  <rect x="260" y="156" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="179" text-anchor="middle" font-size="14" fill="#1e293b">数据库基础</text>
+  <text x="360" y="199" text-anchor="middle" font-size="12" fill="#475569">关系模型 / 事务与并发</text>
+  <rect x="480" y="156" width="200" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="580" y="179" text-anchor="middle" font-size="14" fill="#1e293b">软件工程基础</text>
+  <text x="580" y="199" text-anchor="middle" font-size="12" fill="#475569">设计模式 / 生命周期</text>
+</svg>
+
 ## 操作系统原理
 
 ### 进程与线程
@@ -43,7 +68,7 @@
   - 分段存储管理：按逻辑关系划分段
   - 段页式存储管理：分段和分页相结合
 
-内存管理是操作系统的核心功能之一，直接影响系统性能和资源利用率。
+**内存管理是操作系统的核心功能之一**，直接影响系统性能和资源利用率。
 
 ### 文件系统
 
@@ -133,7 +158,7 @@
 - 网络层：IP(网络互连), ICMP, ARP
 - 网络接口层：以太网, Wi-Fi等
 
-理解网络协议对于设计分布式系统和解决网络问题至关重要。
+**理解网络协议对于设计分布式系统和解决网络问题至关重要。**
 
 ## 数据库基础
 

@@ -4,6 +4,45 @@
 
 数据结构是计算机存储、组织数据的方式，是指相互之间存在一种或多种特定关系的数据元素的集合。良好的数据结构设计可以提高算法的效率，是计算机科学的基础。
 
+*图：常见数据结构的分类体系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 230" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="280" y="16" width="160" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="41" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">数据结构</text>
+  <line x1="360" y1="56" x2="213" y2="88" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="56" x2="566" y2="88" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="133" y="90" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="213" y="115" text-anchor="middle" font-size="14" fill="#1e293b">线性结构</text>
+  <rect x="486" y="90" width="160" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="566" y="115" text-anchor="middle" font-size="14" fill="#1e293b">非线性结构</text>
+  <line x1="180" y1="130" x2="66" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="200" y1="130" x2="164" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="226" y1="130" x2="262" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="246" y1="130" x2="360" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="540" y1="130" x2="468" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="566" y1="130" x2="566" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="592" y1="130" x2="664" y2="168" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="22" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="66" y="193" text-anchor="middle" font-size="13" fill="#1e293b">数组</text>
+  <rect x="120" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="164" y="193" text-anchor="middle" font-size="13" fill="#1e293b">链表</text>
+  <rect x="218" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="262" y="193" text-anchor="middle" font-size="13" fill="#1e293b">栈</text>
+  <rect x="316" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="193" text-anchor="middle" font-size="13" fill="#1e293b">队列</text>
+  <rect x="424" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="468" y="193" text-anchor="middle" font-size="13" fill="#1e293b">树</text>
+  <rect x="522" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="566" y="193" text-anchor="middle" font-size="13" fill="#1e293b">图</text>
+  <rect x="620" y="170" width="88" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="664" y="193" text-anchor="middle" font-size="13" fill="#1e293b">哈希表</text>
+</svg>
+
 ## 常见数据结构
 
 ### 线性结构
@@ -335,8 +374,8 @@ public class HashTable {
 - 计数器
 - 去重操作
 
-## 总结
+## 总结：选对数据结构才能提高算法效率
 
-数据结构是计算机科学的基础，选择合适的数据结构对于提高算法效率至关重要。不同的数据结构适用于不同的场景，了解各种数据结构的特点和适用场景，可以帮助我们设计出更高效、更可维护的程序。
+**数据结构是计算机科学的基础，选择合适的数据结构对于提高算法效率至关重要。** 不同的数据结构适用于不同的场景，了解各种数据结构的特点和适用场景，可以帮助我们设计出更高效、更可维护的程序。
 
 在实际应用中，我们常常需要根据具体问题的特点，选择或组合使用不同的数据结构，以达到最佳的性能和空间利用率。
