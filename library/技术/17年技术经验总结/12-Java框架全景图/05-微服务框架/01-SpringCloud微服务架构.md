@@ -351,9 +351,9 @@ spring:
 
 ---
 
-## 五、总结
+## 五、总结与学习要点
 
-Spring Cloud是微服务架构的标准解决方案，Spring Cloud Alibaba在国内企业中使用最广泛。
+Spring Cloud是**微服务架构的标准解决方案**，Spring Cloud Alibaba在国内企业中使用最广泛。
 
 **学习要点**：
 1. 理解微服务架构的核心概念

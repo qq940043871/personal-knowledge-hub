@@ -8,7 +8,7 @@
 >
 > 2026-11-08：可推断项已修复并标注「修复值」（如 XXMaxPermSize 常规默认 256m、系列序号按本系列篇目推定）；无法推断的以「已丢失」或占位标注，未编造数值。
 
-## 概述
+## 什么是 JVM 调优：从 GC 日志分析入手
 
 什么是jvm调优呢？jvm调优就是根据gc日志分析jvm内存分配、回收的情况来调整各区域内存比例或者gc回收的策略；更深一层就是根据dump出来的内存结构和线程栈来分析代码中不合理的地方给予改进。eclipse优化主要涉及的是前者，通过gc日志来分析。本文主要是通过分析eclipse gc日志为例来示例如何根据gc日志来分析jvm内存而进行调优,像根据关闭eclipse启动项、关闭各种校验等措施来优化eclipse本文不再阐述，网上有很多，本次测试的eclipse已经进行了配置上面的优化。
 
@@ -63,7 +63,7 @@ openFile
 <时间戳> [Full GC [PSYoungGen: <回收前>-><回收后>(<总量>)] [ParOldGen: <回收前>-><回收后>(<总量>)] <堆变化>(<总量>) [PSPermGen: <回收前>-><回收后>(<总量>)], <耗时> secs] [Times: user=<耗时> sys=<耗时>, real=<耗时> secs]
 ```
 
-通过上面日志分析得出，PSYoungGen、ParOldGen、PSPermGen属于Parallel收集器。其中PSYoungGen表示gc回收前后年轻代的内存变化；ParOldGen表示gc回收前后老年代的内存变化；PSPermGen表示gc回收前后永久区的内存变化。young gc 主要是针对年轻代进行内存回收比较频繁，耗时短；full gc 会对整个堆内存进行回城，耗时长，因此一般尽量减少full gc的次数
+通过上面日志分析得出，PSYoungGen、ParOldGen、PSPermGen属于Parallel收集器。其中PSYoungGen表示gc回收前后年轻代的内存变化；ParOldGen表示gc回收前后老年代的内存变化；PSPermGen表示gc回收前后永久区的内存变化。young gc 主要是针对年轻代进行内存回收比较频繁，耗时短；full gc 会对整个堆内存进行回城，耗时长，**因此一般尽量减少full gc的次数**
 
 通过两张图非常明显看出gc日志构成：
 
@@ -172,6 +172,7 @@ openFile
   <rect x="160" y="438" width="320" height="46" rx="8" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
   <text x="320" y="466" text-anchor="middle" font-size="13" fill="#1e293b">重启验证：启动时间与 GC 次数对比</text>
 </svg>
+
 *图：Eclipse 启动 GC 调优步骤示意（据原文重绘）*
 
 ## 本系列
