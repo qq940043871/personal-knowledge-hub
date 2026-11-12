@@ -5,7 +5,9 @@
 
 ---
 
-## 一、模板系统
+## 模板系统：变量占位、格式化与内置模板
+
+核心思路：**模板里用 `{变量}` 占位，`format()` 时注入实际值；`from_file` 用正则 `\{(\w+)\}` 自动提取变量名**。内置 QA、摘要两个常用模板。
 
 ```python
 class PromptTemplate:
@@ -59,7 +61,9 @@ class BuiltinTemplates:
 
 ---
 
-## 二、模板引擎
+## 模板引擎：注册模板并按名渲染
+
+核心思路：**引擎持有模板注册表，启动时注册内置模板；`render` 按名字查表渲染，查不到直接抛 `ValueError`**。
 
 ```python
 class PromptEngine:

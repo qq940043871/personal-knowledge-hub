@@ -17,11 +17,11 @@
 
 #### 传统方案
 
-##### 工作流程
+##### 传统方案的工作流程
 
 > （原文此处为飞书画板图示，未随文档导出）
 
-##### 存在的问题
+##### 传统方案存在的问题
 
 1. **是否调用工具、调用什么工具由后端负责判断，逻辑复杂且容易误判。**
 
@@ -44,7 +44,7 @@
 
 ##### 基于提示词的 Function Calling
 
-###### 工作流程
+###### 基于提示词方案的工作流程
 
 > （原文此处为飞书画板图示，未随文档导出）
 
@@ -79,7 +79,7 @@
 { "name": "get_weather", "arguments": { "city": "广州" } }
 ```
 
-###### 存在的问题
+###### 基于提示词方案存在的问题
 
 1. **输出格式不稳定。**如调用指令中存在多余自然语言。
 2. **容易出现幻觉。**模型可能编造并不存在的函数名或参数。
@@ -94,7 +94,7 @@
 
 ##### 基于 API 的 Function Calling
 
-###### 工作流程
+###### 基于 API 方案的工作流程
 
 > （原文此处为飞书画板图示，未随文档导出）
 
@@ -156,7 +156,39 @@
 5. **后端第二次向大模型 API 发起请求，将刚才的调用结果和其他上下文信息一起传给模型，生成最终的回复**
 后端将函数执行结果 + 其他上下文信息（包括用户原始输入）传给模型，模型判断此时已有足够的信息回答问题，不再需要调用函数了，于是直接生成最终结果，例如：“广州今天35度，暴雨，建议在室内活动”。
 
-###### 存在的问题
+*图：基于 API 的 Function Calling 交互流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="30" width="213" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="126" y="61" text-anchor="middle" font-size="14" fill="#1e293b">1. 用户发起提问</text>
+  <line x1="235" y1="56" x2="251" y2="56" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="253" y="30" width="213" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="359" y="51" text-anchor="middle" font-size="13" fill="#1e293b">2. 后端第一次请求大模型 API</text>
+  <text x="359" y="70" text-anchor="middle" font-size="12" fill="#475569">（传函数描述与上下文）</text>
+  <line x1="468" y1="56" x2="484" y2="56" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="486" y="30" width="213" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="592" y="51" text-anchor="middle" font-size="13" fill="#1e293b">3. 模型生成调用指令</text>
+  <text x="592" y="70" text-anchor="middle" font-size="12" fill="#475569">（函数名 + 参数）</text>
+  <path d="M592,82 L592,105 L126,105 L126,120" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="20" y="122" width="213" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="126" y="143" text-anchor="middle" font-size="13" fill="#1e293b">4. 后端解析调用指令</text>
+  <text x="126" y="162" text-anchor="middle" font-size="12" fill="#475569">并执行实际的函数调用</text>
+  <line x1="235" y1="148" x2="251" y2="148" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="253" y="122" width="213" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="359" y="143" text-anchor="middle" font-size="13" fill="#1e293b">5. 后端第二次请求大模型 API</text>
+  <text x="359" y="162" text-anchor="middle" font-size="12" fill="#475569">（传调用结果与上下文）</text>
+  <line x1="468" y1="148" x2="484" y2="148" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="486" y="122" width="213" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="592" y="153" text-anchor="middle" font-size="14" fill="#1e293b">6. 模型生成最终回复</text>
+  <text x="360" y="215" text-anchor="middle" font-size="13" fill="#475569">模型判断已有足够信息时，不再调用函数，直接生成最终回复</text>
+</svg>
+
+###### 基于 API 方案存在的问题
 
 1. 后端应用适配不同大模型时存在大量冗余开发
 2. 可选模型有限
@@ -268,7 +300,33 @@ MCP遵循客户端-服务器架构，其中 MCP Host——[Claude Code](https://
 
 例如：Visual Studio Code 充当 MCP 主机。当 Visual Studio Code 建立与MCP服务器（如[Sentry MCP服务器](https://docs.sentry.io/product/sentry-mcp/)）的连接时，Visual Studio Code 运行时实例化了维护与Sentry MCP服务器连接的MCP客户端对象。当Visual Studio Code 随后连接到另一个MCP服务器时，例如[本地文件系统服务器](https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem)，Visual Studio Code 运行时实例化一个额外的MCP客户端对象来维护此连接，从而保持MCP客户端与MCP服务器的一对一关系。
 
-![](https://feishu.cn/file/CUawbl3MJoSl1hxNWdBcFVpWnte)
+*图：MCP 核心架构：Host / Client / Server（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="25" width="330" height="185" rx="10" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="195" y="52" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">MCP Host（AI 应用）</text>
+  <text x="195" y="72" text-anchor="middle" font-size="12" fill="#475569">如 VS Code、Claude Desktop</text>
+  <rect x="60" y="88" width="270" height="38" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="195" y="112" text-anchor="middle" font-size="14" fill="#1e293b">MCP Client 1</text>
+  <rect x="60" y="152" width="270" height="38" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="195" y="176" text-anchor="middle" font-size="14" fill="#1e293b">MCP Client 2</text>
+  <rect x="500" y="83" width="190" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="104" text-anchor="middle" font-size="14" fill="#1e293b">MCP Server 1</text>
+  <text x="595" y="122" text-anchor="middle" font-size="12" fill="#475569">（如 Sentry：远程）</text>
+  <rect x="500" y="147" width="190" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="168" text-anchor="middle" font-size="14" fill="#1e293b">MCP Server 2</text>
+  <text x="595" y="186" text-anchor="middle" font-size="12" fill="#475569">（如文件系统：本地 Stdio）</text>
+  <line x1="335" y1="107" x2="495" y2="107" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="415" y="99" text-anchor="middle" font-size="12" fill="#475569">一对一连接</text>
+  <line x1="335" y1="171" x2="495" y2="171" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="415" y="163" text-anchor="middle" font-size="12" fill="#475569">一对一连接</text>
+  <text x="360" y="232" text-anchor="middle" font-size="13" fill="#475569">每个 MCP Client 与对应的 MCP Server 保持专用的一对一连接</text>
+</svg>
 
 ### 2.5 MCP 的传输协议
 
@@ -376,8 +434,6 @@ ps aux | grep python
 
 > （原文此处为飞书画板图示，未随文档导出）
 
-![](https://feishu.cn/file/Fj22bE5H6oocidxFxhIcAyd9nWc)
-
 ### 2.6 回顾：技术方案最终是怎么实现的
 
 1. **工具与AI 应用必须解耦合。**✅ 客户端 - 服务端架构（MCP Host、MCP Client、MCP Server）
@@ -385,10 +441,6 @@ ps aux | grep python
 
    1. AI 应用和工具服务的**通信协议**需要统一（本地进程间的通信协议 / 远程服务调用的协议）✅ 本地：Stdio 传输；远程：HTTP + SSE 或 Streamable HTTP
    2. AI 应用和工具服务的**接口定义**需要统一（需要提供哪些接口、接口需包含哪些参数）✅ 工具服务需提供的接口：1. **tools/list**（用于返回方法列表） 2. **tools/call**（用于执行方法并返回结果） 3. **notifications/tools/list_changed**（服务端主动推送，用于告知客户端方法更新）[[5]](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)✅ 接口参数定义，见文档。以 tools/list 为例：
-
-      ![](https://feishu.cn/file/BwA8bJHM1oeaXYxzpeGcZe6LnYv)
-
-      ![](https://feishu.cn/file/Vh1QbjB6Uo2FQrxyRS2c8A7Kndh)
    3. AI 应用和工具服务的**数据交换格式**需要统一（接口的请求 / 响应格式等）✅ **JSON-RPC 2.0**[ [6]](https://modelcontextprotocol.io/specification/2025-06-18/basic)[ [7]](https://www.jsonrpc.org/specification)。JSON-RPC 2.0 是一种轻量级的远程过程调用（RPC）协议，基于 JSON 格式进行通信，主要特点是所有消息都是 JSON 格式，便于解析和跨语言使用。
    4. AI 应用接入工具的**配置内容**需要进行标准化定义。以接入高德地图 MCP Server 为例，参考文档：https://lbs.amap.com/api/mcp-server/gettingstarted（来自ModelScope 的 MCP Server 市场：https://modelscope.cn/mcp）✅ 本地服务式接入（基于 Stdio 协议）✅ 远程服务式接入（基于 SSE  协议）
 

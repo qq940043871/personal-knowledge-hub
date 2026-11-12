@@ -5,7 +5,9 @@
 
 ---
 
-## 一、Few-Shot策略
+## Few-Shot策略：用示例教会模型任务格式
+
+核心思路：**提供 1~N 个「输入 → 输出」示例，让模型照着格式完成第 N+1 个输入**。示例要有代表性、格式要一致、3~5 个通常足够，并覆盖边界情况。
 
 ```
 Few-Shot示例：
@@ -25,7 +27,9 @@ Few-Shot示例：
 
 ---
 
-## 二、示例管理器
+## 示例管理器：拼装示例的两种 Prompt 形态
+
+核心思路：**`build_prompt` 把示例格式化后拼接成一段文本提示；`build_messages` 则把每对示例转成 user/assistant 消息交替的对话格式**。
 
 ```python
 class FewShotManager:

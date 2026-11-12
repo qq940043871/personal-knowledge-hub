@@ -5,7 +5,9 @@
 
 ---
 
-## 一、系统提示词
+## 系统提示词：按角色注册，拼在消息列表最前
+
+核心思路：**把不同人设（assistant / coder / analyst）的 System Prompt 注册成字典，`get` 查不到时回退到通用 assistant；`build_messages` 把 System 消息插到对话最前面**。
 
 ```python
 class SystemPromptManager:
