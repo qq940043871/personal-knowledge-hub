@@ -7,6 +7,8 @@
 
 ## 一、Request接口设计
 
+> 接口按职责分组：请求行与协议、请求头、请求参数、输入流、远程信息、Session、Cookie、Attribute。
+
 ```java
 public interface HttpServletRequest {
     String getMethod();
@@ -46,6 +48,8 @@ public interface HttpServletRequest {
 ---
 
 ## 二、实现类
+
+> getSession(boolean create)：先返回已有 session，其次从 JSESSIONID Cookie 恢复，create 时才新建。
 
 ```java
 public class HttpRequest implements HttpServletRequest {

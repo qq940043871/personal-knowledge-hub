@@ -7,6 +7,8 @@
 
 ## 一、NIO模型
 
+> NIO 的核心优势：**线程数 << 连接数**，用 Selector 多路复用减少线程切换开销。
+
 ```
 特点：
   - 非阻塞IO
@@ -23,6 +25,8 @@
 ---
 
 ## 二、Poller模式
+
+> 主线程只负责 accept，连接轮询分配给多个 Poller；Poller 负责注册、select 与分发就绪事件。
 
 ```java
 public class NioEndpoint {
@@ -105,9 +109,44 @@ public class NioEndpoint {
 }
 ```
 
+*图：NIO 连接器 · Acceptor 与 Poller 事件流（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 310" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="170" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">主线程（Acceptor）</text>
+  <text x="530" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Poller 线程 × pollerCount</text>
+  <rect x="60" y="44" width="220" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="170" y="62" text-anchor="middle" font-size="14" fill="#1e293b">accept() 接收连接</text>
+  <text x="170" y="80" text-anchor="middle" font-size="12" fill="#475569">configureBlocking(false)</text>
+  <line x1="280" y1="66" x2="386" y2="66" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="333" y="56" text-anchor="middle" font-size="12" fill="#475569">轮询分配</text>
+  <text x="333" y="84" text-anchor="middle" font-size="11" fill="#475569">hash % pollerCount</text>
+  <rect x="390" y="44" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="530" y="62" text-anchor="middle" font-size="14" fill="#1e293b">新连接入队并唤醒</text>
+  <text x="530" y="80" text-anchor="middle" font-size="12" fill="#475569">queue.offer(channel) → selector.wakeup()</text>
+  <line x1="530" y1="88" x2="530" y2="108" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="390" y="112" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="530" y="130" text-anchor="middle" font-size="14" fill="#1e293b">注册 OP_READ</text>
+  <text x="530" y="148" text-anchor="middle" font-size="12" fill="#475569">register(selector, OP_READ, NioSocketWrapper)</text>
+  <line x1="530" y1="156" x2="530" y2="176" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="390" y="180" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="530" y="198" text-anchor="middle" font-size="14" fill="#1e293b">select 等待就绪事件</text>
+  <text x="530" y="216" text-anchor="middle" font-size="12" fill="#475569">selector.select(1000)</text>
+  <line x1="530" y1="224" x2="530" y2="244" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="390" y="248" width="280" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="530" y="266" text-anchor="middle" font-size="14" fill="#1e293b">处理可读事件</text>
+  <text x="530" y="284" text-anchor="middle" font-size="12" fill="#475569">key.isReadable() → wrapper.process()</text>
+</svg>
+
 ---
 
 ## 三、SocketWrapper
+
+> NioSocketWrapper：读到数据则处理请求并写回响应，读到 -1 关闭连接。
 
 ```java
 public class NioSocketWrapper {

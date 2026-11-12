@@ -7,6 +7,8 @@
 
 ## 一、Response接口设计
 
+> 接口覆盖：状态、头部、输出流、重定向与错误、Cookie、字符编码、缓冲 flush 与 reset。
+
 ```java
 public interface HttpServletResponse {
     void setStatus(int sc);
@@ -37,6 +39,8 @@ public interface HttpServletResponse {
 ---
 
 ## 二、实现类
+
+> flushBuffer() 一次性写出状态行、响应头、Set-Cookie 与空行并置 committed；committed 后 reset() 抛 IllegalStateException。
 
 ```java
 public class HttpResponse implements HttpServletResponse {

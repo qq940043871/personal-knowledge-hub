@@ -7,6 +7,8 @@
 
 ## 一、理论基础
 
+> 建立连接走三次握手，断开连接走四次挥手，客户端最终进入 TIME_WAIT 等待 2MSL。
+
 ### 1. TCP三次握手
 
 ```
@@ -42,6 +44,8 @@
 ---
 
 ## 二、Java Socket编程
+
+> BIO：accept() 阻塞等待、每连接一线程；NIO：Selector 阻塞等待事件，按事件类型分发处理。
 
 ### 1. BIO服务端
 
@@ -127,6 +131,8 @@ public class NioServer {
 ---
 
 ## 三、Web容器中的连接
+
+> Connector 把 accept 到的连接交给线程池，由 RequestProcessor 处理请求。
 
 ```java
 public class Connector {

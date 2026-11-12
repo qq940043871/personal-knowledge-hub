@@ -7,6 +7,8 @@
 
 ## 一、Connector职责
 
+> Connector 的核心职责：接收连接、解析 HTTP、封装 Request/Response、调用 Container、返回响应。
+
 ```
 Connector核心功能：
   1. 接收网络连接
@@ -19,6 +21,8 @@ Connector核心功能：
 ---
 
 ## 二、架构设计
+
+> 内部链路：Endpoint 接收连接 → Processor 解析 HTTP → Adapter 封装对象 → Container 处理。
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -43,6 +47,8 @@ Connector核心功能：
 ---
 
 ## 三、核心组件
+
+> 三个组件对应实现：NioEndpoint、Http11Processor、CoyoteAdapter，Handler 中完成解析→封装→调用 Container。
 
 ```java
 public class Connector {
