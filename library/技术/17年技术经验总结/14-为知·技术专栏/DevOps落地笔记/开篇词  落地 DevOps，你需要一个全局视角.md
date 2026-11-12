@@ -90,6 +90,7 @@ DevOps，从软件开发全生命周期的角度出发，优化研发流程，�
   <text x="410" y="251" text-anchor="middle" font-size="13" fill="#1e293b">端到端主线：从需求提出到发布交付给用户</text>
   <text x="410" y="330" text-anchor="middle" font-size="12" fill="#475569">工具之外更要有全局视角：文化·流程·技术协同变革</text>
 </svg>
+
 *图：课程三大模块结构示意（据原文重绘）*
 
 ## 未来可期的 DevOps

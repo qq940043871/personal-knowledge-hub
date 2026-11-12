@@ -262,6 +262,6 @@ public class WebConfig implements WebFluxConfigurer {
 }
 ```
 
-## 总结
+## 小结：用 API 组合为客户端创建专属 API
 
 为了满足不同客户端的需求，微服务架构的应用中通常需要使用 API 组合来创建客户端独有的 API。通过本课时的学习，你可以了解到 API 网关和 API 组合的基本概念，以及 Backend For Frontend 模式在实际开发中的作用，最后还可以掌握如何使用 Spring Cloud Gateway 来组合 API。

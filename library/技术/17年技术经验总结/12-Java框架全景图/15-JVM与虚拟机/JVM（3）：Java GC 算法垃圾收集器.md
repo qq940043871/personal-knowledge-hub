@@ -2,11 +2,7 @@
 
 > 2026-11-08：原导出丢失了篇目序号，已按本系列实际篇目（与库内《JVM》目录一致）修复，此处为修复值。
 
-_--_ ImportNew ImportNew
-
-**ImportNew**
-
-（点击上方公众号，可快速关注）
+**ImportNew**（点击上方公众号，可快速关注）
 
 > 来源：纯洁的微笑，
 >
@@ -14,13 +10,15 @@ _--_ ImportNew ImportNew
 >
 > [如有好文章投稿，请点击 → 这里了解详情](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=dbcfdcdfdfca&scene=#wechat_redirect)
 
-**概述**
+## 概述：垃圾回收为什么聚焦堆和方法区
+
+> jvm 中，程序计数器、虚拟机栈、本地方法栈都是随线程而生随线程而灭，内存垃圾回收主要集中于 java 堆和方法区中。
 
 垃圾收集 Garbage Collection 通常被称为“GC”，它诞生于年 MIT 的 Lisp 语言，经过半个多世纪，目前已经十分成熟了。
 
 jvm 中，程序计数器、虚拟机栈、本地方法栈都是随线程而生随线程而灭，栈帧随着方法的进入和退出做入栈和出栈操作，实现了自动的内存清理，因此，我们的内存垃圾回收主要集中于 java 堆和方法区中，在程序运行期间，这部分内存的分配和使用都是动态的.
 
-**对象存活判断**
+## 对象存活判断：引用计数与可达性分析
 
 判断对象是否存活一般有两种方式：
 
@@ -30,87 +28,84 @@ jvm 中，程序计数器、虚拟机栈、本地方法栈都是随线程而生�
 
 在Java语言中，GC Roots包括：
 
-* 虚拟机栈中引用的对象。
+- 虚拟机栈中引用的对象。
+- 方法区中类静态属性实体引用的对象。
+- 方法区中常量引用的对象。
+- 本地方法栈中JNI引用的对象。
 
-* 方法区中类静态属性实体引用的对象。
+## 垃圾收集算法：三种基础算法与分代收集
 
-* 方法区中常量引用的对象。
-
-* 本地方法栈中JNI引用的对象。
-
-**垃圾收集算法**
-
-**标记 -清除算法**
+### 标记-清除算法（Mark-Sweep）
 
 “标记-清除”（Mark-Sweep）算法，如它的名字一样，算法分为“标记”和“清除”两个阶段：首先标记出所有需要回收的对象，在标记完成后统一回收掉所有被标记的对象。之所以说它是最基础的收集算法，是因为后续的收集算法都是基于这种思路并对其缺点进行改进而得到的。
 
-它的主要缺点有两个：一个是效率问题，标记和清除过程的效率都不高；另外一个是空间问题，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致，当程序在以后的运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。
+它的主要缺点有两个：一个是**效率问题**，标记和清除过程的效率都不高；另外一个是**空间问题**，标记清除之后会产生大量不连续的内存碎片，空间碎片太多可能会导致，当程序在以后的运行过程中需要分配较大对象时无法找到足够的连续内存而不得不提前触发另一次垃圾收集动作。
 
-**复制算法**
+### 复制算法（Copying）
 
 “复制”（Copying）的收集算法，它将可用内存按容量划分为大小相等的两块，每次只使用其中的一块。当这一块的内存用完了，就将还存活着的对象复制到另外一块上面，然后再把已使用过的内存空间一次清理掉。
 
-这样使得每次都是对其中的一块进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法的代价是将内存缩小为原来的一半，持续复制长生存期的对象则导致效率降低。
+这样使得每次都是对其中的一块进行内存回收，内存分配时也就不用考虑内存碎片等复杂情况，只要移动堆顶指针，按顺序分配内存即可，实现简单，运行高效。只是这种算法的代价是**将内存缩小为原来的一半**，持续复制长生存期的对象则导致效率降低。
 
-**标记-压缩算法**
+### 标记-压缩算法（Mark-Compact）
 
 复制收集算法在对象存活率较高时就要执行较多的复制操作，效率将会变低。更关键的是，如果不想浪费50%的空间，就需要有额外的空间进行分配担保，以应对被使用的内存中所有对象都100%存活的极端情况，所以在老年代一般不能直接选用这种算法。<!-- 注：原导出数字缺失，50%由上文“缩小为原来的一半”推得、100%由“所有对象都存活”推得，属修复值 -->
 
 根据老年代的特点，有人提出了另外一种“标记-整理”（Mark-Compact）算法，标记过程仍然与“标记-清除”算法一样，但后续步骤不是直接对可回收对象进行清理，而是让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存
 
-**分代收集算法**
+### 分代收集算法（Generational Collection）
 
 **GC分代的基本假设：绝大部分对象的生命周期都非常短暂，存活时间短。**
 
 “分代收集”（Generational Collection）算法，把Java堆分为新生代和老年代，这样就可以根据各个年代的特点采用最适当的收集算法。在新生代中，每次垃圾收集时都发现有大批对象死去，只有少量存活，那就选用复制算法，只需要付出少量存活对象的复制成本就可以完成收集。而老年代中因为对象存活率高、没有额外空间对它进行分配担保，就必须使用“标记-清理”或“标记-整理”算法来进行回收。
 
-**垃圾收集器**
+## 垃圾收集器：内存回收的具体实现
+
+> 如果说收集算法是内存回收的方法论，垃圾收集器就是内存回收的具体实现。
 
 如果说收集算法是内存回收的方法论，垃圾收集器就是内存回收的具体实现
 
-**Serial收集器**
+### Serial收集器
 
 串行收集器是最古老，最稳定以及效率高的收集器，可能会产生较长的停顿，只使用一个线程去回收。新生代、老年代使用串行回收；新生代复制算法、老年代标记-压缩；垃圾收集的过程中会Stop The World（服务暂停）
 
 **参数控制**：-XX:+UseSerialGC  串行收集器
 
-**ParNew收集器**
+### ParNew收集器
 
 ParNew收集器其实就是Serial收集器的多线程版本。新生代并行，老年代串行；新生代复制算法、老年代标记-压缩
 
 **参数控制**：
 
-\-XX:+UseParNewGC  ParNew收集器
+- -XX:+UseParNewGC  ParNew收集器
+- -XX:ParallelGCThreads 限制线程数量
 
-\-XX:ParallelGCThreads 限制线程数量
+### Parallel收集器
 
-**Parallel收集器**
-
-Parallel Scavenge收集器类似ParNew收集器，Parallel收集器更关注系统的吞吐量。可以通过参数来打开自适应调节策略，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或最大的吞吐量；也可以通过参数控制GC的时间不大于多少毫秒或者比例；新生代复制算法、老年代标记-压缩
+Parallel Scavenge收集器类似ParNew收集器，**Parallel收集器更关注系统的吞吐量**。可以通过参数来打开自适应调节策略，虚拟机会根据当前系统的运行情况收集性能监控信息，动态调整这些参数以提供最合适的停顿时间或最大的吞吐量；也可以通过参数控制GC的时间不大于多少毫秒或者比例；新生代复制算法、老年代标记-压缩
 
 **参数控制**：-XX:+UseParallelGC  使用Parallel收集器+ 老年代串行
 
-**Parallel Old 收集器**
+### Parallel Old 收集器
 
 Parallel Old是Parallel Scavenge收集器的老年代版本，使用多线程和“标记－整理”算法。这个收集器是在JDK 中才开始提供
 
 **参数控制**： -XX:+UseParallelOldGC 使用Parallel收集器+ 老年代并行
 
-**CMS收集器**
+### CMS收集器
+
+> CMS（Concurrent Mark Sweep）是一种以获取最短回收停顿时间为目标的收集器。
 
 CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器。目前很大一部分的Java应用都集中在互联网站或B/S系统的服务端上，这类应用尤其重视服务的响应速度，希望系统停顿时间最短，以给用户带来较好的体验。
 
 从名字（包含“Mark Sweep”）上就可以看出CMS收集器是基于“标记-清除”算法实现的，它的运作过程相对于前面几种收集器来说要更复杂一些，整个过程分为4个步骤（注：原导出数字缺失，按下文所列4个步骤修复，此处为修复值），包括：
 
-* 初始标记（CMS initial mark）
+- 初始标记（CMS initial mark）
+- 并发标记（CMS concurrent mark）
+- 重新标记（CMS remark）
+- 并发清除（CMS concurrent sweep）
 
-* 并发标记（CMS concurrent mark）
-
-* 重新标记（CMS remark）
-
-* 并发清除（CMS concurrent sweep）
-
-其中初始标记、重新标记这两个步骤仍然需要“Stop The World”。初始标记仅仅只是标记一下GC Roots能直接关联到的对象，速度很快，并发标记阶段就是进行GC Roots Tracing的过程，而重新标记阶段则是为了修正并发标记期间，因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。
+其中**初始标记、重新标记这两个步骤仍然需要“Stop The World”**。初始标记仅仅只是标记一下GC Roots能直接关联到的对象，速度很快，并发标记阶段就是进行GC Roots Tracing的过程，而重新标记阶段则是为了修正并发标记期间，因用户程序继续运作而导致标记产生变动的那一部分对象的标记记录，这个阶段的停顿时间一般会比初始标记阶段稍长一些，但远比并发标记的时间短。
 
 由于整个过程中耗时最长的并发标记和并发清除过程中，收集器线程都可以与用户线程一起工作，所以总体上来说，CMS收集器的内存回收过程是与用户线程一起并发地执行。老年代收集器（新生代使用ParNew）
 
@@ -120,25 +115,25 @@ CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时�
 
 **参数控制**：
 
-\-XX:+UseConcMarkSweepGC  使用CMS收集器
-
-\-XX:+ UseCMSCompactAtFullCollection Full GC后，进行一次碎片整理；整理过程是独占的，会引起停顿时间变长
+- -XX:+UseConcMarkSweepGC  使用CMS收集器
+- -XX:+ UseCMSCompactAtFullCollection Full GC后，进行一次碎片整理；整理过程是独占的，会引起停顿时间变长
 
  - X
 
-\-XX:ParallelCMSThreads  设定CMS的线程数量（一般情况约等于可用CPU数量）
+- -XX:ParallelCMSThreads  设定CMS的线程数量（一般情况约等于可用CPU数量）
 
-**G收集器**
+### G1收集器
 
-G是目前技术发展的最前沿成果之一，HotSpot开发团队赋予它的使命是未来可以替换掉JDK中发布的CMS收集器。与CMS收集器相比G收集器有以下特点：
+<!-- 注：原导出丢失了“G1”中的数字 1，按文中 G1 与 SATB 修复值统一，此处为修复值 -->
 
-\. **空间整合**，G收集器采用标记整理算法，不会产生内存空间碎片。分配大对象时不会因为无法找到连续空间而提前触发下一次GC。
+G1是目前技术发展的最前沿成果之一，HotSpot开发团队赋予它的使命是未来可以替换掉JDK中发布的CMS收集器。与CMS收集器相比G1收集器有以下特点：
 
-\. **可预测停顿**，这是G的另一大优势，降低停顿时间是G和CMS的共同关注点，但G除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为N毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒，这几乎已经是实时Java（RTSJ）的垃圾收集器的特征了。
+- **空间整合**，G1收集器采用标记整理算法，不会产生内存空间碎片。分配大对象时不会因为无法找到连续空间而提前触发下一次GC。
+- **可预测停顿**，这是G1的另一大优势，降低停顿时间是G1和CMS的共同关注点，但G1除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为N毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒，这几乎已经是实时Java（RTSJ）的垃圾收集器的特征了。
 
-上面提到的垃圾收集器，收集的范围都是整个新生代或者老年代，而G不再是这样。使用G收集器时，Java堆的内存布局与其他收集器有很大差别，它将整个Java堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔阂了，它们都是一部分（可以不连续）Region的集合。
+上面提到的垃圾收集器，收集的范围都是整个新生代或者老年代，而G1不再是这样。使用G1收集器时，Java堆的内存布局与其他收集器有很大差别，它将整个Java堆划分为多个大小相等的独立区域（Region），虽然还保留有新生代和老年代的概念，但新生代和老年代不再是物理隔阂了，它们都是一部分（可以不连续）Region的集合。
 
-G的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。和CMS类似，G收集器收集老年代对象会有短暂停顿。
+G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。和CMS类似，G1收集器收集老年代对象会有短暂停顿。
 
 **收集步骤**：
 
@@ -154,46 +149,52 @@ G的新生代收集跟ParNew类似，当新生代占用达到一定比例的时�
 
 6、复制/清除过程后。回收区域的活性对象已经被集中回收到深蓝色和深绿色区域。
 
-**常用的收集器组合**
+## 常用的收集器组合
+
+*图：常用垃圾收集器对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="20" y="20" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="47" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Serial</text>
+  <rect x="160" y="20" width="540" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="430" y="38" text-anchor="middle" font-size="13" fill="#1e293b">串行收集器：单线程回收，新生代复制算法、老年代标记-压缩</text>
+  <text x="430" y="56" text-anchor="middle" font-size="13" fill="#475569">垃圾收集的过程中会 Stop The World（服务暂停）</text>
+  <rect x="20" y="72" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="99" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">ParNew</text>
+  <rect x="160" y="72" width="540" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="430" y="90" text-anchor="middle" font-size="13" fill="#1e293b">Serial 的多线程版本：新生代并行、老年代串行</text>
+  <text x="430" y="108" text-anchor="middle" font-size="13" fill="#475569">新生代复制算法、老年代标记-压缩</text>
+  <rect x="20" y="124" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="151" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Parallel</text>
+  <rect x="160" y="124" width="540" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="430" y="142" text-anchor="middle" font-size="13" fill="#1e293b">更关注系统的吞吐量，可打开自适应调节策略</text>
+  <text x="430" y="160" text-anchor="middle" font-size="13" fill="#475569">新生代复制算法、老年代标记-压缩</text>
+  <rect x="20" y="176" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="203" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Parallel Old</text>
+  <rect x="160" y="176" width="540" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="430" y="194" text-anchor="middle" font-size="13" fill="#1e293b">Parallel Scavenge 收集器的老年代版本</text>
+  <text x="430" y="212" text-anchor="middle" font-size="13" fill="#475569">使用多线程和“标记－整理”算法</text>
+  <rect x="20" y="228" width="130" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="85" y="255" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">CMS</text>
+  <rect x="160" y="228" width="540" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="430" y="246" text-anchor="middle" font-size="13" fill="#1e293b">以获取最短回收停顿时间为目标，基于“标记-清除”算法</text>
+  <text x="430" y="264" text-anchor="middle" font-size="13" fill="#475569">并发收集、低停顿；产生大量空间碎片；老年代收集器（新生代使用 ParNew）</text>
+  <rect x="20" y="280" width="130" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="85" y="307" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">G1</text>
+  <rect x="160" y="280" width="540" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="430" y="298" text-anchor="middle" font-size="13" fill="#1e293b">将整个 Java 堆划分为多个大小相等的独立区域（Region）</text>
+  <text x="430" y="316" text-anchor="middle" font-size="13" fill="#475569">标记整理算法，不产生内存空间碎片；可预测停顿</text>
+</svg>
+
+## 参考与本系列
 
 **参考**
 
-* http://my.oschina.net/hosee/blog/
-* 深入理解Java虚拟机：JVM高级特性与最佳实践 pdf
+- http://my.oschina.net/hosee/blog/
+- 深入理解Java虚拟机：JVM高级特性与最佳实践 pdf
 
 **本系列：**
 
-* [JVM（）：Java 类的加载机制](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefeecdfde&chksm=bdaaccfedeacfefadcdddfcc&scene=#wechat_redirect)
-
-* [JVM（）：JVM内存结构](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefcffbefa&chksm=bdacfddddffccdaaefcfa&scene=#wechat_redirect)
-
-* JVM（）：Java GC算法 垃圾收集器
-
-看完本文有收获？请转发分享给更多人
-
-关注「ImportNew」，提升Java技能
-
-阅读原文
-
-阅读
-
-投诉
-
-精选留言
-
-该文章作者已设置需关注才可以留言
-
-写留言
-
-该文章作者已设置需关注才可以留言
-
-写留言
-
- 加载中
-
-以上留言由公众号筛选后显示
-
-[了解留言功能详情](http://kf.qq.com/touch/sappfaq/YfyMVjqmMbyi.html?scene_id=kf)
-
-微信扫一扫
-关注该公众号
+- [JVM（）：Java 类的加载机制](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefeecdfde&chksm=bdaaccfedeacfefadcdddfcc&scene=#wechat_redirect)
+- [JVM（）：JVM内存结构](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefcffbefa&chksm=bdacfddddffccdaaefcfa&scene=#wechat_redirect)
+- JVM（）：Java GC算法 垃圾收集器

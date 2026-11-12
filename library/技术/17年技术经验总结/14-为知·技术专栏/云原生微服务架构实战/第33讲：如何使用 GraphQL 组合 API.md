@@ -451,6 +451,6 @@ public class SchemaConfig {
 
 下图是使用 Insomnia 查询 GraphQL 时的截图。
 
-## 总结
+## 小结：GraphQL 释放客户端的查询能力
 
 作为一个新的开放 API 的方式，GraphQL 释放了客户端的查询能力，已经得到了广泛的流行。通过本课时的学习，你可以了解 GraphQL 中的基本概念，包括查询和修改，以及如何编写 GraphQL 模式，还可以掌握如何使用 Java 来实现基于 Spring Boot 的 GraphQL 服务器。

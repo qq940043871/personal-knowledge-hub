@@ -12,6 +12,7 @@
 
 我们在 Java 的内存布局课时（第课时）中，还了解了 Java 的虚拟机栈，它和线程相关，也就是我们的字节码指令其实是靠操作栈来完成的。现在，用一小段代码，来看一下这个执行引擎的一些特点。
 
+```
 import java.util.stream.IntStream;
 
 public class JMMDemo {
@@ -33,9 +34,11 @@ public class JMMDemo {
         t2.join();
 
         System.out.println(demo.value);
+```
 
 上面的代码没有任何同步块，每个线程单独运行后，都会对 value 加 10 万，但执行之后，大概率不会输出 20 万（即两倍的总和）。深层次的原因，我们将使用 javap 命令从字节码层面找一下。
 
+```
 void add();
     descriptor: ()V
     flags:
@@ -49,6 +52,7 @@ void add();
         line :         line :       LocalVariableTable:
         Start  Length  Slot  Name   Signature
                          this   LJMMDemo;
+```
 
 着重看一下 **add**方法，可以看到一个简单的**i++** 操作，竟然有这么多的字节码，而它们都是傻乎乎按照“顺序执行”的。当它自己执行的时候不会有什么问题，但是如果放在多线程环境中，执行顺序就变得不可预料了。
 
@@ -66,9 +70,11 @@ void add();
 
 为了解决这个问题，我们可以在 add 方法上添加 synchronized 关键字，它不仅保证了内存上的同步，而且还保证了 CPU 的同步。这个时候，各个线程只能排队进入 add 方法，我们也能够得到期望的结果 。
 
+```
 synchronized void add() {
     value++;
 }
+```
 
 讲到这里，Java 的内存模型就呼之欲出了。JMM 是一个抽象的概念，它描述了一系列的规则或者规范，用来解决多线程的共享变量问题，比如 volatile、synchronized 等关键字就是围绕 JMM 的语法。这里所说的变量，包括实例字段、静态字段，但不包括局部变量和方法参数，因为后者是线程私有的，不存在竞争问题。
 
@@ -238,7 +244,7 @@ store
 storeStoreLoad
 load
 
-## 小结
+## 小结：把 JMM 理解为“Java 的并发内存模型”
 
 好了，到这里我们已经简要地介绍完了 JMM 相关的知识点。前面提到过，“请谈一下 Java 的内存模型”这个面试题非常容易被误解，甚至很多面试官自己也不清楚这个概念。其实，如果我们把 JMM 叫作“Java 的并发内存模型”，会更容易理解。
 

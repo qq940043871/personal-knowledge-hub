@@ -2,26 +2,60 @@
 
 > 2026-11-08：原导出丢失了篇目序号，已按本系列实际篇目（与库内《JVM》目录一致）修复，此处为修复值。
 
-_--_ ImportNew ImportNew
-
-**ImportNew**
-
-（点击上方公众号，可快速关注）
+**ImportNew**（点击上方公众号，可快速关注）
 
 > 来源：纯洁的微笑，
 >
 > www.ityouknow.com/java/>
 > [如有好文章投稿，请点击 → 这里了解详情](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=dbcfdcdfdfca&scene=#wechat_redirect)
 
-年的时候花了一些时间整理了一些关于jvm的介绍文章,到现在回顾起来还是一些还没有补充全面，其中就包括如何利用工具来监控调优前后的性能变化。工具做为图形化界面来展示更能直观的发现问题，另一方面一些耗费性能的分析（dump文件分析）一般也不会在生产直接分析，往往dump下来的文件达左右，人工分析效率较低，因此利用工具来分析jvm相关问题，长长可以到达事半功倍的效果来。
+## 为什么用工具来监控和调优
 
-jvm监控分析工具一般分为两类，一种是jdk自带的工具，一种是第三方的分析工具。jdk自带工具一般在jdk bin目录下面，以exe的形式直接点击就可以使用，其中包含分析工具已经很强大，几乎涉及了方方面面，但是我们最常使用的只有两款：jconsole.exe和jvisualvm.exe；第三方的分析工具有很多，各自的侧重点不同，比较有代表性的：MAT(Memory Analyzer Tool)、GChisto等。
+年的时候花了一些时间整理了一些关于jvm的介绍文章,到现在回顾起来还是一些还没有补充全面，其中就包括如何利用工具来监控调优前后的性能变化。
 
-对于大型 JAVA 应用程序来说，再精细的测试也难以堵住所有的漏洞，即便我们在测试阶段进行了大量卓有成效的工作，很多问题还是会在生产环境下暴露出来，并且很难在测试环境中进行重现。JVM 能够记录下问题发生时系统的部分运行状态，并将其存储在堆转储 (Heap Dump) 文件中，从而为我们分析和诊断问题提供了重要的依据。其中VisualVM和MAT是dump文件的分析利器。
+工具做为图形化界面来展示更能直观的发现问题，另一方面一些耗费性能的分析（dump文件分析）一般也不会在生产直接分析，往往dump下来的文件达左右，人工分析效率较低，因此**利用工具来分析jvm相关问题，长长可以到达事半功倍的效果**来。
 
-**jdk自带的工具**
+## JVM 监控分析工具的两大家族：JDK 自带与第三方
 
-**jconsole**
+jvm监控分析工具一般分为两类，一种是jdk自带的工具，一种是第三方的分析工具。
+
+jdk自带工具一般在jdk bin目录下面，以exe的形式直接点击就可以使用，其中包含分析工具已经很强大，几乎涉及了方方面面，但是**我们最常使用的只有两款：jconsole.exe和jvisualvm.exe**；第三方的分析工具有很多，各自的侧重点不同，比较有代表性的：MAT(Memory Analyzer Tool)、GChisto等。
+
+对于大型 JAVA 应用程序来说，再精细的测试也难以堵住所有的漏洞，即便我们在测试阶段进行了大量卓有成效的工作，很多问题还是会在生产环境下暴露出来，并且很难在测试环境中进行重现。JVM 能够记录下问题发生时系统的部分运行状态，并将其存储在堆转储 (Heap Dump) 文件中，从而为我们分析和诊断问题提供了重要的依据。**其中VisualVM和MAT是dump文件的分析利器**。
+
+*图：JVM 监控分析工具分类（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="270" y="20" width="180" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="45" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">JVM 监控分析工具</text>
+  <line x1="360" y1="60" x2="190" y2="86" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <line x1="360" y1="60" x2="530" y2="86" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="30" y="90" width="320" height="150" rx="10" fill="none" stroke="#94a3b8" stroke-width="1.2"/>
+  <text x="190" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">JDK 自带工具（jdk/bin 目录）</text>
+  <rect x="50" y="124" width="280" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="190" y="143" text-anchor="middle" font-size="13" fill="#1e293b">jconsole：JMX 监控和管理控制台</text>
+  <text x="190" y="161" text-anchor="middle" font-size="12" fill="#475569">内存、线程、类、VM 概要、MBeans</text>
+  <rect x="50" y="180" width="280" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="190" y="199" text-anchor="middle" font-size="13" fill="#1e293b">jvisualvm：监控、线程、Visual GC</text>
+  <text x="190" y="217" text-anchor="middle" font-size="12" fill="#475569">可分析 dump 内存快照、线程快照</text>
+  <rect x="370" y="90" width="320" height="150" rx="10" fill="none" stroke="#94a3b8" stroke-width="1.2"/>
+  <text x="530" y="112" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">第三方分析工具</text>
+  <rect x="390" y="124" width="280" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="530" y="144" text-anchor="middle" font-size="13" fill="#1e293b">MAT：堆转储分析、内存泄漏排查</text>
+  <rect x="390" y="164" width="280" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="530" y="184" text-anchor="middle" font-size="13" fill="#1e293b">GChisto：GC 日志分析（已不再维护）</text>
+  <rect x="390" y="204" width="280" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="530" y="224" text-anchor="middle" font-size="13" fill="#1e293b">GCViewer：GC 日志可视化查看</text>
+</svg>
+
+## JDK 自带工具
+
+### jconsole：基于 JMX 的监控和管理控制台
 
 Jconsole（Java Monitoring and Management Console）是从java开始，在JDK中自带的java监控和管理控制台，用于对JVM中内存，线程和类等的监控，是一个基于JMX（java management extensions）的GUI性能监测工具。jconsole使用jvm的扩展机制获取并展示虚拟机中运行的应用程序的性能和资源消耗等信息。
 
@@ -37,25 +71,20 @@ Jconsole（Java Monitoring and Management Console）是从java开始，在JDK中
 
 连接进去之后，就可以看到jconsole概览图和主要的功能：概述、内存、线程、类、VM、MBeans
 
-**概述**，以图表的方式显示出堆内存使用量，活动线程数，已加载的类，CUP占用率的折线图，可以非常清晰的观察在程序执行过程中的变动情况。
+- **概述**，以图表的方式显示出堆内存使用量，活动线程数，已加载的类，CUP占用率的折线图，可以非常清晰的观察在程序执行过程中的变动情况。
+- **内存**，主要展示了内存的使用情况，同时可以查看堆和非堆内存的变化值对比，也可以点击执行GC来处罚GC的执行
+- **线程**，主界面展示线程数的活动数和峰值，同时点击左下方线程可以查看线程的详细信息，比如线程的状态是什么，堆栈内容等，同时也可以点击“检测死锁”来检查线程之间是否有死锁的情况。
+- **类**，主要展示已加载类的相关信息。
+- **VM 概要**，展示JVM所有信息总览，包括基本信息、线程相关、堆相关、操作系统、VM参数等。
+- **Mbean**,查看Mbean的属性，方法等。
 
-**内存**，主要展示了内存的使用情况，同时可以查看堆和非堆内存的变化值对比，也可以点击执行GC来处罚GC的执行
-
-**线程**，主界面展示线程数的活动数和峰值，同时点击左下方线程可以查看线程的详细信息，比如线程的状态是什么，堆栈内容等，同时也可以点击“检测死锁”来检查线程之间是否有死锁的情况。
-
-**类**，主要展示已加载类的相关信息。
-
-**VM 概要**，展示JVM所有信息总览，包括基本信息、线程相关、堆相关、操作系统、VM参数等。
-
-**Mbean**,查看Mbean的属性，方法等。
-
-**VisualVM**
+### VisualVM：几乎涉及 JVM 调优的方方面面
 
 **简介**
 
 VisualVM 是一个工具，它提供了一个可视界面，用于查看 Java 虚拟机 (Java Virtual Machine, JVM) 上运行的基于 Java 技术的应用程序（Java 应用程序）的详细信息。VisualVM 对 Java Development Kit (JDK) 工具所检索的 JVM 软件相关数据进行组织，并通过一种使您可以快速查看有关多个 Java 应用程序的数据的方式提供该信息。您可以查看本地应用程序以及远程主机上运行的应用程序的相关数据。此外，还可以捕获有关 JVM 软件实例的数据，并将该数据保存到本地系统，以供后期查看或与其他用户共享。
 
-VisualVM 是javajdk自带的最牛逼的调优工具了吧，也是我平时使用最多调优工具，几乎涉及了jvm调优的方方面面。同样是在jdk/bin目录下面双击jvisualvm.exe既可使用，启动起来后和jconsole 一样同样可以选择本地和远程，如果需要监控远程同样需要配置相关参数，主界面如下；
+**VisualVM 是javajdk自带的最牛逼的调优工具了吧，也是我平时使用最多调优工具**，几乎涉及了jvm调优的方方面面。同样是在jdk/bin目录下面双击jvisualvm.exe既可使用，启动起来后和jconsole 一样同样可以选择本地和远程，如果需要监控远程同样需要配置相关参数，主界面如下；
 
 VisualVM可以根据需要安装不同的插件，每个插件的关注点都不同，有的主要监控GC，有的主要监控内存，有的监控线程等。
 
@@ -71,21 +100,19 @@ VisualVM可以根据需要安装不同的插件，每个插件的关注点都不
 
 因为VisualVM的插件太多，我这里主要介绍三个我主要使用几个：监控、线程、Visual GC
 
-监控的主页其实也就是，cpu、内存、类、线程的图表
+- 监控的主页其实也就是，cpu、内存、类、线程的图表
+- 线程和jconsole功能没有太大的区别
+- **Visual GC 是常常使用的一个功能**，可以明显的看到年轻代、老年代的内存变化，以及gc频率、gc的时间等。
 
-线程和jconsole功能没有太大的区别
+以上的功能其实jconsole几乎也有，**VisualVM更全面更直观一些**，另外VisualVM非常多的其它功能，可以分析dump的内存快照，dump出来的线程快照并且进行分析等，还有其它很多的插件大家可以去探索
 
-Visual GC 是常常使用的一个功能，可以明显的看到年轻代、老年代的内存变化，以及gc频率、gc的时间等。
+## 第三方调优工具
 
-以上的功能其实jconsole几乎也有，VisualVM更全面更直观一些，另外VisualVM非常多的其它功能，可以分析dump的内存快照，dump出来的线程快照并且进行分析等，还有其它很多的插件大家可以去探索
-
-**第三方调优工具**
-
-**MAT**
+### MAT：傻瓜式堆转储分析利器
 
 **MAT是什么？**
 
-MAT(Memory Analyzer Tool)，一个基于Eclipse的内存分析工具，是一个快速、功能丰富的Java heap分析工具，它可以帮助我们查找内存泄漏和减少内存消耗。使用内存分析工具从众多的对象中进行分析，快速的计算出在内存中对象的占用大小，看看是谁阻止了垃圾收集器的回收工作，并可以通过报表直观的查看到可能造成这种结果的对象。
+MAT(Memory Analyzer Tool)，一个基于Eclipse的内存分析工具，是一个快速、功能丰富的Java heap分析工具，它可以帮助我们**查找内存泄漏和减少内存消耗**。使用内存分析工具从众多的对象中进行分析，快速的计算出在内存中对象的占用大小，看看是谁阻止了垃圾收集器的回收工作，并可以通过报表直观的查看到可能造成这种结果的对象。
 
 通常内存泄露分析被认为是一件很有难度的工作，一般由团队中的资深人士进行。不过要介绍的 MAT（Eclipse Memory Analyzer）被认为是一个“傻瓜式“的堆转储文件分析工具，你只需要轻轻点击一下鼠标就可以生成一个专业的分析报告。和其他内存泄露分析工具相比，MAT 的使用非常容易，基本可以实现一键到位，即使是新手也能够很快上手使用。
 
@@ -95,83 +122,40 @@ MAT以eclipse 插件的形式来安装，具体的安装过程就不在描述了
 
 需要关注的是下面的Actions、Reports、Step by Step区域：
 
-Histogram：列出内存中的对象，对象的个数以及大小，支持正则表达式查找，也可以计算出该类所有对象的retained size
+- Histogram：列出内存中的对象，对象的个数以及大小，支持正则表达式查找，也可以计算出该类所有对象的retained size
+- Dominator Tree：列出最大的对象以及其依赖存活的Object （大小是以Retained Heap为标准排序的）
+- Top Consumers ： 通过图形列出最大的object
+- duplicate classes ：检测由多个类装载器加载的类
+- Leak Suspects ：内存泄漏分析
+- Top Components: 列出大于总堆数的百分之的报表。
+- Component Report:分析对象属于同一个包或者被同一个类加载器加载
 
-Dominator Tree：列出最大的对象以及其依赖存活的Object （大小是以Retained Heap为标准排序的）
+以上只是一个初级的介绍，mat还有更强大的使用，比如**对比堆内存**，在生产环境中往往为了定位问题，每隔几分钟dump出一下内存快照，随后在对比不同时间的堆内存的变化来发现问题。
 
-Top Consumers ： 通过图形列出最大的object
-
-duplicate classes ：检测由多个类装载器加载的类
-
-Leak Suspects ：内存泄漏分析
-
-Top Components: 列出大于总堆数的百分之的报表。
-
-Component Report:分析对象属于同一个包或者被同一个类加载器加载
-
-以上只是一个初级的介绍，mat还有更强大的使用，比如对比堆内存，在生产环境中往往为了定位问题，每隔几分钟dump出一下内存快照，随后在对比不同时间的堆内存的变化来发现问题。
-
-**GChisto**
+### GChisto：GC 日志分析工具
 
 GChisto是一款专业分析gc日志的工具，可以通过gc日志来分析：Minor GC、full gc的时间、频率等等，通过列表、报表、图表等不同的形式来反应gc的情况。虽然界面略显粗糙，但是功能还是不错的。
 
 配置好本地的jdk环境之后，双击GChisto.jar,在弹出的输入框中点击 add 选择gc.log日志
 
-GC Pause Stats:可以查看GC 的次数、GC的时间、GC的开销、最大GC时间和最小GC时间等，以及相应的柱状图
-
-GC Pause Distribution:查看GC停顿的详细分布，x轴表示垃圾收集停顿时间，y轴表示是停顿次数。
-
-GC Timeline：显示整个时间线上的垃圾收集
+- GC Pause Stats:可以查看GC 的次数、GC的时间、GC的开销、最大GC时间和最小GC时间等，以及相应的柱状图
+- GC Pause Distribution:查看GC停顿的详细分布，x轴表示垃圾收集停顿时间，y轴表示是停顿次数。
+- GC Timeline：显示整个时间线上的垃圾收集
 
 不过这款工具已经不再维护，不能识别最新jdk的日志文件。
 
-**gcviewer**
+### GCViewer：GC 日志可视化小工具
 
 GCViewer也是一款分析小工具，用于可视化查看由Sun / Oracle, IBM, HP 和 BEA Java 虚拟机产生的垃圾收集器的日志，gcviewer个人感觉显示 的界面比较乱没有GChisto更专业一些。
 
 以上的两款gc分析日志，一个不太维护了，一个不太专业，求推荐更好的gc分析工具。
 
-**本系列：**
+## 本系列：
 
-[JVM（1）：Java 类的加载机制](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefeecdfde&chksm=bdaaccfedeacfefadcdddfcc&scene=#wechat_redirect)
-
-[JVM（2）：JVM内存结构](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefcffbefa&chksm=bdacfddddffccdaaefcfa&scene=#wechat_redirect)
-
-[JVM（3）：Java GC算法 垃圾收集器](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=fecbdffedeec&chksm=bdacaffcdcecefafceec&scene=#wechat_redirect)
-
-[JVM（4）：Jvm调优-命令篇](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=acaedecddddc&chksm=bdcacacaeacfaaaaabdedade&scene=#wechat_redirect)
-
-[JVM（5）：tomcat性能调优和性能监控（visualvm）](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=dcbfdcabcdfde&chksm=bdacfadccdafefcfddffdea&scene=#wechat_redirect)
-
-[JVM（6）：JVM调优-从eclipse开始](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=afefffcaacae&chksm=bdacaecadcbacdcacaaedb&scene=#wechat_redirect)
-
-JVM（）：JVM调优-工具篇
-
-看完本文有收获？请转发分享给更多人
-
-关注「ImportNew」，提升Java技能
-
-阅读原文
-
-阅读
-
-投诉
-
-精选留言
-
-该文章作者已设置需关注才可以留言
-
-写留言
-
-该文章作者已设置需关注才可以留言
-
-写留言
-
- 加载中
-
-以上留言由公众号筛选后显示
-
-[了解留言功能详情](http://kf.qq.com/touch/sappfaq/YfyMVjqmMbyi.html?scene_id=kf)
-
-微信扫一扫
-关注该公众号
+- [JVM（1）：Java 类的加载机制](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefeecdfde&chksm=bdaaccfedeacfefadcdddfcc&scene=#wechat_redirect)
+- [JVM（2）：JVM内存结构](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=eefcffbefa&chksm=bdacfddddffccdaaefcfa&scene=#wechat_redirect)
+- [JVM（3）：Java GC算法 垃圾收集器](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=fecbdffedeec&chksm=bdacaffcdcecefafceec&scene=#wechat_redirect)
+- [JVM（4）：Jvm调优-命令篇](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=acaedecddddc&chksm=bdcacacaeacfaaaaabdedade&scene=#wechat_redirect)
+- [JVM（5）：tomcat性能调优和性能监控（visualvm）](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=dcbfdcabcdfde&chksm=bdacfadccdafefcfddffdea&scene=#wechat_redirect)
+- [JVM（6）：JVM调优-从eclipse开始](http://mp.weixin.qq.com/s?__biz=MjMNzMyMjAwMA==&mid=&idx=&sn=afefffcaacae&chksm=bdacaecadcbacdcacaaedb&scene=#wechat_redirect)
+- JVM（）：JVM调优-工具篇
