@@ -1,11 +1,5 @@
 # 名词诈骗 一口气拆穿Skill MCP RAG Agent
 
-![](https://feishu.cn/file/KOjWbF6a2o9NLkxak1Kc7db8nYg)
-
-## 课程大纲：揭秘AI智能体——从概念迷雾到技术本质
-
-![](https://feishu.cn/file/GnkabpZNUox1xmxCAxZcC2fNnVd)
-
 ## 课程引言：破除概念恐惧
 
 欢迎来到本课程。在你眼前可能罗列着诸如LLM、Prompt、RAG、Agent、MCP、Skill等一系列令人望而生畏的术语。它们如同一层层迷雾，笼罩在人工智能技术的前沿，让初学者感到困惑甚至恐惧。
@@ -18,11 +12,7 @@
 
 ---
 
-![](https://feishu.cn/file/CDGCbUSm3ouN9LxYCIVcuCDbnid)
-
 ## 第一部分：基础概念——大模型如何从“局限”到“可用”
-
-![](https://feishu.cn/file/ErWUbsf5EoTWc1x88tzcIZHOnPh)
 
 ### 1. 大语言模型（LLM）的诞生
 
@@ -31,8 +21,6 @@
 然而，其最核心的底层能力依然朴素：**“文字接龙”**。即，给定一段上文（Prompt），模型根据概率分布预测并生成最可能的下一个词元（Token），如此循环往复。
 
 基于此核心能力，通过人为划分“提问者”（User）与“回答者”（Assistant）的角色，并构建一问一答的交互界面，便实现了最基础的**对话**功能。此时，你可以将这个大模型想象为一位知识渊博但只能进行单轮问答的虚拟助手。
-
-![](https://feishu.cn/file/C1TbbF2ixob55Px19J7cQHESn6f)
 
 ### 2. 提升模型实用性：提示与上下文管理
 
@@ -46,11 +34,7 @@
 
 ---
 
-![](https://feishu.cn/file/NSVCbx9n8oj3BJxizZVcDkn0nSb)
-
 ## 第二部分：智能体与核心组件——赋予模型“执行之手”
-
-![](https://feishu.cn/file/YkkGbmzldo1h8KxziSjcLO7VnGc)
 
 ### 1. 智能体（Agent）的登场
 
@@ -60,16 +44,12 @@
 
 这个能够调度外部工具、在模型与现实世界（或数字环境）之间进行协调的程序，就被命名为**智能体**。从这个角度看，Agent的本质是一个**面向工具调用的协调与执行框架**。
 
-![](https://feishu.cn/file/E2qUbcigGoDZczxK2ZNcsjEjnxd)
-
 ### 2. 扩展信息获取能力
 
 智能体极大地扩展了模型获取信息的能力，主要通过两种方式：
 
 - **检索增强生成**：为了让模型能基于本地知识库或私有文档回答问题，智能体可以集成**向量数据库**。当收到查询时，它首先从数据库中检索语义最相关的文本片段，将其作为上下文注入给模型，从而生成更准确、基于事实的回答。这一整套机制被称为**检索增强生成**。
 - **搜索**：更广义地，智能体可以集成互联网搜索能力，为模型提供实时、广阔的外部信息。RAG和搜索共同构成了模型突破自身参数知识限制、获取外部信息的关键能力。
-
-![](https://feishu.cn/file/QLYobFMtFonkt4xZ2nqcL5VZnPh)
 
 ### 3. 核心通信协议
 
@@ -78,7 +58,33 @@
 - **函数调用**：这是**智能体与大模型之间**的通信约定。它要求大模型在需要调用工具时，不使用自由的自然语言，而是输出一种结构化的格式（如JSON），明确指定要调用的函数名和参数。这极大简化了程序解析模型意图的难度，是Agent可靠工作的基石。
 - **模型上下文协议**：这是**智能体与外部工具服务之间**的调用规范。它定义了如何发现工具、描述工具能力、以及如何进行标准化的调用与返回。MCP使得不同的工具可以以“即插即用”的方式被智能体调用，提升了系统的可扩展性。
 
-![](https://feishu.cn/file/CJehb973XoYyZjx8o7GcnyO3nVf)
+*图：Agent 与各组件的协作关系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="60" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="87" text-anchor="middle" font-size="14" fill="#1e293b">用户指令</text>
+  <line x1="160" y1="82" x2="235" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="240" y="60" width="180" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="330" y="87" text-anchor="middle" font-size="14" fill="#1e293b">智能体 Agent</text>
+  <line x1="420" y1="72" x2="495" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="450" y="52" text-anchor="middle" font-size="12" fill="#475569">函数调用</text>
+  <rect x="500" y="40" width="190" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="67" text-anchor="middle" font-size="14" fill="#1e293b">大模型 LLM</text>
+  <line x1="420" y1="92" x2="495" y2="128" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="450" y="112" text-anchor="middle" font-size="12" fill="#475569">MCP</text>
+  <rect x="500" y="110" width="190" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="137" text-anchor="middle" font-size="14" fill="#1e293b">外部工具服务</text>
+  <line x1="330" y1="104" x2="330" y2="158" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <text x="358" y="135" text-anchor="middle" font-size="12" fill="#475569">RAG / 检索</text>
+  <rect x="240" y="163" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="330" y="190" text-anchor="middle" font-size="14" fill="#1e293b">向量库 / 互联网搜索</text>
+  <text x="360" y="235" text-anchor="middle" font-size="12" fill="#475569">Agent 解析模型意图、执行操作，并将结果作为新的上下文反馈给模型</text>
+</svg>
 
 ### 4. 智能体的交互形态
 
@@ -86,19 +92,13 @@
 
 ---
 
-![](https://feishu.cn/file/CcCxbQBXhoQL4yxvf8oc6Q3Xnrh)
-
 ## 第三部分：任务编排与实现——从灵活到可控的权衡
 
 随着应用场景复杂化，完全依赖Agent自主规划每一步任务，可能会导致效率低下、成本高昂且结果不稳定。因此，出现了不同粒度的任务编排技术，形成了一条从**刚性固定**到**柔性自主**的技术光谱。
 
-![](https://feishu.cn/file/Hj10bgn4EoxEaKxxgu5ct4jznNh)
-
 ### 1. 工作流
 
 对于流程固定、步骤明确的任务（例如：“提取PDF文本 -> 翻译 -> 保存为Markdown”），无需每次让Agent自由规划。可以通过编程（如使用LangChain框架）或**低代码拖拽**的方式，预先将任务链路固化下来。这种预先定义的、固定的执行流程称为**工作流**。它稳定、高效，但灵活性差。
-
-![](https://feishu.cn/file/XjRcbcI26o8IGvxr1Q8cjMPonPd)
 
 ### 2. 技能
 
@@ -111,26 +111,18 @@
 
 智能体在执行任务前，先加载相关技能文件作为高层指导，然后在技能描述的框架内，结合具体情境进行一定的自主决策和执行。**技能**介于完全固定的工作流和完全自由的Agent之间，实现了**灵活性与可控性的平衡**。
 
-![](https://feishu.cn/file/UU1CbnsiyoOPWnxq7mDcrssnnJc)
-
 ### 3. 子智能体
 
 为了处理极其复杂或上下文庞大的任务，可以创建**子智能体**。子智能体在独立的上下文环境中处理特定的子任务，完成后将结果返回给主智能体。这实现了任务的上下文隔离，优化了资源使用，避免了主智能体的上下文被无关信息污染。
 
 ---
 
-![](https://feishu.cn/file/XH9sbDnI9o0XjPxtfmuchlM6nUc)
-
 ## 第四部分：概念辨析与技术反思
-
-![](https://feishu.cn/file/FIZAbB3XsojnSrxT71Ncvo88nuH)
 
 ### 1. 澄清易混淆概念
 
 - **函数调用 vs. MCP**：二者作用于不同层面。**函数调用**是Agent与LLM之间的**内部通信格式**，解决的是“模型如何表达意图”。**MCP**是Agent与外部工具之间的**外部调用协议**，解决的是“程序如何发现和调用工具”。它们是协作关系，而非替代关系。
 - **技能 vs. MCP**：**技能**是一个**任务编排与提示词管理框架**，关注如何组织提示和脚本来完成一个任务。**MCP**是**工具调用规范**，关注如何标准化地使用一个工具。技能文件中可能会包含对MCP工具的调用说明，二者维度不同。
-
-![](https://feishu.cn/file/VxVvbt23ho8nKFxhxXUchDLOnuh)
 
 ### 2. 从“刚性”到“柔性”的技术光谱
 
@@ -141,7 +133,32 @@
 - **技能（提示词+脚本）**：在预设的框架和工具集内，允许Agent进行有限度的自主决策，是当前**灵活性与可控性**的优秀平衡点。
 - **纯Agent（自由规划）**：完全由模型自主规划步骤和调用工具，最灵活，但也最不可控，对模型的指令遵循能力要求极高。
 
-![](https://feishu.cn/file/XLHLbEPGXox75MxPioocPNi7nne)
+*图：任务编排方式从刚性到柔性的光谱（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="25" y="40" width="140" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="95" y="63" text-anchor="middle" font-size="14" fill="#1e293b">纯编程</text>
+  <text x="95" y="83" text-anchor="middle" font-size="12" fill="#475569">如 LangChain</text>
+  <line x1="170" y1="68" x2="200" y2="68" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="205" y="40" width="140" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="275" y="63" text-anchor="middle" font-size="14" fill="#1e293b">工作流</text>
+  <text x="275" y="83" text-anchor="middle" font-size="12" fill="#475569">低代码编排</text>
+  <line x1="350" y1="68" x2="380" y2="68" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="385" y="40" width="140" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="455" y="63" text-anchor="middle" font-size="14" fill="#1e293b">技能</text>
+  <text x="455" y="83" text-anchor="middle" font-size="12" fill="#475569">提示词 + 脚本</text>
+  <line x1="530" y1="68" x2="560" y2="68" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="565" y="40" width="140" height="56" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="635" y="63" text-anchor="middle" font-size="14" fill="#1e293b">纯 Agent</text>
+  <text x="635" y="83" text-anchor="middle" font-size="12" fill="#475569">自由规划</text>
+  <line x1="60" y1="130" x2="660" y2="130" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="360" y="155" text-anchor="middle" font-size="13" fill="#475569">稳定性递减 · 灵活性递增（技能是灵活性与可控性的平衡点）</text>
+</svg>
 
 ### 3. 技术本质与未来展望
 
@@ -151,8 +168,6 @@
 
 ---
 
-![](https://feishu.cn/file/X6d4b7fBaoii12x8XTeckVv6nnf)
-
 ## 课程总结
 
 通过本次课程，我们完成了一次从概念迷雾到技术本质的穿越之旅。我们重申最初的观点：理解一个概念，关键在于理解它**为了解决什么问题而诞生**，而非被其酷炫的名称所束缚。
@@ -160,26 +175,3 @@
 从基础的大语言模型，到通过提示词、上下文和记忆使其“可用”，再到通过智能体赋予其“行动之手”，并通过工作流、技能等机制进行任务编排，整条技术发展的主线清晰可见：**一切演进，都是为了更有效地利用大模型的智能，从而节省人类的时间，降低技术的使用门槛。**
 
 展望未来，随着底层模型能力的持续增强与使用成本的降低，高度集成、体验流畅、开箱即用的智能体产品，将成为赋能每个人的主流形态。届时，今天这些令人眼花缭乱的术语，都将融化于无形的便利之中。
-
-![](https://feishu.cn/file/Wv0xb02nKoNhFKxlco0cEnCcnDe)
-
-![](https://feishu.cn/file/DsuabeZ9EolOeLx4vYvcfdNun5f)
-
-![](https://feishu.cn/file/PYqjb2NTco5Q2PxWXeBcaoUanCe)
-
-![](https://feishu.cn/file/JzkSbzZ5Uo9tBDxLOXqc8Mm9nPc)
-
-![](https://feishu.cn/file/HPrQbohnCo94nhxD7Xgcetrrnc5)
-
-![](https://feishu.cn/file/WLJkbUhrholLQ3xIsbscUWaVnnd)
-
-![](https://feishu.cn/file/TJQSbBXploW8qBxv4Fmcvzh2nFh)
-
-![](https://feishu.cn/file/Q0mCbGBQhogMhoxNubjc8msgnHg)
-
-![](https://feishu.cn/file/DdDMb6yCzohRckx2UmLcFCYxnIg)
-
-![](https://feishu.cn/file/NhgqbOi1noobK6xUF14cIHmun8c)
-
-![](https://feishu.cn/file/S4PAb26eeo40q6x15DxcLwCinGf)
-

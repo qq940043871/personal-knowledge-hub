@@ -5,7 +5,7 @@
 
 ---
 
-## 一、核心概念
+## 一、核心概念：架构与关键配置
 
 ### 1. 架构
 
@@ -66,7 +66,7 @@ session.timeout.ms=30000    # 会话超时
 
 ---
 
-## 二、Spring Boot集成
+## 二、Spring Boot集成：配置、生产者与消费者
 
 ### 1. 配置
 
@@ -160,9 +160,46 @@ public class OrderConsumer {
 
 ---
 
-## 三、常见问题
+## 三、常见问题：消息丢失、重复与积压
+
+> **防丢失三端配置：生产者 acks=all、Broker min.insync.replicas>=2、消费者手动提交 offset。**
 
 ### 1. 消息丢失
+
+*图：Kafka 消息丢失的三端与对应配置（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="40" y="30" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="57" text-anchor="middle" font-size="14" fill="#1e293b">生产者端</text>
+  <line x1="220" y1="52" x2="265" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="270" y="30" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="57" text-anchor="middle" font-size="14" fill="#1e293b">Broker端</text>
+  <line x1="450" y1="52" x2="495" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="500" y="30" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="590" y="57" text-anchor="middle" font-size="14" fill="#1e293b">消费者端</text>
+
+  <line x1="130" y1="74" x2="130" y2="126" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="155" y="105" font-size="12" fill="#dc2626">丢失</text>
+  <line x1="360" y1="74" x2="360" y2="126" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="385" y="105" font-size="12" fill="#dc2626">丢失</text>
+  <line x1="590" y1="74" x2="590" y2="126" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="615" y="105" font-size="12" fill="#dc2626">丢失</text>
+
+  <rect x="40" y="130" width="180" height="54" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="130" y="151" text-anchor="middle" font-size="13" fill="#1e293b">acks=all（等待所有ISR确认）</text>
+  <text x="130" y="171" text-anchor="middle" font-size="13" fill="#1e293b">retries=3</text>
+  <rect x="270" y="130" width="180" height="54" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="151" text-anchor="middle" font-size="13" fill="#1e293b">min.insync.replicas &gt;= 2</text>
+  <text x="360" y="171" text-anchor="middle" font-size="13" fill="#1e293b">确保至少2个副本确认</text>
+  <rect x="500" y="130" width="180" height="54" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="590" y="151" text-anchor="middle" font-size="13" fill="#1e293b">enable.auto.commit=false</text>
+  <text x="590" y="171" text-anchor="middle" font-size="13" fill="#1e293b">消费成功后再提交</text>
+</svg>
 
 ```java
 // 生产者端：
@@ -242,7 +279,7 @@ kafka-consumer-groups.sh --bootstrap-server localhost:9092 \
 
 ---
 
-## 四、监控运维
+## 四、监控运维：关键指标与常用命令
 
 ### 1. 关键指标
 
