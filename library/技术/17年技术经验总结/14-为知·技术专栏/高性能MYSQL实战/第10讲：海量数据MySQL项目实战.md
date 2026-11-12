@@ -8,63 +8,44 @@
 
 我们想要更好地规划和设计 MySQL 数据库架构，首先需要了解典型的数据库架构，它通常由三部分组成：
 
-* 数据库[原生]架构
-
-* 高可用组件
-
-* 中间件
+- 数据库[原生]架构
+- 高可用组件
+- 中间件
 
 然而，数据库架构又可以分为三大类：主从架构、集群架构和分布式架构。在主从架构类别中，又可以分 7 小类，分别是。<!-- 注：原导出数字缺失，7 为按下文所列 7 项补的修复值 -->
 
-  传统主从复制，有时候也称为：异步复制（希望大家再复习下 MySQL 中的各种存储引擎，要注意它们的特性）。
-
-  基于 GTID 的主从复制，从 MySQL 5.7 版本后，推荐使用这种方式的复制，原因前面的课程中已经有讲解。<!-- 注：原导出数字缺失，版本号为修复值 -->
-
-  主主复制，这个还有不少传统企业仍在使用。
-
-  级连复制，面试的时候特别容易问到关于复制的各种变换，用的就是级连复制，注意技巧，工作中也经常用。
-
-  多源复制，MySQL 5.7 版本的一个特性，在某些特殊场景中会用到。
-
-  延迟复制，备份中会用到，尤其是当数据量特别大的情况。
-
-  半同步复制，对数据一致性要求比较高的业务场景，可以考虑用。
+- 传统主从复制，有时候也称为：异步复制（希望大家再复习下 MySQL 中的各种存储引擎，要注意它们的特性）。
+- 基于 GTID 的主从复制，从 MySQL 5.7 版本后，推荐使用这种方式的复制，原因前面的课程中已经有讲解。<!-- 注：原导出数字缺失，版本号为修复值 -->
+- 主主复制，这个还有不少传统企业仍在使用。
+- 级连复制，面试的时候特别容易问到关于复制的各种变换，用的就是级连复制，注意技巧，工作中也经常用。
+- 多源复制，MySQL 5.7 版本的一个特性，在某些特殊场景中会用到。
+- 延迟复制，备份中会用到，尤其是当数据量特别大的情况。
+- 半同步复制，对数据一致性要求比较高的业务场景，可以考虑用。
 
 在集群架构类别中，又可以分为 6 小类，分别是：
 
-  MySQL Group Replication；
-
-  Percona XtraDB Cluster；
-
-  MySQL Galera Cluster；
-
-  MySQL NDB Cluster，有时候也称为 MySQL Cluster；
-
-  MySQL + 共享存储方案；
-
-  MySQL + DRBD 方案。
+- MySQL Group Replication；
+- Percona XtraDB Cluster；
+- MySQL Galera Cluster；
+- MySQL NDB Cluster，有时候也称为 MySQL Cluster；
+- MySQL + 共享存储方案；
+- MySQL + DRBD 方案。
 
 在分布式架构类别中，又可以分为 2 小类，分别是：
 
-  基于分布式事务的数据库，如 Google Cloud Spanner 和 TiDB。
-
-  基于分布式存储的数据库，如极数云舟的 ArkDB、Aurora、PolarDB。
+- 基于分布式事务的数据库，如 Google Cloud Spanner 和 TiDB。
+- 基于分布式存储的数据库，如极数云舟的 ArkDB、Aurora、PolarDB。
 
 ### 数据库高可用
 
 在前面第 7 课时中，我们详细介绍了几种常用的 MySQL 数据库高可用解决方案，这里再给大家罗列出来了，如果这里列的在前面的课程中没有介绍到，大家可以自行去学习。主要有下面 6 种：<!-- 注：原导出数字缺失，课时号与种类数为按下文所列项补的修复值 -->
 
-  Keepalive、Heartbeat、Haproxy；
-
-  MMM；
-
-  MHA；
-
-  Orchestrator、Raft；
-
-  极数云舟的 Arksentinel；
-
-  Zookeeper、Consul、Etcd。
+- Keepalive、Heartbeat、Haproxy；
+- MMM；
+- MHA；
+- Orchestrator、Raft；
+- 极数云舟的 Arksentinel；
+- Zookeeper、Consul、Etcd。
 
 ### 数据库中间件
 
@@ -72,19 +53,13 @@
 
 在做架构设计时，一方面，要提醒大家的是：数据库架构、数据库高可用组件和数据库中间件既可以独立使用又可以彼此配合使用。另一方面，要提醒大家了解的是，我们常说的服务的可用性能达到多少个 9，那么它们各自允许服务宕机的具体时间又是多少呢？
 
-  一个 9（90%），全年 36.5 天。
-
-  两个 9（99%），全年 3.65 天。
-
-  两个 9（99%），全年 3.65 天。
-
-  三个 9（99.9%），全年 0.365 天。
-
-  四个 9（99.99%），全年 52.6 分钟。
-
-  五个 9（99.999%），全年 5.26 分钟。
-
-  六个 9（99.9999%），全年 31.5 秒。
+- 一个 9（90%），全年 36.5 天。
+- 两个 9（99%），全年 3.65 天。
+- 两个 9（99%），全年 3.65 天。
+- 三个 9（99.9%），全年 0.365 天。
+- 四个 9（99.99%），全年 52.6 分钟。
+- 五个 9（99.999%），全年 5.26 分钟。
+- 六个 9（99.9999%），全年 31.5 秒。
 <!-- 注：原导出数字缺失，各 9 对应的百分比与全年不可用时长为按标准可用性对照表补的修复值；原表“两个 9”出现两行，疑为原文重复，按两个 9=99% 同值补齐 -->
 
 ### 主从架构
@@ -101,15 +76,12 @@
 
 第五种是多源复制，多源复制在 MySQL 官方社区是从 5.7 版本开始有的，多源复制其实在MariaDB 中出现的时间要早。使用多源复制，一方面要注意其参数设置，另一方面要注意使用规范，如主从链接时的 change master 语句的不同。在参数设置时，需要在从库中配置：
 
-* master-info-repository = table
-
-* relay-log-info-repository = table
-
-* replicate-do-db = master1
-* replicate-do-db = master2
-* replicate_wild_do_table = master1.%
-
-* replicate_wild_do_table = master2.%
+- master-info-repository = table
+- relay-log-info-repository = table
+- replicate-do-db = master1
+- replicate-do-db = master2
+- replicate_wild_do_table = master1.%
+- replicate_wild_do_table = master2.%
 <!-- 注：原导出数字缺失，master1/master2 为多源复制两主库通道名修复值 -->
 
 在主从复制时，命令如下：
@@ -124,33 +96,30 @@ change master to ...... for channel 'master2'
 
 在主库上：
 
-* plugin-load=rpl_semi_sync_master=semisync_master.so
-
-* rpl_semi_sync_master_enabled=1
-* rpl_semi_sync_master_timeout=10000<!-- 注：原导出数字缺失，enabled=1 为开关值、timeout=10000ms 为官方默认值，属修复值 -->
-* rpl_semi_sync_master_wait_point=AFTER_SYNC|AFTER_COMMIT
+- plugin-load=rpl_semi_sync_master=semisync_master.so
+- rpl_semi_sync_master_enabled=1
+- rpl_semi_sync_master_timeout=10000<!-- 注：原导出数字缺失，enabled=1 为开关值、timeout=10000ms 为官方默认值，属修复值 -->
+- rpl_semi_sync_master_wait_point=AFTER_SYNC|AFTER_COMMIT
 
 在从库上：
 
-* plugin-load=rpl_semi_sync_slave=semisync_slave.so
+- plugin-load=rpl_semi_sync_slave=semisync_slave.so
+- rpl_semi_sync_slave_enabled=1
 
-* rpl_semi_sync_slave_enabled=1
-
-这里需要特别注意 AFTER_SYNC 和 AFTER_COMMIT 模式的区别，在 MySQL 5.7 版本以后，默认采用 AFTER_SYNC 模式，这种方式结合 MySQL 中“双 1”设置，即sync_binlog = 1、innodb_flush_log_at_trx_commit = 1 配合使用<!-- 注：原导出数字缺失，按 MySQL 官方“双 1”标准配置修复 -->的场景在交易系统或者对数据一致性要求比较高的场景中被推荐使用。
+这里需要特别注意 **AFTER_SYNC 和 AFTER_COMMIT 模式的区别**，在 MySQL 5.7 版本以后，默认采用 AFTER_SYNC 模式，这种方式结合 MySQL 中“双 1”设置，即sync_binlog = 1、innodb_flush_log_at_trx_commit = 1 配合使用<!-- 注：原导出数字缺失，按 MySQL 官方“双 1”标准配置修复 -->的场景在交易系统或者对数据一致性要求比较高的场景中被推荐使用。
 
 ### 集群架构
 
 下面开始介绍六种集群架构，其中 MGR、PXC 或 MGC 在前面的课程中有非常详细的介绍，这里简单带过。首先是 MGR，即 MySQL Group Replication，是 MySQL 5.7.17 版本出现的新特性，是 MySQL 官方于 2016 年 12 月推出的一个全新的高可用与高扩展的解决方案。它提供了高可用、高扩展、高可靠的 MySQL 集群服务。MGR 分单主模式和多主模式。
 
-* 在单主模式下， 组复制具有自动选主功能，每次只有一个 server 成员接受读写。
-
-* 在多主模式下，所有的 server 成员都可以同时接受读写。
+- 在单主模式下， 组复制具有自动选主功能，每次只有一个 server 成员接受读写。
+- 在多主模式下，所有的 server 成员都可以同时接受读写。
 
 MGR 目前还处在稳定性验证阶段，在生产环境中使用时，建议使用单主模式。
 
 第二种是 PXC，即 Percona XtraDB Cluster，从名称中可以看出，这是 Percona 公司推出的一个高可用与高扩展的解决方案，它是以 codership 公司研发的 galera cluster 插件方式为 MySQL 提供高可用集群解决方案的，跟 PXC 类似的产品还有 MariaDB Cluster。特点是具有高可用性，方便扩展，并且可以实现多个 MySQL 节点间的数据同步复制与读写，可保障数据库的服务高可用及数据强一致性。跟 MGR 一样，也分单主模式和多主模式。
 
-第三种是 MGC，即 MySQL Galera Cluster，这是 codership 公司开发的数据库高可用插件，是一种新型的数据不共享的高度冗余的高可用方案，通常以 PXC 或 MariaDB Cluster 的方式使用，当然也可以独立使用，就是自己配置。相比传统的主从复制架构，Galera Cluster 解决的最核心问题是在三个实例节点之间，它们能以对等的，multi-master（多主）并存的方式存在，在多节点同时写入的时候，能够保证整个集群数据的一致性、完整性与正确性。具有支持多主架构、同步复制、并发复制、故障切换、热插拔、自动节点克隆和对应用透明的特点。
+第三种是 MGC，即 MySQL Galera Cluster，这是 codership 公司开发的数据库高可用插件，是一种新型的数据不共享的高度冗余的高可用方案，通常以 PXC 或 MariaDB Cluster 的方式使用，当然也可以独立使用，就是自己配置。相比传统的主从复制架构，Galera Cluster 解决的最核心问题是在三个实例节点之间，它们能以对等的，multi-master（多主）并存的方式存在，**在多节点同时写入的时候，能够保证整个集群数据的一致性、完整性与正确性**。具有支持多主架构、同步复制、并发复制、故障切换、热插拔、自动节点克隆和对应用透明的特点。
 
 第四种是 MNC，即 MySQL NDB Cluster，有时又称为 MySQL Cluster，是 MySQL 官方推出的一个适用于分布式计算环境的高可用性、高冗余的 MySQL 集群解决方案。主要由使用 NDB 引擎的 SQL 节点、数据存储节点和 NDB 管理节点三部分组成。NDB 是一个内存存储引擎，提供高可用的数据持久化功能，可以配置故障转移和负载均衡等策略，因其管理复杂，目前在国内除中国移动等个别公司在使用外，使用的相对比较少，国外使用的比较多，尤其是电信行业。
 
@@ -174,76 +143,45 @@ MGR 目前还处在稳定性验证阶段，在生产环境中使用时，建议�
 
 在进行数据库架构设计之前，我们需要了解普适的数据库技术选型，显然这里没有进行扩展，如果想要了解数据库家族产品，可以回到开篇课了解更多内容。正所谓“工欲善其事，必先利其器”，“磨刀不误砍柴工”，了解了各种技术，有利于进行设计时的有的放矢。企业中常用的有：
 
-* 数据库
-
-* MySQL
-
-* Oracle
-
-* SQL Server
-
-* DB2
-* MongoDB
-
-* PostgreSQL
-
-* ArkDB等
-
-* 消息队列
-
-* ActiveMQ
-
-* RabbitMQ
-
-* Kafka
-
-* RocketMQ
-
-* MemcacheQ等
-
-* 搜索引擎
-
-* ES
-
-* Solr
-
-* Sphinx等
-
-* KV存储
-
-* Pika
-
-* Aerospike等
-
-* 缓存
-
-* Memcached
-
-* Redis
-
-* Codis等
-
-* 数据同步ETL
-
-* Arkgate
-
-* Goldengate
-
-* go-mysql
-
-* DataX
-
-* Canal等
-
-* 中间件
-
-* 中间件在第9课中有详细介绍
+- 数据库
+  - MySQL
+  - Oracle
+  - SQL Server
+  - DB2
+  - MongoDB
+  - PostgreSQL
+  - ArkDB等
+- 消息队列
+  - ActiveMQ
+  - RabbitMQ
+  - Kafka
+  - RocketMQ
+  - MemcacheQ等
+- 搜索引擎
+  - ES
+  - Solr
+  - Sphinx等
+- KV存储
+  - Pika
+  - Aerospike等
+- 缓存
+  - Memcached
+  - Redis
+  - Codis等
+- 数据同步ETL
+  - Arkgate
+  - Goldengate
+  - go-mysql
+  - DataX
+  - Canal等
+- 中间件
+  - 中间件在第9课中有详细介绍
 
 这里举一个生产环境的多数据中心的业务架构拓扑例子，很具有典型性，在这个例子中有两个本地机房和一个云机房（可以理解为公有云、行业云或自建私有云），我们着重关注一下业务后端资源（数据库）的部署，这是一个单写的多活的业务场景，显然机房 1 为核心机房，所有的业务数据都从机房 1 写入<!-- 注：原导出数字缺失，机房序号为修复值 -->，大量的写操作通过消息队列异步更新到缓存和数据库中，数据库通过复制方式同步到其他两个机房提供读服务，每个机房有各自的缓存服务用于应对高并发的读请求，缓存的更新是在本地的数据库中，提供数据库的最终一致性。当然，如果业务中不存在数据更新冲突的可能，也可以实现多写的多活，比如外卖业务。对于一些特殊的业务场景，在三个数据中心中可以单独实现一套队列处理程序，从队列中抽取数据进行协同处理，比如抽取订单数据转存到 ES 中用于查询、大数据分析等操作。
 
 这里聚焦在 MySQL 数据库的两地三中心的规划和使用中，如图所示，在总部机房中，业务层通过中间代理层访问后端的 MySQL 数据库集群，这里说的 MySQL 的集群可以是前面介绍的任何一种 MySQL 集群。MySQL 集群的高可用通过分布式监控系统 Arksentinel 提供故障检测和故障切换。其他三个机房也有着相同的部署方案，四个机房之间的数据流通是通过数据库实时数据同步系统 Arkgate 来提供服务，完成数据在不同机房间的流通。
 
-在一般的企业需求中，都是总部中心机房负责业务数据读写，而其他三个机房都是只读，但是对于一些特殊的场景，数据不存在冲突的场景，是可以实现多机房写入的，Arkgate 内部可以设置 ETL 冲突处理的逻辑，从而避免数据回环的产生。需要注意的是，在每个机房又可以有自己独立的 MySQL 集群，处理边缘业务或者一些特殊的业务，但是数据最终都要汇总和归档到总部中心机房进行持久化永久存储。
+在一般的企业需求中，都是总部中心机房负责业务数据读写，而其他三个机房都是只读，但是对于一些特殊的场景，数据不存在冲突的场景，是可以实现多机房写入的，Arkgate 内部可以设置 ETL 冲突处理的逻辑，从而避免数据回环的产生。需要注意的是，在每个机房又可以有自己独立的 MySQL 集群，处理边缘业务或者一些特殊的业务，但是**数据最终都要汇总和归档到总部中心机房进行持久化永久存储**。
 
 在总部数据中心图中，有一个组件是 Arkcontrol，它是一个数据库自动化运维管理平台。试想一下，动辄数百个实例的数据库或者是数百套数据库集群的资源，如果用传统的 Excel 方式手工管理，其工作量和维护成本有多高，一套可以管理多种数据库资源的管理平台的重要性显得格外重要，一方面可以破解企业内部复杂的数据库管理流程，极大地提高工作效率，降低企业成本；另一方面还能规避生产过程中数据库运维操作的安全性；再有就是可以快速构建起企业级数据库全维度的管理体系，让数据库的运行更具感知性。这需要在日后的工作中逐步积累，持续迭代，拥有对类似平台的研发能力，也是对新时代 DBA 的考核要求，起码要知道其实现原理。
 

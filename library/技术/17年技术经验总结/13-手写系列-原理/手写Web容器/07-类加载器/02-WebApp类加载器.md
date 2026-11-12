@@ -36,7 +36,9 @@ Common
 
 ---
 
-## 二、WebAppClassLoader实现
+## 二、WebAppClassLoader实现：类加载的五步流程
+
+`WebAppClassLoader` 继承 URLClassLoader，构造时把 `WEB-INF/classes` 目录与 `WEB-INF/lib` 下的 jar 加入搜索路径；loadClass 按五步走：**查缓存 → findLoadedClass → 核心类（java. / javax.servlet）委托父加载器 → 自己 findClass → 失败再委托父加载器**。
 
 ```java
 public class WebAppClassLoader extends URLClassLoader {
@@ -110,6 +112,30 @@ public class WebAppClassLoader extends URLClassLoader {
     }
 }
 ```
+
+*图：loadClass 的五步加载流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="180" y="20" width="360" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="47" text-anchor="middle" font-size="14" fill="#1e293b">1. 检查缓存：cache.get(name)</text>
+  <line x1="360" y1="64" x2="360" y2="84" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="88" width="360" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="115" text-anchor="middle" font-size="14" fill="#1e293b">2. 检查是否已加载：findLoadedClass(name)</text>
+  <line x1="360" y1="132" x2="360" y2="152" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="156" width="360" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="183" text-anchor="middle" font-size="14" fill="#1e293b">3. java. / javax.servlet 开头：委托父加载器</text>
+  <line x1="360" y1="200" x2="360" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="224" width="360" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="251" text-anchor="middle" font-size="14" fill="#1e293b">4. 尝试自己加载：findClass(name)</text>
+  <line x1="360" y1="268" x2="360" y2="288" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="292" width="360" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="319" text-anchor="middle" font-size="14" fill="#1e293b">5. 加载失败：委托给父加载器 super.loadClass()</text>
+</svg>
 
 ---
 
