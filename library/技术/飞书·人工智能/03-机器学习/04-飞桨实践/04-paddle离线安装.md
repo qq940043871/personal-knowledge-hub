@@ -1,10 +1,12 @@
 # paddle离线安装
 
 ## Docker环境部署
-1. docker启动容器
+
+1. **docker启动容器**
     1. docker安装测试 docker run -d --name centos7 -i -t (j镜像ID) /bin/bash
     2. --net none 关闭网络
-2. 升级openssl版本到1.1.1
+
+2. **升级openssl版本到1.1.1**
     1. wget --no-check-certificate  https://www.openssl.org/source/openssl-1.1.1a.tar.gz
 
 ```bash
@@ -32,9 +34,10 @@ ldconfig -v
 openssl version
 ```
 
-3. 安装python3时候报错，提示没有zlib，需要安装zlib
+3. **安装python3时候报错，提示没有zlib，需要安装zlib**
     1. ./configure  make && make install
-4. 安装python3.10版本，需要源码编译
+
+4. **安装python3.10版本，需要源码编译**
 
 ```bash
 pip install（whl 包的名字）--force-reinstall
@@ -49,7 +52,7 @@ ln -s /usr/local/python3/bin/pip3 /usr/bin/pip3
 make clean && make distclean
 ```
 
-5. 联网环境下安装paddle和paddleocr
+5. **联网环境下安装paddle和paddleocr**
     1. export PATH=$PATH:/usr/local/python3/bin #处理环境变量
 
 ```plain
@@ -58,7 +61,7 @@ yum install libjpeg zlib libtiff
 yum -y install libjpeg-turbo-devel
 ```
 
-多镜像源
+**多镜像源**
 
 > 1. https://pypi.tuna.tsinghua.edu.cn/simple 提示找不到pillow
 > 2. https://mirrors.aliyun.com/pypi/simple/ 可以正常安装
@@ -69,12 +72,13 @@ python3 -m pip install paddlepaddle==2.3.2 -i https://pypi.tuna.tsinghua.edu.cn/
 python3 -m pip install paddleocr==2.7.0.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
 ```
 
-6. 替换动态库(libstdc++.so.6.0.26)，解决找不到CXXABI的问题
+6. **替换动态库(libstdc++.so.6.0.26)，解决找不到CXXABI的问题**
     1. strings /lib64/libstdc++.so.6 | grep CXXABI
     2. find / -name "libstdc++.so*"
     3. rm libstdc++.so.6
     4. ln -s libstdc++.so.6.0.26 libstdc++.so.6
-7. 导出当前环境的python依赖
+
+7. **导出当前环境的python依赖**
 
 ```bash
 # 在当前的目录下新建一个requirements.txt,里面存放着所有的依赖
@@ -91,11 +95,11 @@ pip install --no-index --find-links=./  -r requirements.txt
 
 ```
 
-7. 导出docker镜像
+8. **导出docker镜像**
 
-> docker save d4c3cafb11d5> /opt/mysql-8.0.22..tar
->
-> docker load < /opt/mysql-8.0.22.tar
->
+```bash
+docker save d4c3cafb11d5> /opt/mysql-8.0.22..tar
+docker load < /opt/mysql-8.0.22.tar
+```
 
-8. 下载paddleocr的模型
+9. **下载paddleocr的模型**
