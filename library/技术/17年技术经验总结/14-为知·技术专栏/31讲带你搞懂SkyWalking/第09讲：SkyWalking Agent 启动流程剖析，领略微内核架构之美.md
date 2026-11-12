@@ -12,29 +12,29 @@ SkyWalking Agent 采用了微内核架构（Microkernel Architecture），那什
 
 最终所有插件会由内核系统统一接入和管理：
 
-* 首先，内核系统必须知道要加载哪些插件，一般会通过配置文件或是扫描 ClassPath 的方式（例如前文介绍的 SPI 技术）确定待加载的插件；
-* 之后，内核系统还需要了解如何使用这些插件，微内核架构中需要定义一套插件的规范，内核系统会按照统一的方式初始化、启动这些插件；
-* 最后，虽然插件之间完全解耦，但实际开发中总会有一些意想不到的需求会导致插件之间产生依赖或是某些底层插件被复用，此时内核需要提供一套规则，识别插件消息并能正确的在插件之间转发消息，成为插件消息的中转站。
+- 首先，内核系统必须知道要加载哪些插件，一般会通过配置文件或是扫描 ClassPath 的方式（例如前文介绍的 SPI 技术）确定待加载的插件；
+- 之后，内核系统还需要了解如何使用这些插件，微内核架构中需要定义一套插件的规范，内核系统会按照统一的方式初始化、启动这些插件；
+- 最后，虽然插件之间完全解耦，但实际开发中总会有一些意想不到的需求会导致插件之间产生依赖或是某些底层插件被复用，此时内核需要提供一套规则，识别插件消息并能正确的在插件之间转发消息，成为插件消息的中转站。
 
 由此可见微内核架构的好处：
 
-* 测试成本下降。从软件工程的角度看，微内核架构将变化的部分和不变的部分拆分，降低了测试的成本，符合设计模式中的开放封闭原则。
-* 稳定性。由于每个插件模块相对独立，即使其中一个插件有问题，也可以保证内核系统以及其他插件的稳定性。
-* 可扩展性。在增加新功能或接入新业务的时候，只需要新增相应插件模块即可；在进行历史功能下线时，也只需删除相应插件模块即可。
+- 测试成本下降。从软件工程的角度看，微内核架构将变化的部分和不变的部分拆分，降低了测试的成本，符合设计模式中的开放封闭原则。
+- 稳定性。由于每个插件模块相对独立，即使其中一个插件有问题，也可以保证内核系统以及其他插件的稳定性。
+- 可扩展性。在增加新功能或接入新业务的时候，只需要新增相应插件模块即可；在进行历史功能下线时，也只需删除相应插件模块即可。
 
-SkyWalking Agent 就是微内核架构的一种落地方式。在前面的课时中我已经介绍了 SkyWalking 中各个模块的功能，其中 apm-agent-core 模块对应微内核架构中的内核系统，apm-sdk-plugin 模块中的各个子模块都是微内核架构中的插件模块。
+**SkyWalking Agent 就是微内核架构的一种落地方式。**在前面的课时中我已经介绍了 SkyWalking 中各个模块的功能，其中 apm-agent-core 模块对应微内核架构中的内核系统，apm-sdk-plugin 模块中的各个子模块都是微内核架构中的插件模块。
 
 ## SkyWalking Agent 启动流程概述
 
 此前，在搭建 SkyWalking 源码环境的最后，我们尝试 Debug 了一下 SkyWalking Agent 的源码，其入口是 apm-agent 模块中 SkyWalkingAgent 类的 premain() 方法，其中完成了 Agent 启动的流程：
 
-  初始化配置信息。该步骤中会加载 agent.config 配置文件，其中会检测 Java Agent 参数以及环境变量是否覆盖了相应配置项。
-  查找并解析 skywalking-plugin.def 插件文件。
-  AgentClassLoader 加载插件。
-  PluginFinder 对插件进行分类管理。
-  使用 Byte Buddy 库创建 AgentBuilder。这里会根据已加载的插件动态增强目标类，插入埋点逻辑。
-  使用 JDK SPI 加载并启动 BootService 服务。BootService 接口的实现会在后面的课时中展开详细介绍。
-  添加一个 JVM 钩子，在 JVM 退出时关闭所有 BootService 服务。
+1. 初始化配置信息。该步骤中会加载 agent.config 配置文件，其中会检测 Java Agent 参数以及环境变量是否覆盖了相应配置项。
+2. 查找并解析 skywalking-plugin.def 插件文件。
+3. AgentClassLoader 加载插件。
+4. PluginFinder 对插件进行分类管理。
+5. 使用 Byte Buddy 库创建 AgentBuilder。这里会根据已加载的插件动态增强目标类，插入埋点逻辑。
+6. 使用 JDK SPI 加载并启动 BootService 服务。BootService 接口的实现会在后面的课时中展开详细介绍。
+7. 添加一个 JVM 钩子，在 JVM 退出时关闭所有 BootService 服务。
 
 SkywalkingAgent.premain() 方法的具体实现如下，其中省略了 try/catch 代码块以及异常处理逻辑：
 
@@ -106,9 +106,9 @@ agent.service_name=${SW_AGENT_NAME:Your_ApplicationName}
 
 在  SnifferConfigInitializer.initialize() 方法中会将最终的配置信息填充到 Config 的静态字段中，填充过程如下：
 
-  将 agent.config 文件中全部配置信息填充到 Config 中相应的静态字段中。
-  解析系统环境变量值，覆盖 Config 中相应的静态字段。
-  解析 Java Agent 的参数，覆盖 Config 中相应的静态字段。
+1. 将 agent.config 文件中全部配置信息填充到 Config 中相应的静态字段中。
+2. 解析系统环境变量值，覆盖 Config 中相应的静态字段。
+3. 解析 Java Agent 的参数，覆盖 Config 中相应的静态字段。
 
 SnifferConfigInitializer.initialize() 方法的具体实现如下：
 
@@ -181,8 +181,8 @@ for (int i = 0; i < methods.length; i++) {
 
 在 Java 之后提供了两种加锁模式：
 
-* 串行模式下，锁的对象是还是 ClassLoader 本身，和 Java 里面的行为一样；
-* 另外一种就是调用 registerAsParallelCapable() 方法之后，开启的并行加载模式。在并行模式下加载类时，会按照 classname 去获取锁。ClassLoader.loadClass() 方法中相应的实现片段如下：
+- 串行模式下，锁的对象是还是 ClassLoader 本身，和 Java 里面的行为一样；
+- 另外一种就是调用 registerAsParallelCapable() 方法之后，开启的并行加载模式。在并行模式下加载类时，会按照 classname 去获取锁。ClassLoader.loadClass() 方法中相应的实现片段如下：
 
 ```
 protected Class<?> loadClass(String name, boolean resolve)
@@ -302,10 +302,10 @@ for (PluginDefine pluginDefine : pluginClassList) {
 
 AbstractClassEnhancePluginDefine 抽象类是所有 Agent 插件类的顶级父类，其中定义了四个核心方法，决定了一个插件类应该增强哪些目标类、应该如何增强、具体插入哪些逻辑，如下所示：
 
-* **enhanceClass() 方法**：返回的 ClassMatch，用于匹配当前插件要增强的目标类。
-* **define() 方法**：插件类增强逻辑的入口，底层会调用下面的 enhance() 方法和 witnessClass() 方法。
-* **enhance() 方法**：真正执行增强逻辑的地方。
-* **witnessClass() 方法**：一个开源组件可能有多个版本，插件会通过该方法识别组件的不同版本，防止对不兼容的版本进行增强。
+- **enhanceClass() 方法**：返回的 ClassMatch，用于匹配当前插件要增强的目标类。
+- **define() 方法**：插件类增强逻辑的入口，底层会调用下面的 enhance() 方法和 witnessClass() 方法。
+- **enhance() 方法**：真正执行增强逻辑的地方。
+- **witnessClass() 方法**：一个开源组件可能有多个版本，插件会通过该方法识别组件的不同版本，防止对不兼容的版本进行增强。
 
 在后续的课时中会详细介绍每个方法的具体功能和实现，你先知道 AbstractClassEnhancePluginDefine 中大致有这四个方法即可。
 
@@ -313,8 +313,8 @@ AbstractClassEnhancePluginDefine 抽象类是所有 Agent 插件类的顶级父�
 
 enhanceClass() 方法决定了一个插件类要增强的目标类，返回值为 ClassMatch 类型对象。ClassMatch 类似于一个过滤器，可以通过多种方式匹配到目标类，ClassMatch 接口的实现如下：
 
-* **NameMatch：**根据其 className 字段（String 类型）匹配目标类的名称。
-* **IndirectMatch：**子接口中定义了两个方法。
+- **NameMatch：**根据其 className 字段（String 类型）匹配目标类的名称。
+- **IndirectMatch：**子接口中定义了两个方法。
 
 ```
 // Junction是Byte Buddy中的类，可以通过and、or等操作串联多个ElementMatcher
@@ -324,10 +324,10 @@ ElementMatcher.Junction buildJunction();
 boolean isMatch(TypeDescription typeDescription);
 ```
 
-* **MultiClassNameMatch**：其中会指定一个 matchClassNames 集合，该集合内的类即为目标类。
-* **ClassAnnotationMatch**：根据标注在类上的注解匹配目标类。
-* **MethodAnnotationMatch**：根据标注在方法上的注解匹配目标类。
-* **HierarchyMatch**：根据父类或是接口匹配目标类。
+- **MultiClassNameMatch**：其中会指定一个 matchClassNames 集合，该集合内的类即为目标类。
+- **ClassAnnotationMatch**：根据标注在类上的注解匹配目标类。
+- **MethodAnnotationMatch**：根据标注在方法上的注解匹配目标类。
+- **HierarchyMatch**：根据父类或是接口匹配目标类。
 
 这里以 ClassAnnotationMatch 为例展开分析，其中的 annotations 字段（String[] 类型）指定了该 ClassAnnotationMatch 对象需要检查的注解。在 buildJunction() 方法中将为每一个注解创建相应的 Junction 并将它们以 and 形式连接起来并返回，如下所示：
 
@@ -430,10 +430,10 @@ new AgentBuilder.Default(byteBuddy) // 设置使用的ByteBuddy对象
 
 简单解释一下这里使用到的 AgentBuilder 的方法：
 
-* **ignore() 方法**：忽略指定包中的类，对这些类不会进行拦截增强。
-* **type() 方法**：在类加载时根据传入的 ElementMatcher 进行拦截，拦截到的目标类将会被 transform() 方法中指定的 Transformer 进行增强。
-* **transform() 方法**：这里指定的 Transformer 会对前面拦截到的类进行增强。
-* **with() 方法**：添加一个 Listener 用来监听 AgentBuilder 触发的事件。
+- **ignore() 方法**：忽略指定包中的类，对这些类不会进行拦截增强。
+- **type() 方法**：在类加载时根据传入的 ElementMatcher 进行拦截，拦截到的目标类将会被 transform() 方法中指定的 Transformer 进行增强。
+- **transform() 方法**：这里指定的 Transformer 会对前面拦截到的类进行增强。
+- **with() 方法**：添加一个 Listener 用来监听 AgentBuilder 触发的事件。
 
 首先， PluginFInder.buildMatch() 方法返回的 ElementMatcher 对象会将全部插件的匹配规则（即插件的 enhanceClass() 方法返回的 ClassMatch）用 OR 的方式连接起来，这样，所有插件能匹配到的所有类都会交给 Transformer 处理。
 
@@ -469,7 +469,7 @@ public DynamicType.Builder<?> transform(DynamicType.Builder<?>builder,
 }
 ```
 
-这里需要注意：如果一个类被多个插件匹配会被增强多次，当你打开 IS_OPEN_DEBUGGING_CLASS 配置项时，会看到对应的多个 class 文件。
+这里需要注意：**如果一个类被多个插件匹配会被增强多次**，当你打开 IS_OPEN_DEBUGGING_CLASS 配置项时，会看到对应的多个 class 文件。
 
 ## 加载 BootService
 
@@ -515,8 +515,8 @@ org.apache.skywalking.apm.agent.core.context.ContextManagerExtendService
 
 加载完上述 BootService 实现类型之后，ServiceManager 会针对 BootService 上的 @DefaultImplementor 和 @OverrideImplementor 注解进行处理：
 
-* @DefaultImplementor 注解用于标识 BootService 接口的默认实现。
-* @OverrideImplementor 注解用于覆盖默认 BootService 实现，通过其 value 字段指定要覆盖的默认实现。
+- @DefaultImplementor 注解用于标识 BootService 接口的默认实现。
+- @OverrideImplementor 注解用于覆盖默认 BootService 实现，通过其 value 字段指定要覆盖的默认实现。
 
 BootService 的覆盖逻辑如下图所示：
 
@@ -543,6 +543,6 @@ Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 }, "skywalking service shutdown thread"));
 ```
 
-总结
+## 总结：Agent 启动核心流程
 
 本课时重点介绍了 SkyWalking Agent 启动核心流程的实现，深入分析了 Skywalking Agent 配置信息的初始化、插件加载原理、AgentBuilder 如何与插件类配合增强目标类、BootService 的加载流程。本课时是整个 Skywalking Agent 的框架性流程介绍，在后续的课时中将详细介绍 AbstractClassEnhancePluginDefine 以及 BootService 接口的实现。

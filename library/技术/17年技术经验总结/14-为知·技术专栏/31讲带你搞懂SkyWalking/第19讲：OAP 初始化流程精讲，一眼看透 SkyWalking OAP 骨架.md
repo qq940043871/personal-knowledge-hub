@@ -6,8 +6,7 @@
 
 从本课时开始，我们将开始介绍 SkyWalking OAP 服务。OAP 与 Agent 类似，也采用了微内核架构（Microkernel Architecture），如下图所示。
 
-OAP 使用 ModuleManager（组件管理器）管理多个 Module（组件），一个 Module 可以对应多个 ModuleProvider（组件服务提供者），ModuleProvider 是 Module 底层真正的实现。
-在 OAP 服务启动时，一个 Module 只能选择使用一个 ModuleProvider 对外提供服务。一个 ModuleProvider 可能支撑了一个非常复杂的大功能，在一个 ModuleProvider 中，可以包含多个 Service ，一个 Service 实现了一个 ModuleProvider 中的一部分功能，通过将多个 Service 进行组装集成，可以得到 ModuleProvider 的完整功能。
+OAP 使用 ModuleManager（组件管理器）管理多个 Module（组件），一个 Module 可以对应多个 ModuleProvider（组件服务提供者），ModuleProvider 是 Module 底层真正的实现。在 OAP 服务启动时，**一个 Module 只能选择使用一个 ModuleProvider 对外提供服务**。一个 ModuleProvider 可能支撑了一个非常复杂的大功能，在一个 ModuleProvider 中，可以包含多个 Service ，一个 Service 实现了一个 ModuleProvider 中的一部分功能，通过将多个 Service 进行组装集成，可以得到 ModuleProvider 的完整功能。
 
 ApplicationConfiguration（应用配置对象） 负责管理整个 OAP 的配置信息，ApplicationConfiguration 中包含多个 ModuleConfiguration(组件配置对象) 。
 
@@ -230,20 +229,20 @@ public interface ModuleServiceHolder {
 
 除了 ModuleServiceHolder 接口中的这两个关键方法之外，ModuleProvider 中还定义了一些通用的抽象方法：
 
-* **name() 方法**：返回当前 ModuleProvider 的名称，该名称在同一个 Module 下是唯一的。例如，StorageModule 负责实现 OAP 的持久化存储功能，Module 名称为 "storage"，具体依赖的底层存储可以是 ElasticSearch、H 等，分别对应StorageModuleElasticsearchProvider、HStorageProvider 两个 ModuleProvider 实现类，ModuleProvider 名称分别是 "elasticsearch" 和 "h"。
-* **createConfigBeanIfAbsent() 方法**: 返回当前 ModuleProvider 对应的 ModuleConfig 对象。ModuleConfig 是一个空的抽象类，其实现类都是用于存储配置信息的 Java Bean。下图展示了 OAP 服务中几个核心插件模块对应的 ModuleConfig 实现类：
+- **name() 方法**：返回当前 ModuleProvider 的名称，该名称在同一个 Module 下是唯一的。例如，StorageModule 负责实现 OAP 的持久化存储功能，Module 名称为 "storage"，具体依赖的底层存储可以是 ElasticSearch、H 等，分别对应StorageModuleElasticsearchProvider、HStorageProvider 两个 ModuleProvider 实现类，ModuleProvider 名称分别是 "elasticsearch" 和 "h"。
+- **createConfigBeanIfAbsent() 方法**: 返回当前 ModuleProvider 对应的 ModuleConfig 对象。ModuleConfig 是一个空的抽象类，其实现类都是用于存储配置信息的 Java Bean。下图展示了 OAP 服务中几个核心插件模块对应的 ModuleConfig 实现类：
 
 结合 ModuleDefine、ModuleProvider 以及 ModuleConfig，整个存储模块的结构如下：
 
-* **prepare() 方法**：与 ModuleDefine 中的 prepare() 方法的功能相同，也是完成一些准备性的操作，不同的 ModuleProvider 实现类会执行不同的准备操作。例如，StorageModuleElasticsearchProvider 会准备 High Level Rest Client 来访问 ElasticSearch，而 HStorageProvider 则会准备 JDBC Client 来访问 H 数据库。
+- **prepare() 方法**：与 ModuleDefine 中的 prepare() 方法的功能相同，也是完成一些准备性的操作，不同的 ModuleProvider 实现类会执行不同的准备操作。例如，StorageModuleElasticsearchProvider 会准备 High Level Rest Client 来访问 ElasticSearch，而 HStorageProvider 则会准备 JDBC Client 来访问 H 数据库。
 
-* **requiredModules() 方法**：返回当前 ModuleProvider 依赖的 Module 名称。整个 OAP 服务会有多个 Module，Module 之间相对独立，但是也有一定的依赖关系，例如，trace-receiver-plugin 插件模块（用于接收 Trace 数据）就依赖了 CoreModule、ConfigurationModule 等基础 Module。
+- **requiredModules() 方法**：返回当前 ModuleProvider 依赖的 Module 名称。整个 OAP 服务会有多个 Module，Module 之间相对独立，但是也有一定的依赖关系，例如，trace-receiver-plugin 插件模块（用于接收 Trace 数据）就依赖了 CoreModule、ConfigurationModule 等基础 Module。
 
-* **requiredCheck() 方法**：在 ModuleDefine.service() 这个方法中会定义该 Module 提供的一系列 Service，例如，在 StorageModule 中就会提供 StorageDAO、IRegisterLockDAO 等等一系列 DAO。requiredCheck() 方法会在 ModuleProvider 启动之前，检查当前 services 集合中是否已经装载了这些 Service 的实现，从而保证 ModuleProvider 能够完整地提供 Module 的功能。
+- **requiredCheck() 方法**：在 ModuleDefine.service() 这个方法中会定义该 Module 提供的一系列 Service，例如，在 StorageModule 中就会提供 StorageDAO、IRegisterLockDAO 等等一系列 DAO。requiredCheck() 方法会在 ModuleProvider 启动之前，检查当前 services 集合中是否已经装载了这些 Service 的实现，从而保证 ModuleProvider 能够完整地提供 Module 的功能。
 
-* **start() 方法**：启动当前 ModuleProvider，其中会完成一些初始化操作和启动操作。不同的 ModuleProvider 实现类会执行不同的初始化操作。例如，StorageModuleElasticsearchProvider 会在 ElasticSearch 中初始化相关的索引，而 HStorageProvider 则会在 H 数据库中初始化后续使用的表结构。
+- **start() 方法**：启动当前 ModuleProvider，其中会完成一些初始化操作和启动操作。不同的 ModuleProvider 实现类会执行不同的初始化操作。例如，StorageModuleElasticsearchProvider 会在 ElasticSearch 中初始化相关的索引，而 HStorageProvider 则会在 H 数据库中初始化后续使用的表结构。
 
-* **notifyAfterCompleted() 方法**：当全部 Module 完成检查、初始化并启动之后，OAP 会回调该方法，通知所有监听者，当前 ModuleProvider 开始对外提供服务。
+- **notifyAfterCompleted() 方法**：当全部 Module 完成检查、初始化并启动之后，OAP 会回调该方法，通知所有监听者，当前 ModuleProvider 开始对外提供服务。
 
 一个 ModuleProvider 对外提供相对完整的功能，ModuleProvider 中的一个子功能可以有一个 Service 实现。Service 接口是个空接口，没有定义任何方法，有点类似于 java.io.Serializable 接口，只是一个简单的标记接口。
 
@@ -277,10 +276,10 @@ start() 方法完成启动之后，会紧接着调用 notifyAfterCompleted() 方
 
 最后，简单看一下 startupSequence 集合的生成原理。下图示例中，ModuleProvider a 依赖 Module B、Module C，ModuleProvider b 依赖 Module C、ModuleProvider c 依赖 Module D。
 
-在 BootstrapFlow.makeSequence() 方法中，根据 ModuleProvider 对 Module 依赖关系确定 ModuleProvider 的启动顺序，保证每个 ModuleProvider 启动时，其依赖 Module 的 ModuleProvider 已经启动。上图示例的最终启动顺序如下：
+在 BootstrapFlow.makeSequence() 方法中，根据 ModuleProvider 对 Module 依赖关系确定 ModuleProvider 的启动顺序，**保证每个 ModuleProvider 启动时，其依赖 Module 的 ModuleProvider 已经启动**。上图示例的最终启动顺序如下：
 
 makeSequence() 方法的具体实现是靠四层 for 循环实现的，没有什么高深的算法，这里不展开了。
 
-## 总结
+## 总结：OAP 微内核架构与启动流程
 
 本课时首先介绍了 Skywalking OAP 服务的整体框架，OAP 与 Agent 类似，也是微内核+插件的架构，主要围绕 Module、 ModuleProvider、Service 等核心概念展开。然后介绍了 SkyWalking OAP 服务的启动流程，其中涉及 ModuleDefine、ModuleProvider 等核心组件的准备流程和初始化流程。

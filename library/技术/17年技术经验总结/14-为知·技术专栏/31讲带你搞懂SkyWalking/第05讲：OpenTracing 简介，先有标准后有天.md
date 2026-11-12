@@ -20,33 +20,33 @@ Span 代表系统中具有开始时间和执行时长的逻辑单元，Span 之�
 
 每个 Span 中可以包含以下的信息：
 
-* **操作名称**：例如访问的具体 RPC 服务，访问的 URL 地址等；
+- **操作名称**：例如访问的具体 RPC 服务，访问的 URL 地址等；
 
-* **起始时间；**
+- **起始时间；**
 
-* **结束时间；**
+- **结束时间；**
 
-* **Span Tag**：一组键值对构成的 Span 标签集合，其中键必须为字符串类型，值可以是字符串、bool 值或者数字；
+- **Span Tag**：一组键值对构成的 Span 标签集合，其中键必须为字符串类型，值可以是字符串、bool 值或者数字；
 
-* **Span Log**：一组 Span 的日志集合；
+- **Span Log**：一组 Span 的日志集合；
 
-* **SpanContext**：Trace 的全局上下文信息；
+- **SpanContext**：Trace 的全局上下文信息；
 
-* **References**：Span 之间的引用关系，下面详细说明 Span 之间的引用关系；
+- **References**：Span 之间的引用关系，下面详细说明 Span 之间的引用关系；
 
-在一个 Trace 中，一个 Span 可以和一个或者多个 Span 间存在因果关系。目前，OpenTracing 定义了 ChildOf 和 FollowsFrom 两种 Span 之间的引用关系。这两种引用类型代表了子节点和父节点间的直接因果关系。
+在一个 Trace 中，一个 Span 可以和一个或者多个 Span 间存在因果关系。目前，OpenTracing 定义了 **ChildOf 和 FollowsFrom** 两种 Span 之间的引用关系。这两种引用类型代表了子节点和父节点间的直接因果关系。
 
-* **ChildOf 关系：**一个 Span 可能是一个父级 Span 的孩子，即为 ChildOf 关系。下面这些情况会构成 ChildOf 关系：
+- **ChildOf 关系：**一个 Span 可能是一个父级 Span 的孩子，即为 ChildOf 关系。下面这些情况会构成 ChildOf 关系：
 
-* 一个 HTTP 请求之中，被调用的服务端产生的 Span，与发起调用的客户端产生的 Span，就构成了 ChildOf 关系；
+- 一个 HTTP 请求之中，被调用的服务端产生的 Span，与发起调用的客户端产生的 Span，就构成了 ChildOf 关系；
 
-* 一个 SQL Insert 操作的 Span，和 ORM 的 save 方法的 Span 构成 ChildOf 关系。
+- 一个 SQL Insert 操作的 Span，和 ORM 的 save 方法的 Span 构成 ChildOf 关系。
 
 很明显，上述 ChildOf 关系中的父级 Span 都要等待子 Span 的返回，子 Span 的执行时间影响了其所在父级 Span 的执行时间，父级 Span 依赖子 Span 的执行结果。除了串行的任务之外，我们的逻辑中还有很多并行的任务，它们对应的 Span 也是并行的，这种情况下一个父级 Span 可以合并所有子 Span 的执行结果并等待所有并行子 Span 结束。
 
 下图展示了上述两种 ChildOf 关系的 Span：
 
-* **FollowsFrom 关系：**在分布式系统中，一些上游系统（父节点）不以任何方式依赖下游系统（子节点）的执行结果，例如，上游系统通过消息队列向下游系统发送消息。这种情况下，下游系统对应的子 Span 和上游系统对应的父级 Span 之间是 FollowsFrom 关系。下图展示了一些可能的 FollowsFrom 关系：
+- **FollowsFrom 关系：**在分布式系统中，一些上游系统（父节点）不以任何方式依赖下游系统（子节点）的执行结果，例如，上游系统通过消息队列向下游系统发送消息。这种情况下，下游系统对应的子 Span 和上游系统对应的父级 Span 之间是 FollowsFrom 关系。下图展示了一些可能的 FollowsFrom 关系：
 
 下面的示例 Trace 是由多个 Span 组成，其中 Span A 和 Span C 之间是 ChildOf 关系，Span F 和 Span G 之间是 FollowsFrom 关系：
 
@@ -120,44 +120,44 @@ Baggage 是存储在 SpanContext 中的一个键值对集合。它会在一条 T
 
 需要注意的是，由于 Baggage 需要跨进程全局传输，就会涉及相关数据的序列化和反序列化操作，如果在 Baggage 中存放过多的数据，就会导致序列化和反序列化操作耗时变长，使整个系统的 RPC 的延迟增加、吞吐量下降。
 
-虽然 Baggage 与 Span Tags 一样，都是键值对集合，但两者最大区别在于 Span Tags 中的信息不会跨进程传输，而 Baggage 需要全局传输。因此，OpenTracing 要求实现提供 Inject 和 Extract 两种操作，SpanContext 可以通过 Inject 操作向 Baggage 中添加键值对数据，通过 Extract 从 Baggage 中获取键值对数据。
+虽然 Baggage 与 Span Tags 一样，都是键值对集合，但两者最大区别在于 **Span Tags 中的信息不会跨进程传输，而 Baggage 需要全局传输**。因此，OpenTracing 要求实现提供 Inject 和 Extract 两种操作，SpanContext 可以通过 Inject 操作向 Baggage 中添加键值对数据，通过 Extract 从 Baggage 中获取键值对数据。
 
 ## 核心接口语义
 
 OpenTracing 希望各个实现平台能够根据上述的核心概念来建模实现，不仅如此，OpenTracing 还提供了核心接口的描述，帮助开发人员更好的实现 OpenTracing 规范。
 
-* **Span 接口**
+- **Span 接口**
 
 Span接口必须实现以下的功能：
 
-* **获取关联的 SpanContext**：通过 Span 获取关联的 SpanContext 对象。
+- **获取关联的 SpanContext**：通过 Span 获取关联的 SpanContext 对象。
 
-* **关闭（Finish）Span**：完成已经开始的 Span。
+- **关闭（Finish）Span**：完成已经开始的 Span。
 
-* **添加 Span Tag**：为 Span 添加 Tag 键值对。
+- **添加 Span Tag**：为 Span 添加 Tag 键值对。
 
-* **添加 Log：**为 Span 增加一个 Log 事件。
+- **添加 Log：**为 Span 增加一个 Log 事件。
 
-* **添加 Baggage Item：**向 Baggage 中添加一组键值对。
+- **添加 Baggage Item：**向 Baggage 中添加一组键值对。
 
-* **获取 Baggage Item：**根据 Key 获取 Baggage 中的元素。
+- **获取 Baggage Item：**根据 Key 获取 Baggage 中的元素。
 
-* **SpanContext 接口**
+- **SpanContext 接口**
 
 SpanContext 接口必须实现以下功能，用户可以通过 Span 实例或者 Tracer 的 Extract 能力获取 SpanContext 接口实例。
 
-* **遍历 Baggage 中全部的 KV**。
+- **遍历 Baggage 中全部的 KV**。
 
-* **Tracer 接口**
+- **Tracer 接口**
 
 Tracer 接口必须实现以下功能：
 
-* **创建 Span：**创建新的 Span。
+- **创建 Span：**创建新的 Span。
 
-* **注入 SpanContext**：主要是将跨进程调用携带的 Baggage 数据记录到当前 SpanContext 中。
+- **注入 SpanContext**：主要是将跨进程调用携带的 Baggage 数据记录到当前 SpanContext 中。
 
-* **提取 SpanContext** ，主要是将当前 SpanContext 中的全局信息提取出来，封装成 Baggage 用于后续的跨进程调用。
+- **提取 SpanContext** ，主要是将当前 SpanContext 中的全局信息提取出来，封装成 Baggage 用于后续的跨进程调用。
 
-## 总结
+## 总结：OpenTracing 核心概念与核心接口
 
 本课时主要介绍了 Trace、Span、Logs、Tags、SpanContext 等 OpenTracing 规范的核心概念，还介绍了 OpenTracing 规范定义的核心接口的功能。SkyWalking 作为 OpenTracing 的实现之一，了解 OpenTracing 的核心概念可以更好的帮助理解 SkyWalking 的实现。

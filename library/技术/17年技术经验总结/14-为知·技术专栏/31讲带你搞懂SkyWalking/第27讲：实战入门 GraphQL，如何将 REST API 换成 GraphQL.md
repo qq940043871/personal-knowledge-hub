@@ -6,25 +6,25 @@
 
 GraphQL 是一个用于 API 的查询语言，是一个使用基于类型系统来执行查询的服务端运行时。GraphQL 并没有和任何特定数据库或者存储引擎绑定。GraphQL 对服务端 API 中的数据提供了一套易于理解的完整描述，使得客户端能够准确地获得它需要的数据，而且没有任何冗余，也让 API 更容易地随着时间推移而演进，还能用于构建强大的开发者工具。使用 GraphQL 开发 API 有如下好处。
 
-* 可描述：使用 GraphQL，你获取的都是你想要的数据，不多也不会少；
+- 可描述：使用 GraphQL，你获取的都是你想要的数据，不多也不会少；
 
-* 分级：GraphQL 天然遵循了对象间的关系，通过一个简单的请求，我们可以获取到一个对象及其相关的对象。
+- 分级：GraphQL 天然遵循了对象间的关系，通过一个简单的请求，我们可以获取到一个对象及其相关的对象。
 
-* 强类型：使用 GraphQL 的类型系统，能够清晰、准确的描述数据，这样就能确保从服务器获取的数据和我们查询的一致。
+- 强类型：使用 GraphQL 的类型系统，能够清晰、准确的描述数据，这样就能确保从服务器获取的数据和我们查询的一致。
 
-* 跨语言：GraphQL 并不绑定于某一特定的语言。
+- 跨语言：GraphQL 并不绑定于某一特定的语言。
 
-* 兼容性：GraphQL 不限于某一特定存储平台，GraphQL 可以方便地接入已有的存储、代码、甚至可以连接第三方的 API。
+- 兼容性：GraphQL 不限于某一特定存储平台，GraphQL 可以方便地接入已有的存储、代码、甚至可以连接第三方的 API。
 
-## GraphQL  类型系统
+## GraphQL 类型系统
 
 在一篇文章中完整介绍 GraphQL 本身，以及如何在 Java 服务端使用 GraphQL 几乎是不可能的，其中会涉及很多琐碎的细节需要说明，并且还需要列举一些示例。本课时并不是一篇完整的 GraphQL Java 教程，这里重点介绍 query-graphql-plugin 插件涉及的 GraphQL 知识点。
 
 GraphQL 的类型系统与 Java 的类型系统非常相似，主要有下面几种类型：
 
-  Scalar，类似于 Java 中的基本变量。
+- Scalar，类似于 Java 中的基本变量。
 
-Object，类似于 Java 中的对象，这里使用 GraphQL 定义一个 Book 类型，它就是 Object 类型，在 GraphQL Java 中对应的是 GraphQLObjectType。
+- Object，类似于 Java 中的对象，这里使用 GraphQL 定义一个 Book 类型，它就是 Object 类型，在 GraphQL Java 中对应的是 GraphQLObjectType。
 
 ```
 type Book {
@@ -35,7 +35,7 @@ type Book {
 }
 ```
 
-  Interface，类似于 Java 中的接口，在下面中的示例如下：
+- Interface，类似于 Java 中的接口，在下面中的示例如下：
 
 ```
 interface ComicCharacter {
@@ -45,7 +45,7 @@ interface ComicCharacter {
 
 在 GraphQL Java 中对应的类型是 GraphQLInterfaceType。
 
-  Union，在 Java 中没有 Union 类型，但是在 C++ 中有 Union 类型，在 GraphQL Schema 中的示例如下：
+- Union，在 Java 中没有 Union 类型，但是在 C++ 中有 Union 类型，在 GraphQL Schema 中的示例如下：
 
 ```
 type Cat {
@@ -61,9 +61,9 @@ union Pet = Cat | Dog
 
 在 GraphQL Java 中对应的类型是 GraphQLUnionType。在使用 Interface 或 Union 时，如果需要获取对象真实类型，可以通过 TypeResolver 进行判断。
 
-  InputObject，主要用于封装方法参数，GraphQL Schema 中的定义与 Object 类似，主要区别是将 type 关键字换成 input 关键字。GraphQL Java 中对应的类型是 GraphQLInputObjectType。
+- InputObject，主要用于封装方法参数，GraphQL Schema 中的定义与 Object 类似，主要区别是将 type 关键字换成 input 关键字。GraphQL Java 中对应的类型是 GraphQLInputObjectType。
 
-  Enum，类似于 Java 中的枚举，不再赘述。
+- Enum，类似于 Java 中的枚举，不再赘述。
 
 ## GraphQL Java 基础入门
 
@@ -132,13 +132,13 @@ public class GraphQLProvider {
 
 这里我们接触到了几个新类型。
 
-* GraphQL：它默认将处理"/graphql"这个 path 上的全部请求；
+- GraphQL：它默认将处理"/graphql"这个 path 上的全部请求；
 
-* TypeDefinitionRegistry：它是 GraphQL Schema 文件的解析结果；
+- TypeDefinitionRegistry：它是 GraphQL Schema 文件的解析结果；
 
-* SchemaGenerator: 它关联了 TypeDefinitionRegistry 对象和后面要介绍的 DataFetcher 对象，并生成一个 GraphQLSchema 对象；
+- SchemaGenerator: 它关联了 TypeDefinitionRegistry 对象和后面要介绍的 DataFetcher 对象，并生成一个 GraphQLSchema 对象；
 
-* RuntimeWiring：后面介绍的 DataFetcher 对象将注册到 RuntimeWiring 中，具体的注册方式在 buildWiring() 方法中（后面分析）。
+- RuntimeWiring：后面介绍的 DataFetcher 对象将注册到 RuntimeWiring 中，具体的注册方式在 buildWiring() 方法中（后面分析）。
 
 ### 关联 DataFetcher
 
@@ -205,15 +205,15 @@ public class GraphQLDataFetchers {
 }
 ```
 
-GraphQL Schema 中的每个字段都会关联一个 DataFetcher，如果未通过 RuntimeWiring 方式明确关联的自定义 DataFetcher ，会默认关联 PropertyDataFetcher。PropertyDataFetcher 会有多种方式从外层结果中为关联字段查找正确的值：
+**GraphQL Schema 中的每个字段都会关联一个 DataFetcher**，如果未通过 RuntimeWiring 方式明确关联的自定义 DataFetcher ，会默认关联 PropertyDataFetcher。PropertyDataFetcher 会有多种方式从外层结果中为关联字段查找正确的值：
 
-  如果外层查找结果为 null，则直接返回 null，否则执行步骤 ；
+1. 如果外层查找结果为 null，则直接返回 null，否则执行步骤 2；
 
-  通过 function 从外层查询结果中提起对应字段值，该 function 是在 PropertyDataFetcher 初始化时指定，若未指定 function 则执行步骤 ；
+2. 通过 function 从外层查询结果中提起对应字段值，该 function 是在 PropertyDataFetcher 初始化时指定，若未指定 function 则执行步骤 3；
 
-  如果外层查询结果为 Map，则从该 Map 中直接获取字段值；
+3. 如果外层查询结果为 Map，则从该 Map 中直接获取字段值；
 
-  如果外层查询结果是 Java 对象，则调用相应的 getter 方法获取字段值。
+4. 如果外层查询结果是 Java 对象，则调用相应的 getter 方法获取字段值。
 
 最后我们回顾整个示例项目，其核心逻辑如下图：
 

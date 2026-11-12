@@ -8,11 +8,9 @@ ContextManager 的主要职责就是管理前文介绍的 TracingContext，它�
 
 ContextManager 有三个核心字段：
 
-* **CONTEXT（ThreadLocal 类型）**
-    ：通过该字段可以将一个 TracingContext 对象与一个线程进行关联。
-* **RUNTIME_CONTEXT（ThreadLocal 类型）**
-    ：RuntimeContext 底层封装了一个 ConcurrentHashMap 集合，可以为当前 TracingContext 记录一些附加信息。
-* **EXTEND_SERVICE（ContextManagerExtendService 类型）**：ContextManagerExtendService 也实现了 BootService 接口，它主要负责创建 TracingContext 对象。
+- **CONTEXT（ThreadLocal 类型）**：通过该字段可以将一个 TracingContext 对象与一个线程进行关联。
+- **RUNTIME_CONTEXT（ThreadLocal 类型）**：RuntimeContext 底层封装了一个 ConcurrentHashMap 集合，可以为当前 TracingContext 记录一些附加信息。
+- **EXTEND_SERVICE（ContextManagerExtendService 类型）**：ContextManagerExtendService 也实现了 BootService 接口，它主要负责创建 TracingContext 对象。
 
 虽然 ContextManager 实现了 BootService 接口，但是其 prepare()、boot()、onComplete() 方法都为空实现。ContextManager 提供了与 TracingContext 对应的几乎所有方法，基本实现都是委托给当前线程绑定的 TracingContext 对象，这里以 createEntrySpan() 方法为例进行介绍：
 
@@ -46,7 +44,7 @@ stopSpan() 方法在关闭 Span 的同时，还会检查当前 TraceSegment 是�
 
 ## Context 生成与采样
 
-如果不做任何限制，每个请求都应该生成一条完整的 Trace。在面对海量请求时如果也同时产生海量 Trace，就会给网络和存储带来双倍的压力，浪费很多资源。为了解决这个问题，几乎所有的 Trace 系统都会支持采样的功能。SamplingService 就是用来实现采样功能的 BootService 实现。
+如果不做任何限制，每个请求都应该生成一条完整的 Trace。在面对海量请求时如果也同时产生海量 Trace，就会给网络和存储带来双倍的压力，浪费很多资源。为了解决这个问题，**几乎所有的 Trace 系统都会支持采样的功能**。SamplingService 就是用来实现采样功能的 BootService 实现。
 
 SamplingService 的采样逻辑依赖 samplingFactorHolder 字段（AtomicInteger 类型）的自增。ContextManagerExtendService 是负责创建 TracingContext 的 BootService 实现，在 ContextManagerExtendService 创建 TracingContext 时，会调用 SamplingService 的 trySampling() 方法递增 samplingFactorHolder 字段（CAS 操作），当增加到阈值（默认值为 ，可以通过 agent.sample_n_per__secs 配置进行修改）时会返回 false，表示采样失败，这时 ContextManagerExtendService 就会生成 IgnoredTracerContext，IgnoredTracerContext 是个空 Context 实现，不会记录 Trace 信息。
 
@@ -167,6 +165,6 @@ public void consume(List<TraceSegment> data) {
 
 *图：TraceSegment 从收集到 gRPC 上报的链路（据原文重绘）*
 
-## 总结
+## 总结：Trace 收集与发送核心逻辑
 
 本课时我们重点介绍了 Trace 相关的 BootService 接口实现。首先介绍了 ContextManager 的核心实现，理清了它是如何将 TracingContext 与当前线程关联起来的。接下来介绍了 SamplingService 实现客户端 Trace 采样的逻辑。最后介绍了上报 Trace 的 gRPC 接口，深入分析了 TraceSegmentServiceClient 收集和上报 Trace 数据的核心逻辑。

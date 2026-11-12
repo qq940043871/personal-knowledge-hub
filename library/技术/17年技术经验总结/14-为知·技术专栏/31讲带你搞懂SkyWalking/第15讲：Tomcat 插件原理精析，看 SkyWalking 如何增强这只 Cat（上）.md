@@ -2,11 +2,11 @@
 
 通过前面几课时的学习，我们已经了解了 SkyWalking Agent 中最底层的 apm-agent-core 模块的核心实现，相信同学们已经了解下面几个知识点：
 
-* SkyWalking Agent 的整体架构、启动流程。
-* 插件埋点的基本原理，其中深入讲解了对静态方法、构造方法以及实例方法的拦截和增强，并结合 mysql-x 插件进行了串讲。
-* Trace 基本概念在 SkyWalking 中的落地，其中讲解了 Trace ID、Span、TraceSegment、TracingContext 等核心组件的实现，并结合 demo-webapp 进行了分析。
-* 核心 BootService 实现的深入剖析，其中包括了网络连接的封装和管理、服务以及服务实例的注册流程、定期心跳、EndpointName、NetworkAddress 定期同步、Context 生成与管理、客户端采样的功能、Trace 的收集与发送。
-* DataCarrier 核心原理的深入剖析。
+- SkyWalking Agent 的整体架构、启动流程。
+- 插件埋点的基本原理，其中深入讲解了对静态方法、构造方法以及实例方法的拦截和增强，并结合 mysql-x 插件进行了串讲。
+- Trace 基本概念在 SkyWalking 中的落地，其中讲解了 Trace ID、Span、TraceSegment、TracingContext 等核心组件的实现，并结合 demo-webapp 进行了分析。
+- 核心 BootService 实现的深入剖析，其中包括了网络连接的封装和管理、服务以及服务实例的注册流程、定期心跳、EndpointName、NetworkAddress 定期同步、Context 生成与管理、客户端采样的功能、Trace 的收集与发送。
+- DataCarrier 核心原理的深入剖析。
 
 其中最重要的是，理解 SkyWalking Agent 中，Trace 的相关组件是如何系统工作的，数据流向是什么样儿的。在接下来的几课时中，我们将从 apm-sdk-plugin 模块中选取几个比较有代表性的插件进行剖析，使你能够了解这些 SkyWalking Agent 插件是如何与 apm-agent-core 模块配合工作的。
 
@@ -24,10 +24,10 @@ SkyWalking 提供的 tomcat-x-x-plugin 插件与 Tomcat Connector 组件没有�
 
 Container 是容器的父接口，所有子容器都必须实现这个接口。Tomcat 中有四个子容器组件，分别是：Engine、Host、Context、Wrapper，这四个组件之间不是平行关系，而是父子关系。Engine 包含 Host，Host 包含 Context，Context 包含 Wrapper。下面是四个 Container 的核心功能。
 
-* Engine：用于管理多个站点，一个 Service 最多只能有一个 Engine。
-* Host：代表一个站点，也可以叫虚拟主机，通过在 server.xml 配置文件就可以添加 Host，一个 Host 下可以运行多个 Context，但是在实践中，单 JVM 的处理能力有限，一般一个 Tomcat 实例只会配置一个 Host，也只会配置一个 Context。
-* Context：代表一个应用程序，对应你在日常开发的一个 Web 应用。Context 最重要的功能就是管理它里面的 Servlet 实例，并为 Request 匹配正确的 Servlet。Servlet 实例在 Context 中是以 Wrapper 出现的。
-* Wrapper：一个 Wrapper 负责管理一个 Servlet，包括 Servlet 的装载、初始化、执行以及资源回收。Wrapper 是最底层的容器，它没有子容器了。
+- Engine：用于管理多个站点，一个 Service 最多只能有一个 Engine。
+- Host：代表一个站点，也可以叫虚拟主机，通过在 server.xml 配置文件就可以添加 Host，一个 Host 下可以运行多个 Context，但是在实践中，单 JVM 的处理能力有限，一般一个 Tomcat 实例只会配置一个 Host，也只会配置一个 Context。
+- Context：代表一个应用程序，对应你在日常开发的一个 Web 应用。Context 最重要的功能就是管理它里面的 Servlet 实例，并为 Request 匹配正确的 Servlet。Servlet 实例在 Context 中是以 Wrapper 出现的。
+- Wrapper：一个 Wrapper 负责管理一个 Servlet，包括 Servlet 的装载、初始化、执行以及资源回收。Wrapper 是最底层的容器，它没有子容器了。
 
 下面这张图大致展示了从 Connector 开始接收请求，经过 Engine、Host、Context、Wrapper，最终到 Servlet 的流程，这里需要关注的是拿到 Request 请求对象之后的处理：
 
@@ -75,12 +75,12 @@ Container 中真正处理请求的是 Valve，一组 Valve 组成一个 Pipeline
 
 Tomcat 一般作为服务入口接收 HTTP 或 HTTPS 请求，tomcat-x-x-plugin 插件要做的事情也比较明确：
 
-  在请求进入 Web 项目之前进行拦截。
-  检测当前请求是否处于一个 Trace 之中，也就是检测当前请求是否携带了 ContextCarrier。如果携带了 ContextCarrier，则在创建 TracingContext 时恢复上下文信息，保持实现 Trace 跨进程传递；如果没携带 ContextCarrier，则会开启一个全新的 TracingContext。
-  创建（或 restart） EntrySpan。
-  记录一些额外的信息，例如，请求相关的 Tags 信息（请求的 URL、Method 信息等），记录当前组件的类型（即 Tomcat）等。
+1. 在请求进入 Web 项目之前进行拦截。
+2. 检测当前请求是否处于一个 Trace 之中，也就是检测当前请求是否携带了 ContextCarrier。如果携带了 ContextCarrier，则在创建 TracingContext 时恢复上下文信息，保持实现 Trace 跨进程传递；如果没携带 ContextCarrier，则会开启一个全新的 TracingContext。
+3. 创建（或 restart） EntrySpan。
+4. 记录一些额外的信息，例如，请求相关的 Tags 信息（请求的 URL、Method 信息等），记录当前组件的类型（即 Tomcat）等。
 
-通过对 Tomcat 结构的分析，以及对 tomcat-x-x-plugin 插件的功能定位分析，相信你已经发现，tomcat-x-x-plugin 插件在 StandardHostValve 处拦截请求是合适的。Valve 接口中定义的 invoke(Request request, Response response) 方法是每个 Valve 的核心逻辑，例如，根据请求信息进行过滤、修改请求的特殊字段、打印 access log 等，正如前文介绍的，那些特殊功能的 Valve 实现是可插拔的，而标准 Valve 实现不可删除，这里 StandardHostValve 实现的 invoke() 方法只负责选择合适的 Context 继续处理请求，下面是其核心实现：
+通过对 Tomcat 结构的分析，以及对 tomcat-x-x-plugin 插件的功能定位分析，相信你已经发现，**tomcat-x-x-plugin 插件在 StandardHostValve 处拦截请求是合适的**。Valve 接口中定义的 invoke(Request request, Response response) 方法是每个 Valve 的核心逻辑，例如，根据请求信息进行过滤、修改请求的特殊字段、打印 access log 等，正如前文介绍的，那些特殊功能的 Valve 实现是可插拔的，而标准 Valve 实现不可删除，这里 StandardHostValve 实现的 invoke() 方法只负责选择合适的 Context 继续处理请求，下面是其核心实现：
 
 ```
 public final void invoke(Request request, Response response){
@@ -116,9 +116,9 @@ tomcat-x/x=org.apache.skywalking.apm.plugin.tomcatx.define
 
 这里先简单回顾一下 ClassEnhancePluginDefine 这个类，ClassEnhancePluginDefine 抽象类使用了模板方法模式：只定义了增强 static 静态方法、构造方法、实例方法（以及增加字段）的流程，具体增强哪些方法则由子类实现，也就是说，ClassEnhancePluginDefine 的子类需要实现下面三个方法：
 
-* **getStaticMethodsInterceptPoints()方法**：用于获取 static 静态方法增强点，也就是说，指定了增强哪些类的哪些 static 静态方法。
-* **getConstructorsInterceptPoints()方法**：用于获取构造方法增强点，也就是说，指定增强哪些类的哪些构造方法。
-* **getInstanceMethodsInterceptPoints()方法**：用于获取实例方法增强点，也就是说，指定增强哪些类的哪些实例方法。
+- **getStaticMethodsInterceptPoints()方法**：用于获取 static 静态方法增强点，也就是说，指定了增强哪些类的哪些 static 静态方法。
+- **getConstructorsInterceptPoints()方法**：用于获取构造方法增强点，也就是说，指定增强哪些类的哪些构造方法。
+- **getInstanceMethodsInterceptPoints()方法**：用于获取实例方法增强点，也就是说，指定增强哪些类的哪些实例方法。
 
 ClassInstanceMethodsEnhancePluginDefine 只实现了 getStaticMethodsInterceptPoints() 方法，且具体实现为空实现，也就是说，它的所有子类都不会增强 static 静态方法，只会增强构造方法或实例方法，例如下面即将要介绍的 TomcatInstrumentation 实现。
 
