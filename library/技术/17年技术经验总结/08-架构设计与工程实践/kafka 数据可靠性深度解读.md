@@ -5,7 +5,7 @@
 
 > 来源：朱小厮，blog.csdn.net/u/article/details/
 
-## 概述
+## Kafka简介与本文脉络
 
 Kafka起初是由LinkedIn公司开发的一个分布式的消息系统，后成为Apache的一部分，它使用Scala编写，以可水平扩展和高吞吐率而被广泛使用。目前越来越多的开源分布式处理系统如Cloudera、Apache Storm、Spark等都支持与Kafka集成。
 
@@ -42,6 +42,7 @@ Kafka凭借着自身的优势，越来越受到互联网企业的青睐，唯品
   <text x="660" y="171" text-anchor="middle" font-size="11" fill="#475569">配置·选举·rebalance</text>
   <text x="380" y="440" text-anchor="middle" font-size="11" fill="#475569">可靠性配置：acks=-1 · min.insync.replicas · unclean.leader.election=false</text>
 </svg>
+
 *图：Kafka 体系架构与可靠性要素示意（据原文重绘）*
 
 ### Topic & Partition
@@ -123,7 +124,11 @@ Kafka提供了数据复制算法保证，如果leader发生故障或挂掉，一
 
 上节我们涉及到ISR (In-Sync Replicas)，这个是指副本同步队列。副本数对Kafka的吞吐率是有一定的影响，但极大的增强了可用性。默认情况下Kafka的replica数量为1（注：原导出数字缺失，offsets.topic.replication.factor 的 Kafka 文档默认值即 1，此处为修复值），即每个partition都有一个唯一的leader，为了确保消息的可靠性，通常应用中将其值(由broker的参数offsets.topic.replication.factor指定)大小设置为大于1（具体示例值已丢失）。 所有的副本（replicas）统称为Assigned Replicas，即AR。ISR是AR中的一个子集，由leader维护ISR列表，follower从leader同步数据有一些延迟（包括延迟时间replica.lag.time.max.ms和延迟条数replica.lag.max.messages两个维度, 当前最新的某版本（版本号已丢失）中只支持replica.lag.time.max.ms这个维度），任意一个超过阈值都会把follower剔除出ISR, 存入OSR（Outof-Sync Replicas）列表，新加入的follower也会先存放在OSR中。AR=ISR+OSR。
 
-Kafka 0.9.0.0版本后移除了replica.lag.max.messages参数（注：原导出数字缺失，该参数于 Kafka 0.9.0.0 移除，此处为修复值），只保留了replica.lag.time.max.ms作为ISR中副本管理的参数。为什么这样做呢？replica.lag.max.messages表示当前某个副本落后leaeder的消息数量超过了这个参数的值，那么leader就会把follower从ISR中删除。假设设置replica.lag.max.messages=V（原数值已丢失，下同），那么如果producer一次传送至broker的消息数量都小于V条时，因为在leader接受到producer发送的消息之后而follower副本开始拉取这些消息之前，follower落后leader的消息数不会超过V条消息，故此没有follower移出ISR，所以这时候replica.lag.max.message的设置似乎是合理的。但是producer发起瞬时高峰流量，producer一次发送的消息超过V条时，也就是超过replica.lag.max.messages，此时follower都会被认为是与leader副本不同步了，从而被踢出了ISR。但实际上这些follower都是存活状态的且没有性能问题。那么在之后追上leader,并被重新加入了ISR。于是就会出现它们不断地剔出ISR然后重新回归ISR，这无疑增加了无谓的性能损耗。而且这个参数是broker全局的。设置太大了，影响真正“落后”follower的移除；设置的太小了，导致follower的频繁进出。无法给定一个合适的replica.lag.max.messages的值，故此，新版本的Kafka移除了这个参数。
+Kafka 0.9.0.0版本后移除了replica.lag.max.messages参数（注：原导出数字缺失，该参数于 Kafka 0.9.0.0 移除，此处为修复值），只保留了replica.lag.time.max.ms作为ISR中副本管理的参数。为什么这样做呢？replica.lag.max.messages表示当前某个副本落后leaeder的消息数量超过了这个参数的值，那么leader就会把follower从ISR中删除。
+
+假设设置replica.lag.max.messages=V（原数值已丢失，下同），那么如果producer一次传送至broker的消息数量都小于V条时，因为在leader接受到producer发送的消息之后而follower副本开始拉取这些消息之前，follower落后leader的消息数不会超过V条消息，故此没有follower移出ISR，所以这时候replica.lag.max.message的设置似乎是合理的。但是producer发起瞬时高峰流量，producer一次发送的消息超过V条时，也就是超过replica.lag.max.messages，此时follower都会被认为是与leader副本不同步了，从而被踢出了ISR。但实际上这些follower都是存活状态的且没有性能问题。那么在之后追上leader,并被重新加入了ISR。于是就会出现它们不断地剔出ISR然后重新回归ISR，这无疑增加了无谓的性能损耗。
+
+而且这个参数是broker全局的。设置太大了，影响真正“落后”follower的移除；设置的太小了，导致follower的频繁进出。无法给定一个合适的replica.lag.max.messages的值，故此，新版本的Kafka移除了这个参数。
 
 注：ISR中包括：leader和follower。
 
@@ -143,9 +148,9 @@ leader来维护：leader有单独的线程定期检测ISR中follower是否脱离
 
 当producer向leader发送数据时，可以通过request.required.acks参数来设置数据可靠性的级别：
 
-* 1（默认）：这意味着producer在ISR中的leader已成功收到的数据并得到确认后发送下一条message。如果leader宕机了，则会丢失数据。（注：原导出数字缺失，request.required.acks 的 Kafka 文档默认值为 1，此处为修复值）
-* 0：这意味着producer无需等待来自broker的确认而继续发送下一批消息。这种情况下数据传输效率最高，但是数据可靠性确是最低的。（注：0/1/-1 为 acks 三个固定取值，按 Kafka 定义修复）
-* -1：producer需要等待ISR中的所有follower都确认接收到数据后才算一次发送完成，可靠性最高。但是这样也不能保证数据不丢失，比如当ISR中只有leader时（前面ISR那一节讲到，ISR中的成员由于某些情况会增加也会减少，最少就只剩一个leader），这样就变成了acks=1的情况。
+- 1（默认）：这意味着producer在ISR中的leader已成功收到的数据并得到确认后发送下一条message。如果leader宕机了，则会丢失数据。（注：原导出数字缺失，request.required.acks 的 Kafka 文档默认值为 1，此处为修复值）
+- 0：这意味着producer无需等待来自broker的确认而继续发送下一批消息。这种情况下数据传输效率最高，但是数据可靠性确是最低的。（注：0/1/-1 为 acks 三个固定取值，按 Kafka 定义修复）
+- -1：producer需要等待ISR中的所有follower都确认接收到数据后才算一次发送完成，可靠性最高。但是这样也不能保证数据不丢失，比如当ISR中只有leader时（前面ISR那一节讲到，ISR中的成员由于某些情况会增加也会减少，最少就只剩一个leader），这样就变成了acks=1的情况。
 
 如果要提高数据的可靠性，在设置request.required.acks=-1的同时，也要min.insync.replicas这个参数(可以在broker或者topic层面进行设置)的配合，这样才能发挥最大的功效。min.insync.replicas这个参数设定ISR中的最小副本数是多少，默认值为1（注：原导出数字缺失，Kafka 文档默认值为 1，此处为修复值），当且仅当request.required.acks参数设置为-1时，此参数才生效。如果ISR中的副本数少于min.insync.replicas配置的数量时，客户端会返回异常：`org.apache.kafka.common.errors.NotEnoughReplicasExceptoin: Messages are rejected since there are fewer in-sync replicas than required`。
 
@@ -187,7 +192,9 @@ A在做同步操作的时候，先将log文件截断到之前自己的HW的位�
 
 有一个很重要的问题是当leader宕机了，怎样在follower中选举出新的leader，因为follower可能落后很多或者直接crash了，所以必须确保选择“最新”的follower作为新的leader。一个基本的原则就是，如果leader不在了，新的leader必须拥有原来的leader commit的所有消息。这就需要做一个折中，如果leader在表名一个消息被commit前等待更多的follower确认，那么在它挂掉之后就有更多的follower可以成为新的leader，但这也会造成吞吐率的下降。
 
-一种非常常用的选举leader的方式是“少数服从多数”，Kafka并不是采用这种方式。这种模式下，如果我们有f+1个副本，那么在commit之前必须保证有f+1个replica复制完消息，同时为了保证能正确选举出新的leader，失败的副本数不能超过f个（注：原导出数字缺失，f+1 按“少数服从多数”法定义修复，此处为修复值）。这种方式有个很大的优势，系统的延迟取决于最快的几台机器，也就是说比如副本数为（原数值已丢失），那么延迟就取决于最快的那个follower而不是最慢的那个。“少数服从多数”的方式也有一些劣势，为了保证leader选举的正常进行，它所能容忍的失败的follower数比较少，如果要容忍 f 个follower挂掉，那么至少要 2f+1 个以上的副本（注：原导出示例数字已丢失，按“少数服从多数”公式 2f+1 改写）。也就是说，在生产环境下为了保证较高的容错率，必须要有大量的副本，而大量的副本又会在大数据量下导致性能的急剧下降。这种算法更多用在Zookeeper这种共享集群配置的系统中而很少在需要大量数据的系统中使用的原因。HDFS的HA功能也是基于“少数服从多数”的方式，但是其数据存储并不是采用这样的方式。
+一种非常常用的选举leader的方式是“少数服从多数”，Kafka并不是采用这种方式。这种模式下，如果我们有f+1个副本，那么在commit之前必须保证有f+1个replica复制完消息，同时为了保证能正确选举出新的leader，失败的副本数不能超过f个（注：原导出数字缺失，f+1 按“少数服从多数”法定义修复，此处为修复值）。这种方式有个很大的优势，系统的延迟取决于最快的几台机器，也就是说比如副本数为（原数值已丢失），那么延迟就取决于最快的那个follower而不是最慢的那个。
+
+“少数服从多数”的方式也有一些劣势，为了保证leader选举的正常进行，它所能容忍的失败的follower数比较少，如果要容忍 f 个follower挂掉，那么至少要 2f+1 个以上的副本（注：原导出示例数字已丢失，按“少数服从多数”公式 2f+1 改写）。也就是说，在生产环境下为了保证较高的容错率，必须要有大量的副本，而大量的副本又会在大数据量下导致性能的急剧下降。这种算法更多用在Zookeeper这种共享集群配置的系统中而很少在需要大量数据的系统中使用的原因。HDFS的HA功能也是基于“少数服从多数”的方式，但是其数据存储并不是采用这样的方式。
 
 实际上，leader选举的算法非常多，比如Zookeeper的Zab、Raft以及Viewstamped Replication。而Kafka所使用的leader选举算法更像是微软的PacificA算法。
 
@@ -195,8 +202,8 @@ Kafka在Zookeeper中为每一个partition动态的维护了一个ISR，这个ISR
 
 上文提到，在ISR中至少有一个follower时，Kafka可以确保已经commit的数据不丢失，但如果某一个partition的所有replica都挂了，就无法保证数据不丢失了。这种情况下有两种可行的方案：
 
-* 等待ISR中任意一个replica“活”过来，并且选它作为leader
-* 选择第一个“活”过来的replica（并不一定是在ISR中）作为leader
+- 等待ISR中任意一个replica“活”过来，并且选它作为leader
+- 选择第一个“活”过来的replica（并不一定是在ISR中）作为leader
 
 这就需要在可用性和一致性当中作出一个简单的抉择。如果一定要等待ISR中的replica“活”过来，那不可用的时间就可能会相对较长。而且如果ISR中所有的replica都无法“活”过来了，或者数据丢失了，这个partition将永远不可用。选择第一个“活”过来的replica作为leader,而这个replica不是ISR中的replica,那即使它并不保障已经包含了所有已commit的消息，它也会成为leader而作为consumer的数据源。默认情况下，Kafka采用第二种策略，即unclean.leader.election.enable=true，也可以将此参数设置为false来启用第一种策略。
 
@@ -240,9 +247,9 @@ Kafka的发送模式由producer端的配置参数producer.type来设置，这个
 
 前面已经介绍了Kafka如何进行有效的存储，以及了解了producer和consumer如何工作。接下来讨论的是Kafka如何确保消息在producer和consumer之间传输。有以下三种可能的传输保障（delivery guarantee）:
 
-* At most once: 消息可能会丢，但绝不会重复传输
-* At least once：消息绝不会丢，但可能会重复传输
-* Exactly once：每条消息肯定会被传输一次且仅传输一次
+- At most once: 消息可能会丢，但绝不会重复传输
+- At least once：消息绝不会丢，但可能会重复传输
+- Exactly once：每条消息肯定会被传输一次且仅传输一次
 
 Kafka的消息传输保障机制非常直观。当producer向broker发送消息时，一旦这条消息被commit，由于副本机制（replication）的存在，它就不会丢失。但是如果producer发送数据给broker后，遇到的网络问题而造成通信中断，那producer就无法判断该条消息是否已经提交（commit）。虽然Kafka无法确定网络故障期间发生了什么，但是producer可以retry多次，确保消息已经正确传输到broker中，所以目前Kafka实现的是at least once。
 
@@ -270,9 +277,9 @@ Kafka提供了很高的数据冗余弹性，对于需要数据高可靠性的场
 
 要保证数据写入到Kafka是安全的，高可靠的，需要如下的配置：
 
-* topic的配置：replication.factor>=,即副本数至少是个；<=min.insync.replicas<=replication.factor
-* broker的配置：leader的选举条件unclean.leader.election.enable=false
-* producer的配置：request.required.acks=-(all)，producer.type=sync
+- topic的配置：replication.factor>=,即副本数至少是个；<=min.insync.replicas<=replication.factor
+- broker的配置：leader的选举条件unclean.leader.election.enable=false
+- producer的配置：request.required.acks=-(all)，producer.type=sync
 
 ## BenchMark
 
@@ -282,13 +289,13 @@ Kafka在唯品会有着很深的历史渊源，根据唯品会消息中间件团
 
 Kafka broker用到了台机器，分别为broker[///]配置如下：
 
-* CPU: core/HZ
-* Memory:
-* Network:
-* OS/kernel: CentOs release (Final)
-* Disk:
-* Kafka版本：.
-* broker端JVM参数设置：
+- CPU: core/HZ
+- Memory:
+- Network:
+- OS/kernel: CentOs release (Final)
+- Disk:
+- Kafka版本：.
+- broker端JVM参数设置：
 
 ```bash
 -Xmx -Xms -server -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:+CMSScavengeBeforeRemark -XX:+DisableExplicitGC -Djava.awt.headless=true -Xloggc:/apps/service/kafka/bin/../logs/kafkaServer-gc.log -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.port=
@@ -296,11 +303,11 @@ Kafka broker用到了台机器，分别为broker[///]配置如下：
 
 客户端机器配置：
 
-* CPU: <core数已丢失> core/<HZ已丢失>
-* Memory: （已丢失）
-* Network: （已丢失）
-* OS/kernel: CentOs release <版本已丢失> (Final)
-* Disk: （已丢失）
+- CPU: <core数已丢失> core/<HZ已丢失>
+- Memory: （已丢失）
+- Network: （已丢失）
+- OS/kernel: CentOs release <版本已丢失> (Final)
+- Disk: （已丢失）
 
 ### 不同场景测试
 
@@ -314,9 +321,9 @@ Kafka broker用到了台机器，分别为broker[///]配置如下：
 
 测试结果分析：
 
-* 客户端的acks策略对发送的TPS有较大的影响，TPS：acks_<下标已丢失> > acks_<下标已丢失> > acks_-1;
-* 副本数越高，TPS越低；副本数一致时，min.insync.replicas不影响TPS；
-* acks=0/1时（注：因 min.insync.replicas 仅在 acks=-1 时有效，此处为修复表述），TPS与min.insync.replicas参数以及副本数无关，仅受acks策略的影响。
+- 客户端的acks策略对发送的TPS有较大的影响，TPS：acks_<下标已丢失> > acks_<下标已丢失> > acks_-1;
+- 副本数越高，TPS越低；副本数一致时，min.insync.replicas不影响TPS；
+- acks=0/1时（注：因 min.insync.replicas 仅在 acks=-1 时有效，此处为修复表述），TPS与min.insync.replicas参数以及副本数无关，仅受acks策略的影响。
 
 下面将partition的个数设置为（已丢失），来进一步确认下不同的acks策略、不同的min.insync.replicas策略以及不同的副本数对于发送速度的影响，详细请看情景（编号已丢失）和情景（编号已丢失）。
 
@@ -336,8 +343,8 @@ Kafka broker用到了台机器，分别为broker[///]配置如下：
 
 测试结果分析（与情景一致）：
 
-* 副本数越多，TPS越低；
-* 客户端的acks策略对发送的TPS有较大的影响，TPS：acks_<下标已丢失> > acks_<下标已丢失> > acks_-1。
+- 副本数越多，TPS越低；
+- 客户端的acks策略对发送的TPS有较大的影响，TPS：acks_<下标已丢失> > acks_<下标已丢失> > acks_-1。
 
 场景（编号已丢失）：测试不同partition数对发送速率的影响
 
@@ -355,16 +362,16 @@ Kafka broker用到了台机器，分别为broker[///]配置如下：
 
 出错信息：
 
-* 错误：客户端返回异常，部分数据可落盘，部分失败：`org.apache.kafka.common.errors.NetworkException: The server disconnected before a response was received.`
-* 错误：`[WARN]internals.Sender – Got error produce response with correlation id <已丢失> on topic-partition default_channel_replicas_<副本数>_<minISR>-<acks>(均已丢失), retrying (<次数已丢失> attempts left). Error: NETWORK_EXCEPTION`
-* 错误：`[WARN]internals.Sender – Got error produce response with correlation id <已丢失> on topic-partition default_channel_replicas_<副本数>_<minISR>-<acks>(均已丢失), retrying (<次数已丢失> attempts left). Error: NOT_ENOUGH_REPLICAS`
-* 错误：`[WARN]internals.Sender – Got error produce response with correlation id <已丢失> on topic-partition default_channel_replicas_<副本数>_<minISR>-<acks>(均已丢失), retrying (<次数已丢失> attempts left). Error: NOT_ENOUGH_REPLICAS_AFTER_APPEND`
+- 错误：客户端返回异常，部分数据可落盘，部分失败：`org.apache.kafka.common.errors.NetworkException: The server disconnected before a response was received.`
+- 错误：`[WARN]internals.Sender – Got error produce response with correlation id <已丢失> on topic-partition default_channel_replicas_<副本数>_<minISR>-<acks>(均已丢失), retrying (<次数已丢失> attempts left). Error: NETWORK_EXCEPTION`
+- 错误：`[WARN]internals.Sender – Got error produce response with correlation id <已丢失> on topic-partition default_channel_replicas_<副本数>_<minISR>-<acks>(均已丢失), retrying (<次数已丢失> attempts left). Error: NOT_ENOUGH_REPLICAS`
+- 错误：`[WARN]internals.Sender – Got error produce response with correlation id <已丢失> on topic-partition default_channel_replicas_<副本数>_<minISR>-<acks>(均已丢失), retrying (<次数已丢失> attempts left). Error: NOT_ENOUGH_REPLICAS_AFTER_APPEND`
 
 测试结果分析：
 
-* kill两台broker后，客户端可以继续发送。broker减少后，partition的leader分布在剩余的两台broker上，造成了TPS的减小；
-* kill三台broker后，客户端无法继续发送。Kafka的自动重试功能开始起作用，当大于等于min.insync.replicas数量的broker恢复后，可以继续发送；
-* 当retries不为0时（注：原导出数字缺失，"不为0"即开启重试，此处为修复值），消息有重复落盘；客户端成功返回的消息都成功落盘，异常时部分消息可以落盘。
+- kill两台broker后，客户端可以继续发送。broker减少后，partition的leader分布在剩余的两台broker上，造成了TPS的减小；
+- kill三台broker后，客户端无法继续发送。Kafka的自动重试功能开始起作用，当大于等于min.insync.replicas数量的broker恢复后，可以继续发送；
+- 当retries不为0时（注：原导出数字缺失，"不为0"即开启重试，此处为修复值），消息有重复落盘；客户端成功返回的消息都成功落盘，异常时部分消息可以落盘。
 
 场景：测试单个producer的发送延迟，以及端到端的延迟。
 
@@ -374,8 +381,8 @@ Kafka broker用到了台机器，分别为broker[///]配置如下：
 
 各场景测试总结：
 
-* 当acks=-1时（修复值，同上），Kafka发送端的TPS受限于topic的副本数量（ISR中），副本越多TPS越低；
-* acks=<下标已丢失>时，TPS最高，其次为<下标已丢失>，最差为-1（修复值），即TPS：acks_<下标已丢失> > acks_<下标已丢失> > acks_-1
-* min.insync.replicas参数不影响TPS；
-* partition的不同会影响TPS，随着partition的个数的增长TPS会有所增长，但并不是一直成正比关系，到达一定临界值时，partition数量的增加反而会使TPS略微降低；
-* Kafka在acks=-1（修复值）,min.insync.replicas>=（值已丢失）时，具有高可靠性，所有成功返回的消息都可以落盘。
+- 当acks=-1时（修复值，同上），Kafka发送端的TPS受限于topic的副本数量（ISR中），副本越多TPS越低；
+- acks=<下标已丢失>时，TPS最高，其次为<下标已丢失>，最差为-1（修复值），即TPS：acks_<下标已丢失> > acks_<下标已丢失> > acks_-1
+- min.insync.replicas参数不影响TPS；
+- partition的不同会影响TPS，随着partition的个数的增长TPS会有所增长，但并不是一直成正比关系，到达一定临界值时，partition数量的增加反而会使TPS略微降低；
+- Kafka在acks=-1（修复值）,min.insync.replicas>=（值已丢失）时，具有高可靠性，所有成功返回的消息都可以落盘。

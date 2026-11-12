@@ -4,15 +4,17 @@ MySQL 5.7 偶尔死锁（Deadlock）是高并发系统中的典型问题，尤�
 
 以下为 **MySQL 5.7 死锁问题系统性排查与预防指南**，含：
 
-+ ✅ 死锁原理（通俗版，5 分钟搞懂）
-+ ✅ 5.7 专属诊断命令（实测有效）
-+ ✅ 前端如何提前规避（从接口设计层）
-+ ✅ 与后端高效协作话术
+- ✅ 死锁原理（通俗版，5 分钟搞懂）
+- ✅ 5.7 专属诊断命令（实测有效）
+- ✅ 前端如何提前规避（从接口设计层）
+- ✅ 与后端高效协作话术
 
 ---
 
 ## 🔥 一、死锁原理（前端友好版）
+
 ### 场景模拟：用户抢购商品
+
 | 时间 | 用户 A（连接1） | 用户 B（连接2） |
 | --- | --- | --- |
 | T1 | `UPDATE stock SET qty=qty-1 WHERE id=100;`（锁住商品100） | — |
@@ -26,12 +28,10 @@ MySQL 5.7 偶尔死锁（Deadlock）是高并发系统中的典型问题，尤�
 3. **循环等待**：形成环路 → MySQL 自动 kill 其中一个事务（报 `Deadlock found when trying to get lock`）
 
 > 📌 关键认知：
-**死锁 ≠ 代码 bug，而是并发设计问题**；
-高并发下“偶尔死锁”是**正常现象**，目标应是：
->
-> + **快速检测 + 重试**（应用层兜底）
-> + **降低发生频率**（设计优化）
->
+> **死锁 ≠ 代码 bug，而是并发设计问题**；
+> 高并发下“偶尔死锁”是**正常现象**，目标应是：
+> - **快速检测 + 重试**（应用层兜底）
+> - **降低发生频率**（设计优化）
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
   <defs>
@@ -70,7 +70,9 @@ MySQL 5.7 偶尔死锁（Deadlock）是高并发系统中的典型问题，尤�
 ---
 
 ## 🛠️ 二、MySQL 5.7 死锁诊断（3 步定位）
+
 ### ✅ 步骤 1：确认是否真死锁（非锁等待）
+
 应用日志中应有明确报错：
 
 ```plain
@@ -83,6 +85,7 @@ try restarting transaction
 ---
 
 ### ✅ 步骤 2：获取死锁现场（5.7 最可靠方式）
+
 #### 方法 1：查 InnoDB 最近一次死锁（推荐！无需开启日志）
 ```sql
 SHOW ENGINE INNODB STATUS\G
@@ -90,10 +93,10 @@ SHOW ENGINE INNODB STATUS\G
 
 在输出中搜索 `LATEST DETECTED DEADLOCK`，关键信息包括：
 
-+ 事务 ID（`TRX_ID`）
-+ 每个事务执行的 SQL（`QUERY`）
-+ 锁类型（`RECORD LOCKS`？`GAP LOCK`？）
-+ 等待的索引（`index PRIMARY of table `db`.`table``）
+- 事务 ID（`TRX_ID`）
+- 每个事务执行的 SQL（`QUERY`）
+- 锁类型（`RECORD LOCKS`？`GAP LOCK`？）
+- 等待的索引（`index PRIMARY of table `db`.`table``）
 
 📌 **示例片段**：
 
@@ -128,13 +131,14 @@ RECORD LOCKS space id 100 page no 5 n bits 72 index PRIMARY ...
 
 🔍 **解读重点**：
 
-+ 事务1 持有 `PRIMARY` 锁，等 `idx_user` 锁
-+ 事务2 持有 `idx_user` 锁，等 `PRIMARY` 锁 → 典型循环等待
-+ **根源**：两个 UPDATE 语句访问索引顺序不一致（先主键后二级索引 vs 先二级索引后主键）
+- 事务1 持有 `PRIMARY` 锁，等 `idx_user` 锁
+- 事务2 持有 `idx_user` 锁，等 `PRIMARY` 锁 → 典型循环等待
+- **根源**：两个 UPDATE 语句访问索引顺序不一致（先主键后二级索引 vs 先二级索引后主键）
 
 ---
 
 #### 方法 2：开启死锁日志（长期监控用）
+
 在 `my.cnf` 中添加：
 
 ```properties
@@ -146,12 +150,12 @@ innodb_print_all_deadlocks = ON
 重启后，**所有**死锁详情会写入 MySQL 错误日志（如 `/var/log/mysql/error.log`），便于归档分析。
 
 > ⚠️ 5.7 注意：
-`performance_schema` **不记录死锁事件**（8.0+ 才有 `events_transactions_*`），勿浪费时间查 P_S。
->
+> `performance_schema` **不记录死锁事件**（8.0+ 才有 `events_transactions_*`），勿浪费时间查 P_S。
 
 ---
 
 ### ✅ 步骤 3：关联到具体业务接口（前端关键动作！）
+
 用 `SHOW ENGINE INNODB STATUS` 中的 `thread id`（如 `1001`）反查：
 
 ```sql
@@ -184,7 +188,6 @@ await conn.query(
 ```
 
 > 💡 更优方案：在连接池初始化时注入：
->
 
 ```javascript
 const pool = mysql.createPool({
@@ -199,6 +202,7 @@ const pool = mysql.createPool({
 ---
 
 ## 🛡️ 三、前端可推动的 4 项预防措施（从设计层降风险）
+
 | 风险点 | 前端动作 | 效果 |
 | --- | --- | --- |
 | **1. 无序批量操作** | 避免前端传 `[id200, id100, id300]` → 后端直接 `UPDATE WHERE id IN (...)` | ✅ 改为**前端排序**：`[id100, id200, id300]`，确保后端按 ID 递增更新 |
@@ -207,7 +211,6 @@ const pool = mysql.createPool({
 | **4. 无重试机制** | 死锁报错直接返回用户“失败” | ✅ BFF 层自动重试（2 次）：   `if (err.code === 'ER_LOCK_DEADLOCK') retry()` |
 
 > 🌰 重试代码示例（Node.js）：
->
 
 ```javascript
 async function updateOrderWithRetry(orderId, status, maxRetries = 2) {
@@ -231,28 +234,29 @@ async function updateOrderWithRetry(orderId, status, maxRetries = 2) {
 ---
 
 ## 🤝 四、与后端/DBA 高效协作话术
+
 ### ❌ 低效沟通：
+
 > “用户反馈下单偶尔失败，DBA 说有死锁，你们看下？”
->
 
 ### ✅ 高效协作（提供结构化信息）：
+
 > **主题**：订单服务死锁分析（2025-12-05 10:23:45）
-**现象**：下单接口错误率 0.3%，报 `ER_LOCK_DEADLOCK`
-**证据**：
->
+> **现象**：下单接口错误率 0.3%，报 `ER_LOCK_DEADLOCK`
+> **证据**：
 > 1. 死锁日志：[粘贴 `LATEST DETECTED DEADLOCK` 片段]
 > 2. 涉及 SQL：
 >     - `UPDATE orders SET status=2 WHERE order_id=1001` （线程 1001）
 >     - `UPDATE orders SET status=3 WHERE order_id=1002` （线程 1002）
 > 3. TraceID：`trace-abc123`（已关联用户 `user_xxx`）
-**建议方向**：
-> + 两个 UPDATE 是否访问了不同索引？是否可统一访问顺序？
-> + 订单状态更新能否合并为单次操作？（当前 2 次 UPDATE）
->
+> **建议方向**：
+> - 两个 UPDATE 是否访问了不同索引？是否可统一访问顺序？
+> - 订单状态更新能否合并为单次操作？（当前 2 次 UPDATE）
 
 ---
 
 ## 📈 五、死锁监控与告警（前端推动落地）
+
 | 监控项 | 采集命令 | 告警阈值 | 工具建议 |
 | --- | --- | --- | --- |
 | **死锁发生率** | `SHOW GLOBAL STATUS LIKE 'Innodb_deadlocks';` | 5分钟 +3 次 | Prometheus + Grafana |
@@ -275,6 +279,7 @@ if (err.code === 'ER_LOCK_DEADLOCK') {
 ---
 
 ## ✅ 总结：高级前端应对死锁的 3 个层次
+
 | 层次 | 行动 | 价值 |
 | --- | --- | --- |
 | **L1：快速定位** | 用 `SHOW ENGINE INNODB STATUS` 提供死锁现场 | 减少排查时间 80% |
@@ -282,6 +287,5 @@ if (err.code === 'ER_LOCK_DEADLOCK') {
 | **L3：体验兜底** | BFF 层自动重试 + 用户友好提示（“正在重试...”） | 用户无感知，错误率↓ |
 
 > 💡 **终极心法**：
-**死锁不可怕，可怕的是无法复现、无法归因、无法预防**。
-作为前端，你站在离用户最近的位置——用**可观测性**和**体验兜底**，把 DB 问题转化为你的专业壁垒。
->
+> **死锁不可怕，可怕的是无法复现、无法归因、无法预防**。
+> 作为前端，你站在离用户最近的位置——用**可观测性**和**体验兜底**，把 DB 问题转化为你的专业壁垒。

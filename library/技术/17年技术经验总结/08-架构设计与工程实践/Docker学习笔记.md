@@ -68,4 +68,5 @@
   <text x="165" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">容器技术本质</text>
   <text x="165" y="270" text-anchor="middle" font-size="11" fill="#475569">只是进程，没有完整操作系统</text>
 </svg>
+
 *图：Docker 容器技术支柱示意（据原文重绘）*
