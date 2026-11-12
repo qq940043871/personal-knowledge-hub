@@ -5,9 +5,9 @@
 
 ---
 
-## 一、框架介绍
+## 一、框架介绍与核心特点
 
-Ollama是本地运行大语言模型的工具，让你无需云服务即可在本地运行各种开源模型。
+Ollama是**本地运行大语言模型的工具**，让你无需云服务即可在本地运行各种开源模型。
 
 **官网**：https://ollama.ai
 **GitHub**：https://github.com/ollama/ollama
@@ -19,9 +19,34 @@ Ollama是本地运行大语言模型的工具，让你无需云服务即可在�
 - 简洁API
 - 资源高效利用
 
+*图：Ollama 本地推理链路（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 120" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="8" y="30" width="158" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="87" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">① 获取模型</text>
+  <text x="87" y="73" text-anchor="middle" font-size="13" fill="#475569">ollama pull · GGUF 导入</text>
+  <line x1="166" y1="58" x2="188" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="30" width="158" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="269" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">② Ollama 运行时</text>
+  <text x="269" y="73" text-anchor="middle" font-size="13" fill="#475569">本地运行，无需云服务</text>
+  <line x1="348" y1="58" x2="370" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="372" y="30" width="158" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="451" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">③ 两种调用方式</text>
+  <text x="451" y="73" text-anchor="middle" font-size="13" fill="#475569">CLI：ollama run · API</text>
+  <line x1="530" y1="58" x2="552" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="554" y="30" width="158" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="633" y="53" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">④ 本地应用</text>
+  <text x="633" y="73" text-anchor="middle" font-size="13" fill="#475569">本地对话 / RAG 问答</text>
+</svg>
+
 ---
 
-## 二、快速开始
+## 二、快速开始：安装、运行模型与 API 调用
 
 ### 1. 安装
 
