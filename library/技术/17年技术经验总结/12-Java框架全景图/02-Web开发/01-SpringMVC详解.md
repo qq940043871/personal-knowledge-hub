@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、概述：基于 Servlet API 的 MVC Web 框架
 
-Spring MVC是基于Servlet API构建的Web框架，采用MVC（Model-View-Controller）设计模式，是Spring Framework的核心模块之一。
+Spring MVC是**基于Servlet API构建的Web框架**，采用MVC（Model-View-Controller）设计模式，是Spring Framework的核心模块之一。
 
 ### 核心特性
 
@@ -20,6 +20,8 @@ Spring MVC是基于Servlet API构建的Web框架，采用MVC（Model-View-Contro
 ---
 
 ## 二、核心组件
+
+> DispatcherServlet 前端控制器是所有请求的入口。
 
 ### 2.1 DispatcherServlet
 

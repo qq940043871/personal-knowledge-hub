@@ -7,15 +7,46 @@
 
 ## 一、框架介绍
 
-Spring Framework是Java企业级开发最核心的框架，由Rod Johnson创建于2002年。它是所有Spring生态系统的基石，提供了依赖注入（DI）和面向切面编程（AOP）两大核心功能。
+Spring Framework是Java企业级开发最核心的框架，由Rod Johnson创建于2002年。它是所有Spring生态系统的基石，提供了**依赖注入（DI）**和**面向切面编程（AOP）**两大核心功能。
 
 **官网**：[https://spring.io/projects/spring-framework](https://spring.io/projects/spring-framework)
 
 **当前最新版本**：Spring Framework 6.x
 
+*图：Spring Framework 核心组成与典型场景（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="260" y="24" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="52" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">Spring Framework</text>
+  <path d="M300,68 L300,88 L180,88 L180,108" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <path d="M420,68 L420,88 L540,88 L540,108" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="95" y="110" width="170" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="180" y="137" text-anchor="middle" font-size="14" fill="#1e293b">IoC 容器（依赖注入）</text>
+  <rect x="455" y="110" width="170" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="540" y="137" text-anchor="middle" font-size="14" fill="#1e293b">AOP 面向切面编程</text>
+  <path d="M360,68 L360,170" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M150,170 L565,170" fill="none" stroke="#94a3b8" stroke-width="1.5"/>
+  <path d="M150,170 L150,196" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <path d="M360,170 L360,196" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <path d="M565,170 L565,196" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="60" y="200" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="150" y="227" text-anchor="middle" font-size="13" fill="#1e293b">事务管理 @Transactional</text>
+  <rect x="275" y="200" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="227" text-anchor="middle" font-size="13" fill="#1e293b">权限校验 AOP</text>
+  <rect x="480" y="200" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="565" y="227" text-anchor="middle" font-size="13" fill="#1e293b">操作日志 AOP</text>
+</svg>
+
 ---
 
 ## 二、核心特性
+
+> IoC 是 Spring 的核心；AOP 将业务逻辑与通用功能分离，提高代码的模块化。
 
 ### 1. IoC容器（控制反转）
 
@@ -77,12 +108,14 @@ public class UserServiceImpl implements UserService {
 AOP将业务逻辑与通用功能分离，提高代码的模块化。
 
 **核心概念**：
+
 - **切面（Aspect）**：横切关注点的模块化
 - **连接点（Join Point）**：程序执行的某个点
 - **通知（Advice）**：切面在连接点执行的动作
 - **切入点（Pointcut）**：匹配连接点的表达式
 
 **AOP使用场景**：
+
 ```java
 @Aspect
 @Component
@@ -124,6 +157,8 @@ public class LoggingAspect {
 ---
 
 ## 三、实际业务应用场景
+
+> 典型场景：事务管理、权限校验、操作日志。
 
 ### 场景1：事务管理
 
@@ -214,6 +249,8 @@ public void updateUser(User user) {
 
 ## 四、常见配置与最佳实践
 
+> **Bean 作用域、条件注解、外部配置绑定——三件常用配置武器。**
+
 ### 1. Bean作用域
 
 ```java
@@ -284,6 +321,8 @@ app:
 
 ## 五、版本选择建议
 
+> **新项目直接上 Spring 6.x（JDK 17+）；存量主流项目留在 5.3.x。**
+
 | 版本 | JDK要求 | 推荐场景 |
 |------|--------|---------|
 | Spring 6.x | JDK 17+ | 新项目、微服务 |
@@ -292,11 +331,12 @@ app:
 
 ---
 
-## 六、总结
+## 六、总结与学习要点
 
-Spring Framework是Java开发的基础，掌握其IoC和AOP核心概念对于理解整个Spring生态至关重要。
+> **Spring Framework 是 Java 开发的基础，掌握 IoC 和 AOP 核心概念对理解整个 Spring 生态至关重要。**
 
 **学习要点**：
+
 1. 理解IoC容器和Bean生命周期
 2. 掌握依赖注入的多种方式
 3. 熟练使用AOP进行日志、事务、权限管理

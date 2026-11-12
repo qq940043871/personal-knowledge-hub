@@ -7,11 +7,12 @@
 
 ## 一、框架介绍
 
-Spring Boot是Spring Framework的子项目，旨在简化Spring应用的创建和部署过程。它通过"约定大于配置"的理念，让开发者能够快速搭建生产级别的Spring应用。
+Spring Boot是Spring Framework的子项目，旨在简化Spring应用的创建和部署过程。它通过**"约定大于配置"**的理念，让开发者能够快速搭建生产级别的Spring应用。
 
 **官网**：[https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot)
 
 **核心目标**：
+
 - 开箱即用：自动配置
 - 嵌入式服务器：无需部署WAR文件
 - 生产就绪：监控、健康检查
@@ -20,6 +21,8 @@ Spring Boot是Spring Framework的子项目，旨在简化Spring应用的创建�
 ---
 
 ## 二、核心特性
+
+> Spring Boot 根据添加的 JAR 依赖自动配置 Spring 应用——开发者只需要添加依赖，配置自动完成。
 
 ### 1. 自动配置（Auto Configuration）
 
@@ -34,6 +37,7 @@ Spring Boot根据添加的JAR依赖自动配置Spring应用：
 ### 2. 快速启动示例
 
 **Maven依赖**：
+
 ```xml
 <parent>
     <groupId>org.springframework.boot</groupId>
@@ -50,6 +54,7 @@ Spring Boot根据添加的JAR依赖自动配置Spring应用：
 ```
 
 **主程序**：
+
 ```java
 @SpringBootApplication
 public class Application {
@@ -84,9 +89,35 @@ app:
     enabled: true
 ```
 
+*图：Spring Boot 自动配置与启动流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 110" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="11" y="33" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="76" y="60" text-anchor="middle" font-size="13" fill="#1e293b">添加 starter 依赖</text>
+  <line x1="143" y1="55" x2="150" y2="55" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="153" y="33" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="218" y="60" text-anchor="middle" font-size="13" fill="#1e293b">classpath 自动检测</text>
+  <line x1="285" y1="55" x2="292" y2="55" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="295" y="33" width="130" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="60" text-anchor="middle" font-size="13" fill="#1e293b">自动配置 Bean</text>
+  <line x1="427" y1="55" x2="434" y2="55" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="437" y="33" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="502" y="60" text-anchor="middle" font-size="13" fill="#1e293b">内嵌服务器启动</text>
+  <line x1="569" y1="55" x2="576" y2="55" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="579" y="33" width="130" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="644" y="60" text-anchor="middle" font-size="13" fill="#1e293b">生产就绪监控</text>
+</svg>
+
 ---
 
 ## 三、实际业务应用场景
+
+> 典型场景：RESTful API 开发、统一异常处理、多环境配置。
 
 ### 场景1：RESTful API开发
 
@@ -193,6 +224,8 @@ spring:
 
 ## 五、Spring Boot 3.x新特性
 
+> 3.x 三个要点：构造函数注入、启动日志定制、Native Image（GraalVM）。
+
 ```java
 // 1. 构造函数注入（推荐）
 @Service
@@ -219,11 +252,12 @@ public class Application {
 
 ---
 
-## 六、总结
+## 六、总结与学习要点
 
-Spring Boot极大简化了Spring开发，是现代Java开发的标准起点。
+> **Spring Boot 极大简化了 Spring 开发，是现代 Java 开发的标准起点。**
 
 **学习要点**：
+
 1. 理解自动配置原理
 2. 掌握配置文件的优先级和外部化配置
 3. 熟练使用@SpringBootApplication组合注解

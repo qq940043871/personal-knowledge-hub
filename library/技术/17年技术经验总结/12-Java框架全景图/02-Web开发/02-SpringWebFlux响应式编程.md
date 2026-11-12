@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、概述：基于 Reactor 的响应式 Web 框架
 
-Spring WebFlux是Spring 5引入的响应式Web框架，基于Reactor库实现非阻塞IO，适合高并发、低延迟的场景。
+Spring WebFlux是**Spring 5引入的响应式Web框架**，基于Reactor库实现非阻塞IO，适合高并发、低延迟的场景。
 
 ### 核心特性
 
@@ -19,6 +19,8 @@ Spring WebFlux是Spring 5引入的响应式Web框架，基于Reactor库实现非
 ---
 
 ## 二、核心概念
+
+> **Mono 是 0 或 1 个元素，Flux 是 0 到 N 个元素。**
 
 ### 2.1 Mono与Flux
 
@@ -35,6 +37,38 @@ Mono<String> asyncMono = Mono.fromCallable(() -> {
     return "result";
 });
 ```
+
+*图：Mono 与 Flux 响应式流（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 170" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="20" y="47" font-size="14" font-weight="bold" fill="#1e293b">Mono：0 或 1 个元素</text>
+  <rect x="230" y="24" width="60" height="36" rx="18" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="260" y="47" text-anchor="middle" font-size="13" fill="#475569">空</text>
+  <rect x="310" y="24" width="70" height="36" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="345" y="47" text-anchor="middle" font-size="13" fill="#1e293b">元素</text>
+  <line x1="382" y1="42" x2="426" y2="42" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="430" y="24" width="110" height="36" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="485" y="47" text-anchor="middle" font-size="13" fill="#1e293b">订阅者</text>
+  <text x="20" y="127" font-size="14" font-weight="bold" fill="#1e293b">Flux：0 到 N 个元素</text>
+  <rect x="170" y="104" width="50" height="36" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="195" y="127" text-anchor="middle" font-size="13" fill="#1e293b">1</text>
+  <rect x="234" y="104" width="50" height="36" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="259" y="127" text-anchor="middle" font-size="13" fill="#1e293b">2</text>
+  <rect x="298" y="104" width="50" height="36" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="323" y="127" text-anchor="middle" font-size="13" fill="#1e293b">3</text>
+  <rect x="362" y="104" width="50" height="36" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="387" y="127" text-anchor="middle" font-size="13" fill="#1e293b">4</text>
+  <rect x="426" y="104" width="50" height="36" rx="18" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="451" y="127" text-anchor="middle" font-size="13" fill="#1e293b">5</text>
+  <line x1="478" y1="122" x2="516" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="520" y="104" width="110" height="36" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="575" y="127" text-anchor="middle" font-size="13" fill="#1e293b">订阅者</text>
+</svg>
 
 ### 2.2 操作符
 
@@ -87,6 +121,8 @@ public class UserWebFluxController {
 
 ## 四、函数式端点
 
+> RouterFunction 定义路由，Handler 处理请求——函数式端点的两个角色。
+
 ```java
 @Configuration
 public class RouterConfig {
@@ -120,6 +156,8 @@ public class UserHandler {
 ---
 
 ## 五、WebClient
+
+> WebClient 是 WebFlux 的响应式 HTTP 客户端，支持 Mono/Flux 返回值。
 
 ```java
 @Service
