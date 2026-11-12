@@ -1,10 +1,12 @@
-# 2.3 消息 (Message)
+# 消息（Message）
 
-## 概述
+## 消息的定位：传输的数据单元
 
-消息（Message）是消息中间件传输的数据单元，承载业务信息。消息包含消息体（Payload）和消息属性（Properties），并在整个流转生命周期中携带元数据。
+> 消息（Message）是消息中间件传输的数据单元。
 
-## 消息结构
+消息（Message）是消息中间件传输的数据单元，承载业务信息。消息包含**消息体（Payload）**和**消息属性（Properties）**，并在整个流转生命周期中携带元数据。
+
+## 消息结构：System Headers + Properties + Payload
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -24,7 +26,7 @@
 └─────────────────────────────────────────────┘
 ```
 
-## 数据库设计
+## 数据库设计：message / message_header / message_dead_letter / message_idempotency
 
 ### 表结构：message（消息主表）
 
@@ -210,7 +212,7 @@ CREATE TABLE message_idempotency (
 
 ---
 
-## API 操作
+## 消息的 REST API
 
 ### 发送消息
 

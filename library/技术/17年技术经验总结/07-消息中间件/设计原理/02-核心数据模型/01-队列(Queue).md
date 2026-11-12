@@ -1,10 +1,12 @@
-# 2.1 队列 (Queue)
+# 队列（Queue）
 
-## 概述
+## 队列的定位与点对点消费模型
 
-队列（Queue）是消息中间件中用于存储消息的核心容器。在点对点（Point-to-Point）模式下，多个生产者向同一队列发送消息，一个消息只能被一个消费者获取。
+> 队列（Queue）是消息中间件中用于存储消息的核心容器。
 
-## 数据库设计
+队列（Queue）是消息中间件中用于存储消息的核心容器。在点对点（Point-to-Point）模式下，多个生产者向同一队列发送消息，**一个消息只能被一个消费者获取**。
+
+## 数据库设计：queue_info 与 queue_stats
 
 ### 表结构：queue_info（队列元数据表）
 
@@ -79,7 +81,7 @@ CREATE TABLE queue_stats (
 
 ---
 
-## 队列类型详解
+## 三种队列类型：Classic / Quorum / Stream
 
 ### 1. Classic Queue（经典队列）
 
@@ -97,7 +99,7 @@ CREATE TABLE queue_stats (
 
 ### 2. Quorum Queue（仲裁队列）
 
-基于 Raft 共识算法的复制队列，提供更强的数据安全性。
+基于 **Raft 共识算法**的复制队列，提供更强的数据安全性。
 
 - **特点**：副本数量可配置，默认 5 副本
 - **适用场景**：对数据可靠性要求极高的金融级应用
@@ -114,7 +116,7 @@ CREATE TABLE queue_stats (
 
 ### 3. Stream Queue（流队列）
 
-支持消息回溯（Replay），可以从任意偏移量重新消费。
+支持**消息回溯（Replay）**，可以从任意偏移量重新消费。
 
 - **特点**：消息持久化存储，支持多消费者共享消费位置
 - **适用场景**：事件溯源、日志聚合、实时分析
@@ -128,9 +130,33 @@ CREATE TABLE queue_stats (
 }
 ```
 
+*图：三种队列类型与适用场景（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="270" y="15" width="180" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="40" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">队列类型 queue_type</text>
+  <line x1="360" y1="55" x2="360" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="78" x2="590" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="78" x2="130" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="360" y1="78" x2="360" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="590" y1="78" x2="590" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="20" y="98" width="220" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Classic 经典队列</text>
+  <text x="130" y="142" text-anchor="middle" font-size="12" fill="#475569">最传统，适用大多数场景</text>
+  <text x="130" y="158" text-anchor="middle" font-size="12" fill="#475569">lazy 模式大队列优先磁盘</text>
+  <rect x="250" y="98" width="220" height="70" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Quorum 仲裁队列</text>
+  <text x="360" y="142" text-anchor="middle" font-size="12" fill="#475569">Raft 复制，默认 5 副本</text>
+  <text x="360" y="158" text-anchor="middle" font-size="12" fill="#475569">金融级可靠性场景</text>
+  <rect x="480" y="98" width="220" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="590" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Stream 流队列</text>
+  <text x="590" y="142" text-anchor="middle" font-size="12" fill="#475569">支持消息回溯（Replay）</text>
+  <text x="590" y="158" text-anchor="middle" font-size="12" fill="#475569">事件溯源 · 日志聚合 · 实时分析</text>
+</svg>
+
 ---
 
-## 溢出策略
+## 溢出策略：队列打满后的三种处理方式
 
 | 策略 | 行为 | 使用场景 |
 |------|------|----------|
@@ -140,7 +166,7 @@ CREATE TABLE queue_stats (
 
 ---
 
-## API 操作
+## 队列的 REST API
 
 ### 创建队列
 

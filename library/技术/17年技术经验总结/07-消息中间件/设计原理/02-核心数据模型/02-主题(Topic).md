@@ -1,10 +1,12 @@
-# 2.2 主题 (Topic)
+# 主题（Topic）
 
-## 概述
+## 主题的定位：发布-订阅模式的核心抽象
 
-主题（Topic）是发布-订阅（Pub/Sub）模式的核心抽象。生产者将消息发布到主题，所有订阅该主题的消费者都会收到消息。主题通过标签（Tag）或主题层级结构组织消息，实现多维度分类和灵活路由。
+> 主题（Topic）是发布-订阅（Pub/Sub）模式的核心抽象。
 
-## 数据库设计
+主题（Topic）是发布-订阅（Pub/Sub）模式的核心抽象。生产者将消息发布到主题，**所有订阅该主题的消费者都会收到消息**。主题通过标签（Tag）或主题层级结构组织消息，实现多维度分类和灵活路由。
+
+## 数据库设计：topic_info / topic_tag / topic_message_index
 
 ### 表结构：topic_info（主题元数据表）
 
@@ -94,7 +96,7 @@ CREATE TABLE topic_message_index (
 
 ---
 
-## 主题类型详解
+## 三种主题类型：Fanout / Hierarchical / Tagged
 
 ### 1. Fanout Topic（广播主题）
 
@@ -115,6 +117,32 @@ CREATE TABLE topic_message_index (
 - `order.*` → 匹配 `order.created`、`order.cancelled`
 - `order.#` → 匹配 `order.created.pay`、`order.created.refund`
 - `order.*.pay` → 匹配 `order.created.pay`
+
+*图：层级主题通配符匹配示例（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="360" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">层级主题：通配符匹配规则</text>
+  <rect x="40" y="45" width="200" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="140" y="68" text-anchor="middle" font-size="14" fill="#1e293b">order.*</text>
+  <line x1="240" y1="63" x2="320" y2="63" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="330" y="45" width="350" height="36" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="505" y="68" text-anchor="middle" font-size="13" fill="#1e293b">order.created、order.cancelled</text>
+  <rect x="40" y="95" width="200" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="140" y="118" text-anchor="middle" font-size="14" fill="#1e293b">order.#</text>
+  <line x1="240" y1="113" x2="320" y2="113" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="330" y="95" width="350" height="36" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="505" y="118" text-anchor="middle" font-size="13" fill="#1e293b">order.created.pay、order.created.refund</text>
+  <rect x="40" y="145" width="200" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="140" y="168" text-anchor="middle" font-size="14" fill="#1e293b">order.*.pay</text>
+  <line x1="240" y1="163" x2="320" y2="163" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="330" y="145" width="350" height="36" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="505" y="168" text-anchor="middle" font-size="13" fill="#1e293b">order.created.pay</text>
+</svg>
 
 ### 3. Tagged Topic（标签主题）
 
@@ -149,7 +177,7 @@ CREATE TABLE topic_message_index (
 
 ---
 
-## API 操作
+## 主题的 REST API
 
 ### 创建主题
 

@@ -1,10 +1,12 @@
-# 2.5 生产者 (Producer)
+# 生产者（Producer）
 
-## 概述
+## 生产者的定位与特点
 
-生产者（Producer）负责将业务消息发送到消息中间件。生产者通常是无状态的，可以是后台服务、API 网关或数据采集器。一个生产者可以向多个交换机发送消息。
+> 生产者（Producer）负责将业务消息发送到消息中间件。
 
-## 数据库设计
+生产者（Producer）负责将业务消息发送到消息中间件。生产者通常是**无状态**的，可以是后台服务、API 网关或数据采集器。**一个生产者可以向多个交换机发送消息**。
+
+## 数据库设计：producer_info / producer_transaction / producer_stats
 
 ### 表结构：producer_info（生产者元数据表）
 
@@ -150,7 +152,7 @@ CREATE TABLE producer_stats (
 
 ---
 
-## API 操作
+## 生产者的 REST API
 
 ### 查询生产者列表
 

@@ -1,11 +1,5 @@
 # i人程序员的福音 跟着 Kiro 学习搭建项目
 
-![](https://feishu.cn/file/TmuJbhno6oCMrbx9h6vcckKwnkb)
-
-## AI编程IDE实战课程：从零到一的项目搭建指南
-
-![](https://feishu.cn/file/GkOobI4WOoyqTFxEqlxckBA5nvg)
-
 ## 引言：告别“项目经验”困境，拥抱AI协作新范式
 
 对于许多初入行的开发者而言，“没有项目经验”是一道难以逾越的门槛。传统的求助之路往往被动低效，甚至充满尴尬。然而，随着新一代AI编程IDE的崛起，我们有机会将集成开发环境转变为一位耐心、专业且全知的“技术导师”。
@@ -14,21 +8,15 @@
 
 ---
 
-![](https://feishu.cn/file/DCjJb71ZAoe7H6xO05Jc7PrznKe)
-
-### 模块一：理念与准备 - AI时代的项目新认知
+## 模块一：理念与准备 - AI时代的项目新认知
 
 **学习目标：** 理解AI编程助手的核心价值，并做好实践前的环境与心态准备。
 
-![](https://feishu.cn/file/KsZwb2Xtjo6UHlxltWyc7bthnzb)
-
-#### 1. 从痛点到契机
+### 1. 从痛点到契机
 
 传统开发路径中，缺乏项目经验的开发者常常陷入“无经验→求助他人→效率低下且被动”的循环。AI编程IDE的出现，提供了一条全新的路径：你可以将IDE视为一位“耐心的技术导师”，在它的引导下，主动、系统且高效地学习从需求分析、架构设计到编码、调试、部署的**项目全流程**。这不仅是工具的升级，更是学习方式的变革。
 
-![](https://feishu.cn/file/UlXwb0pHZokn8mxxvyPcwey0nZc)
-
-#### 2. 认识现代AI IDE家族
+### 2. 认识现代AI IDE家族
 
 当前市场上的AI编程IDE已形成多元化格局：
 
@@ -36,9 +24,7 @@
 - **国内代表：** CodeBuddy，致力于为开发者提供本土化的智能编程辅助。
 - **云原生及新兴工具：** NerdGravity (Gemini 3)、**亚马逊云科技 Kiro**。其中，Kiro尤其注重从项目规划出发的全流程自动化，是本课程的实战主角。
 
-![](https://feishu.cn/file/OPK9bpXexoJTMox8m7ScIhuon0g)
-
-#### 3. 课程实战项目简介
+### 3. 课程实战项目简介
 
 我们将以构建一个**“AI学习卡片”Web应用**作为贯穿课程的案例。其核心需求包括：
 
@@ -47,32 +33,24 @@
 - 收藏感兴趣的卡片。
 - 支持日间/夜间模式切换。
 
-![](https://feishu.cn/file/MaEob5OtBokRb8xy5OgcovQJnuO)
-
-#### 4. 环境准备与协作哲学
+### 4. 环境准备与协作哲学
 
 与AI高效协作，并非意味着可以完全抛弃基础知识。具备一定的编程基础（如了解Java语法）和环境配置能力（如Maven、JDK），将使你能为AI提供更明确的约束（如指定技术栈版本），从而获得更可控、更贴合预期的输出。本课程的核心理念是：**成为“会使用工具的人”，而非“依赖工具的人”**。AI是强大的执行与辅助者，而人类的判断、规划与引导能力仍是关键。
 
 ---
 
-![](https://feishu.cn/file/UC51b31TMoEsiNxTMWdcYNGDnQ8)
-
-### 模块二：核心实战 - Kiro的“Spec模式”深度解析
+## 模块二：核心实战 - Kiro的“Spec模式”深度解析
 
 **学习目标：** 掌握AI IDE从需求分析到任务规划的完整工作流，理解其如何替代传统开发中的前期关键角色。
 
-![](https://feishu.cn/file/QAyWbv3FDojo8Xx1Jcoc4EiinAb)
-
-#### 1. 两种模式对比
+### 1. 两种模式对比
 
 Kiro提供了两种核心工作模式：
 
 - **Web模式：** 交互式、片段化的代码生成，适用于解决具体编码问题，类似其他IDE的基础AI功能。
 - **Spec模式（本课程重点）：** **规划驱动、全流程自动化**。它模拟了真实的软件工程流程，先进行完整的顶层设计，再分步执行，是学习项目全流程的最佳实践模式。
 
-![](https://feishu.cn/file/M8h7bFTfwoLzTCxN6zUcm6lEn1i)
-
-#### 2. 阶段一：需求分析与产品定义
+### 2. 阶段一：需求分析与产品定义
 
 在Spec模式下输入需求后，AI会首先自动生成一份详尽的**《需求文档》**。这份文档通常包含：
 
@@ -81,9 +59,7 @@ Kiro提供了两种核心工作模式：
 - **清晰的验收标准：** 定义如何判断功能是否完成。
 - **洞察：** 在此阶段，AI扮演了**产品经理**（定义功能）和**测试工程师**（定义验收标准）的角色，确保了需求的无歧义性。
 
-![](https://feishu.cn/file/AdAEbyna0oprMCxz4Xuc0C5enme)
-
-#### 3. 阶段二：系统设计与架构规划
+### 3. 阶段二：系统设计与架构规划
 
 基于需求文档，AI将生成一份**《设计文档》**，这相当于项目的蓝图：
 
@@ -93,9 +69,7 @@ Kiro提供了两种核心工作模式：
 - **服务层与控制器层设计：** 规划业务逻辑与API端点。
 - **洞察：** 这里，AI成功扮演了**系统架构师**和**资深后端工程师**的角色，完成了从抽象需求到技术方案的转化。
 
-![](https://feishu.cn/file/Dne0bnYrhoDMegxJW4lcz8Qsnrc)
-
-#### 4. 阶段三：任务分解与项目管理
+### 4. 阶段三：任务分解与项目管理
 
 最后，AI会输出一份**《任务清单》**，将庞大的项目拆解为一系列可执行的任务（Task）：
 
@@ -103,23 +77,47 @@ Kiro提供了两种核心工作模式：
 - 每个任务都有明确的描述和可执行的操作入口。
 - **洞察：** AI此时化身**项目经理**，其产出的任务清单逻辑清晰，完全可直接用于真实的团队任务分配与跟踪。
 
+*图：Spec 模式的三阶段工作流（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 165" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="13" y="35" width="160" height="76" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="93" y="57" text-anchor="middle" font-size="13" fill="#1e293b">阶段一 · 需求分析</text>
+  <text x="93" y="77" text-anchor="middle" font-size="11" fill="#475569">产出《需求文档》</text>
+  <text x="93" y="95" text-anchor="middle" font-size="11" fill="#475569">AI：产品经理 + 测试工程师</text>
+  <line x1="173" y1="73" x2="189" y2="73" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="191" y="35" width="160" height="76" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="271" y="57" text-anchor="middle" font-size="13" fill="#1e293b">阶段二 · 系统设计</text>
+  <text x="271" y="77" text-anchor="middle" font-size="11" fill="#475569">产出《设计文档》</text>
+  <text x="271" y="95" text-anchor="middle" font-size="11" fill="#475569">AI：架构师 + 资深后端</text>
+  <line x1="351" y1="73" x2="367" y2="73" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="369" y="35" width="160" height="76" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="449" y="57" text-anchor="middle" font-size="13" fill="#1e293b">阶段三 · 任务分解</text>
+  <text x="449" y="77" text-anchor="middle" font-size="11" fill="#475569">产出《任务清单》</text>
+  <text x="449" y="95" text-anchor="middle" font-size="11" fill="#475569">AI：项目经理</text>
+  <line x1="529" y1="73" x2="545" y2="73" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="547" y="35" width="160" height="76" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="627" y="57" text-anchor="middle" font-size="13" fill="#1e293b">逐任务执行</text>
+  <text x="627" y="77" text-anchor="middle" font-size="11" fill="#475569">一键启动 · 过程透明</text>
+  <text x="627" y="95" text-anchor="middle" font-size="11" fill="#475569">编码 · 调试 · 部署</text>
+  <text x="360" y="148" text-anchor="middle" font-size="13" fill="#475569">规划驱动、全流程自动化：先完整的顶层设计，再分步执行</text>
+</svg>
+
 ---
 
-![](https://feishu.cn/file/TSHsb9FfZocbmCxYJmQc6WM6nfh)
-
-### 模块三：执行与调试 - 看AI如何“写”代码与“解”难题
+## 模块三：执行与调试 - 看AI如何“写”代码与“解”难题
 
 **学习目标：** 观察并理解AI执行任务、处理错误、与用户交互的完整闭环。
 
-![](https://feishu.cn/file/JWyzbqqJNomTYXxuHpHcBNYnnBe)
-
-#### 1. 任务执行流程
+### 1. 任务执行流程
 
 任务规划完成后，你可以点击任一任务（Task）的“开始”按钮，一键启动执行。执行过程完全透明，AI会逐步展示其思考过程、生成的文件内容和运行的命令。
 
-![](https://feishu.cn/file/EVsNbePbioOR4PxJh2wcDnSwncf)
-
-#### 2. 错误处理与协商机制
+### 2. 错误处理与协商机制
 
 这是体现AI智能的关键环节：
 
@@ -127,35 +125,25 @@ Kiro提供了两种核心工作模式：
 - **协商机制：** 当需要执行敏感命令（如`mvn clean install`）或对系统进行修改时，AI会征求用户许可，确保操作安全可控。
 - **案例演示：** 在实践中，当本地Java环境（如JDK版本）与AI预设不兼容导致构建失败时，AI会通过不断调试配置、搜索解决方案，最终强制完成任务。这展示了其解决环境问题的韧性。
 
-![](https://feishu.cn/file/HZ4hbqm5foQ2SMxOlNacsia9nsv)
-
-#### 3. 从任务完成到项目启动
+### 3. 从任务完成到项目启动
 
 所有任务执行完毕后，你无需手动配置。只需在对话框输入自然语言指令，如**“帮我启动项目”**，AI便会自动完成应用启动，并返回可访问的本地URL（如`http://localhost:8080`）和数据库管理界面地址。
 
-![](https://feishu.cn/file/CvpsbgHOHoB7dbxVi7Ec7xiGnxh)
-
-#### 4. 数据层实现
+### 4. 数据层实现
 
 AI生成的项目集成了轻量级的H2数据库和管理控制台。你可以通过AI提供的链接登录控制台，使用SQL语句向数据库动态添加卡片内容（例如插入一条“飞天闪客”的卡片）。刷新前端页面，即可实时看到新增的内容，这生动演示了前后端与数据库的联通。
 
 ---
 
-![](https://feishu.cn/file/TR6NbeXQUoc6EHxeM0dc8qhTnOf)
-
-### 模块四：代码解构 - 从AI生成物学习项目规范
+## 模块四：代码解构 - 从AI生成物学习项目规范
 
 **学习目标：** 学习AI生成项目的标准结构、代码规范与工程实践。
 
-![](https://feishu.cn/file/FiiEbmr9OoN5rpxKPcOcMiiynOd)
-
-#### 1. AI的“工作笔记”目录：`.kiro`
+### 1. AI的“工作笔记”目录：`.kiro`
 
 项目根目录下的`.kiro`文件夹是AI的“工作笔记”，其中包含了它生成的所有核心文档（需求、设计、任务）。查阅这些文档，是理解AI决策依据、学习如何撰写规范工程文档的最佳途径。
 
-![](https://feishu.cn/file/X5OXba1sGoADD5xLHHSc9ES9n7c)
-
-#### 2. 标准Java/Maven项目结构剖析
+### 2. 标准Java/Maven项目结构剖析
 
 AI生成的项目是一个**标准、规范的Maven工程**，其结构极具教学价值：
 
@@ -169,9 +157,36 @@ AI生成的项目是一个**标准、规范的Maven工程**，其结构极具教
 - `src/main/resources`：存放静态资源（如前端HTML文件）和应用配置文件（`application.properties`）。
 - `src/test`：测试用例框架，虽然初始可能为空，但展示了测试结构。
 
-![](https://feishu.cn/file/L0aVb8YmqoeqUuxmQIScDjLvnIh)
+*图：AI 生成项目的标准 Maven 分层结构（示意）*
 
-#### 3. 代码规范与学习价值
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="230" y="26" width="260" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="46" text-anchor="middle" font-size="13" fill="#1e293b">pom.xml</text>
+  <text x="360" y="64" text-anchor="middle" font-size="11" fill="#475569">项目对象模型：所有依赖、插件与构建配置</text>
+  <rect x="60" y="88" width="600" height="100" rx="10" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="110" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">src/main/java —— 源代码目录（清晰的分层架构）</text>
+  <rect x="68" y="122" width="140" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="138" y="142" text-anchor="middle" font-size="12" fill="#1e293b">controller</text>
+  <text x="138" y="160" text-anchor="middle" font-size="10" fill="#475569">RESTful API 端点</text>
+  <rect x="216" y="122" width="140" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="286" y="142" text-anchor="middle" font-size="12" fill="#1e293b">service</text>
+  <text x="286" y="160" text-anchor="middle" font-size="10" fill="#475569">业务逻辑层</text>
+  <rect x="364" y="122" width="140" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="434" y="142" text-anchor="middle" font-size="12" fill="#1e293b">repository</text>
+  <text x="434" y="160" text-anchor="middle" font-size="10" fill="#475569">数据访问层（JPA）</text>
+  <rect x="512" y="122" width="140" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="582" y="142" text-anchor="middle" font-size="12" fill="#1e293b">model</text>
+  <text x="582" y="160" text-anchor="middle" font-size="10" fill="#475569">实体类 · 表映射</text>
+  <rect x="60" y="204" width="340" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="230" y="224" text-anchor="middle" font-size="12" fill="#1e293b">src/main/resources</text>
+  <text x="230" y="242" text-anchor="middle" font-size="11" fill="#475569">静态资源 + 应用配置文件</text>
+  <rect x="420" y="204" width="240" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="540" y="224" text-anchor="middle" font-size="12" fill="#1e293b">src/test</text>
+  <text x="540" y="242" text-anchor="middle" font-size="11" fill="#475569">测试用例框架</text>
+  <text x="360" y="272" text-anchor="middle" font-size="12" fill="#475569">将《设计文档》逐一对应到代码文件 —— 理解“设计如何落地为代码”</text>
+</svg>
+
+### 3. 代码规范与学习价值
 
 仔细阅读AI生成的代码，你会发现：
 
@@ -182,30 +197,22 @@ AI生成的项目是一个**标准、规范的Maven工程**，其结构极具教
 
 ---
 
-![](https://feishu.cn/file/FXScbTj2RoyFE0xqn16cnTqVnxf)
-
-### 模块五：进阶与反思 - 优化协作与展望未来
+## 模块五：进阶与反思 - 优化协作与展望未来
 
 **学习目标：** 掌握优化AI协作的技巧，了解AI IDE的发展趋势。
 
-![](https://feishu.cn/file/FyjIbjUrSobPmFxHHq3cxWSanOf)
-
-#### 1. 优化与AI的协作
+### 1. 优化与AI的协作
 
 - **提示词工程：** 在需求描述中**明确技术栈、框架版本等约束**（如“使用Spring Boot 3.1与Java 17”），可大幅减少AI的试错，获得更可控的输出。
 - **环境管理：** **预先配置好本地开发环境**（正确的JDK、Maven环境变量等）是顺畅协作的基础。AI更擅长写代码，而非配置复杂且因人而异的本地环境。
 - **迭代开发：** 项目生成后，你可以继续以自然语言提出新需求（如“为所有Controller添加单元测试”），AI会基于现有代码库进行增量开发。
 
-![](https://feishu.cn/file/Ln5sbeInCo1IlCxSNAxc99z6n6g)
-
-#### 2. AI IDE能力边界反思
+### 2. AI IDE能力边界反思
 
 - **适合场景：** 原型快速开发、个人学习项目、标准化模块（如CRUD）生成、技术方案探索。
 - **挑战场景：** 深度、复杂的业务逻辑调试与优化，涉及核心算法的性能调优，大型团队内知识库的同步与传承。在这些场景下，人类的创造性思维和深度领域知识依然不可替代。
 
-![](https://feishu.cn/file/UWk0bNH8XobDRWx2LnBcaEWnnfd)
-
-#### 3. 前沿展望：以AWS re:Invent为例
+### 3. 前沿展望：以AWS re:Invent为例
 
 AI编程IDE的发展远未停止。以亚马逊云科技在2024年re:Invent大会的发布为例，我们看到了更宏大的趋势：
 
@@ -214,8 +221,6 @@ AI编程IDE的发展远未停止。以亚马逊云科技在2024年re:Invent大�
 - **更大生态：** 底层有专用的AI芯片（Trainium2）提供算力，有多模态大模型（Nova 2）增强理解能力，还有智能体开发框架（AgentCore）……这些共同构成了赋能下一代AI原生开发的基石。
 
 ---
-
-![](https://feishu.cn/file/R3H7b7ergoMtlEx4SZTclxeanch)
 
 ## 课程总结
 
@@ -226,12 +231,3 @@ AI编程IDE的发展远未停止。以亚马逊云科技在2024年re:Invent大�
 **关键词：** AI编程IDE， 项目经验， Kiro， Spec模式， 需求文档， 设计文档， 任务文档， 亚马逊云科技， re:Invent大会， 编程
 
 **核心摘要：** 以亚马逊云科技Kiro为例的AI编程IDE，其核心优势在于“Spec模式”。该模式能从一句自然语言需求出发，自动生成详细的需求、设计文档和可执行的任务清单，并逐步完成编码、调试与部署。例如，用于开发“AI学习卡片”应用时，它规划了Spring Boot后端与简洁前端的架构，并生成了规范的代码。实践表明，AI能高效执行任务并自主解决错误，但成功的关键在于使用者的基础：懂编程并能明确指令、配置好环境，才能与AI高效协作，最大化其价值。这凸显了AI时代“成为善用工具的人”这一核心学习哲学。
-
-![](https://feishu.cn/file/TS5ubRuOroy4hDxEqJWccWPvndb)
-
-![](https://feishu.cn/file/VhDPbIVutoV8aCxdmLjcWDPlnyf)
-
-![](https://feishu.cn/file/O7LQbv3kgovOc3xUtOvc1q88n3o)
-
-![](https://feishu.cn/file/Nic9bpZfpo7xRCxTnOPcg1SCnYf)
-

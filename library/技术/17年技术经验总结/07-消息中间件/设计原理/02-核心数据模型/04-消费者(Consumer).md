@@ -1,10 +1,12 @@
-# 2.4 消费者 (Consumer)
+# 消费者（Consumer）
 
-## 概述
+## 消费者的定位与确认策略
 
-消费者（Consumer）是从队列或主题订阅并处理消息的客户端应用。一个消费者可以同时订阅多个队列或主题，消息被消费后根据确认策略决定是否从存储中删除。
+> 消费者（Consumer）是从队列或主题订阅并处理消息的客户端应用。
 
-## 数据库设计
+消费者（Consumer）是从队列或主题订阅并处理消息的客户端应用。**一个消费者可以同时订阅多个队列或主题**，消息被消费后根据确认策略决定是否从存储中删除。
+
+## 数据库设计：consumer_info / consumer_subscription / consumer_offset / consumer_stats
 
 ### 表结构：consumer_info（消费者元数据表）
 
@@ -157,7 +159,7 @@ CREATE TABLE consumer_stats (
 
 ---
 
-## 消费模式详解
+## 三种消费模式：Exclusive / Shared / Work
 
 ### 1. Exclusive（独占模式）
 
@@ -187,6 +189,30 @@ CREATE TABLE consumer_stats (
   "description": "公平调度，每消费完一条才分配下一条，慢消费者不会被压垮"
 }
 ```
+
+*图：三种消费模式对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="270" y="15" width="180" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="40" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">消费模式 consume_mode</text>
+  <line x1="360" y1="55" x2="360" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="78" x2="590" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="78" x2="130" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="360" y1="78" x2="360" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="590" y1="78" x2="590" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="20" y="98" width="220" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Exclusive 独占</text>
+  <text x="130" y="142" text-anchor="middle" font-size="12" fill="#475569">队列级独占</text>
+  <text x="130" y="158" text-anchor="middle" font-size="12" fill="#475569">同时只允许一个消费者</text>
+  <rect x="250" y="98" width="220" height="70" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Shared 共享</text>
+  <text x="360" y="142" text-anchor="middle" font-size="12" fill="#475569">多消费者消费同一队列</text>
+  <text x="360" y="158" text-anchor="middle" font-size="12" fill="#475569">消息在消费者间负载均衡</text>
+  <rect x="480" y="98" width="220" height="70" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="590" y="122" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">Work 工作队列</text>
+  <text x="590" y="142" text-anchor="middle" font-size="12" fill="#475569">公平调度，消费完再分配</text>
+  <text x="590" y="158" text-anchor="middle" font-size="12" fill="#475569">慢消费者不会被压垮</text>
+</svg>
 
 ---
 
@@ -220,7 +246,7 @@ CREATE TABLE consumer_stats (
 
 ---
 
-## API 操作
+## 消费者的 REST API
 
 ### 注册消费者
 

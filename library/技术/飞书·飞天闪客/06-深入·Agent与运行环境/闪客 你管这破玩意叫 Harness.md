@@ -1,11 +1,5 @@
 # 闪客 你管这破玩意叫 Harness
 
-![](https://feishu.cn/file/ZPBLbSulXoNY3cxtfFGcxW3Inag)
-
-## 解构Harness：从提示词到驾驭工程的AI协作演进之路
-
-![](https://feishu.cn/file/Li2Lb85XBoLS14xYdCaceKTpnFh)
-
 ## 第一部分：引言 - 当我们谈论Harness时，我们在谈论什么？
 
 在当今人工智能领域，一个名为“Harness”的概念正迅速升温，成为技术讨论的焦点。然而，与其高涨的热度形成鲜明对比的，是其定义的模糊与边界感的缺失。许多从业者热衷于谈论它，却难以给出一个精确的定义。这引出了一个根本性问题：**为什么一个看似抽象、尚未被严格界定的概念，能够代表一种新的技术范式和前进方向？**
@@ -17,13 +11,9 @@
 **课程路线图：**
 我们将首先追溯AI协作范式的三次关键跃迁，理解Harness概念诞生的历史必然性。接着，我们将对流行的“三段论”划分进行批判性审视，提出更贴近实践的分层模型。随后，课程将聚焦于“如何驾驭”这一实践核心，从个人习惯到框架规范进行探讨。最后，我们将展望技术边界的动态演化，揭示Harness作为方法论体系的终极意义。
 
-![](https://feishu.cn/file/QgpqbXrcAojd4ZxVYy4cOIkvn2e)
-
 ## 第二部分：范式演进史 - 一场与AI的“斗智斗勇”
 
 理解Harness，需要将其置于人机协作关系的演进史中。这个过程，可以形象地比喻为老板与员工之间不断调整关系模式的过程。
-
-![](https://feishu.cn/file/HRQhbKLxZo66JDxAzHhcTO70nae)
 
 ### 2.1 阶段一：实习生与老板 - 提示词工程的兴起
 
@@ -36,8 +26,6 @@
   - **情绪激励：** 通过“PUA”或积极鼓励的措辞，有时能激发模型更高质量的回答。
 - **概念总结：** **Prompt Engineering（提示词工程）**—— 专注于优化与AI直接交互的“第一句话”，旨在激发模型内在潜力。
 
-![](https://feishu.cn/file/TDylbo3dYoD1khxYV9ecN392nme)
-
 ### 2.2 阶段二：老油条与信息差 - 上下文工程的崛起
 
 - **场景：** 随着模型能力增强（如GPT-4），其本身已不再是瓶颈。然而，它无法获知对话之外的实时信息、企业私有数据或用户具体工作环境，如同一个能力很强但缺乏关键背景信息的“老油条”员工。
@@ -49,8 +37,6 @@
   - **工具调用与记忆：** 赋予模型使用API、数据库的能力，并为其配备短期或长期记忆。
 - **概念总结：** **Context Engineering（上下文工程）**—— 将优化范围从“一句话”扩展到构建整个对话所需的**信息背景**，其核心是解决模型的“无知”问题。
 
-![](https://feishu.cn/file/ONkebbukao9Pq3xLdbGcMMBfnlc)
-
 ### 2.3 阶段三：失控与预期管理 - 驾驭工程的诞生
 
 - **场景：** 当AI进化为能够自主规划、使用工具、执行多步任务的**Agent（智能体）**时，我们面对的已不是被动回答问题的模型，而是一个能力强大、但行动可能严重偏离预期的“执行者”。
@@ -58,17 +44,36 @@
 - **案例分析：** 考虑一个“帮我查今天日期”的简单请求。一个缺乏约束的Agent可能演变成：发现手机没电 -> 想要充电 -> 发现充电器丢失 -> 决定去买 -> 发现手机无法支付 -> 想到去银行取钱 -> …… 最终耗时一天，贷款买了一部新手机，才返回“今天是X月X日”的答案。每一步看似合理，但整体已完全失控。
 - **概念总结：** **Harness Engineering（驾驭工程）**—— 核心工作是制定**规范、约束与目标对齐机制**，以确保Agent在复杂任务执行过程中的行为可控、稳定且符合人类预期。
 
-![](https://feishu.cn/file/Yth4bwG5FoFmWNxDNCFcFEslngg)
+*图：AI 协作范式的三次跃迁（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 170" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="15" y="40" width="220" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="64" text-anchor="middle" font-size="14" fill="#1e293b">提示词工程</text>
+  <text x="125" y="84" text-anchor="middle" font-size="11" fill="#475569">聪明的“实习生”看不懂模糊指令</text>
+  <text x="125" y="102" text-anchor="middle" font-size="11" fill="#475569">优化与 AI 的“第一句话”</text>
+  <line x1="237" y1="80" x2="253" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="255" y="40" width="220" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="365" y="64" text-anchor="middle" font-size="14" fill="#1e293b">上下文工程</text>
+  <text x="365" y="84" text-anchor="middle" font-size="11" fill="#475569">能力很强但缺背景的“老油条”</text>
+  <text x="365" y="102" text-anchor="middle" font-size="11" fill="#475569">构建对话所需的信息背景</text>
+  <line x1="477" y1="80" x2="493" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="495" y="40" width="220" height="80" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="605" y="64" text-anchor="middle" font-size="14" fill="#1e293b">驾驭工程</text>
+  <text x="605" y="84" text-anchor="middle" font-size="11" fill="#475569">自主执行、可能偏离预期的 Agent</text>
+  <text x="605" y="102" text-anchor="middle" font-size="11" fill="#475569">规范、约束与目标对齐机制</text>
+  <text x="360" y="152" text-anchor="middle" font-size="13" fill="#475569">关注点演进：与 AI “对话” → 向 AI “提供信息” → 让 AI “按预期行事”</text>
+</svg>
 
 ## 第三部分：批判性思考 - 对流行划分方式的再审视
-
-![](https://feishu.cn/file/RFA1bXCWVo6OpaxHGOZcythSn3f)
 
 ### 3.1 流行观点：Prompt / Context / Harness Engineering 的“三段论”划分
 
 目前业界普遍将AI协作方法论划分为这三个阶段，形成一种清晰、线性的演进叙事。
-
-![](https://feishu.cn/file/Gr22bQzeNoALf5xJOp3cFbbAnHg)
 
 ### 3.2 质疑与反思
 
@@ -78,13 +83,9 @@
 - **目的存疑：** 这种划分在描述历史脉络上虽有叙事美感，但在指导具体实践时常常令人困惑。Harness Engineering究竟指代哪些具体技术？它与良好的Agent设计原则有何区别？答案并不清晰。
 - **概念泛化：** Harness本身并非严格的技术术语，其流行源于博客文章和企业营销的推动。
 
-![](https://feishu.cn/file/QP2xbiFD3okVo1xR4Z8cjPVxnqf)
-
 ### 3.3 作者观点：Harness并非严格定义，而是技术演进中持续存在的“驾驭”本质
 
 Harness不是一个新发明的技术，而是一个对**人类持续试图有效控制AI行为这一长期实践**的概括性命名。自从AI诞生，驾驭行为就已存在，只是在不同技术阶段，驾驭的对象和难度不同。
-
-![](https://feishu.cn/file/AFGNbI6QAooEhExn2dxcMmdOn9c)
 
 ### 3.4 重新归类：基于“驾驭对象”的分层模型
 
@@ -106,13 +107,26 @@ Harness不是一个新发明的技术，而是一个对**人类持续试图有�
     - **对象：** 人类或上层系统如何管理、指挥一个已经构建好的Agent。
     - **实践：** 这是“Harness”概念最集中的体现。包括制定交互规范、设定权限边界、设计状态同步机制、进行目标对齐等。当前探索活跃，但尚无统一标准。
 
-![](https://feishu.cn/file/U5ugbETX3odEbcxLwUMc67AwnYf)
+*图：基于“驾驭对象”的分层模型（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 235" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="80" y="28" width="560" height="54" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="50" text-anchor="middle" font-size="14" fill="#1e293b">第一层：语言驾驭（Model Layer）</text>
+  <text x="360" y="70" text-anchor="middle" font-size="12" fill="#475569">训练 / 微调 —— “说得好”、“理解准”（模型开发者的领域）</text>
+  <rect x="60" y="98" width="600" height="104" rx="10" fill="#f8fafc" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="120" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">第二层：沟通与执行驾驭（Interaction Layer）—— 当前实践的主战场</text>
+  <rect x="80" y="134" width="280" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="220" y="156" text-anchor="middle" font-size="13" fill="#1e293b">子层A：驾驭大模型</text>
+  <text x="220" y="176" text-anchor="middle" font-size="11" fill="#475569">Agent 设计层 · 推理架构 / 提示策略 / 工具调用</text>
+  <rect x="380" y="134" width="260" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="510" y="156" text-anchor="middle" font-size="13" fill="#1e293b">子层B：驾驭 Agent</text>
+  <text x="510" y="176" text-anchor="middle" font-size="11" fill="#475569">人类管理层 · 规范 / 权限 / 状态同步 / 目标对齐</text>
+  <text x="360" y="222" text-anchor="middle" font-size="12" fill="#475569">“Harness”概念主要在交互层体现，尤以“驾驭 Agent”层最为集中</text>
+</svg>
 
 ## 第四部分：驾驭的实践 - 如何“驾驭”Agent？
 
 本部分聚焦于“驾驭Agent”这一层，探讨实践中的核心思路与方法。
-
-![](https://feishu.cn/file/EInFb8oc2o3111xV5yYce6kcn5b)
 
 ### 4.1 个人使用习惯的驾驭
 
@@ -120,8 +134,6 @@ Harness不是一个新发明的技术，而是一个对**人类持续试图有�
 
 - **案例：** 对于长期项目，不依赖单次长对话，而是为项目创建一个“状态文档”。每次启动新Agent会话时，让Agent先阅读该文档以了解项目全貌和上次进度。任务结束后，指导Agent更新文档。
 - **核心思想：** **通过“状态传递”实现任务连贯性**，而非试图在上下文中压缩一切。这正是Anthropic所倡导的一种关键Harness思路——优雅地重启Agent，通过持久化的状态文件实现无缝交接，解决长任务的连贯性难题。
-
-![](https://feishu.cn/file/BC0LbL6I3ooGUoxHZhmcEJCMnhd)
 
 ### 4.2 框架与规范的驾驭
 
@@ -135,8 +147,6 @@ Harness不是一个新发明的技术，而是一个对**人类持续试图有�
   3. **降低不确定性：** Agent的行为在规范范围内变得可预测。
 - **类比：** 许多现代编程IDE（如Cursor中的Plan功能）内嵌了类似思想，只是名称各异，其本质都是为AI辅助开发流程提供一个可管理的“驾驭层”。
 
-![](https://feishu.cn/file/BLHdbAbTFo8sCxxw5k3ciBMznqG)
-
 ### 4.3 驾驭的本质：从个人到组织
 
 驾驭Agent的过程，与企业组织的成长惊人地相似：
@@ -146,11 +156,7 @@ Harness不是一个新发明的技术，而是一个对**人类持续试图有�
 - **规模化期（制度规范）：** 大规模部署AI Agent，需要严密的规范、权限和监控系统（Harness机制）来保障稳定、可控、不出错。此时，个体的自由与创造力被适当约束，以服务于系统整体的可靠性目标。
 - **核心洞见：** Harness机制的目的，是将强大但可能不可控的智能体，约束在一个**可控、稳定、可重启**的框架内，确保其服务于人类设定的整体目标，而非最大化其自身的行动自由。
 
-![](https://feishu.cn/file/Dw4zbPDSNoWAt5xqIADccgZyn6b)
-
 ## 第五部分：动态的边界与未来展望
-
-![](https://feishu.cn/file/IyvtbgYWCoaS2IxN5yscKkTCnfb)
 
 ### 5.1 技术下沉与能力内化
 
@@ -158,38 +164,26 @@ Harness不是一个新发明的技术，而是一个对**人类持续试图有�
 
 - **案例：** 模型常识的增强（如知道`rm`是删除命令），使得Agent层无需再配备基础操作的Skill文档。Agent原生记忆功能的出现，正在将“跨会话状态管理”这一Harness实践内化为Agent基础能力。未来，像OpenSpec这样的规范框架，若被证明是通用的，也可能被内化到开发平台中。
 
-![](https://feishu.cn/file/XVuVbCVtBoIedUxoldmcb6sJnrm)
-
 ### 5.2 驱动演进的双引擎
 
 1. **人类的“懒惰”：** 人类天然倾向于将一切可流程化、标准化的任务工具化、自动化，以追求效率与省力。这是催生各种Harness框架（SOP）的原始动力。
 2. **功能的“下沉”：** 一旦某个实践被证明足够通用且有效，它就会从“创新实践”转变为“基础功能”，成为新时代的基石。
 
-![](https://feishu.cn/file/TNVibHQPWoDvyNxXjXtctT0YnCg)
-
 ### 5.3 终极愿景
 
 基于双引擎的持续驱动，AI协作的终极愿景是：人类只需发出一句高层级指令（如“帮我完成一个产品从调研到上线的全过程”），各层次能力（模型智能、Agent规划、流程规范、工具调用）已高度内化与协同，复杂任务被自动、可靠地执行。
-
-![](https://feishu.cn/file/XaeJbFUIFoDUrlxh6jLcs0T9nnb)
 
 ### 5.4 Harness的再定义
 
 至此，我们可以给出Harness的再定义：**Harness是一套动态演进的方法论体系，其核心目标是引导日益强大的、可能不可控的人工智能，朝着人类期望的方向，安全、稳定、可控地前进。** 它的形态随技术基础的变化而不断重塑。
 
-![](https://feishu.cn/file/EzVQbFhOnoruWwxZu8icCOAEnmd)
-
 ## 第六部分：课程总结与关键概念图
-
-![](https://feishu.cn/file/QzZCb7xg9o96bWx6LacckQSfnZe)
 
 ### 6.1 关键概念回顾
 
 - **Prompt Engineering：** 专注于优化与模型的**直接对话输入**，是驾驭的起点。
 - **Context Engineering：** 专注于为模型构建**完成任务所需的信息环境**，是驾驭的拓展。
 - **Harness Engineering：** 专注于为自主的AI Agent设定**行为规范、约束与目标对齐机制**，是驾驭的深化，旨在确保可控性。
-
-![](https://feishu.cn/file/Sg1ib0rwfoMmhCxw4Qrcklx6n1g)
 
 ### 6.2 核心框架总结：基于“驾驭对象”的分层模型
 
@@ -200,13 +194,9 @@ Harness不是一个新发明的技术，而是一个对**人类持续试图有�
   - **驾驭Agent (人类管理层)：** 制定人类如何“指挥与管理”Agent。
 - *（注：Harness概念主要在后两层，尤其在“驾驭Agent”层体现最为集中。）*
 
-![](https://feishu.cn/file/KYBYbASltovdpBxksuacA8yvn0d)
-
 ### 6.3 终极启示
 
 Harness是**动态的、分层的**。它不是一个静止的技术清单，而是一个随着底层AI能力提升而不断演化的问题解决框架。今天的前沿实践，可能是明天的标准功能。
-
-![](https://feishu.cn/file/LFvWbIG0PosOWLx1w8CcLkkSnNc)
 
 ### 6.4 结语
 
@@ -214,17 +204,6 @@ Harness是**动态的、分层的**。它不是一个静止的技术清单，而
 
 ---
 
-![](https://feishu.cn/file/NNKubN5hBoZt2KxJbTfcD7xvnfz)
-
 ## 附录：思考题
 
 1. **实践分析：** 结合你常用的AI编程助手、聊天机器人或自动化工具，分析其中体现了哪些层次的“驾驭”设计？（例如：它的提示词优化属于哪一层？它的状态管理与权限控制又属于哪一层？）
-
-![](https://feishu.cn/file/WpozbULQ9oDavKx1IMccnhgYnLf)
-
-![](https://feishu.cn/file/HTcUbYnRdosSLNxrUaKc1UTRnfe)
-
-![](https://feishu.cn/file/JA7ObKf6Zoim38xe5LOcO2iznvM)
-
-![](https://feishu.cn/file/V6UXbO0jIo3FjrxQxyYchC9Fngg)
-

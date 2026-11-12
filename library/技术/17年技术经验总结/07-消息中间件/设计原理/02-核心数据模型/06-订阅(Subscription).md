@@ -1,10 +1,12 @@
-# 2.6 订阅 (Subscription)
+# 订阅（Subscription）
 
-## 概述
+## 订阅的定位：消费者与目的地的关联
 
-订阅（Subscription）是消费者与目的地（队列或主题）之间的关联关系。一个消费者可以建立多个订阅，同时从多个队列或主题消费消息。订阅决定了消息如何被过滤和分发。
+> 订阅（Subscription）是消费者与目的地（队列或主题）之间的关联关系。
 
-## 数据库设计
+订阅（Subscription）是消费者与目的地（队列或主题）之间的关联关系。**一个消费者可以建立多个订阅**，同时从多个队列或主题消费消息。订阅决定了消息如何被过滤和分发。
+
+## 数据库设计：subscription / subscription_route
 
 ### 表结构：subscription（订阅主表）
 
@@ -95,7 +97,7 @@ CREATE TABLE subscription_route (
 
 ---
 
-## 订阅模式对比
+## 四种订阅模式对比
 
 | 模式 | 英文 | 说明 | 适用场景 |
 |------|------|------|----------|
@@ -104,9 +106,38 @@ CREATE TABLE subscription_route (
 | Failover | 故障转移订阅 | 主消费者失效后自动切换备消费者 | 高可用消费 |
 | Cluster | 集群订阅 | 消息广播到所有消费者 | 事件分发 |
 
+*图：四种订阅模式对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 190" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="270" y="15" width="180" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="40" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">订阅模式 subscription_mode</text>
+  <line x1="360" y1="55" x2="360" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="96" y1="78" x2="624" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="96" y1="78" x2="96" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="272" y1="78" x2="272" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="448" y1="78" x2="448" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="624" y1="78" x2="624" y2="98" stroke="#94a3b8" stroke-width="1.5"/>
+  <rect x="12" y="98" width="168" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="96" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">Shared 共享订阅</text>
+  <text x="96" y="142" text-anchor="middle" font-size="12" fill="#475569">多消费者负载均衡</text>
+  <text x="96" y="160" text-anchor="middle" font-size="12" fill="#475569">适用：任务分发</text>
+  <rect x="188" y="98" width="168" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="272" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">Exclusive 独占订阅</text>
+  <text x="272" y="142" text-anchor="middle" font-size="12" fill="#475569">仅一个消费者</text>
+  <text x="272" y="160" text-anchor="middle" font-size="12" fill="#475569">适用：顺序处理</text>
+  <rect x="364" y="98" width="168" height="80" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="448" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">Failover 故障转移</text>
+  <text x="448" y="142" text-anchor="middle" font-size="12" fill="#475569">主失效自动切备</text>
+  <text x="448" y="160" text-anchor="middle" font-size="12" fill="#475569">适用：高可用消费</text>
+  <rect x="540" y="98" width="168" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="624" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">Cluster 集群订阅</text>
+  <text x="624" y="142" text-anchor="middle" font-size="12" fill="#475569">广播所有消费者</text>
+  <text x="624" y="160" text-anchor="middle" font-size="12" fill="#475569">适用：事件分发</text>
+</svg>
+
 ---
 
-## API 操作
+## 订阅的 REST API
 
 ### 创建订阅
 
