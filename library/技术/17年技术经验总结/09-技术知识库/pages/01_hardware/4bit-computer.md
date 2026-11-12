@@ -2,6 +2,41 @@
 
 ## 学习轨迹：完全按照提问顺序整理（原汁原味，便于复盘）
 
+*图：本次学习主线：时钟 → 晶振 → PLL → CPU（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="50" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="68" text-anchor="middle" font-size="14" fill="#1e293b">时钟脉冲</text>
+  <text x="90" y="86" text-anchor="middle" font-size="13" fill="#475569">统一节拍</text>
+  <line x1="160" y1="72" x2="195" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="200" y="50" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="68" text-anchor="middle" font-size="14" fill="#1e293b">晶振</text>
+  <text x="270" y="86" text-anchor="middle" font-size="13" fill="#475569">基准心跳</text>
+  <line x1="340" y1="72" x2="375" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="380" y="50" width="140" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="450" y="68" text-anchor="middle" font-size="14" fill="#1e293b">PLL 锁相环</text>
+  <text x="450" y="86" text-anchor="middle" font-size="13" fill="#475569">倍频</text>
+  <line x1="520" y1="72" x2="555" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="560" y="50" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="630" y="68" text-anchor="middle" font-size="14" fill="#1e293b">CPU</text>
+  <text x="630" y="86" text-anchor="middle" font-size="13" fill="#475569">取指-译码-执行</text>
+  <path d="M630,94 L630,118 L180,118 L180,136" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="110" y="140" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="180" y="158" text-anchor="middle" font-size="14" fill="#1e293b">寄存器</text>
+  <text x="180" y="176" text-anchor="middle" font-size="13" fill="#475569">暂存数据</text>
+  <line x1="250" y1="162" x2="285" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="290" y="140" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="167" text-anchor="middle" font-size="13" fill="#1e293b">4位CPU搭建与调试</text>
+  <line x1="430" y1="162" x2="465" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="470" y="140" width="140" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="540" y="167" text-anchor="middle" font-size="13" fill="#1e293b">整机硬件协同工作</text>
+</svg>
+
 ---
 
 ## 1. 时钟脉冲到底输出了什么？
@@ -212,6 +247,43 @@ PLL（锁相环）的核心作用：**频率自动跟踪+倍频**，强迫输出
 3.  相位对比：鉴相器同时接收两个信号——晶振的25MHz（基准）、分频后的25MHz（反馈），对比两者的相位差，输出误差电压（反馈慢则输出正电压，反馈快则输出负电压，完全同步则输出0）；
 4.  自动调速：环路滤波器把误差电压平滑后，送给VCO的控制脚，调节VCO的振动频率（快了变慢，慢了变快）；
 5.  稳定锁定：重复步骤2~4，直到分频后的信号与晶振基准信号完全同步，此时VCO输出频率 = 晶振频率 × N（25MHz×120=3GHz），实现稳定倍频。
+
+*图：PLL 倍频工作流程：25MHz 基准经负反馈稳定倍频到 3GHz（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="60" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="80" y="78" text-anchor="middle" font-size="14" fill="#1e293b">晶振</text>
+  <text x="80" y="96" text-anchor="middle" font-size="13" fill="#475569">基准 25MHz</text>
+  <line x1="140" y1="82" x2="185" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="190" y="60" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="78" text-anchor="middle" font-size="14" fill="#1e293b">鉴相器 PD</text>
+  <text x="265" y="96" text-anchor="middle" font-size="13" fill="#475569">对比相位差</text>
+  <line x1="340" y1="82" x2="385" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="365" y="98" text-anchor="middle" font-size="13" fill="#475569">误差电压</text>
+  <rect x="390" y="60" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="465" y="78" text-anchor="middle" font-size="14" fill="#1e293b">环路滤波器 LF</text>
+  <text x="465" y="96" text-anchor="middle" font-size="13" fill="#475569">平滑误差电压</text>
+  <line x1="540" y1="82" x2="585" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="590" y="60" width="110" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="645" y="78" text-anchor="middle" font-size="14" fill="#1e293b">压控振荡器</text>
+  <text x="645" y="96" text-anchor="middle" font-size="13" fill="#475569">VCO</text>
+  <line x1="645" y1="104" x2="645" y2="146" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="540" y="150" width="160" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="620" y="168" text-anchor="middle" font-size="14" fill="#1e293b">稳定输出 3GHz</text>
+  <text x="620" y="186" text-anchor="middle" font-size="13" fill="#475569">25MHz × 120</text>
+  <path d="M620,194 L620,225 L265,225 L265,197" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="440" y="220" text-anchor="middle" font-size="13" fill="#475569">反馈 25MHz</text>
+  <rect x="190" y="150" width="150" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="265" y="168" text-anchor="middle" font-size="14" fill="#1e293b">反馈分频器 ÷N</text>
+  <text x="265" y="186" text-anchor="middle" font-size="13" fill="#475569">决定倍频倍数</text>
+  <line x1="265" y1="150" x2="265" y2="108" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <text x="278" y="132" text-anchor="start" font-size="13" fill="#475569">分频后 25MHz</text>
+</svg>
 
 ### 一句话总结
 

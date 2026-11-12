@@ -7,6 +7,8 @@
 
 ## 一、Agent定义
 
+> Agent 基类由名称（name）、角色（role）、工具（tools）、记忆（memory）与 LLM 组成，核心方法是 plan（制定计划）与 execute（执行计划）。
+
 ```python
 class Agent:
     """Agent基类"""
@@ -48,6 +50,8 @@ class Agent:
 ---
 
 ## 二、ReAct模式
+
+> ReAct Agent：推理（Thought）与行动（Action）交替循环，最大步数 10，收到 finish 动作或超限后结束。
 
 ```python
 class ReActAgent:

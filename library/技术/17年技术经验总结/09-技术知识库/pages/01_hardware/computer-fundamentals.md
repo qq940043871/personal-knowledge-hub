@@ -70,6 +70,34 @@
 
 这是一个循环过程，CPU不断重复这四个步骤。
 
+*图：CPU 工作循环：取指 → 译码 → 执行 → 存储结果（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="120" y="40" width="160" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="200" y="60" text-anchor="middle" font-size="14" fill="#1e293b">1. 取指令</text>
+  <text x="200" y="79" text-anchor="middle" font-size="13" fill="#475569">从内存中读取指令</text>
+  <line x1="280" y1="65" x2="435" y2="65" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="440" y="40" width="160" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="520" y="60" text-anchor="middle" font-size="14" fill="#1e293b">2. 译码</text>
+  <text x="520" y="79" text-anchor="middle" font-size="13" fill="#475569">解析指令，确定操作</text>
+  <line x1="520" y1="90" x2="520" y2="165" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="440" y="170" width="160" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="520" y="190" text-anchor="middle" font-size="14" fill="#1e293b">3. 执行</text>
+  <text x="520" y="209" text-anchor="middle" font-size="13" fill="#475569">执行指令指定的操作</text>
+  <line x1="440" y1="195" x2="285" y2="195" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="120" y="170" width="160" height="50" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="200" y="190" text-anchor="middle" font-size="14" fill="#1e293b">4. 存储结果</text>
+  <text x="200" y="209" text-anchor="middle" font-size="13" fill="#475569">写回寄存器或内存</text>
+  <line x1="200" y1="170" x2="200" y2="95" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="360" y="125" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">CPU 工作循环</text>
+  <text x="360" y="146" text-anchor="middle" font-size="13" fill="#475569">冯·诺依曼架构</text>
+</svg>
+
 ### CPU执行过程演示：执行 2 + 3 的过程
 
 1. **取指令**：从内存中读取指令：ADD A, B（将A和B相加）

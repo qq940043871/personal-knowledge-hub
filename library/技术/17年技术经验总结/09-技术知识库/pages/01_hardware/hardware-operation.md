@@ -12,6 +12,35 @@
 - 中断处理：插队→处理→返回
 - 系统运行：永远跑下去
 
+*图：计算机底层逻辑总流程：晶振 → 时钟脉冲 → CPU执行 → 中断处理 → 系统运行（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 140" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="10" y="45" width="120" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="70" y="65" text-anchor="middle" font-size="14" fill="#1e293b">晶振</text>
+  <text x="70" y="84" text-anchor="middle" font-size="13" fill="#475569">固定频率振动</text>
+  <line x1="130" y1="70" x2="150" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="155" y="45" width="120" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="215" y="65" text-anchor="middle" font-size="14" fill="#1e293b">时钟脉冲</text>
+  <text x="215" y="84" text-anchor="middle" font-size="13" fill="#475569">0→1→0循环</text>
+  <line x1="275" y1="70" x2="295" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="300" y="45" width="120" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="65" text-anchor="middle" font-size="14" fill="#1e293b">CPU执行</text>
+  <text x="360" y="84" text-anchor="middle" font-size="13" fill="#475569">取指→执行</text>
+  <line x1="420" y1="70" x2="440" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="445" y="45" width="120" height="50" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="505" y="65" text-anchor="middle" font-size="14" fill="#1e293b">中断处理</text>
+  <text x="505" y="84" text-anchor="middle" font-size="13" fill="#475569">插队→处理→返回</text>
+  <line x1="565" y1="70" x2="585" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="590" y="45" width="120" height="50" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="650" y="65" text-anchor="middle" font-size="14" fill="#1e293b">系统运行</text>
+  <text x="650" y="84" text-anchor="middle" font-size="13" fill="#475569">永远跑下去</text>
+</svg>
+
 ## 1. 最源头：晶振
 
 - 一块石英晶体，通电固定频率振动
@@ -107,6 +136,43 @@ CPU 里全是这种结构：
 - 初始化系统：操作系统初始化硬件和服务
 - 用户登录：显示登录界面，等待用户登录
 
+*图：计算机启动流程：从加电自检到用户登录（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="15" y="40" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="60" text-anchor="middle" font-size="14" fill="#1e293b">加电自检 (POST)</text>
+  <text x="90" y="79" text-anchor="middle" font-size="13" fill="#475569">检测硬件设备</text>
+  <line x1="165" y1="65" x2="190" y2="65" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="195" y="40" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="60" text-anchor="middle" font-size="14" fill="#1e293b">读取BIOS/UEFI</text>
+  <text x="270" y="79" text-anchor="middle" font-size="13" fill="#475569">从ROM中读取</text>
+  <line x1="345" y1="65" x2="370" y2="65" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="375" y="40" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="450" y="60" text-anchor="middle" font-size="14" fill="#1e293b">寻找启动设备</text>
+  <text x="450" y="79" text-anchor="middle" font-size="13" fill="#475569">按启动顺序查找</text>
+  <line x1="525" y1="65" x2="550" y2="65" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="555" y="40" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="630" y="60" text-anchor="middle" font-size="14" fill="#1e293b">加载引导程序</text>
+  <text x="630" y="79" text-anchor="middle" font-size="13" fill="#475569">加载引导加载程序</text>
+  <path d="M630,90 L630,115 L180,115 L180,133" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="105" y="138" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="180" y="158" text-anchor="middle" font-size="14" fill="#1e293b">加载操作系统</text>
+  <text x="180" y="177" text-anchor="middle" font-size="13" fill="#475569">加载操作系统内核</text>
+  <line x1="255" y1="163" x2="280" y2="163" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="285" y="138" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="158" text-anchor="middle" font-size="14" fill="#1e293b">初始化系统</text>
+  <text x="360" y="177" text-anchor="middle" font-size="13" fill="#475569">初始化硬件和服务</text>
+  <line x1="435" y1="163" x2="460" y2="163" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="465" y="138" width="150" height="50" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="540" y="158" text-anchor="middle" font-size="14" fill="#1e293b">用户登录</text>
+  <text x="540" y="177" text-anchor="middle" font-size="13" fill="#475569">等待用户登录</text>
+</svg>
+
 ## 一句话终极串讲
 
 晶振振动 → 产生时钟方波 → 每一次上升沿驱动CPU锁存数据 → PC自动+4不断取指令 → 中断在合适的时钟沿强制跳转 → 整套系统有序、稳定、永远跑下去。
@@ -119,7 +185,7 @@ CPU 里全是这种结构：
 - CPU内部结构：CPU基本结构：寄存器 → 组合逻辑（ALU）→ 寄存器
 - 指令加载流程：指令从内存通过总线（地址总线 / 数据总线）传输到CPU
 
-## 总结
+## 总结：从晶振到系统运行的底层逻辑
 
 计算机的底层运行原理其实并不复杂，核心就是：晶振产生稳定的时钟信号，时钟脉冲驱动CPU执行指令，中断机制实现多任务处理。
 
