@@ -1,12 +1,8 @@
 # 到底啥是Skill 用一下就秒懂了
 
-![](https://feishu.cn/file/EK8DbCyIBoV0YtxYmzOc5O22nye)
-
-## 课程标题：掌握AI技能（Skill）：实现一句话完成复杂任务的革命性方法
+## 掌握AI技能（Skill）：实现一句话完成复杂任务的革命性方法
 
 **副标题：基于“扣子”平台的实践与原理解析**
-
-![](https://feishu.cn/file/AvD5biFMSoYqifxdcJpcmHEin9d)
 
 ## 引言：AI处理复杂需求的现状与痛点
 
@@ -20,19 +16,13 @@
 
 那么，是否存在一种方法，能够让我们只需“一句话”下达指令，AI就能**稳定、可重复、智能地**自动完成一套复杂的任务流程呢？答案是肯定的。本文将深入解析一种名为“AI技能（Skill）”的创新技术，并手把手教您在“扣子”平台上将其付诸实践，彻底解决上述痛点。
 
----
+## 核心概念解析：什么是AI技能（Skill）？
 
-![](https://feishu.cn/file/DnE1beSOSo8Kh9xyyyFcnqcbnEe)
-
-## 第一部分：核心概念解析——什么是AI技能（Skill）？
-
-![](https://feishu.cn/file/PY4RbltOboXJYcxxB81cFESrnYe)
+> Skill是一种结构化的“技能包”，在**稳定性**与**灵活性**之间取得卓越平衡，可被AI模型稳定、重复地调用。
 
 ### 1. 定义
 
 AI技能（Skill）是一种结构化的“技能包”。它将一项复杂任务预定义并分解为一系列标准化的步骤，每个步骤由具体的脚本或逻辑实现。这个技能包可以被AI模型稳定、重复地调用，从而确保任务执行过程的确定性和结果的可预测性。
-
-![](https://feishu.cn/file/XvKjbc26wosP2DxWWDJcC1UknYf)
 
 ### 2. 核心价值：稳定与灵活的完美平衡
 
@@ -40,8 +30,6 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 
 - **稳定性**：核心执行逻辑由预先编写和测试的脚本（如Python代码）保障，避免了AI规划的不确定性。
 - **灵活性**：技能包内部的步骤、参数和知识可以被便捷地修改、迭代和组合，以适应需求的变化。
-
-![](https://feishu.cn/file/GvuIbyTOooaOJrxQGZ6ceDEBn7b)
 
 ### 3. 与传统方式的对比优势
 
@@ -52,19 +40,13 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 | **调整灵活性** | 高，但需重新对话 | 低，调整复杂 | 中，需重新规划 | **高，组件可替换** |
 | **可重复使用性** | 差，需重复输入提示词 | 好，可一键运行 | 差，每次重新执行 | **极佳，随时调用** |
 
----
+## 实践篇：在“扣子”平台上创建与使用你的第一个AI技能
 
-![](https://feishu.cn/file/LA8ybuJVwoKNGcxVNZKc8espnJe)
-
-## 第二部分：实践篇——在“扣子”平台上创建与使用你的第一个AI技能
-
-![](https://feishu.cn/file/M6xDbPwrgo6cklxeibOcz42ynrb)
+> “扣子”平台**免去了复杂的本地环境配置**，浏览器即可完成对话创建、触发执行与部署复用。
 
 ### 1. 平台准备
 
 本次实践将依托于“扣子”平台进行。该平台的一大优势是**免去了复杂的本地环境配置**，用户可以通过浏览器直接访问并使用其提供的编程和AI能力，极大降低了上手门槛。
-
-![](https://feishu.cn/file/TW1wbkjzYoJ6AYxU9hjcgX1hnWc)
 
 ### 2. 技能创建实战演示
 
@@ -91,23 +73,15 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 - 一张总结信息图。
 - 以及其他你定义的输出文件。
 
-![](https://feishu.cn/file/JDrkbG9OToSs8gxtpNIcRuuMnbb)
-
 ### 3. 技能的部署与复用
 
 1. **一键部署**：在技能创建完成后，点击“部署”按钮。该技能会被打包成一个独立的、自包含的**技能包**，并注册到你的账户中。
 2. **随时召唤**：在此后的任何对话中，你都可以从技能面板中“召唤”出已部署的这个论文处理技能。
 3. **效果演示**：再次发送一个新的论文链接，AI将**完全重复**上一次的处理流程，产出一套格式相同、质量稳定的成果。这完美体现了Skill的“**一次创建，多次复用**”特性。
 
----
+## 原理揭秘：AI技能是如何做到稳定且智能的？
 
-![](https://feishu.cn/file/CHStbjtYLoicFJxy9k7czFj2nM3)
-
-## 第三部分：原理揭秘——AI技能是如何做到稳定且智能的？
-
-理解Skill的强大，关键在于揭秘其内部结构。本质上，一个Skill就是一个**符合特定规范的目录结构**。
-
-![](https://feishu.cn/file/YmJbbPlCkouvDWxCGz6ceJLfnzh)
+> 理解Skill的强大，关键在于揭秘其内部结构——本质上，一个Skill就是一个**符合特定规范的目录结构**。
 
 ### 1. 技能包的物理结构
 
@@ -123,7 +97,34 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
   - 脚本可能需要从`/references`中读取哪些配置。
   - 输入和输出的格式要求。
 
-![](https://feishu.cn/file/PdoIbz6O1o2wZtxW6DXcRGAJnkd)
+*图：技能包的目录结构（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw1" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="250" y="16" width="220" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="43" text-anchor="middle" font-size="14" fill="#1e293b">技能包目录结构</text>
+  <line x1="360" y1="60" x2="360" y2="88" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="88" x2="590" y2="88" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="130" y1="88" x2="130" y2="112" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <line x1="360" y1="88" x2="360" y2="112" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <line x1="590" y1="88" x2="590" y2="112" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw1)"/>
+  <rect x="15" y="116" width="230" height="76" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="140" text-anchor="middle" font-size="13" fill="#1e293b">/scripts（脚本文件夹）</text>
+  <text x="130" y="160" text-anchor="middle" font-size="12" fill="#475569">稳定执行的基石</text>
+  <text x="130" y="178" text-anchor="middle" font-size="11" fill="#475569">如 pdf_parser.py 等</text>
+  <rect x="245" y="116" width="230" height="76" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="140" text-anchor="middle" font-size="13" fill="#1e293b">/references（引用文档）</text>
+  <text x="360" y="160" text-anchor="middle" font-size="12" fill="#475569">灵活性与定制化</text>
+  <text x="360" y="178" text-anchor="middle" font-size="11" fill="#475569">如 stopwords.txt 水词列表</text>
+  <rect x="475" y="116" width="230" height="76" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="590" y="140" text-anchor="middle" font-size="13" fill="#1e293b">/SKILL.md（总说明文档）</text>
+  <text x="590" y="160" text-anchor="middle" font-size="12" fill="#475569">用Markdown编写的核心蓝图</text>
+  <text x="590" y="178" text-anchor="middle" font-size="11" fill="#475569">任务·步骤顺序·脚本调用·格式</text>
+</svg>
 
 ### 2. 运行机制
 
@@ -134,7 +135,29 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 3. 当脚本需要个性化信息时，会按说明去`/references`文件夹中查找。
 4. 整个流程严格按照“蓝图”进行，确保了可预测性和稳定性。
 
-![](https://feishu.cn/file/Pt2FbIEi7ohQcnxIAzKcJOIDnag)
+*图：Skill的运行机制（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 200" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw2" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="16" y="24" width="180" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="106" y="51" text-anchor="middle" font-size="14" fill="#1e293b">用户发出指令</text>
+  <line x1="196" y1="46" x2="232" y2="46" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="236" y="24" width="210" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="341" y="51" text-anchor="middle" font-size="14" fill="#1e293b">读取 SKILL.md 蓝图</text>
+  <line x1="446" y1="46" x2="482" y2="46" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="486" y="24" width="218" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="51" text-anchor="middle" font-size="14" fill="#1e293b">调用 /scripts 执行步骤</text>
+  <polyline points="595,68 595,104 341,104 341,136" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="236" y="140" width="210" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="341" y="167" text-anchor="middle" font-size="14" fill="#1e293b">按需查 /references 配置</text>
+  <line x1="446" y1="162" x2="482" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw2)"/>
+  <rect x="486" y="140" width="218" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="595" y="167" text-anchor="middle" font-size="14" fill="#1e293b">严格按蓝图执行，结果稳定</text>
+</svg>
 
 ### 3. 优势总结
 
@@ -144,20 +167,14 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 - **灵活可迭代**：修改`SKILL.md`可以调整流程，修改脚本可以优化逻辑，修改引用文档可以更新知识。
 - **智能可理解**：AI通过理解自然语言文档来调度任务，无需用户手动连接节点。
 
----
+## 进阶与生态：技能的共享与“扣子”的新功能
 
-![](https://feishu.cn/file/X7rqbRYCgoOEWIxon6VcwvZZnCe)
-
-## 第四部分：进阶与生态——技能的共享与“扣子”的新功能
-
-![](https://feishu.cn/file/C2rmbMskso2poSxNRFgcnG8Anhb)
+> 技能包可移植、可分享、可一键安装；“长期计划”功能让AI从被动应答进化为**主动规划的智能助理**。
 
 ### 1. 技能共享与技能商店
 
 - **可移植性**：技能包是一个独立的目录，可以被轻松地导出、分享给他人，或导入到自己的工作区直接使用。
 - **技能商店**：“扣子”平台上线了技能商店（或称技能市场）。在这里，你可以发现社区用户上传的各种优秀技能，例如我们之前例子中的“论文深度解读”技能。你可以**一键安装并使用**这些技能，极大地丰富了你的AI工具箱。同时，你也可以将自己的创意技能上传分享，共建生态。
-
-![](https://feishu.cn/file/LOz0bXSKlolXcyx7pMccyh0on1b)
 
 ### 2. 长期计划功能探索
 
@@ -168,13 +185,7 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 - **主动跟进**：AI能够定期（例如每周）主动向你汇报进度、提醒任务、甚至根据你的反馈调整后续计划。
 - **价值体验**：这项功能让AI从一个“被动应答”的工具，进化成了一个具备“主动规划”和“项目管理”能力的**智能助理**，带来了前所未有的交互体验。
 
----
-
-![](https://feishu.cn/file/FxUObB3WboVhM4xlzZFcEbDtn0g)
-
-## 第五部分：总结与展望
-
-![](https://feishu.cn/file/QRiBbagy2oC9YWxzec5cfOtVnZd)
+## 总结与展望
 
 ### 1. 课程回顾
 
@@ -186,13 +197,11 @@ Skill最核心的价值在于，它在**稳定性**与**灵活性**之间取得�
 - **为什么有效**：揭秘了其“说明文档+脚本+参考资料”的目录结构原理。
 - **生态与未来**：了解了技能共享、技能商店以及更智能的“长期计划”功能。
 
-![](https://feishu.cn/file/KzMMbeh1MoPCnAx1wVacUDX9nTh)
-
 ### 2. 未来展望
 
-AI技能（Skill）技术正处在蓬勃发展的初期。我们有理由相信，它将逐步取代那些简单、笨重的传统自动化工作流，甚至改变人们使用AI的方式。它让复杂的AI能力变得**产品化、封装化、易用化**，将极大地降低技术门槛，进一步释放每一个人的生产力与创造力。
+AI技能（Skill）技术正处在蓬勃发展的初期。我们有理由相信，它将逐步取代那些简单、笨重的传统自动化工作流，甚至改变人们使用AI的方式。
 
-![](https://feishu.cn/file/E7Jubj5oKobJHqxOd84coCnqnQg)
+它让复杂的AI能力变得**产品化、封装化、易用化**，将极大地降低技术门槛，进一步释放每一个人的生产力与创造力。
 
 ### 3. 行动倡议
 
@@ -203,22 +212,3 @@ AI技能（Skill）技术正处在蓬勃发展的初期。我们有理由相信�
 3. 动手修改一个现有技能包，尝试优化其中的脚本或说明文档，感受其灵活性。
 
 拥抱AI技能，让自己从复杂任务的执行者，转变为高效技能的设计者和调度者，未来已来。
-
-![](https://feishu.cn/file/VZpybjixyoimCKxp6MWcKdsUnCN)
-
-![](https://feishu.cn/file/FQLqbSal3oSRKHxnOClcISl3nWb)
-
-![](https://feishu.cn/file/R8sBbcUCJohx59xfxCIc15f9n5m)
-
-![](https://feishu.cn/file/ABIVbOKA5oksm2xb5D4cwzRtnNd)
-
-![](https://feishu.cn/file/YmfFbR9DFojJ1OxcL4VcEXMsnDd)
-
-![](https://feishu.cn/file/Eil6bsyCDoUs6ExsjxccvxpdnWd)
-
-![](https://feishu.cn/file/NVtBbU9wVoNL7DxO3bMc3N3Vnz2)
-
-![](https://feishu.cn/file/WUQKbtYtvoMsKwxNnCUc1s72nlc)
-
-![](https://feishu.cn/file/TV7CbsupioARacx9LcNc3V4un0c)
-
