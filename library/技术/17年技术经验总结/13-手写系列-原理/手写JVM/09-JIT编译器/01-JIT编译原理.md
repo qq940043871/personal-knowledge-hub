@@ -7,7 +7,7 @@
 
 ## 一、JIT概述
 
-JIT（Just-In-Time）编译器将热点字节码编译为本地机器码，提升执行效率。
+**JIT（Just-In-Time）编译器将热点字节码编译为本地机器码**，提升执行效率。
 
 ### 1.1 执行模式
 
@@ -34,6 +34,8 @@ class Method {
 
 ## 二、编译器类型
 
+> C1 编译速度快、优化程度低，适合客户端；C2 编译速度慢、优化程度高，适合服务器；**分层编译**兼顾两者。
+
 ### 2.1 C1编译器（Client Compiler）
 
 - 编译速度快
@@ -59,6 +61,8 @@ Level 4: C2编译
 ---
 
 ## 三、编译优化
+
+> 四类基础优化：**方法内联**、**逃逸分析（标量替换）**、循环展开、死代码消除。
 
 ### 3.1 方法内联
 
@@ -126,6 +130,8 @@ int z = x + y; // z未使用
 
 ## 四、编译触发条件
 
+> 方法调用计数达到阈值（Client 1500 / Server 10000）或回边计数达到 10700 时触发编译。
+
 ### 4.1 方法调用计数
 
 ```cpp
@@ -160,6 +166,8 @@ int back_edge_threshold = 10700;
 
 ## 五、逆优化
 
+> 乐观假设失效时触发**去优化（Deoptimization）**：恢复解释执行状态 → 重建栈帧 → 回到解释执行。
+
 ### 5.1 逆优化场景
 
 - 类型假设失败
@@ -180,6 +188,35 @@ void deoptimize(Method* method) {
     interpret(method);
 }
 ```
+
+*图：JIT 编译与逆优化的状态流转（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="60" width="160" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="81" text-anchor="middle" font-size="14" fill="#1e293b">解释执行</text>
+  <text x="110" y="100" text-anchor="middle" font-size="12" fill="#475569">调用/回边计数器累积</text>
+  <line x1="190" y1="86" x2="255" y2="86" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="222" y="76" text-anchor="middle" font-size="12" fill="#475569">超过阈值</text>
+  <rect x="260" y="60" width="180" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="81" text-anchor="middle" font-size="14" fill="#1e293b">JIT 编译</text>
+  <text x="350" y="100" text-anchor="middle" font-size="12" fill="#475569">C1 / C2，内联等优化</text>
+  <line x1="440" y1="86" x2="505" y2="86" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="510" y="60" width="170" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="595" y="81" text-anchor="middle" font-size="14" fill="#1e293b">机器码执行</text>
+  <text x="595" y="100" text-anchor="middle" font-size="12" fill="#475569">峰值性能高</text>
+  <line x1="595" y1="112" x2="595" y2="158" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="607" y="140" text-anchor="start" font-size="12" fill="#475569">类型假设失效</text>
+  <rect x="510" y="163" width="170" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="595" y="184" text-anchor="middle" font-size="14" fill="#1e293b">逆优化</text>
+  <text x="595" y="203" text-anchor="middle" font-size="12" fill="#475569">Deoptimization</text>
+  <path d="M510,189 H110 V117" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="310" y="180" text-anchor="middle" font-size="12" fill="#475569">重建栈帧，回到解释执行</text>
+</svg>
 
 ---
 
