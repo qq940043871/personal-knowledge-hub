@@ -30,6 +30,42 @@ ClassFile {
 }
 ```
 
+*图：ClassFile 字节流布局顺序（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 410" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="190" y="18" width="340" height="30" rx="6" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="38" text-anchor="middle" font-size="13" fill="#1e293b">magic（u4）：魔数 0xCAFEBABE</text>
+  <line x1="360" y1="48" x2="360" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="62" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="82" text-anchor="middle" font-size="13" fill="#1e293b">minor_version / major_version（u2 + u2）：版本号</text>
+  <line x1="360" y1="92" x2="360" y2="106" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="106" width="340" height="30" rx="6" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="126" text-anchor="middle" font-size="13" fill="#1e293b">constant_pool_count + constant_pool：常量池</text>
+  <line x1="360" y1="136" x2="360" y2="150" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="150" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="170" text-anchor="middle" font-size="13" fill="#1e293b">access_flags（u2）：访问标志</text>
+  <line x1="360" y1="180" x2="360" y2="194" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="194" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="214" text-anchor="middle" font-size="13" fill="#1e293b">this_class / super_class（u2 + u2）：类与父类索引</text>
+  <line x1="360" y1="224" x2="360" y2="238" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="238" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="258" text-anchor="middle" font-size="13" fill="#1e293b">interfaces_count + interfaces：接口索引表</text>
+  <line x1="360" y1="268" x2="360" y2="282" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="282" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="302" text-anchor="middle" font-size="13" fill="#1e293b">fields_count + fields：字段表</text>
+  <line x1="360" y1="312" x2="360" y2="326" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="326" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="346" text-anchor="middle" font-size="13" fill="#1e293b">methods_count + methods：方法表</text>
+  <line x1="360" y1="356" x2="360" y2="370" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="370" width="340" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="390" text-anchor="middle" font-size="13" fill="#1e293b">attributes_count + attributes：属性表</text>
+</svg>
+
 ---
 
 ## 二、核心代码实现
