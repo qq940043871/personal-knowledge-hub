@@ -1,4 +1,4 @@
-# Redis
+# Redis分布式缓存
 
 > 模块：缓存框架
 > 更新时间：2026-03-29
@@ -94,6 +94,36 @@ public class UserService {
     }
 }
 ```
+
+*图：缓存查询——先查 Redis，未命中回源数据库并写回（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="40" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="80" y="67" text-anchor="middle" font-size="14" fill="#1e293b">客户端请求</text>
+  <line x1="140" y1="62" x2="175" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="180" y="40" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="255" y="67" text-anchor="middle" font-size="14" fill="#1e293b">查询 Redis 缓存</text>
+  <line x1="330" y1="62" x2="360" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="365" y="40" width="130" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="430" y="67" text-anchor="middle" font-size="14" fill="#1e293b">缓存命中？</text>
+  <line x1="495" y1="62" x2="530" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="512" y="54" text-anchor="middle" font-size="12" fill="#475569">是</text>
+  <rect x="535" y="40" width="160" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="615" y="67" text-anchor="middle" font-size="14" fill="#1e293b">直接返回缓存值</text>
+  <line x1="430" y1="84" x2="430" y2="145" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="444" y="118" text-anchor="middle" font-size="12" fill="#475569">否</text>
+  <rect x="365" y="150" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="430" y="177" text-anchor="middle" font-size="14" fill="#1e293b">查询数据库</text>
+  <line x1="495" y1="172" x2="530" y2="172" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="535" y="150" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="615" y="177" text-anchor="middle" font-size="14" fill="#1e293b">写回缓存（30 分钟）</text>
+  <text x="360" y="228" text-anchor="middle" font-size="13" fill="#475569">命中直接返回；未命中回源数据库，写回缓存后再返回</text>
+</svg>
 
 ### 场景2：分布式锁
 
@@ -226,7 +256,7 @@ public class RedisConfig {
 
 ## 五、总结
 
-Redis是Java后端开发必备技能，是高性能系统架构的核心组件。
+**Redis是Java后端开发必备技能，是高性能系统架构的核心组件。**
 
 **学习要点**：
 1. 掌握5种数据结构的使用场景

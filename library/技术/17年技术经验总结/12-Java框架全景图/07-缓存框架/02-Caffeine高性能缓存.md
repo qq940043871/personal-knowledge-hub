@@ -5,7 +5,7 @@
 
 ---
 
-## 一、概述
+## 一、框架概述与核心特性
 
 Caffeine是Java 8+的高性能本地缓存库，由Google Guava Cache的作者开发，性能比Guava Cache提升显著。
 
@@ -158,6 +158,32 @@ Cache<String, User> cache = Caffeine.newBuilder()
 | 读 | 60ns | 100ns | 50ns |
 | 写 | 80ns | 150ns | 60ns |
 | 命中率 | 99% | 95% | N/A |
+
+*图：Caffeine 与 Guava Cache、ConcurrentHashMap 读写延迟对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="20" y="28" font-size="15" font-weight="bold" fill="#1e293b">读延迟（ns）</text>
+  <text x="20" y="49" font-size="13" fill="#475569">Caffeine</text>
+  <rect x="145" y="38" width="210" height="14" rx="3" fill="#16a34a"/>
+  <text x="363" y="49" font-size="13" fill="#475569">60</text>
+  <text x="20" y="73" font-size="13" fill="#475569">Guava Cache</text>
+  <rect x="145" y="62" width="350" height="14" rx="3" fill="#94a3b8"/>
+  <text x="503" y="73" font-size="13" fill="#475569">100</text>
+  <text x="20" y="97" font-size="13" fill="#475569">ConcurrentHashMap</text>
+  <rect x="145" y="86" width="175" height="14" rx="3" fill="#2563eb"/>
+  <text x="328" y="97" font-size="13" fill="#475569">50</text>
+  <text x="20" y="126" font-size="15" font-weight="bold" fill="#1e293b">写延迟（ns）</text>
+  <text x="20" y="147" font-size="13" fill="#475569">Caffeine</text>
+  <rect x="145" y="136" width="280" height="14" rx="3" fill="#16a34a"/>
+  <text x="433" y="147" font-size="13" fill="#475569">80</text>
+  <text x="20" y="171" font-size="13" fill="#475569">Guava Cache</text>
+  <rect x="145" y="160" width="525" height="14" rx="3" fill="#94a3b8"/>
+  <text x="678" y="171" font-size="13" fill="#475569">150</text>
+  <text x="20" y="195" font-size="13" fill="#475569">ConcurrentHashMap</text>
+  <rect x="145" y="184" width="210" height="14" rx="3" fill="#2563eb"/>
+  <text x="363" y="195" font-size="13" fill="#475569">60</text>
+  <text x="360" y="226" text-anchor="middle" font-size="13" fill="#475569">命中率：Caffeine 99%、Guava Cache 95%、ConcurrentHashMap N/A</text>
+</svg>
 
 ---
 

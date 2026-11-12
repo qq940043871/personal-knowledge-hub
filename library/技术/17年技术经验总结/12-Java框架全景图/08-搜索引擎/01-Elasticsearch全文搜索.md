@@ -1,4 +1,4 @@
-# Elasticsearch
+# Elasticsearch全文搜索
 
 > 模块：搜索引擎
 > 更新时间：2026-03-29
@@ -162,6 +162,34 @@ public class ProductSearchService {
 }
 ```
 
+*图：复杂搜索的查询构建流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="40" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="67" text-anchor="middle" font-size="14" fill="#1e293b">关键词搜索</text>
+  <line x1="150" y1="62" x2="180" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="185" y="40" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="250" y="67" text-anchor="middle" font-size="14" fill="#1e293b">分类过滤</text>
+  <line x1="315" y1="62" x2="345" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="350" y="40" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="415" y="67" text-anchor="middle" font-size="14" fill="#1e293b">价格区间</text>
+  <line x1="480" y1="62" x2="510" y2="62" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="515" y="40" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="575" y="67" text-anchor="middle" font-size="14" fill="#1e293b">排序</text>
+  <line x1="575" y1="84" x2="575" y2="135" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="515" y="140" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="575" y="167" text-anchor="middle" font-size="14" fill="#1e293b">分页</text>
+  <line x1="515" y1="162" x2="485" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="350" y="140" width="130" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="415" y="167" text-anchor="middle" font-size="14" fill="#1e293b">返回结果</text>
+  <text x="360" y="210" text-anchor="middle" font-size="13" fill="#475569">各步骤按条件叠加构建 NativeQuery，最终返回 SearchPage</text>
+</svg>
+
 ### 场景2：全文搜索+高亮
 
 ```java
@@ -257,7 +285,7 @@ spring:
 
 ## 五、总结
 
-Elasticsearch是实现全文搜索的首选方案，配合Spring Data Elasticsearch可以快速集成。
+**Elasticsearch是实现全文搜索的首选方案**，配合Spring Data Elasticsearch可以快速集成。
 
 **学习要点**：
 1. 理解倒排索引原理

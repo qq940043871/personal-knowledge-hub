@@ -1,4 +1,4 @@
-# RabbitMQ
+# RabbitMQ消息队列
 
 > 模块：消息中间件
 > 更新时间：2026-03-29
@@ -17,6 +17,29 @@ RabbitMQ是实现了AMQP协议的消息中间件，支持消息队列、路由�
 - **Exchange**：交换机，路由消息
 - **Queue**：队列，存储消息
 - **Binding**：绑定，连接交换机和队列
+
+*图：RabbitMQ 消息流转链路（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="60" width="120" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="80" y="87" text-anchor="middle" font-size="14" fill="#1e293b">Producer 生产者</text>
+  <line x1="140" y1="82" x2="170" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="175" y="60" width="145" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="247" y="87" text-anchor="middle" font-size="14" fill="#1e293b">Exchange 交换机</text>
+  <line x1="320" y1="82" x2="350" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="335" y="52" text-anchor="middle" font-size="12" fill="#475569">Binding 绑定路由</text>
+  <rect x="355" y="60" width="125" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="417" y="87" text-anchor="middle" font-size="14" fill="#1e293b">Queue 队列</text>
+  <line x1="480" y1="82" x2="510" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="515" y="60" width="150" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="590" y="87" text-anchor="middle" font-size="14" fill="#1e293b">Consumer 消费者</text>
+  <text x="360" y="150" text-anchor="middle" font-size="13" fill="#475569">生产者发送消息到交换机，按绑定规则路由到队列，消费者监听消费</text>
+</svg>
 
 ---
 
@@ -253,7 +276,7 @@ public void handleOrder(Order order, Channel channel,
 
 ## 五、总结
 
-RabbitMQ是企业级应用消息队列的首选，Spring Boot的Spring AMQP让集成变得非常简单。
+**RabbitMQ是企业级应用消息队列的首选**，Spring Boot的Spring AMQP让集成变得非常简单。
 
 **学习要点**：
 1. 理解AMQP协议和Exchange类型

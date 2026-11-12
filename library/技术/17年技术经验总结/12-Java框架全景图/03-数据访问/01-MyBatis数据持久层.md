@@ -1,4 +1,4 @@
-# MyBatis
+# MyBatis数据持久层
 
 > 模块：数据访问框架
 > 更新时间：2026-03-29
@@ -18,6 +18,28 @@ MyBatis是优秀的持久层框架，它消除了几乎所有的JDBC代码和手
 - 支持动态SQL
 - 支持XML和注解两种配置方式
 - 性能优秀
+
+*图：MyBatis 数据访问协作链路（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="60" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="87" text-anchor="middle" font-size="14" fill="#1e293b">业务代码</text>
+  <line x1="150" y1="82" x2="180" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="185" y="60" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="255" y="87" text-anchor="middle" font-size="14" fill="#1e293b">Mapper 接口</text>
+  <line x1="325" y1="82" x2="355" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="360" y="60" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="435" y="87" text-anchor="middle" font-size="14" fill="#1e293b">XML / 注解 SQL</text>
+  <line x1="510" y1="82" x2="540" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="545" y="60" width="155" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="622" y="87" text-anchor="middle" font-size="14" fill="#1e293b">数据库（JDBC）</text>
+  <text x="360" y="150" text-anchor="middle" font-size="13" fill="#475569">SQL 与 Java 代码分离，支持 XML 和注解两种配置方式</text>
+</svg>
 
 ---
 
@@ -293,7 +315,7 @@ public MybatisPlusInterceptor mybatisPlusInterceptor() {
 
 ## 五、总结
 
-MyBatis是Java数据访问层最流行的框架，配合MyBatis-Plus使用可以极大提升开发效率。
+**MyBatis是Java数据访问层最流行的框架**，配合MyBatis-Plus使用可以极大提升开发效率。
 
 **学习要点**：
 1. 掌握SQL映射文件的编写

@@ -5,7 +5,7 @@
 
 ---
 
-## 一、概述
+## 一、框架概述与核心特性
 
 Ehcache是Java领域最成熟的本地缓存框架，支持内存和磁盘存储，广泛用于Hibernate二级缓存、Spring Cache等场景。
 
@@ -64,6 +64,25 @@ CacheConfigurationBuilder.newCacheConfigurationBuilder(
         .offheap(10, MemoryUnit.MB)         // 堆外10MB
         .disk(100, MemoryUnit.MB, true))    // 磁盘100MB
 ```
+
+*图：Ehcache 多级缓存存储层级（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 230" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="210" y="20" width="300" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="47" text-anchor="middle" font-size="14" fill="#1e293b">heap 堆内存储（100 个元素）</text>
+  <line x1="360" y1="64" x2="360" y2="84" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="210" y="88" width="300" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="115" text-anchor="middle" font-size="14" fill="#1e293b">offheap 堆外存储（10MB）</text>
+  <line x1="360" y1="132" x2="360" y2="152" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="210" y="156" width="300" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="183" text-anchor="middle" font-size="14" fill="#1e293b">disk 磁盘存储（100MB）</text>
+  <text x="360" y="222" text-anchor="middle" font-size="13" fill="#475569">多级缓存资源配置：堆内 100 个元素、堆外 10MB、磁盘 100MB</text>
+</svg>
 
 ---
 
