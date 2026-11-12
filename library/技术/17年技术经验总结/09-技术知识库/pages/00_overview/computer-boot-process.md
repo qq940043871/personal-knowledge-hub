@@ -1,10 +1,8 @@
 # 计算机启动流程：从按下电源到系统就绪
 
-## 概述
-
 计算机启动是一个从硬件初始化到软件加载的复杂过程，涉及多个步骤和组件的协同工作。本文将详细解析从按下电源按钮到系统完全就绪的完整流程。
 
-## 启动流程图
+## 启动流程总览（12 个步骤）
 
 ```
 +-------------------+    +-------------------+    +-------------------+
@@ -27,7 +25,9 @@
 +-------------------+    +-------------------+    +-------------------+
 ```
 
-## 详细步骤
+## 详细步骤：从电源供电到系统就绪
+
+> 从硬件初始化到软件加载，**每一步都至关重要**。
 
 ### 1. 电源供电
 
@@ -36,6 +36,7 @@
 ### 2. 电源自检 (POST)
 
 电源稳定后，CPU会从固定地址开始执行指令，通常是BIOS/UEFI固件的起始地址。BIOS/UEFI会执行电源自检（Power-On Self Test，POST），检查关键硬件组件是否正常工作，包括：
+
 - CPU
 - 内存
 - 显卡
@@ -51,20 +52,22 @@ POST完成后，BIOS/UEFI会初始化自身并准备引导过程。BIOS（Basic 
 ### 4. 引导设备检测
 
 BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，通常包括：
+
 - 硬盘
 - 光驱
 - USB设备
 - 网络启动
 
-第一个包含有效引导程序的设备会被选中。
+**第一个包含有效引导程序的设备会被选中。**
 
 ### 5. 引导加载程序
 
 当找到可引导设备后，BIOS/UEFI会从该设备的引导扇区加载引导加载程序（Boot Loader）。常见的引导加载程序包括：
+
 - Windows：NTLDR（旧版）或Bootmgr
 - Linux：GRUB或LILO
 
-引导加载程序的主要任务是加载操作系统内核。
+引导加载程序的主要任务是**加载操作系统内核**。
 
 ### 6. 操作系统加载
 
@@ -73,6 +76,7 @@ BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，�
 ### 7. 内核初始化
 
 内核加载到内存后，会开始初始化自身，包括：
+
 - 初始化内存管理
 - 设置中断处理
 - 初始化文件系统
@@ -85,6 +89,7 @@ BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，�
 ### 9. 系统服务启动
 
 操作系统会启动各种系统服务和后台进程，包括：
+
 - 网络服务
 - 安全服务
 - 存储服务
@@ -100,9 +105,9 @@ BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，�
 
 ### 12. 系统就绪
 
-用户登录后，系统会启动用户的默认程序和桌面环境，此时计算机完全就绪，可以开始使用。
+用户登录后，系统会启动用户的默认程序和桌面环境，此时**计算机完全就绪**，可以开始使用。
 
-## 关键组件说明
+## 关键组件：BIOS/UEFI 与引导加载程序
 
 ### BIOS vs UEFI
 
@@ -114,6 +119,34 @@ BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，�
 | 安全性 | 基本 | 支持安全启动 |
 | 启动方式 | MBR分区 | GPT分区 |
 
+*图：BIOS 与 UEFI 两条启动路径对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="50" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="115" y="77" text-anchor="middle" font-size="14" fill="#1e293b">BIOS（传统固件）</text>
+  <line x1="200" y1="72" x2="270" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="275" y="50" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="77" text-anchor="middle" font-size="14" fill="#1e293b">MBR 分区</text>
+  <line x1="425" y1="72" x2="495" y2="72" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="500" y="50" width="190" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="595" y="69" text-anchor="middle" font-size="13" fill="#1e293b">最大支持 2TB 硬盘</text>
+  <text x="595" y="86" text-anchor="middle" font-size="12" fill="#475569">文本模式 · 启动较慢 · 基本安全性</text>
+  <rect x="30" y="150" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="115" y="177" text-anchor="middle" font-size="14" fill="#1e293b">UEFI（现代固件）</text>
+  <line x1="200" y1="172" x2="270" y2="172" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="275" y="150" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="177" text-anchor="middle" font-size="14" fill="#1e293b">GPT 分区</text>
+  <line x1="425" y1="172" x2="495" y2="172" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="500" y="150" width="190" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="595" y="169" text-anchor="middle" font-size="13" fill="#1e293b">支持的硬盘大小无限制</text>
+  <text x="595" y="186" text-anchor="middle" font-size="12" fill="#475569">图形界面 · 启动较快 · 支持安全启动</text>
+</svg>
+
 ### 引导加载程序
 
 - **GRUB**（Linux）：支持多操作系统引导，提供菜单选择
@@ -122,6 +155,8 @@ BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，�
 
 ## 常见启动问题及解决方法
 
+> 遇到启动问题时，可以根据本文提供的信息进行排查和解决。
+
 | 问题 | 可能原因 | 解决方法 |
 |------|----------|----------|
 | 无法找到引导设备 | 启动顺序错误或硬盘故障 | 检查BIOS/UEFI设置或更换硬盘 |
@@ -129,8 +164,8 @@ BIOS/UEFI会按照预设的启动顺序（Boot Order）检测可引导设备，�
 | 内核 panic | 硬件不兼容或驱动问题 | 更新驱动或检查硬件 |
 | 无限重启 | 硬件故障或系统文件损坏 | 检查硬件或重装系统 |
 
-## 总结
+## 小结：理解启动流程的价值
 
-计算机启动过程是一个精心设计的序列，从硬件初始化到软件加载，每一步都至关重要。理解这个过程不仅有助于解决启动问题，还能帮助我们更好地理解计算机系统的工作原理。
+计算机启动过程是一个精心设计的序列，从硬件初始化到软件加载，**每一步都至关重要**。理解这个过程不仅有助于解决启动问题，还能帮助我们更好地理解计算机系统的工作原理。
 
 通过本文的介绍，您应该对计算机从按下电源到系统就绪的整个过程有了清晰的认识。如果您遇到启动问题，可以根据本文提供的信息进行排查和解决。

@@ -1,7 +1,5 @@
 # 网页渲染原理：从URL到可视化页面
 
-## 概述
-
 当我们在浏览器中输入网址并按下回车后，浏览器会执行一系列复杂的步骤，将远程服务器的代码转换为我们看到的可视化页面。本文将详细解析从URL输入到页面显示的完整渲染过程。
 
 ## 网页渲染流程图
@@ -32,7 +30,9 @@
 +-------------------+    +-------------------+    +-------------------+
 ```
 
-## 详细步骤
+## 详细步骤：从 URL 输入到页面加载完成
+
+> 从 URL 输入到页面显示，共 15 个步骤；核心是**构建 DOM 树与 CSSOM，结合生成渲染树，再进行布局与绘制**。
 
 ### 1. URL输入与解析
 
@@ -41,6 +41,7 @@
 ### 2. DNS域名解析
 
 浏览器需要将域名转换为IP地址，以便与服务器建立连接。这个过程称为DNS（域名系统）解析：
+
 - 浏览器首先检查本地DNS缓存
 - 如果缓存中没有，会向本地DNS服务器请求
 - 本地DNS服务器可能会向根域名服务器、顶级域名服务器等请求，直到找到对应的IP地址
@@ -48,6 +49,7 @@
 ### 3. TCP连接建立
 
 获取到服务器IP地址后，浏览器会与服务器建立TCP连接，这个过程包括三次握手：
+
 - 客户端发送SYN包，请求建立连接
 - 服务器发送SYN+ACK包，确认接收并请求建立连接
 - 客户端发送ACK包，确认接收，连接建立
@@ -55,6 +57,7 @@
 ### 4. HTTP请求发送
 
 TCP连接建立后，浏览器会向服务器发送HTTP请求，请求包含：
+
 - 请求方法（GET、POST等）
 - 请求路径
 - 请求头（包含浏览器信息、Cookie等）
@@ -63,6 +66,7 @@ TCP连接建立后，浏览器会向服务器发送HTTP请求，请求包含：
 ### 5. 服务器响应
 
 服务器接收到请求后，会处理请求并返回HTTP响应，响应包含：
+
 - 状态码（200表示成功，404表示未找到等）
 - 响应头（包含内容类型、缓存控制等）
 - 响应体（HTML、CSS、JavaScript等内容）
@@ -74,6 +78,7 @@ TCP连接建立后，浏览器会向服务器发送HTTP请求，请求包含：
 ### 7. HTML解析
 
 浏览器解析HTML文档，将其转换为浏览器可以理解的结构。解析过程包括：
+
 - 词法分析：将HTML文本分解为标记（tokens）
 - 语法分析：将标记转换为DOM节点
 
@@ -87,7 +92,7 @@ HTML解析完成后，浏览器会构建DOM（文档对象模型）树，这是�
 
 ### 10. 渲染树生成
 
-浏览器将DOM树和CSSOM结合，生成渲染树（Render Tree）。渲染树只包含可见的元素，不包含隐藏的元素（如display: none的元素）。
+浏览器将DOM树和CSSOM结合，生成渲染树（Render Tree）。**渲染树只包含可见的元素**，不包含隐藏的元素（如display: none的元素）。
 
 ### 11. 布局计算
 
@@ -99,21 +104,61 @@ HTML解析完成后，浏览器会构建DOM（文档对象模型）树，这是�
 
 ### 13. JavaScript执行
 
-如果页面中包含JavaScript代码，浏览器会执行这些代码。JavaScript可以修改DOM和CSSOM，从而触发重新布局和绘制。
+如果页面中包含JavaScript代码，浏览器会执行这些代码。**JavaScript可以修改DOM和CSSOM**，从而触发重新布局和绘制。
 
 ### 14. 重排与重绘
 
-当DOM或CSSOM发生变化时，浏览器可能需要重新计算布局（重排）和重新绘制（重绘）。重排比重绘更消耗性能，因为它需要重新计算元素的位置和大小。
+当DOM或CSSOM发生变化时，浏览器可能需要重新计算布局（重排）和重新绘制（重绘）。**重排比重绘更消耗性能**，因为它需要重新计算元素的位置和大小。
 
 ### 15. 页面加载完成
 
 当所有资源加载完成，页面渲染完成后，浏览器会触发load事件，表示页面加载完成。
 
+*图：浏览器核心渲染流水线（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">浏览器核心渲染流水线</text>
+  <rect x="60" y="44" width="150" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="69" text-anchor="middle" font-size="14" fill="#1e293b">HTML 解析</text>
+  <rect x="510" y="44" width="150" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="585" y="69" text-anchor="middle" font-size="14" fill="#1e293b">CSS 解析</text>
+  <line x1="135" y1="84" x2="135" y2="116" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="585" y1="84" x2="585" y2="116" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="60" y="120" width="150" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="145" text-anchor="middle" font-size="14" fill="#1e293b">DOM 树</text>
+  <rect x="510" y="120" width="150" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="585" y="145" text-anchor="middle" font-size="14" fill="#1e293b">CSSOM</text>
+  <rect x="285" y="120" width="150" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="145" text-anchor="middle" font-size="14" fill="#1e293b">渲染树（可见元素）</text>
+  <line x1="210" y1="140" x2="281" y2="140" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="510" y1="140" x2="439" y2="140" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="160" x2="360" y2="192" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="285" y="196" width="150" height="48" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="216" text-anchor="middle" font-size="14" fill="#1e293b">布局计算</text>
+  <text x="360" y="234" text-anchor="middle" font-size="12" fill="#475569">Layout / 重排</text>
+  <line x1="435" y1="220" x2="465" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="470" y="196" width="150" height="48" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="545" y="216" text-anchor="middle" font-size="14" fill="#1e293b">页面绘制</text>
+  <text x="545" y="234" text-anchor="middle" font-size="12" fill="#475569">Paint / 重绘</text>
+  <rect x="60" y="270" width="150" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="295" text-anchor="middle" font-size="14" fill="#1e293b">JavaScript 执行</text>
+  <line x1="135" y1="270" x2="135" y2="164" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arw)"/>
+  <text x="147" y="252" font-size="12" fill="#475569">修改 DOM / CSSOM，触发重新布局和绘制</text>
+</svg>
+
 ## 关键技术点
+
+> **重排比重绘更消耗性能**，因为它需要重新计算元素的位置和大小。
 
 ### 浏览器渲染引擎
 
 不同浏览器使用不同的渲染引擎：
+
 - Chrome：Blink
 - Firefox：Gecko
 - Safari：WebKit
@@ -149,8 +194,8 @@ HTML解析完成后，浏览器会构建DOM（文档对象模型）树，这是�
 | 布局错乱 | CSS规则冲突或浏览器兼容性问题 | 检查CSS规则、使用浏览器前缀 |
 | JavaScript执行阻塞 | 脚本执行时间过长 | 优化JavaScript、使用异步加载 |
 
-## 总结
+## 小结：理解渲染过程的价值
 
-网页渲染是一个复杂的过程，涉及多个步骤和组件的协同工作。理解这个过程不仅有助于优化网页性能，还能帮助我们更好地理解浏览器的工作原理。
+网页渲染是一个复杂的过程，涉及多个步骤和组件的协同工作。理解这个过程不仅有助于**优化网页性能**，还能帮助我们更好地理解浏览器的工作原理。
 
 通过本文的介绍，您应该对从URL输入到页面显示的整个渲染过程有了清晰的认识。如果您遇到渲染问题，可以根据本文提供的优化策略进行改进。

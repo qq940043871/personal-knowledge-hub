@@ -15,6 +15,8 @@ Transformer 采用经典的 **Encoder-Decoder** 结构，其中 Encoder 负责�
 - **Encoder 层**：Multi-Head Self-Attention → Add & Norm → Feed-Forward Network → Add & Norm
 - **Decoder 层**：Masked Multi-Head Self-Attention → Add & Norm → Multi-Head Cross-Attention → Add & Norm → Feed-Forward Network → Add & Norm
 
+*图：Transformer Encoder-Decoder架构示意（依正文整理）*
+
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 500" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
   <defs>
     <marker id="ar1" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
@@ -53,8 +55,6 @@ Transformer 采用经典的 **Encoder-Decoder** 结构，其中 Encoder 负责�
   <text x="360" y="462" text-anchor="middle" font-size="13" fill="#475569">编码器双向注意力，解码器带Mask自回归生成</text>
   <text x="360" y="486" text-anchor="middle" font-size="13" fill="#475569">典型应用：BERT（Encoder）、GPT（Decoder）</text>
 </svg>
-
-*图：Transformer Encoder-Decoder架构示意（依正文整理）*
 
 | 特性 | Encoder | Decoder |
 |-|-|-|
@@ -224,15 +224,15 @@ RMSNorm 的优势：计算量减少约 10-15%，去掉均值和偏置项不影�
 以下论文是理解和追踪 Transformer 架构演进的必读文献：
 
 1. **Attention Is All You Need** (Vaswani et al., 2017) — Transformer 的奠基之作，提出 Self-Attention、Multi-Head Attention、位置编码等核心组件，彻底改变了序列建模范式。
-https://arxiv.org/abs/1706.03762
+   https://arxiv.org/abs/1706.03762
 2. **Language Models are Few-Shot Learners (GPT-3)** (Brown et al., 2020) — 展示了大规模 Decoder-Only Transformer 的 In-Context Learning 能力，证明了"规模法则"（Scaling Laws）的有效性，175B 参数的 GPT-3 在无需微调的情况下完成了多种 NLP 任务。
-https://arxiv.org/abs/2005.14165
+   https://arxiv.org/abs/2005.14165
 3. **LLaMA: Open and Efficient Foundation Language Models** (Touvron et al., 2023) — Meta 发布的开源大模型系列，系统验证了 RMSNorm、SwiGLU、RoPE、GQA 等现代架构组件的有效组合，成为后续开源模型（Alpaca、Vicuna、Mistral 等）的技术基座。
-https://arxiv.org/abs/2302.13971
+   https://arxiv.org/abs/2302.13971
 4. **PaLM: Scaling Language Modeling with Pathways** (Chowdhery et al., 2022) — Google 的 540B 参数模型，深入探索了模型规模、数据规模和计算资源之间的缩放关系，并行训练技术（Pathways）以及大规模模型的涌现能力。
-https://arxiv.org/abs/2204.02311
+   https://arxiv.org/abs/2204.02311
 5. **Mistral 7B** (Jiang et al., 2023) — 证明了 7B 级别模型通过精心的架构设计（GQA + 滑动窗口注意力 + SwiGLU）可以匹敌甚至超越更大的模型，推动了高效推理的技术方向。
-https://arxiv.org/abs/2310.06825
+   https://arxiv.org/abs/2310.06825
 
 ---
 

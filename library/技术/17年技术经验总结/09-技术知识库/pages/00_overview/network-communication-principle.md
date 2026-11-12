@@ -1,7 +1,5 @@
 # 网络通信原理：计算机间的数据传输
 
-## 概述
-
 当两台不同的计算机需要进行通信时，数据需要经过一系列的处理和传输过程。本文将详细解析从发送端到接收端的完整网络通信过程，包括网络模型、协议、数据传输等环节。
 
 ## 网络通信流程图
@@ -29,6 +27,8 @@
 
 ## 网络模型
 
+> OSI 是 ISO 制定的七层模型，TCP/IP 是实际应用中使用的四层模型。
+
 ### OSI七层模型
 
 OSI（Open Systems Interconnection）七层模型是国际标准化组织（ISO）制定的网络通信模型，从下到上分为：
@@ -50,7 +50,46 @@ TCP/IP模型是实际应用中使用的网络模型，从下到上分为：
 3. **传输层**：对应OSI的传输层
 4. **应用层**：对应OSI的会话层、表示层和应用层
 
-## 详细步骤
+*图：OSI 七层模型与 TCP/IP 四层模型对应关系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">OSI 七层模型与 TCP/IP 四层模型的对应关系</text>
+  <text x="160" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#475569">OSI 七层</text>
+  <text x="560" y="52" text-anchor="middle" font-size="14" font-weight="bold" fill="#475569">TCP/IP 四层</text>
+  <rect x="70" y="60" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="81" text-anchor="middle" font-size="14" fill="#1e293b">应用层</text>
+  <rect x="70" y="98" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="119" text-anchor="middle" font-size="14" fill="#1e293b">表示层</text>
+  <rect x="70" y="136" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="157" text-anchor="middle" font-size="14" fill="#1e293b">会话层</text>
+  <rect x="70" y="174" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="195" text-anchor="middle" font-size="14" fill="#1e293b">传输层</text>
+  <rect x="70" y="212" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="233" text-anchor="middle" font-size="14" fill="#1e293b">网络层</text>
+  <rect x="70" y="250" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="271" text-anchor="middle" font-size="14" fill="#1e293b">数据链路层</text>
+  <rect x="70" y="288" width="180" height="32" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="309" text-anchor="middle" font-size="14" fill="#1e293b">物理层</text>
+  <rect x="470" y="60" width="180" height="104" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="560" y="117" text-anchor="middle" font-size="14" fill="#1e293b">应用层</text>
+  <rect x="470" y="174" width="180" height="32" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="560" y="195" text-anchor="middle" font-size="14" fill="#1e293b">传输层</text>
+  <rect x="470" y="212" width="180" height="32" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="560" y="233" text-anchor="middle" font-size="14" fill="#1e293b">网络层</text>
+  <rect x="470" y="250" width="180" height="70" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="560" y="290" text-anchor="middle" font-size="14" fill="#1e293b">网络接口层</text>
+  <line x1="250" y1="76" x2="466" y2="106" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="250" y1="114" x2="466" y2="112" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="250" y1="152" x2="466" y2="122" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="250" y1="190" x2="466" y2="190" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="250" y1="228" x2="466" y2="228" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="250" y1="266" x2="466" y2="279" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="250" y1="304" x2="466" y2="292" stroke="#94a3b8" stroke-width="1.5"/>
+</svg>
+
+## 详细步骤：从发送端到接收端的封装与传输
+
+> 发送端逐层**封装**，接收端逐层**解封装**。
 
 ### 1. 应用层数据
 
@@ -113,14 +152,14 @@ TCP/IP模型是实际应用中使用的网络模型，从下到上分为：
 
 ### IP地址
 
-IP地址是网络层的地址，用于在网络中唯一标识一台设备。IP地址分为IPv4和IPv6两种：
+IP地址是网络层的地址，用于**在网络中唯一标识一台设备**。IP地址分为IPv4和IPv6两种：
 
 - **IPv4**：32位地址，格式为点分十进制，如192.168.1.1
 - **IPv6**：128位地址，格式为冒分十六进制，如2001:0db8:85a3:0000:0000:8a2e:0370:7334
 
 ### MAC地址
 
-MAC地址是数据链路层的地址，用于在局域网中唯一标识一台设备。MAC地址为48位，格式为十六进制，如00:1B:44:11:3A:B7。
+MAC地址是数据链路层的地址，用于**在局域网中唯一标识一台设备**。MAC地址为48位，格式为十六进制，如00:1B:44:11:3A:B7。
 
 ### ARP协议
 
@@ -145,6 +184,8 @@ ARP（Address Resolution Protocol）用于将IP地址解析为MAC地址，以便
 - **BGP（Border Gateway Protocol）**：外部网关协议
 
 ## TCP连接的建立与断开
+
+> TCP 使用**三次握手**建立连接，使用**四次挥手**断开连接。
 
 ### TCP三次握手
 
@@ -228,8 +269,8 @@ TCP使用四次挥手断开连接：
 | 丢包率高 | 网络质量差或设备故障 | 检查网络设备、更换物理介质 |
 | DNS解析失败 | DNS服务器问题或域名错误 | 检查DNS配置、验证域名 |
 
-## 总结
+## 小结：理解网络通信原理的价值
 
-网络通信是一个复杂的过程，涉及多个层次的协议和技术。理解网络通信的原理，不仅有助于我们解决网络问题，还能帮助我们设计和实现更可靠、更高效的网络应用。
+网络通信是一个复杂的过程，涉及多个层次的协议和技术。理解网络通信的原理，不仅有助于我们解决网络问题，还能帮助我们**设计和实现更可靠、更高效的网络应用**。
 
 通过本文的介绍，您应该对从发送端到接收端的完整网络通信过程有了清晰的认识。网络技术的发展，使得计算机之间的通信变得更加便捷和可靠，也推动了互联网的快速发展。

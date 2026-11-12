@@ -1,7 +1,5 @@
 # 操作系统本质：系统资源的管理者
 
-## 概述
-
 操作系统是计算机系统中最核心的软件，它负责管理和协调计算机的硬件和软件资源，为应用程序提供运行环境。本文将详细解析操作系统的本质、功能和工作原理。
 
 ## 操作系统架构图
@@ -22,9 +20,9 @@
 
 ## 操作系统的定义与基本功能
 
-### 定义
+### 什么是操作系统
 
-操作系统（Operating System，OS）是管理计算机硬件与软件资源的程序，是计算机系统的核心组成部分。它为用户和应用程序提供了一个使用计算机的界面。
+操作系统（Operating System，OS）是管理计算机硬件与软件资源的程序，**是计算机系统的核心组成部分**。它为用户和应用程序提供了一个使用计算机的界面。
 
 ### 基本功能
 
@@ -35,17 +33,45 @@
 5. **用户界面**：提供用户与计算机交互的界面
 6. **安全管理**：负责系统的安全和保护
 
+*图：操作系统的六大基本功能（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="20" y="20" width="680" height="190" rx="8" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="360" y="48" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">操作系统：管理计算机硬件与软件资源</text>
+  <rect x="35" y="70" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="92" text-anchor="middle" font-size="14" fill="#1e293b">进程管理</text>
+  <text x="135" y="112" text-anchor="middle" font-size="12" fill="#475569">创建、调度、同步、通信</text>
+  <rect x="255" y="70" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="355" y="92" text-anchor="middle" font-size="14" fill="#1e293b">内存管理</text>
+  <text x="355" y="112" text-anchor="middle" font-size="12" fill="#475569">分配、回收、保护</text>
+  <rect x="475" y="70" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="575" y="92" text-anchor="middle" font-size="14" fill="#1e293b">文件系统</text>
+  <text x="575" y="112" text-anchor="middle" font-size="12" fill="#475569">文件的存储、组织和访问</text>
+  <rect x="35" y="140" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="135" y="162" text-anchor="middle" font-size="14" fill="#1e293b">设备管理</text>
+  <text x="135" y="182" text-anchor="middle" font-size="12" fill="#475569">驱动、控制、分配</text>
+  <rect x="255" y="140" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="355" y="162" text-anchor="middle" font-size="14" fill="#1e293b">用户界面</text>
+  <text x="355" y="182" text-anchor="middle" font-size="12" fill="#475569">用户与计算机交互</text>
+  <rect x="475" y="140" width="200" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="575" y="162" text-anchor="middle" font-size="14" fill="#1e293b">安全管理</text>
+  <text x="575" y="182" text-anchor="middle" font-size="12" fill="#475569">系统的安全和保护</text>
+</svg>
+
 ## 核心组件详解
+
+> 进程管理、内存管理、文件系统、设备管理和系统调用，构成了操作系统的核心组件。
 
 ### 1. 进程管理
 
 #### 进程的概念
 
-进程是程序的执行实例，包含程序代码、数据和执行状态。
+进程是**程序的执行实例**，包含程序代码、数据和执行状态。
 
 #### 进程调度
 
 操作系统使用调度算法来决定哪个进程获得CPU时间：
+
 - **先来先服务（FCFS）**：按照进程到达的顺序调度
 - **短作业优先（SJF）**：优先调度执行时间短的进程
 - **优先级调度**：根据进程的优先级调度
@@ -119,9 +145,9 @@
 
 ### 5. 系统调用
 
-#### 定义
+#### 什么是系统调用
 
-系统调用是应用程序请求操作系统服务的接口，是用户空间与内核空间之间的桥梁。
+系统调用是应用程序请求操作系统服务的接口，**是用户空间与内核空间之间的桥梁**。
 
 #### 常见系统调用
 
@@ -133,6 +159,8 @@
 - **通信**：pipe()、shmget()、socket()
 
 ## 操作系统类型
+
+> 按特点和应用场景，操作系统可分为批处理、分时、实时、网络和分布式等类型。
 
 ### 批处理操作系统
 
@@ -200,8 +228,8 @@
 | Android | 移动操作系统 | 开源，应用丰富 | 智能手机、平板电脑 |
 | iOS | 移动操作系统 | 安全、稳定 | 苹果手机、平板电脑 |
 
-## 总结
+## 小结：系统资源的管理者
 
-操作系统是计算机系统的核心，它管理和协调计算机的硬件和软件资源，为应用程序提供运行环境。理解操作系统的工作原理，不仅有助于我们更好地使用计算机，还能帮助我们开发出更高效、更可靠的应用程序。
+操作系统是计算机系统的核心，它**管理和协调计算机的硬件和软件资源**，为应用程序提供运行环境。理解操作系统的工作原理，不仅有助于我们更好地使用计算机，还能帮助我们开发出更高效、更可靠的应用程序。
 
 通过本文的介绍，您应该对操作系统的本质、功能和工作原理有了清晰的认识。操作系统的设计和实现是计算机科学中的重要领域，它的发展也推动了计算机技术的进步。

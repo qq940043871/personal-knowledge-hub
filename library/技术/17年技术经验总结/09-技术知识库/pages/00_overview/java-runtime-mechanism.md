@@ -1,7 +1,5 @@
 # Java程序运行机制：从源码到执行
 
-## 概述
-
 Java是一种跨平台的编程语言，它的运行机制与其他语言有很大不同。本文将详细解析Java程序从源代码到执行的完整过程，包括编译、类加载、JVM执行等环节。
 
 ## Java程序运行流程图
@@ -22,7 +20,9 @@ Java是一种跨平台的编程语言，它的运行机制与其他语言有很�
 +-------------------+    +-------------------+    +-------------------+
 ```
 
-## 详细步骤
+## 详细步骤：从源代码到程序结束
+
+> Java 程序的运行涉及**编译、类加载、字节码执行、内存管理**等多个环节。
 
 ### 1. Java源代码
 
@@ -30,9 +30,10 @@ Java源代码文件以`.java`为扩展名，包含Java语言编写的代码。�
 
 ### 2. 编译为字节码
 
-Java编译器（javac）将Java源代码编译为字节码（Bytecode），字节码文件以`.class`为扩展名。字节码是一种中间代码，不是机器码，它与具体的硬件平台无关。
+Java编译器（javac）将Java源代码编译为字节码（Bytecode），字节码文件以`.class`为扩展名。字节码是一种中间代码，**不是机器码**，它**与具体的硬件平台无关**。
 
 编译过程包括：
+
 - 词法分析：将源代码分解为标记（tokens）
 - 语法分析：将标记转换为语法树
 - 语义分析：检查代码的语义正确性
@@ -40,20 +41,21 @@ Java编译器（javac）将Java源代码编译为字节码（Bytecode），字�
 
 ### 3. 类加载器加载
 
-当Java程序运行时，类加载器（ClassLoader）负责将字节码加载到内存中。Java的类加载器采用双亲委派模型：
+当Java程序运行时，类加载器（ClassLoader）负责将字节码加载到内存中。Java的类加载器采用**双亲委派模型**：
 
 - **Bootstrap ClassLoader**：加载Java核心类库
 - **Extension ClassLoader**：加载扩展类库
 - **Application ClassLoader**：加载应用程序类
 
 类加载过程包括：
+
 - 加载：将类的字节码加载到内存
 - 链接：验证字节码、准备静态变量、解析符号引用
 - 初始化：执行静态初始化块和静态变量赋值
 
 ### 4. 字节码验证
 
-在类加载过程中，JVM会验证字节码的正确性，确保它符合Java虚拟机规范，防止恶意代码的执行。验证内容包括：
+在类加载过程中，JVM会验证字节码的正确性，确保它符合Java虚拟机规范，**防止恶意代码的执行**。验证内容包括：
 
 - 结构验证：检查字节码的结构是否正确
 - 类型验证：检查类型转换是否合法
@@ -71,6 +73,7 @@ JVM执行字节码的方式有两种：
 JVM的即时编译器（JIT Compiler）会将频繁执行的代码（热点代码）编译为本地机器码，存储在代码缓存中，以便后续执行时直接使用，提高执行效率。
 
 JIT编译的优势：
+
 - 提高执行速度
 - 减少解释执行的开销
 - 进行代码优化
@@ -93,6 +96,7 @@ JVM的垃圾回收器（Garbage Collector）负责回收不再使用的对象，
 - **压缩**：整理内存空间
 
 常见的垃圾回收器：
+
 - **Serial GC**：单线程垃圾回收器
 - **Parallel GC**：多线程垃圾回收器
 - **CMS GC**：并发标记清除垃圾回收器
@@ -104,6 +108,8 @@ JVM的垃圾回收器（Garbage Collector）负责回收不再使用的对象，
 
 ## Java虚拟机（JVM）架构
 
+> JVM 由**类加载器、运行时数据区、执行引擎、本地方法接口、垃圾回收器**组成。
+
 ### JVM的组成
 
 1. **类加载器**：负责加载类
@@ -111,6 +117,41 @@ JVM的垃圾回收器（Garbage Collector）负责回收不再使用的对象，
 3. **执行引擎**：执行字节码
 4. **本地方法接口**：与本地方法交互
 5. **垃圾回收器**：回收垃圾对象
+
+*图：JVM 的组成结构（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 260" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="360" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">JVM 的组成结构</text>
+  <rect x="30" y="44" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="69" text-anchor="middle" font-size="14" fill="#1e293b">类加载器</text>
+  <rect x="210" y="44" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="69" text-anchor="middle" font-size="14" fill="#1e293b">执行引擎</text>
+  <rect x="390" y="44" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="460" y="69" text-anchor="middle" font-size="14" fill="#1e293b">垃圾回收器</text>
+  <rect x="570" y="44" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="640" y="69" text-anchor="middle" font-size="14" fill="#1e293b">本地方法接口</text>
+  <line x1="100" y1="84" x2="100" y2="118" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="112" y="106" font-size="12" fill="#475569">将字节码加载到内存</text>
+  <rect x="30" y="122" width="680" height="112" rx="8" fill="none" stroke="#94a3b8" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="45" y="144" font-size="14" font-weight="bold" fill="#1e293b">运行时数据区</text>
+  <rect x="45" y="152" width="150" height="66" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="176" text-anchor="middle" font-size="14" fill="#1e293b">方法区</text>
+  <text x="120" y="198" text-anchor="middle" font-size="12" fill="#475569">类信息、常量、静态变量</text>
+  <rect x="215" y="152" width="150" height="66" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="290" y="176" text-anchor="middle" font-size="14" fill="#1e293b">堆</text>
+  <text x="290" y="198" text-anchor="middle" font-size="12" fill="#475569">对象实例</text>
+  <rect x="385" y="152" width="150" height="66" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="460" y="176" text-anchor="middle" font-size="14" fill="#1e293b">栈</text>
+  <text x="460" y="198" text-anchor="middle" font-size="12" fill="#475569">局部变量、方法调用信息</text>
+  <rect x="555" y="152" width="150" height="66" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="630" y="176" text-anchor="middle" font-size="14" fill="#1e293b">程序计数器</text>
+  <text x="630" y="198" text-anchor="middle" font-size="12" fill="#475569">当前线程执行位置</text>
+</svg>
 
 ### JVM的特点
 
@@ -177,8 +218,8 @@ Java的跨平台特性主要通过以下机制实现：
    - 减少线程竞争
    - 使用并发集合
 
-## 总结
+## 小结：理解运行机制的价值
 
-Java程序的运行机制是一个复杂的过程，涉及编译、类加载、字节码执行、内存管理等多个环节。理解这个过程不仅有助于我们编写更高效的Java程序，还能帮助我们解决运行时遇到的问题。
+Java程序的运行机制是一个复杂的过程，涉及**编译、类加载、字节码执行、内存管理**等多个环节。理解这个过程不仅有助于我们编写更高效的Java程序，还能帮助我们解决运行时遇到的问题。
 
 通过本文的介绍，您应该对Java程序从源代码到执行的完整过程有了清晰的认识。Java的跨平台特性、自动内存管理等机制，使它成为一种广泛使用的编程语言。

@@ -1,10 +1,8 @@
 # 高级语言与硬件交互：从代码到执行
 
-## 概述
-
 作为Java开发人员，我们每天编写的代码最终是如何被硬件执行的？软件如何通知操作系统读取文件？同步和异步操作在硬件层面是如何实现的？本文将深入解析从高级语言代码到硬件执行的完整过程，帮助您理解软件与硬件的交互原理。
 
-## 代码执行流程图
+## 代码执行全流程（9 个步骤）
 
 ```
 +-------------------+    +-------------------+    +-------------------+
@@ -22,7 +20,9 @@
 +-------------------+    +-------------------+    +-------------------+
 ```
 
-## 详细步骤
+## 详细步骤：从源代码到结果返回
+
+> 高级语言代码经过编译、加载、系统调用、硬件中断，最终由 CPU 在时钟脉冲驱动下逐条执行。
 
 ### 1. 高级语言代码
 
@@ -30,7 +30,7 @@
 
 ### 2. 编译为中间代码
 
-对于Java这样的语言，编译器会将源代码编译为字节码（Bytecode），这是一种中间代码，不是机器码。对于C++这样的语言，编译器会直接编译为机器码。
+对于Java这样的语言，编译器会将源代码编译为字节码（Bytecode），这是一种中间代码，**不是机器码**。对于C++这样的语言，编译器会直接编译为机器码。
 
 ### 3. 编译为机器码
 
@@ -44,7 +44,7 @@
 
 ### 5. 系统调用
 
-当程序需要执行I/O操作（如读取文件）时，会通过系统调用请求操作系统的服务。系统调用是用户空间程序与内核空间之间的桥梁。
+当程序需要执行I/O操作（如读取文件）时，会通过系统调用请求操作系统的服务。**系统调用是用户空间程序与内核空间之间的桥梁**。
 
 ### 6. 硬件中断
 
@@ -62,7 +62,7 @@ CPU执行机器码指令，完成计算、内存访问、I/O操作等任务。
 
 执行结果通过系统调用返回给应用程序，应用程序继续执行。
 
-## 核心技术原理
+## 核心技术原理：编译、系统调用与中断
 
 ### 高级语言的编译过程
 
@@ -107,13 +107,14 @@ CPU执行机器码指令，完成计算、内存访问、I/O操作等任务。
 
 ### 时钟脉冲与指令执行
 
-CPU由时钟脉冲驱动，时钟脉冲是由晶振产生的固定频率的电信号。每次时钟脉冲，CPU执行一条指令。时钟频率越高，CPU执行指令的速度越快。
+CPU由时钟脉冲驱动，时钟脉冲是由晶振产生的固定频率的电信号。每次时钟脉冲，CPU执行一条指令。**时钟频率越高，CPU执行指令的速度越快**。
 
 ### 同步与异步操作的硬件实现
 
 #### 同步操作
 
-同步操作是指程序在执行I/O操作时，会阻塞等待操作完成。从硬件层面看：
+同步操作是指程序在执行I/O操作时，会**阻塞等待**操作完成。从硬件层面看：
+
 1. CPU发送I/O请求
 2. CPU等待I/O操作完成
 3. I/O设备完成操作后，发送中断信号
@@ -121,11 +122,51 @@ CPU由时钟脉冲驱动，时钟脉冲是由晶振产生的固定频率的电�
 
 #### 异步操作
 
-异步操作是指程序在执行I/O操作时，不会阻塞等待操作完成，而是继续执行其他任务。从硬件层面看：
+异步操作是指程序在执行I/O操作时，**不会阻塞等待**操作完成，而是继续执行其他任务。从硬件层面看：
+
 1. CPU发送I/O请求
 2. CPU继续执行其他任务
 3. I/O设备完成操作后，发送中断信号
 4. CPU处理中断，执行回调函数
+
+*图：同步与异步 I/O 的硬件执行路径对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 240" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="360" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">同步与异步 I/O：硬件层面的两条路径</text>
+  <text x="20" y="62" font-size="13" fill="#475569">同步操作（阻塞等待）</text>
+  <rect x="20" y="72" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="96" text-anchor="middle" font-size="13" fill="#1e293b">CPU发送I/O请求</text>
+  <line x1="160" y1="92" x2="200" y2="92" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="205" y="72" width="140" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="275" y="96" text-anchor="middle" font-size="13" fill="#1e293b">CPU等待I/O完成</text>
+  <line x1="345" y1="92" x2="385" y2="92" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="390" y="72" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="460" y="90" text-anchor="middle" font-size="13" fill="#1e293b">设备完成操作</text>
+  <text x="460" y="106" text-anchor="middle" font-size="12" fill="#475569">发送中断信号</text>
+  <line x1="530" y1="92" x2="570" y2="92" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="575" y="72" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="645" y="96" text-anchor="middle" font-size="13" fill="#1e293b">CPU处理中断</text>
+  <text x="20" y="162" font-size="13" fill="#475569">异步操作（不等待）</text>
+  <rect x="20" y="172" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="196" text-anchor="middle" font-size="13" fill="#1e293b">CPU发送I/O请求</text>
+  <line x1="160" y1="192" x2="200" y2="192" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="205" y="172" width="140" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="275" y="190" text-anchor="middle" font-size="13" fill="#1e293b">CPU继续执行</text>
+  <text x="275" y="206" text-anchor="middle" font-size="12" fill="#475569">其他任务</text>
+  <line x1="345" y1="192" x2="385" y2="192" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="390" y="172" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="460" y="190" text-anchor="middle" font-size="13" fill="#1e293b">设备完成操作</text>
+  <text x="460" y="206" text-anchor="middle" font-size="12" fill="#475569">发送中断信号</text>
+  <line x1="530" y1="192" x2="570" y2="192" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="575" y="172" width="140" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="645" y="190" text-anchor="middle" font-size="13" fill="#1e293b">CPU处理中断</text>
+  <text x="645" y="206" text-anchor="middle" font-size="12" fill="#475569">执行回调函数</text>
+</svg>
 
 ### JVM与操作系统的协作
 
@@ -136,7 +177,7 @@ JVM在执行Java程序时，与操作系统密切协作：
 3. **I/O操作**：JVM通过系统调用执行I/O操作
 4. **垃圾回收**：JVM在执行垃圾回收时，可能需要操作系统的支持
 
-## 从高级语言到硬件执行的实例
+## 实例：从高级语言到硬件执行
 
 ### 读取文件的过程
 
@@ -224,9 +265,11 @@ I/O设备通过设备控制器与CPU通信：
 
 ## 高级语言开发的最佳实践
 
+> 硬件有其固有限制，应根据这些限制设计程序，避免性能瓶颈。
+
 ### 理解系统调用的开销
 
-系统调用是有开销的，频繁的系统调用会影响程序性能。在开发中，应尽量减少系统调用的次数，例如：
+系统调用是有开销的，**频繁的系统调用会影响程序性能**。在开发中，应尽量减少系统调用的次数，例如：
 
 - 批量读取文件，而不是逐字节读取
 - 使用缓冲区减少I/O操作次数
@@ -258,8 +301,8 @@ I/O设备通过设备控制器与CPU通信：
 | 内存使用过高 | 对象创建过多 | 合理使用对象池、避免内存泄漏 |
 | CPU使用率高 | 计算密集型操作 | 优化算法、使用并行计算 |
 
-## 总结
+## 小结：理解软硬件交互的价值
 
-高级语言与硬件的交互是一个复杂的过程，涉及编译、系统调用、中断处理等多个环节。理解这个过程，不仅有助于我们编写更高效的代码，还能帮助我们更好地理解计算机系统的工作原理。
+高级语言与硬件的交互是一个复杂的过程，涉及**编译、系统调用、中断处理**等多个环节。理解这个过程，不仅有助于我们编写更高效的代码，还能帮助我们更好地理解计算机系统的工作原理。
 
 通过本文的介绍，您应该对从高级语言代码到硬件执行的完整过程有了清晰的认识。作为Java开发人员，了解这些底层原理，将有助于您编写更高效、更可靠的应用程序。
