@@ -1,4 +1,4 @@
-# Miner使用的模型
+# MinerU使用的模型
 
 ```Python
 class ModelPath:

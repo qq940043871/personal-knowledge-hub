@@ -1,7 +1,5 @@
 # RAG是什么
 
-## RAG 是什么
-
 **RAG**（Retrieval Augmented Generation，检索增强生成）是一种结合**信息检索**和**文本生成**的技术方案。
 
 RAG 技术就像给 AI 装上了「**实时百科大脑**」，通过**先查资料后回答**的机制，让 AI 摆脱传统模型的“知识遗忘”困境
@@ -10,8 +8,6 @@ RAG 技术就像给 AI 装上了「**实时百科大脑**」，通过**先查资
 
 1. **检索（Retrieval）**：基于用户的输入，从**外部知识库**（数据库、文档、网页）中检索与查询相关的文本片段，通常使用向量化表示和向量数据库进行语义匹配。
 2. **生成（Generation）**： 将用户查询与检索到的内容作为上下文输入给 LLM（如 GPT、DeepSeek 等），由模型输出最终回答。
-
-![](https://feishu.cn/file/C75nbETbYoDDSHxFQUjcA3HGnHh)
 
 ## RAG 解决了什么问题
 
@@ -30,22 +26,46 @@ RAG 将信息检索与语言生成相结合，在回答问题时，首先从外�
 - 即使模型本身不包含最新知识，也能通过检索获取最新内容
 - 回答更加有依据，减少“编答案”的幻觉现象
 
-## RAG 流程
+## RAG 流程：四个步骤
 
-![图片展示了RAG（Retrieval-Augmented Generation）流程。用户提出问题后，1. 向量化用户问题，将问题转换为向量存入向量数据库；2. 检索（Retrieval），通过数学计算找到语义相似度最高的知识分片；3. 构建Prompt，将Prompt、检索结果及用户问题组合；4. 生成（Generation），大语言模型根据Prompt生成结果。图片直观呈现了RAG流程各环节及数据流向，与上下文对RAG流程的介绍相契合。](https://feishu.cn/file/NejEb7EGdoaqqQxchhUcTOKPnue)
+1. **向量化用户问题**：将 用户问题 用相同的 **Embedding 模型转换为向量，用以检索相关知识分片**
+2. **检索（Retrieval）**：通过向量数据库一系列高效的数学计算 （如余弦相似度、欧氏距离等），检索出**语义相似度**最高的几个知识分片（Top_k）
+3. **构建 Prompt** ：将 **Prompt + 检索结果+ 用户问题** 构建成完整的 Prompt
+4. **生成（Generation）**：大语言模型再根据这个 Prompt 生成结果
+
+*图：RAG 核心流程——先查资料后回答（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 140" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="10" y="44" width="124" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="72" y="75" text-anchor="middle" font-size="13" fill="#1e293b">用户问题</text>
+  <line x1="137" y1="70" x2="152" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="154" y="44" width="124" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="216" y="65" text-anchor="middle" font-size="13" fill="#1e293b">Embedding</text>
+  <text x="216" y="84" text-anchor="middle" font-size="13" fill="#1e293b">向量化用户问题</text>
+  <line x1="281" y1="70" x2="296" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="298" y="44" width="124" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="65" text-anchor="middle" font-size="13" fill="#1e293b">向量数据库</text>
+  <text x="360" y="84" text-anchor="middle" font-size="13" fill="#1e293b">检索 Top_k</text>
+  <line x1="425" y1="70" x2="440" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="442" y="44" width="124" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="504" y="75" text-anchor="middle" font-size="13" fill="#1e293b">构建 Prompt</text>
+  <line x1="569" y1="70" x2="584" y2="70" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="586" y="44" width="124" height="52" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="648" y="65" text-anchor="middle" font-size="13" fill="#1e293b">LLM 生成</text>
+  <text x="648" y="84" text-anchor="middle" font-size="13" fill="#1e293b">最终回答</text>
+  <text x="360" y="124" text-anchor="middle" font-size="12" fill="#475569">先从外部知识库检索相关信息，再基于这些信息生成回答</text>
+</svg>
 
 ## 文档索引
 
 在 RAG 中，**文档索引 是整个流程的基础环节之一**，将**文档**（word，excel，PDF，Markdown 等）根据一定的规则划分为**文本块（chunk）**，然后**通过 Embedding 模型将文本块转换为向量并存入向量数据库中**
 
 文档索引的目的是为了实现高效、准确的信息检索，为后续的大语言模型生成提供可靠的上下文支持。
-
-## 步骤
-
-1. **向量化用户问题**：将 用户问题 用相同的 **Embedding 模型转换为向量，用以检索相关知识分片**
-2. **检索（Retrieval）**：通过向量数据库一系列高效的数学计算 （如余弦相似度、欧氏距离等），检索出**语义相似度**最高的几个知识分片（Top_k）
-3. **构建 Prompt** ：将 **Prompt + 检索结果+ 用户问题** 构建成完整的 Prompt
-4. **生成（Generation）**：大语言模型再根据这个 Prompt 生成结果
 
 ## Embedding 模型是什么？
 
@@ -54,5 +74,3 @@ RAG 将信息检索与语言生成相结合，在回答问题时，首先从外�
 **模型目标**：使得具有相似语义的文字序列对应的向量尽可能接近（即相似度高），而语义不同的文字序列对应的向量尽可能远离（即相似度低）
 
 **作用**：通过数学计算向量之间的距离，快速检索出相似度最高的文字序列
-
-![图片展示了向量化用户问题的流程。输入为“canine companions say”“feline friends say”“bovine buddies say”三组文本，经Embedding model处理后，转换为固定维度的向量表示，如“canine companions say”转换为“0.000 0.006 -0.013 ... -0.013”等。该图与文档中“向量化用户问题：将用户问题用相同的Embedding模型转换为向量，用以检索相关知识分片”内容对应，直观呈现了向量化过程。](https://feishu.cn/file/S57wbIc43ozhaZxsob5cjKtAnIe)

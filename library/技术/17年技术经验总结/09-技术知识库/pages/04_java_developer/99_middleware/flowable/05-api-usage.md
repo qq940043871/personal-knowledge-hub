@@ -1,8 +1,8 @@
 # API 使用
 
-## 5.1 RepositoryService
+## RepositoryService
 
-RepositoryService 用于管理流程定义和部署。
+**RepositoryService 用于管理流程定义和部署。**
 
 ### 流程定义管理
 
@@ -233,9 +233,9 @@ public void deleteModel(String modelId) {
 }
 ```
 
-## 5.2 RuntimeService
+## RuntimeService
 
-RuntimeService 用于管理流程实例和执行。
+**RuntimeService 用于管理流程实例和执行。**
 
 ### 流程实例管理
 
@@ -425,9 +425,9 @@ public void messageEventReceived(String messageName, String executionId) {
 }
 ```
 
-## 5.3 TaskService
+## TaskService
 
-TaskService 用于管理任务。
+**TaskService 用于管理任务。**
 
 ### 任务查询
 
@@ -714,9 +714,9 @@ public void deleteAttachment(String attachmentId) {
 }
 ```
 
-## 5.4 HistoryService
+## HistoryService
 
-HistoryService 用于查询历史数据。
+**HistoryService 用于查询历史数据。**
 
 ### 流程实例历史
 
@@ -1017,9 +1017,9 @@ public List<HistoricDetail> listHistoricFormProperties(String processInstanceId)
 }
 ```
 
-## 5.5 IdentityService
+## IdentityService
 
-IdentityService 用于管理用户和用户组。
+**IdentityService 用于管理用户和用户组。**
 
 ### 用户管理
 

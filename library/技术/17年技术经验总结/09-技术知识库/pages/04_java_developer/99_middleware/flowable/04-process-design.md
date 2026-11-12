@@ -1,10 +1,10 @@
 # 流程设计
 
-## 4.1 BPMN 2.0 基础元素
+## BPMN 2.0 基础元素
 
 ### 开始事件
 
-开始事件表示流程的起点。
+开始事件表示**流程的起点**。
 
 #### 空开始事件
 
@@ -40,7 +40,7 @@
 
 ### 结束事件
 
-结束事件表示流程的终点。
+结束事件表示**流程的终点**。
 
 #### 空结束事件
 
@@ -108,7 +108,7 @@
 
 #### 排他网关
 
-排他网关根据条件选择一条路径。
+排他网关根据条件选择**一条**路径。
 
 ```xml
 <exclusiveGateway id="exclusiveGateway" name="排他网关"></exclusiveGateway>
@@ -128,7 +128,7 @@
 
 #### 并行网关
 
-并行网关同时启动所有分支。
+并行网关**同时启动所有分支**。
 
 ```xml
 <parallelGateway id="fork" name="分支"></parallelGateway>
@@ -142,7 +142,7 @@
 
 #### 包含网关
 
-包含网关根据条件选择一个或多个路径。
+包含网关根据条件选择**一个或多个**路径。
 
 ```xml
 <inclusiveGateway id="inclusiveGateway" name="包含网关"></inclusiveGateway>
@@ -150,11 +150,41 @@
 
 #### 事件网关
 
-事件网关根据事件类型选择路径。
+事件网关根据**事件类型**选择路径。
 
 ```xml
 <eventBasedGateway id="eventGateway" name="事件网关"></eventBasedGateway>
 ```
+
+*图：四种网关的分支行为对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="40" y="20" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="47" text-anchor="middle" font-size="14" fill="#1e293b">排他网关</text>
+  <line x1="212" y1="42" x2="296" y2="42" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="300" y="20" width="380" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="490" y="47" text-anchor="middle" font-size="14" fill="#1e293b">按条件选择一条路径</text>
+  <rect x="40" y="90" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="117" text-anchor="middle" font-size="14" fill="#1e293b">并行网关</text>
+  <line x1="212" y1="112" x2="296" y2="112" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="300" y="90" width="380" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="490" y="117" text-anchor="middle" font-size="14" fill="#1e293b">同时启动所有分支</text>
+  <rect x="40" y="160" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="187" text-anchor="middle" font-size="14" fill="#1e293b">包含网关</text>
+  <line x1="212" y1="182" x2="296" y2="182" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="300" y="160" width="380" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="490" y="187" text-anchor="middle" font-size="14" fill="#1e293b">按条件选择一个或多个路径</text>
+  <rect x="40" y="230" width="170" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="257" text-anchor="middle" font-size="14" fill="#1e293b">事件网关</text>
+  <line x1="212" y1="252" x2="296" y2="252" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="300" y="230" width="380" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="490" y="257" text-anchor="middle" font-size="14" fill="#1e293b">根据事件类型选择路径</text>
+</svg>
 
 ### 序列流
 
@@ -184,7 +214,7 @@
 <sequenceFlow id="defaultFlow" sourceRef="gateway" targetRef="defaultTask"></sequenceFlow>
 ```
 
-## 4.2 常用流程模式
+## 常用流程模式
 
 ### 串行流程
 
@@ -293,7 +323,7 @@
 </process>
 ```
 
-## 4.3 流程设计工具
+## 流程设计工具
 
 ### Flowable Modeler
 

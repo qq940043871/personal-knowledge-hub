@@ -1,6 +1,6 @@
 # Flowable 概述
 
-## 1.1 什么是 Flowable
+## 什么是 Flowable
 
 ### Flowable 的历史背景
 
@@ -20,7 +20,7 @@ Flowable 是一个轻量级的、开源的、基于 Java 的业务流程管理�
 4. **丰富的 API**：提供全面的 Java API 和 REST API
 5. **活跃的社区**：拥有活跃的开发者社区和持续的更新维护
 
-## 1.2 Flowable 的特点
+## Flowable 的特点
 
 ### 轻量级、高性能
 
@@ -45,6 +45,8 @@ Flowable 是一个轻量级的、开源的、基于 Java 的业务流程管理�
 
 ### 丰富的 API 接口
 
+Flowable 对外提供 8 大核心 Service，覆盖从部署、运行到历史查询的完整生命周期：
+
 - RepositoryService：流程定义和部署管理
 - RuntimeService：流程实例和执行管理
 - TaskService：任务管理
@@ -54,7 +56,49 @@ Flowable 是一个轻量级的、开源的、基于 Java 的业务流程管理�
 - FormService：表单管理
 - DynamicBpmnService：动态流程修改
 
-## 1.3 适用场景
+*图：Flowable 八大核心服务与引擎的关系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="200" y="14" width="320" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="39" text-anchor="middle" font-size="14" fill="#1e293b">统一接入：Java API / REST API</text>
+  <line x1="360" y1="54" x2="360" y2="76" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="30" y="80" width="660" height="136" rx="10" fill="none" stroke="#94a3b8" stroke-width="1.2" stroke-dasharray="4 4"/>
+  <text x="46" y="100" font-size="13" fill="#475569">核心服务层（8 大 Service）</text>
+  <rect x="47" y="108" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="125" text-anchor="middle" font-size="13" fill="#1e293b">RepositoryService</text>
+  <text x="120" y="141" text-anchor="middle" font-size="12" fill="#475569">流程定义与部署管理</text>
+  <rect x="207" y="108" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="125" text-anchor="middle" font-size="13" fill="#1e293b">RuntimeService</text>
+  <text x="280" y="141" text-anchor="middle" font-size="12" fill="#475569">流程实例与执行管理</text>
+  <rect x="367" y="108" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="440" y="125" text-anchor="middle" font-size="13" fill="#1e293b">TaskService</text>
+  <text x="440" y="141" text-anchor="middle" font-size="12" fill="#475569">任务管理</text>
+  <rect x="527" y="108" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="600" y="125" text-anchor="middle" font-size="13" fill="#1e293b">HistoryService</text>
+  <text x="600" y="141" text-anchor="middle" font-size="12" fill="#475569">历史数据查询</text>
+  <rect x="47" y="164" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="181" text-anchor="middle" font-size="13" fill="#1e293b">IdentityService</text>
+  <text x="120" y="197" text-anchor="middle" font-size="12" fill="#475569">用户与组管理</text>
+  <rect x="207" y="164" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="280" y="181" text-anchor="middle" font-size="13" fill="#1e293b">ManagementService</text>
+  <text x="280" y="197" text-anchor="middle" font-size="12" fill="#475569">引擎与作业管理</text>
+  <rect x="367" y="164" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="440" y="181" text-anchor="middle" font-size="13" fill="#1e293b">FormService</text>
+  <text x="440" y="197" text-anchor="middle" font-size="12" fill="#475569">表单管理</text>
+  <rect x="527" y="164" width="146" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="600" y="181" text-anchor="middle" font-size="13" fill="#1e293b">DynamicBpmnService</text>
+  <text x="600" y="197" text-anchor="middle" font-size="12" fill="#475569">动态流程修改</text>
+  <line x1="360" y1="216" x2="360" y2="238" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="240" width="280" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="267" text-anchor="middle" font-size="14" fill="#1e293b">Flowable 引擎（BPMN 2.0 执行核心）</text>
+</svg>
+
+## 适用场景
 
 ### 审批流程
 
@@ -96,6 +140,6 @@ Flowable 是一个轻量级的、开源的、基于 Java 的业务流程管理�
 | 社区活跃 | 高 | 中 | 高 | 低 |
 | 文档完善 | 高 | 中 | 高 | 中 |
 
-## 总结
+## 总结：Flowable 的定位与优势
 
-Flowable 是一个功能强大、性能优异、易于使用的工作流引擎，特别适合需要与 Java 业务系统深度集成的场景。它的轻量级设计和丰富的 API 使其能够灵活地适应各种业务流程需求。
+Flowable 是一个功能强大、性能优异、易于使用的工作流引擎，**特别适合需要与 Java 业务系统深度集成的场景**。它的轻量级设计和丰富的 API 使其能够灵活地适应各种业务流程需求。

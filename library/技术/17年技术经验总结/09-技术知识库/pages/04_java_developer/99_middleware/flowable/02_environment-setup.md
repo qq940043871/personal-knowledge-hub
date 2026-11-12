@@ -1,6 +1,6 @@
 # 环境配置
 
-## 2.1 开发环境要求
+## 开发环境要求
 
 ### JDK 8+
 
@@ -38,7 +38,7 @@ Flowable 支持多种数据库：
 | SQL Server | 2012+ | 2016+ |
 | H2 | 1.4+ | 最新版 |
 
-## 2.2 Maven 依赖配置
+## Maven 依赖配置
 
 ### 核心依赖
 
@@ -135,7 +135,7 @@ flowable:
   process-definition-location-prefix: classpath:/processes/
 ```
 
-## 2.3 数据库配置
+## 数据库配置
 
 ### 创建数据库
 
@@ -220,7 +220,7 @@ spring:
       auto-commit: true
 ```
 
-## 2.4 启动类配置
+## 启动类配置
 
 ```java
 import org.flowable.engine.ProcessEngine;
@@ -249,7 +249,7 @@ public class FlowableApplication {
 }
 ```
 
-## 2.5 验证配置
+## 验证配置
 
 ### 启动应用
 
@@ -266,9 +266,9 @@ USE flowable_db;
 SHOW TABLES;
 ```
 
-应该看到 20+ 张表以 `ACT_` 开头。
+应该看到 **20+ 张表以 `ACT_` 开头**。
 
-## 常见问题
+## 常见问题与解决方案
 
 ### 问题 1：数据库连接失败
 

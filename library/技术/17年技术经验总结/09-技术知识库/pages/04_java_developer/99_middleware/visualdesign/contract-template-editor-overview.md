@@ -4,7 +4,7 @@
 
 ### 1.1 项目背景
 
-企业在日常运营中需要大量使用各类合同模板，传统的合同模板编辑方式效率低下、难以统一管理、缺少可视化编辑能力。本项目旨在开发一个功能完善的可视化合同模板编辑器，支持 DOCX 模板导入、变量拖拽配置、实时预览、合同生成等功能。
+企业在日常运营中需要大量使用各类合同模板，**传统的合同模板编辑方式效率低下、难以统一管理、缺少可视化编辑能力**。本项目旨在开发一个功能完善的可视化合同模板编辑器，支持 DOCX 模板导入、变量拖拽配置、实时预览、合同生成等功能。
 
 ### 1.2 项目目标
 
@@ -177,6 +177,41 @@
 | update_time | DATETIME | 更新时间 |
 
 ## 四、实现步骤
+
+*图：五个实施阶段与预计工期（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 180" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="6" y="60" width="124" height="72" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="68" y="84" text-anchor="middle" font-size="13" fill="#1e293b">第一阶段</text>
+  <text x="68" y="104" text-anchor="middle" font-size="12" fill="#1e293b">项目搭建</text>
+  <text x="68" y="120" text-anchor="middle" font-size="11" fill="#475569">（1-2周）</text>
+  <line x1="132" y1="96" x2="148" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="152" y="60" width="124" height="72" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="214" y="84" text-anchor="middle" font-size="13" fill="#1e293b">第二阶段</text>
+  <text x="214" y="104" text-anchor="middle" font-size="12" fill="#1e293b">核心功能开发</text>
+  <text x="214" y="120" text-anchor="middle" font-size="11" fill="#475569">（3-4周）</text>
+  <line x1="278" y1="96" x2="294" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="298" y="60" width="124" height="72" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="84" text-anchor="middle" font-size="13" fill="#1e293b">第三阶段</text>
+  <text x="360" y="104" text-anchor="middle" font-size="12" fill="#1e293b">可视化编辑</text>
+  <text x="360" y="120" text-anchor="middle" font-size="11" fill="#475569">（3-4周）</text>
+  <line x1="424" y1="96" x2="440" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="444" y="60" width="124" height="72" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="506" y="84" text-anchor="middle" font-size="13" fill="#1e293b">第四阶段</text>
+  <text x="506" y="104" text-anchor="middle" font-size="12" fill="#1e293b">合同生成</text>
+  <text x="506" y="120" text-anchor="middle" font-size="11" fill="#475569">（2-3周）</text>
+  <line x1="570" y1="96" x2="586" y2="96" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="590" y="60" width="124" height="72" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="652" y="84" text-anchor="middle" font-size="13" fill="#1e293b">第五阶段</text>
+  <text x="652" y="104" text-anchor="middle" font-size="12" fill="#1e293b">完善和优化</text>
+  <text x="652" y="120" text-anchor="middle" font-size="11" fill="#475569">（2-3周）</text>
+  <text x="360" y="166" text-anchor="middle" font-size="12" fill="#475569">总工期预计 12-16 周，各阶段可根据实际情况进行调整和优化</text>
+</svg>
 
 ### 第一阶段：项目搭建（1-2周）
 
@@ -585,8 +620,8 @@ volumes:
 - **异步处理**：大文件处理使用异步方式
 - **缓存优化**：缓存解析结果和常用模板
 
-## 九、总结
+## 九、总结与实施周期
 
-本方案提供了一个完整的可视化合同模板编辑器的实现方案，涵盖了从项目搭建到上线部署的全过程。通过本方案的实施，可以实现一个功能完善、用户体验良好的合同模板编辑器，支持 DOCX 导入、变量拖拽配置、实时预览、合同生成等核心功能。
+本方案提供了一个完整的可视化合同模板编辑器的实现方案，涵盖了从项目搭建到上线部署的全过程。通过本方案的实施，可以实现一个**功能完善、用户体验良好的合同模板编辑器，支持 DOCX 导入、变量拖拽配置、实时预览、合同生成等核心功能**。
 
-项目开发周期预计为 12-16 周，分为五个阶段进行，可以根据实际情况进行调整和优化。
+项目开发周期预计为 **12-16 周**，分为五个阶段进行，可以根据实际情况进行调整和优化。

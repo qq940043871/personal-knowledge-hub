@@ -1,10 +1,38 @@
 # 核心概念
 
-## 3.1 流程定义 (Process Definition)
+Flowable 的核心对象模型由四个层次组成：**流程定义（Process Definition）→ 流程实例（Process Instance）→ 任务（Task）／执行（Execution）**。
+
+*图：Flowable 核心对象层级（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="200" y="16" width="320" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="38" text-anchor="middle" font-size="15" fill="#1e293b">流程定义 Process Definition</text>
+  <text x="360" y="58" text-anchor="middle" font-size="12" fill="#475569">部署后的 BPMN 模板（每次部署产生新版本）</text>
+  <line x1="360" y1="68" x2="360" y2="104" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="372" y="90" font-size="12" fill="#475569">startProcessInstanceByKey 启动</text>
+  <rect x="200" y="108" width="320" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="130" text-anchor="middle" font-size="15" fill="#1e293b">流程实例 Process Instance</text>
+  <text x="360" y="150" text-anchor="middle" font-size="12" fill="#475569">一次实际的流程运行（存储与传递流程变量）</text>
+  <line x1="290" y1="160" x2="234" y2="202" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="430" y1="160" x2="486" y2="202" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="80" y="206" width="260" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="210" y="228" text-anchor="middle" font-size="15" fill="#1e293b">任务 Task</text>
+  <text x="210" y="248" text-anchor="middle" font-size="12" fill="#475569">人工任务 / 自动服务任务</text>
+  <rect x="380" y="206" width="260" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="510" y="228" text-anchor="middle" font-size="15" fill="#1e293b">执行 Execution</text>
+  <text x="510" y="248" text-anchor="middle" font-size="12" fill="#475569">执行路径（并行流程可有多条）</text>
+</svg>
+
+## 流程定义 (Process Definition)
 
 ### BPMN 2.0 规范
 
-BPMN (Business Process Model and Notation) 是一种图形化表示业务流程的标准规范。Flowable 完全支持 BPMN 2.0 规范。
+BPMN (Business Process Model and Notation) 是一种图形化表示业务流程的标准规范。**Flowable 完全支持 BPMN 2.0 规范**。
 
 #### BPMN 2.0 核心元素
 
@@ -134,7 +162,7 @@ public class ProcessDeploymentService {
 
 ### 版本管理
 
-Flowable 自动管理流程定义的版本，每次部署都会创建一个新版本。
+Flowable 自动管理流程定义的版本，**每次部署都会创建一个新版本**。
 
 ```java
 // 查询所有版本的流程定义
@@ -157,7 +185,7 @@ ProcessDefinition specificVersion = repositoryService.createProcessDefinitionQue
         .singleResult();
 ```
 
-## 3.2 流程实例 (Process Instance)
+## 流程实例 (Process Instance)
 
 ### 流程启动
 
@@ -220,7 +248,7 @@ public class ProcessInstanceService {
 
 ### 流程变量
 
-流程变量用于在流程实例中存储和传递数据。
+流程变量用于**在流程实例中存储和传递数据**。
 
 #### 设置变量
 
@@ -318,7 +346,7 @@ public void triggerMessage(String messageName, String executionId) {
 }
 ```
 
-## 3.3 任务 (Task)
+## 任务 (Task)
 
 ### 用户任务
 
@@ -578,11 +606,11 @@ public class TaskDelegateService {
 }
 ```
 
-## 3.4 执行 (Execution)
+## 执行 (Execution)
 
 ### 执行对象
 
-执行对象代表流程实例中的一个执行路径。
+执行对象代表**流程实例中的一个执行路径**。
 
 ```java
 import org.flowable.engine.RuntimeService;

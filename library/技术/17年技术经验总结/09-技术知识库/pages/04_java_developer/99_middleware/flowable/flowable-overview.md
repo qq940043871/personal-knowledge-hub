@@ -1,5 +1,40 @@
 # Flowable 工作流文档大纲
 
+本系列共 8 个部分，从概述、环境搭建一路讲到 FlyFlow 改造、业务系统深度集成与最佳实践。
+
+*图：Flowable 系列文档阅读路径（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="10" y="30" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="57" text-anchor="middle" font-size="13" fill="#1e293b">1. Flowable 概述</text>
+  <line x1="172" y1="52" x2="186" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="30" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="57" text-anchor="middle" font-size="13" fill="#1e293b">2. 环境配置</text>
+  <line x1="352" y1="52" x2="366" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="370" y="30" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="450" y="57" text-anchor="middle" font-size="13" fill="#1e293b">3. 核心概念</text>
+  <line x1="532" y1="52" x2="546" y2="52" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="550" y="30" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="630" y="57" text-anchor="middle" font-size="13" fill="#1e293b">4. 流程设计</text>
+  <polyline points="630,74 630,104 90,104 90,136" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="10" y="140" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="90" y="167" text-anchor="middle" font-size="13" fill="#1e293b">5. API 使用</text>
+  <line x1="172" y1="162" x2="186" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="190" y="140" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="167" text-anchor="middle" font-size="13" fill="#1e293b">6. FlyFlow 改造</text>
+  <line x1="352" y1="162" x2="366" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="370" y="140" width="160" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="450" y="167" text-anchor="middle" font-size="13" fill="#1e293b">7. 业务系统深度集成</text>
+  <line x1="532" y1="162" x2="546" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="550" y="140" width="160" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="630" y="167" text-anchor="middle" font-size="13" fill="#1e293b">8. 最佳实践</text>
+</svg>
+
 ## 1. Flowable 概述
 
 ### 1.1 什么是 Flowable
