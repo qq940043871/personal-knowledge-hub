@@ -4,9 +4,44 @@
 
 下面我把 **MCP 对接的原理、优势、实施步骤、选型理由** 一次性讲透，可直接用于方案说明/面试口述。
 
+*图：Dify 通过 MCP 对接 RAGFlow 的链路（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="30" y="28" width="110" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="56" text-anchor="middle" font-size="14" fill="#1e293b">用户提问</text>
+  <line x1="140" y1="51" x2="228" y2="51" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="28" width="240" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="350" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Dify 应用</text>
+  <text x="350" y="66" text-anchor="middle" font-size="13" fill="#475569">聊天助手 / Chatflow 工作流</text>
+  <line x1="470" y1="51" x2="518" y2="51" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="520" y="28" width="170" height="46" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="605" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Dify 内置</text>
+  <text x="605" y="66" text-anchor="middle" font-size="13" fill="#475569">MCP Client（零代码）</text>
+  <line x1="605" y1="74" x2="605" y2="108" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="110" y="110" width="580" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="400" y="135" text-anchor="middle" font-size="14" fill="#1e293b">MCP 标准协议「数据线」：HTTP+SSE 流式 · 自动发现工具 · 自动鉴权 · 即插即用</text>
+  <line x1="200" y1="150" x2="200" y2="188" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="110" y="190" width="180" height="52" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="200" y="211" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">RAGFlow</text>
+  <text x="200" y="231" text-anchor="middle" font-size="13" fill="#475569">MCP Server</text>
+  <line x1="290" y1="216" x2="328" y2="216" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="330" y="190" width="380" height="52" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="520" y="211" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">RAGFlow 专业 RAG 引擎</text>
+  <text x="520" y="231" text-anchor="middle" font-size="13" fill="#475569">解析→分块→BM25+向量+重排→引用溯源</text>
+  <line x1="520" y1="242" x2="520" y2="270" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="110" y="272" width="580" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="400" y="299" text-anchor="middle" font-size="14" fill="#1e293b">GPUStack 算力底座：统一调度 LLM / Embedding / Rerank / MinerU（全程内网离线）</text>
+</svg>
+
 ---
 
 ## 一、为什么用 MCP 对接（而不是 API/外部知识库）
+
 ### 1. MCP 是官方标准、零代码、稳定
 + Dify v1.6.0+ **原生内置 MCP Client**（不用插件、不用写代码）
 + RAGFlow v0.18.0+ **原生内置 MCP Server**（专门给外部调用 RAG）
@@ -17,6 +52,7 @@
     - `rag_retrieval`（精准检索）
     - `rag_chunk`（分块召回）
     - `rag_document`（文档列表）
+
 不用手动写 URL/Header/Body
 + **流式返回**：支持 SSE 实时回传，问答更流畅
 + **状态与权限**：MCP 带会话/租户隔离，适合多产品线
@@ -33,7 +69,9 @@
 ---
 
 ## 二、MCP 对接完整实施步骤（可直接照做）
+
 ### 1. 启动 RAGFlow MCP Server（离线部署）
+
 ```bash
 # docker-compose 追加（或直接启动）
 ragflow-mcp:
@@ -62,12 +100,12 @@ ragflow-mcp:
 3. 保存 → **自动发现 3～5 个 RAG 工具**
 
 ### 3. 在 Dify 应用中使用（两种方式）
+
 #### 方式A：聊天助手（自动调用）
 + 启用 **工具调用** → 勾选 `rag_retrieval`
 + 提示词简单写：
 
 > 有问题先调用 rag_retrieval 查询知识库，**必须引用来源**，不知道就说“未找到”。
->
 
 + 效果：用户提问 → Dify Agent → MCP → RAGFlow 高精度检索 → 带引用回答
 
@@ -80,6 +118,7 @@ ragflow-mcp:
 ---
 
 ## 三、这套方案的核心选型理由（面试/汇报直接用）
+
 ### 1. 架构合理性（解耦最优）
 + **Dify 定位**：应用平台、前端、权限、工作流、多模型管理、API 网关
 + **RAGFlow 定位**：专业 RAG 引擎（文档解析→分块→向量→混合检索→重排→溯源）
@@ -106,6 +145,9 @@ ragflow-mcp:
 ---
 
 ## 四、一句话总结（3分钟口述版）
+
+> 采用 **Dify 作为平台底座 + MCP 协议对接 RAGFlow**，形成 **平台+编排+专业RAG+模型+算力** 的完整闭环。
+
 我采用 **Dify 作为平台底座 + MCP 协议对接 RAGFlow** 的方案：
 
 + 保留 Dify 擅长的**前端、权限、工作流、多模型管理、快速上线**；

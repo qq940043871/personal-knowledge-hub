@@ -2,9 +2,43 @@
 
 下面给你直接上 **比 Dify 强、企业级、离线友好、全链条可控、大厂在用的 4 套顶级 RAG 方案**，按“**开箱即用强平台**→**可编程强引擎**→**下一代 GraphRAG**”排序，你可以直接替换或叠加。
 
+*图：四套 RAG 方案对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 232" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="12" y="24" width="168" height="180" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="96" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">RAGFlow</text>
+  <text x="96" y="70" text-anchor="middle" font-size="13" fill="#475569">开箱即用 · 国内企业首选</text>
+  <text x="96" y="94" text-anchor="middle" font-size="13" fill="#1e293b">PDF/表格/公式 版式还原</text>
+  <text x="96" y="114" text-anchor="middle" font-size="13" fill="#1e293b">BM25+向量+Rerank 三重检索</text>
+  <text x="96" y="134" text-anchor="middle" font-size="13" fill="#1e293b">引用溯源 · 拒答机制</text>
+  <text x="96" y="162" text-anchor="middle" font-size="13" fill="#475569">结论：RAG 能力直接翻倍</text>
+  <rect x="188" y="24" width="168" height="180" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="272" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Haystack</text>
+  <text x="272" y="70" text-anchor="middle" font-size="13" fill="#475569">可编程强引擎 · 生产级</text>
+  <text x="272" y="94" text-anchor="middle" font-size="13" fill="#1e293b">检索精度高 20–30%</text>
+  <text x="272" y="114" text-anchor="middle" font-size="13" fill="#1e293b">百万级文档分布式处理</text>
+  <text x="272" y="134" text-anchor="middle" font-size="13" fill="#1e293b">Apple/Netflix 在用</text>
+  <text x="272" y="162" text-anchor="middle" font-size="13" fill="#475569">结论：深度可控高性能</text>
+  <rect x="364" y="24" width="168" height="180" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="448" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">LlamaIndex</text>
+  <text x="448" y="70" text-anchor="middle" font-size="13" fill="#475569">数据层+检索层王者</text>
+  <text x="448" y="94" text-anchor="middle" font-size="13" fill="#1e293b">智能分块 · 父子索引</text>
+  <text x="448" y="114" text-anchor="middle" font-size="13" fill="#1e293b">GraphRAG 原生支持</text>
+  <text x="448" y="134" text-anchor="middle" font-size="13" fill="#1e293b">复杂问答质量+30%+</text>
+  <text x="448" y="162" text-anchor="middle" font-size="13" fill="#475569">结论：RAG 效果最好</text>
+  <rect x="540" y="24" width="168" height="180" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="624" y="50" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">微软 GraphRAG</text>
+  <text x="624" y="70" text-anchor="middle" font-size="13" fill="#475569">下一代范式 · 知识图谱</text>
+  <text x="624" y="94" text-anchor="middle" font-size="13" fill="#1e293b">实体&amp;关系→知识图谱</text>
+  <text x="624" y="114" text-anchor="middle" font-size="13" fill="#1e293b">跨文档推理质量+50%+</text>
+  <text x="624" y="134" text-anchor="middle" font-size="13" fill="#1e293b">事实校验 · 路径溯源</text>
+  <text x="624" y="162" text-anchor="middle" font-size="13" fill="#475569">结论：做行业标杆</text>
+</svg>
+
 ---
 
 ## 一、最强开箱即用替代：RAGFlow（国内企业首选，RAG 能力碾压 Dify）
+
 ### 为什么比 Dify 强
 + **文档解析强太多**：原生支持 PDF/扫描件/表格/公式/图片版式还原，复杂文档乱序、丢格式问题远少于 Dify。
 + **检索策略专业**：默认 **BM25+向量+Rerank** 三重混合检索，Dify 只有基础混合，调优空间小。
@@ -19,9 +53,11 @@
 + ✅ 保留 Dify 画布，核心 RAG 切到 RAGFlow
 
 ### 一句话结论：想快速替换 Dify、RAG 能力直接翻倍 → 选 RAGFlow
+
 ---
 
 ## 二、顶级可编程企业级引擎：Haystack（Apple/Netflix/大厂生产环境在用）
+
 ### 定位
 不是低代码平台，是**生产级 RAG 管线引擎**，模块化、全可控、性能极高。
 
@@ -38,9 +74,11 @@
 + ✅ 和 LangGraph、vLLM、Qdrant 完美适配
 
 ### 一句话结论：要做行业标杆、深度可控、高性能 → 选 Haystack
+
 ---
 
 ## 三、下一代最强检索：LlamaIndex（字节/阿里在用，RAG 天花板）
+
 ### 定位
 **数据层+检索层王者**，RAG 能力目前业界最强。
 
@@ -56,9 +94,11 @@
 + ✅ 可和 LangGraph 搭配（LangGraph 管流程，LlamaIndex 管检索）
 
 ### 一句话结论：要 RAG 效果最好、解决复杂推理 → 选 LlamaIndex
+
 ---
 
 ## 四、终极方案：微软 GraphRAG（下一代 RAG，解决传统 RAG 所有痛点）
+
 ### 定位
 **知识图谱+向量融合检索**，彻底解决“找得到但理解不透、跨文档关联弱”问题。
 
@@ -73,9 +113,13 @@
 + ✅ 全链路可控、可私有化部署
 
 ### 一句话结论：要下一代 RAG、解决复杂推理、做行业标杆 → 选 GraphRAG
+
 ---
 
 ## 五、最终推荐（按你的全链路部署需求）
+
+> 优先推荐 **Dify+RAGFlow 组合** 快速提升 RAG 能力；要重构就用 **LlamaIndex+LangGraph+vLLM**。
+
 ### 首选组合（平衡强+稳+易落地）
 + **平台层**：Dify（保留画布/权限/前端）
 + **RAG 引擎**：**RAGFlow**（替换 Dify 内置 RAG，开箱即用、强解析、强检索）
@@ -99,6 +143,9 @@
 ---
 
 ## 六、口述极简版（3分钟背下来）
+
+> Dify 的 RAG 确实偏弱，主要是检索策略简单、分块粗糙、幻觉控制差、核心逻辑黑盒。
+
 Dify 的 RAG 确实偏弱，主要是检索策略简单、分块粗糙、幻觉控制差、核心逻辑黑盒。
 
 如果要替换，我推荐三套更强方案：
