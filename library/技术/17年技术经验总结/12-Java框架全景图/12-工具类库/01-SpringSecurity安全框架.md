@@ -7,7 +7,7 @@
 
 ## 一、框架介绍
 
-Spring Security是Spring生态中最专业的安全框架，提供了认证（Authentication）和授权（Authorization）两大核心功能，支持OAuth2、JWT等现代认证协议。
+**Spring Security是Spring生态中最专业的安全框架**，提供了**认证（Authentication）和授权（Authorization）两大核心功能**，支持OAuth2、JWT等现代认证协议。
 
 **官网**：[https://spring.io/projects/spring-security](https://spring.io/projects/spring-security)
 
@@ -193,6 +193,39 @@ public class SecurityConfig {
 }
 ```
 
+*图：JWT 认证过滤器处理流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 350" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="230" y="20" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="38" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">客户端请求</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#475569">Authorization: Bearer token</text>
+  <line x1="360" y1="64" x2="360" y2="84" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="88" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="106" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">JwtAuthenticationFilter</text>
+  <text x="360" y="124" text-anchor="middle" font-size="12" fill="#475569">doFilterInternal 拦截</text>
+  <line x1="360" y1="132" x2="360" y2="152" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="156" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="174" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">validateToken 校验</text>
+  <text x="360" y="192" text-anchor="middle" font-size="12" fill="#475569">解析并校验 token</text>
+  <line x1="490" y1="178" x2="503" y2="178" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="505" y="156" width="185" height="44" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="597" y="174" text-anchor="middle" font-size="13" fill="#1e293b">校验失败</text>
+  <text x="597" y="192" text-anchor="middle" font-size="12" fill="#475569">不设置认证信息</text>
+  <line x1="360" y1="200" x2="360" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="224" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">SecurityContextHolder</text>
+  <text x="360" y="260" text-anchor="middle" font-size="12" fill="#475569">写入 Authentication</text>
+  <line x1="360" y1="268" x2="360" y2="288" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="292" width="260" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="310" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">chain.doFilter 放行</text>
+  <text x="360" y="328" text-anchor="middle" font-size="12" fill="#475569">到达业务接口</text>
+</svg>
+
 ### 场景2：基于注解的权限控制
 
 ```java
@@ -340,9 +373,9 @@ public class UserService {
 
 ---
 
-## 五、总结
+## 五、总结与学习要点
 
-Spring Security是Java安全认证的标准解决方案，配合JWT可以实现完整的认证授权系统。
+**Spring Security是Java安全认证的标准解决方案**，配合JWT可以实现完整的认证授权系统。
 
 **学习要点**：
 1. 理解认证和授权的区别

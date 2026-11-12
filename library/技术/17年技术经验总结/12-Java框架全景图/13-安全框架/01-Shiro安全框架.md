@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、Shiro 是什么
 
-Apache Shiro是Java领域轻量级安全框架，提供认证、授权、加密、会话管理等功能，比Spring Security更简单易用。
+**Apache Shiro是Java领域轻量级安全框架**，提供认证、授权、加密、会话管理等功能，**比Spring Security更简单易用**。
 
 ### 核心特性
 
@@ -144,6 +144,39 @@ public class AuthController {
     }
 }
 ```
+
+*图：Shiro 认证登录流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 370" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="230" y="20" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="38" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">用户提交用户名密码</text>
+  <text x="360" y="56" text-anchor="middle" font-size="12" fill="#475569">username + password</text>
+  <line x1="360" y1="64" x2="360" y2="84" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="88" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="106" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">UsernamePasswordToken</text>
+  <text x="360" y="124" text-anchor="middle" font-size="12" fill="#475569">封装凭证</text>
+  <line x1="360" y1="132" x2="360" y2="152" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="156" width="260" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="174" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">subject.login(token)</text>
+  <text x="360" y="192" text-anchor="middle" font-size="12" fill="#475569">发起认证</text>
+  <line x1="360" y1="200" x2="360" y2="220" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="230" y="224" width="260" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="242" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">CustomRealm 认证</text>
+  <text x="360" y="260" text-anchor="middle" font-size="12" fill="#475569">doGetAuthenticationInfo 查询用户</text>
+  <polyline points="290,268 290,289 200,289 200,306" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <polyline points="430,268 430,289 520,289 520,306" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="80" y="310" width="240" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="200" y="328" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">认证成功</text>
+  <text x="200" y="346" text-anchor="middle" font-size="12" fill="#475569">redirect:/index</text>
+  <rect x="400" y="310" width="240" height="44" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="520" y="328" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">AuthenticationException</text>
+  <text x="520" y="346" text-anchor="middle" font-size="12" fill="#475569">返回登录页</text>
+</svg>
 
 ---
 

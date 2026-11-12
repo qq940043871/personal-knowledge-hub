@@ -5,9 +5,9 @@
 
 ---
 
-## 一、框架介绍
+## 一、Docker 是什么
 
-Docker是一个开源的容器化平台，让开发者可以打包应用及其依赖到一个可移植的容器中。
+**Docker是一个开源的容器化平台**，让开发者可以打包应用及其依赖到一个**可移植的容器**中。
 
 **官网**：[https://www.docker.com](https://www.docker.com)
 
@@ -15,6 +15,29 @@ Docker是一个开源的容器化平台，让开发者可以打包应用及其�
 - **镜像（Image）**：应用的只读模板
 - **容器（Container）**：镜像的运行实例
 - **仓库（Registry）**：存储镜像的地方
+
+*图：Docker 三大核心概念关系（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 150" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="45" width="180" height="60" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="110" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">仓库（Registry）</text>
+  <text x="110" y="91" text-anchor="middle" font-size="12" fill="#475569">存储镜像的地方</text>
+  <line x1="200" y1="75" x2="268" y2="75" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="234" y="66" text-anchor="middle" font-size="12" fill="#475569">存储</text>
+  <rect x="270" y="45" width="180" height="60" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">镜像（Image）</text>
+  <text x="360" y="91" text-anchor="middle" font-size="12" fill="#475569">应用的只读模板</text>
+  <line x1="450" y1="75" x2="518" y2="75" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="484" y="66" text-anchor="middle" font-size="12" fill="#475569">运行实例</text>
+  <rect x="520" y="45" width="180" height="60" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="610" y="70" text-anchor="middle" font-size="14" font-weight="bold" fill="#1e293b">容器（Container）</text>
+  <text x="610" y="91" text-anchor="middle" font-size="12" fill="#475569">镜像的运行实例</text>
+</svg>
 
 ---
 
@@ -121,9 +144,9 @@ docker-compose down
 
 ---
 
-## 四、总结
+## 四、总结与学习要点
 
-Docker是现代云原生开发的基础，配合Kubernetes实现容器编排。
+**Docker是现代云原生开发的基础**，配合Kubernetes实现容器编排。
 
 **学习要点**：
 1. Dockerfile编写

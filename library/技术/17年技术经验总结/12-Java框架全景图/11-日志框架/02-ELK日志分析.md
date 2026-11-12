@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、ELK 是什么
 
-ELK是Elasticsearch + Logstash + Kibana的日志分析解决方案，用于集中收集、存储、分析和可视化日志数据。
+**ELK是Elasticsearch + Logstash + Kibana的日志分析解决方案**，用于集中收集、存储、分析和可视化日志数据。
 
 ### 架构组成
 
@@ -18,6 +18,8 @@ ELK是Elasticsearch + Logstash + Kibana的日志分析解决方案，用于集�
 ---
 
 ## 二、架构方案
+
+> 三种由简到繁的架构：**轻量架构（推荐）**跳过 Logstash，直接用 Filebeat 采集。
 
 ### 2.1 经典架构
 

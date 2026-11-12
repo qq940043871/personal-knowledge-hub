@@ -5,9 +5,9 @@
 
 ---
 
-## 一、框架介绍
+## 一、Lombok 是什么
 
-Lombok是一个Java库，通过注解自动生成样板代码（getter、setter、构造函数等），显著减少代码冗余。
+**Lombok是一个Java库，通过注解自动生成样板代码（getter、setter、构造函数等）**，显著减少代码冗余。
 
 **官网**：[https://projectlombok.org](https://projectlombok.org)
 
@@ -19,6 +19,33 @@ Lombok是一个Java库，通过注解自动生成样板代码（getter、setter�
 - @NoArgsConstructor/@AllArgsConstructor - 构造函数
 - @Builder - 建造者模式
 - @Slf4j - 日志对象
+
+*图：Lombok 常用注解与生成内容对照（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 290" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="140" y="20" width="250" height="28" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="39" text-anchor="middle" font-size="13" fill="#1e293b">@Getter / @Setter</text>
+  <text x="420" y="39" text-anchor="start" font-size="13" fill="#475569">生成getter/setter</text>
+  <rect x="140" y="54" width="250" height="28" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="73" text-anchor="middle" font-size="13" fill="#1e293b">@ToString</text>
+  <text x="420" y="73" text-anchor="start" font-size="13" fill="#475569">生成toString</text>
+  <rect x="140" y="88" width="250" height="28" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="107" text-anchor="middle" font-size="13" fill="#1e293b">@EqualsAndHashCode</text>
+  <text x="420" y="107" text-anchor="start" font-size="13" fill="#475569">生成equals和hashCode</text>
+  <rect x="140" y="122" width="250" height="28" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="265" y="141" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">@Data</text>
+  <text x="420" y="141" text-anchor="start" font-size="13" fill="#475569">组合注解</text>
+  <rect x="140" y="156" width="250" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="174" text-anchor="middle" font-size="13" fill="#1e293b">@NoArgsConstructor</text>
+  <text x="265" y="191" text-anchor="middle" font-size="13" fill="#1e293b">@AllArgsConstructor</text>
+  <text x="420" y="183" text-anchor="start" font-size="13" fill="#475569">构造函数</text>
+  <rect x="140" y="208" width="250" height="28" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="227" text-anchor="middle" font-size="13" fill="#1e293b">@Builder</text>
+  <text x="420" y="227" text-anchor="start" font-size="13" fill="#475569">建造者模式</text>
+  <rect x="140" y="242" width="250" height="28" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="265" y="261" text-anchor="middle" font-size="13" fill="#1e293b">@Slf4j</text>
+  <text x="420" y="261" text-anchor="start" font-size="13" fill="#475569">日志对象</text>
+</svg>
 
 ---
 
@@ -108,9 +135,9 @@ public class User {
 
 ---
 
-## 四、总结
+## 四、总结与使用注意
 
-Lombok是提高开发效率的必备工具，让代码更简洁。
+**Lombok是提高开发效率的必备工具，让代码更简洁。**
 
 **使用注意**：
 1. IDE需要安装对应插件

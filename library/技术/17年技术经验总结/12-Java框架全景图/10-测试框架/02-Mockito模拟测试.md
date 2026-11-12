@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、Mockito 是什么
 
-Mockito是Java领域最流行的Mock框架，用于模拟依赖对象的行为，实现单元测试的隔离。
+**Mockito是Java领域最流行的Mock框架**，用于模拟依赖对象的行为，实现**单元测试的隔离**。
 
 ### 核心特性
 
@@ -15,6 +15,31 @@ Mockito是Java领域最流行的Mock框架，用于模拟依赖对象的行为�
 - **注解支持** — `@Mock`、`@InjectMocks`、`@Spy`
 - **验证机制** — 验证方法调用次数和参数
 - **行为定义** — `when...thenReturn`、`doThrow`
+
+*图：Mockito 单元测试工作流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="55" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">创建 Mock 对象</text>
+  <text x="95" y="94" text-anchor="middle" font-size="12" fill="#475569">@Mock、mock()</text>
+  <line x1="170" y1="80" x2="208" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="210" y="55" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="285" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">定义行为</text>
+  <text x="285" y="94" text-anchor="middle" font-size="12" fill="#475569">when...thenReturn</text>
+  <line x1="360" y1="80" x2="398" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="400" y="55" width="150" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="475" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">执行测试</text>
+  <text x="475" y="94" text-anchor="middle" font-size="12" fill="#475569">调用被测方法</text>
+  <line x1="550" y1="80" x2="588" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="590" y="55" width="110" height="50" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="645" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">验证调用</text>
+  <text x="645" y="94" text-anchor="middle" font-size="12" fill="#475569">verify() / times()</text>
+</svg>
 
 ---
 

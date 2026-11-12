@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、JUnit 5 是什么
 
-JUnit 5是Java领域最主流的单元测试框架，由JUnit Platform、JUnit Jupiter、JUnit Vintage三部分组成。
+**JUnit 5是Java领域最主流的单元测试框架**，由JUnit Platform、JUnit Jupiter、JUnit Vintage三部分组成。
 
 ### 核心特性
 
@@ -79,6 +79,35 @@ class CalculatorTest {
 | `@DisplayName` | 自定义显示名称 |
 | `@Tag` | 测试标签 |
 | `@Timeout` | 超时设置 |
+
+*图：JUnit 5 核心注解执行顺序（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="55" width="120" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="80" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">@BeforeAll</text>
+  <text x="80" y="94" text-anchor="middle" font-size="12" fill="#475569">所有测试前执行</text>
+  <line x1="140" y1="80" x2="168" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="170" y="55" width="120" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="230" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">@BeforeEach</text>
+  <text x="230" y="94" text-anchor="middle" font-size="12" fill="#475569">每个测试方法前执行</text>
+  <line x1="290" y1="80" x2="318" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="320" y="55" width="120" height="50" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="380" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">@Test</text>
+  <text x="380" y="94" text-anchor="middle" font-size="12" fill="#475569">标记测试方法</text>
+  <line x1="440" y1="80" x2="468" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="470" y="55" width="120" height="50" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="530" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">@AfterEach</text>
+  <text x="530" y="94" text-anchor="middle" font-size="12" fill="#475569">每个测试方法后执行</text>
+  <line x1="590" y1="80" x2="618" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="620" y="55" width="80" height="50" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="660" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e293b">@AfterAll</text>
+  <text x="660" y="94" text-anchor="middle" font-size="12" fill="#475569">所有测试后执行</text>
+</svg>
 
 ---
 

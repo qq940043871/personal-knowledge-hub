@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、Logback 是什么
 
-Logback是Log4j的继任者，是Spring Boot默认的日志框架，分为logback-core、logback-classic、logback-access三个模块。
+**Logback是Log4j的继任者**，是**Spring Boot默认的日志框架**，分为logback-core、logback-classic、logback-access三个模块。
 
 ### 核心特性
 
@@ -15,6 +15,35 @@ Logback是Log4j的继任者，是Spring Boot默认的日志框架，分为logbac
 - **自动重载** — 配置文件修改后自动加载
 - **过滤器** — 丰富的过滤器支持
 - **异步日志** — AsyncAppender支持异步写入
+
+*图：SLF4J 门面与 Logback 模块分层（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 270" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="260" y="20" width="200" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="45" text-anchor="middle" font-size="14" fill="#1e293b">应用代码</text>
+  <line x1="360" y1="60" x2="360" y2="84" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="260" y="86" width="200" height="40" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="111" text-anchor="middle" font-size="14" fill="#1e293b">SLF4J 日志门面</text>
+  <line x1="360" y1="126" x2="360" y2="150" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="210" y="152" width="300" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="177" text-anchor="middle" font-size="14" fill="#1e293b">Logback 实现</text>
+  <line x1="360" y1="192" x2="360" y2="204" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="160" y1="204" x2="560" y2="204" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="160" y1="204" x2="160" y2="216" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="360" y1="204" x2="360" y2="216" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <line x1="560" y1="204" x2="560" y2="216" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="70" y="218" width="180" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="160" y="241" text-anchor="middle" font-size="13" fill="#1e293b">logback-core</text>
+  <rect x="270" y="218" width="180" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="241" text-anchor="middle" font-size="13" fill="#1e293b">logback-classic</text>
+  <rect x="470" y="218" width="180" height="36" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="560" y="241" text-anchor="middle" font-size="13" fill="#1e293b">logback-access</text>
+</svg>
 
 ---
 

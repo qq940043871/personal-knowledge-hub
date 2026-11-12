@@ -5,9 +5,9 @@
 
 ---
 
-## 一、概述
+## 一、Gradle 是什么
 
-Gradle是基于JVM的构建工具，使用Groovy或Kotlin DSL配置，比Maven更灵活、构建速度更快，是Android官方构建工具。
+**Gradle是基于JVM的构建工具**，使用Groovy或Kotlin DSL配置，比Maven更灵活、构建速度更快，是**Android官方构建工具**。
 
 ### 核心特性
 
@@ -212,6 +212,31 @@ bootRun {
 | 灵活性 | 高 | 低 |
 | 学习曲线 | 中 | 低 |
 | Android支持 | 官方支持 | 不支持 |
+
+*图：Gradle 与 Maven 构建特性对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 245" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="110" y="15" width="140" height="38" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="180" y="39" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Gradle</text>
+  <rect x="470" y="15" width="140" height="38" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="540" y="39" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">Maven</text>
+  <rect x="310" y="75" width="100" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="95" text-anchor="middle" font-size="13" fill="#1e293b">构建速度</text>
+  <text x="280" y="95" text-anchor="end" font-size="13" fill="#1e293b">快（增量构建）</text>
+  <text x="440" y="95" text-anchor="start" font-size="13" fill="#475569">慢（全量构建）</text>
+  <rect x="310" y="115" width="100" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="135" text-anchor="middle" font-size="13" fill="#1e293b">配置方式</text>
+  <text x="280" y="135" text-anchor="end" font-size="13" fill="#1e293b">Groovy/Kotlin DSL</text>
+  <text x="440" y="135" text-anchor="start" font-size="13" fill="#475569">XML</text>
+  <rect x="310" y="155" width="100" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="175" text-anchor="middle" font-size="13" fill="#1e293b">灵活性</text>
+  <text x="280" y="175" text-anchor="end" font-size="13" fill="#1e293b">高</text>
+  <text x="440" y="175" text-anchor="start" font-size="13" fill="#475569">低</text>
+  <rect x="310" y="195" width="100" height="30" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="215" text-anchor="middle" font-size="13" fill="#1e293b">Android支持</text>
+  <text x="280" y="215" text-anchor="end" font-size="13" fill="#1e293b">官方支持</text>
+  <text x="440" y="215" text-anchor="start" font-size="13" fill="#475569">不支持</text>
+</svg>
 
 ---
 
