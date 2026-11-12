@@ -1,8 +1,8 @@
-# 6.2 MQTT 协议设计
+# MQTT 协议设计
 
-## 概述
+## MQTT：面向物联网的轻量级协议
 
-MQTT（Message Queuing Telemetry Transport）是面向物联网和移动端的轻量级消息协议。支持发布/订阅模式和 QoS 等级控制，适合低带宽和高延迟网络环境。
+MQTT（Message Queuing Telemetry Transport）是**面向物联网和移动端的轻量级消息协议**。支持发布/订阅模式和 QoS 等级控制，适合低带宽和高延迟网络环境。
 
 ## 数据库设计
 
@@ -101,6 +101,32 @@ CREATE TABLE mqtt_retained_message (
 | 0 | At Most Once | 最多一次（可能丢） | 最低 |
 | 1 | At Least Once | 至少一次（可能重） | 中等 |
 | 2 | Exactly Once | 恰好一次（可靠） | 最高 |
+
+*图：MQTT 三级 QoS 对比（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 210" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <text x="120" y="24" text-anchor="middle" font-size="13" fill="#475569">等级</text>
+  <text x="395" y="24" text-anchor="middle" font-size="13" fill="#475569">传递保证</text>
+  <text x="635" y="24" text-anchor="middle" font-size="13" fill="#475569">开销</text>
+  <rect x="20" y="34" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="120" y="61" text-anchor="middle" font-size="14" fill="#1e293b">QoS 0 · At Most Once</text>
+  <rect x="250" y="34" width="290" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="395" y="61" text-anchor="middle" font-size="14" fill="#1e293b">最多一次（可能丢）</text>
+  <rect x="570" y="34" width="130" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="635" y="61" text-anchor="middle" font-size="14" fill="#1e293b">最低</text>
+  <rect x="20" y="90" width="200" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="120" y="117" text-anchor="middle" font-size="14" fill="#1e293b">QoS 1 · At Least Once</text>
+  <rect x="250" y="90" width="290" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="395" y="117" text-anchor="middle" font-size="14" fill="#1e293b">至少一次（可能重）</text>
+  <rect x="570" y="90" width="130" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="635" y="117" text-anchor="middle" font-size="14" fill="#1e293b">中等</text>
+  <rect x="20" y="146" width="200" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="120" y="173" text-anchor="middle" font-size="14" fill="#1e293b">QoS 2 · Exactly Once</text>
+  <rect x="250" y="146" width="290" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="395" y="173" text-anchor="middle" font-size="14" fill="#1e293b">恰好一次（可靠）</text>
+  <rect x="570" y="146" width="130" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="635" y="173" text-anchor="middle" font-size="14" fill="#1e293b">最高</text>
+</svg>
 
 ---
 

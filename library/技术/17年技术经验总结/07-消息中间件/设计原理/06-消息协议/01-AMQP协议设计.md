@@ -1,8 +1,8 @@
-# 6.1 AMQP 协议设计
+# AMQP 协议设计
 
-## 概述
+## AMQP：消息中间件的标准协议
 
-AMQP（Advanced Message Queuing Protocol）是消息中间件的标准协议，定义了消息的格式、路由和传递机制。本系统兼容 AMQP 0-9-1，并支持向 AMQP 1.0 扩展。
+AMQP（Advanced Message Queuing Protocol）是消息中间件的标准协议，**定义了消息的格式、路由和传递机制**。本系统兼容 AMQP 0-9-1，并支持向 AMQP 1.0 扩展。
 
 ## 协议分层架构
 
