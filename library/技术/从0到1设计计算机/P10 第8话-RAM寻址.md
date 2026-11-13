@@ -6,7 +6,7 @@
 
 ---
 
-## 一、 课程引入：从简单存储指令开始
+## 一、课程引入：从简单存储指令开始
 
 ### 1. 回顾与目标设定
 
@@ -28,7 +28,7 @@
 
 ---
 
-## 二、 问题深化：变量与数组寻址的矛盾
+## 二、问题深化：变量与数组寻址的矛盾
 
 ### 1. 编程概念引入
 
@@ -55,7 +55,7 @@
 
 ---
 
-## 三、 优化方案：MIPS架构的基址偏移寻址
+## 三、优化方案：MIPS架构的基址偏移寻址
 
 ### 1. 核心思想：基址 + 偏移量
 
@@ -79,9 +79,40 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 - **代码简洁高效**：只需在程序开始时设置一次基地址，之后访问数组不同元素仅需修改一条指令中的立即数（偏移量），代码量大大减少，逻辑清晰。
 - **支持动态定位**：由于基地址存放在寄存器中，可以在运行时灵活改变，完美支持动态内存分配的场景。
 
+*图：基址偏移寻址的硬件数据通路（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 300" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="90" width="160" height="90" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="100" y="118" text-anchor="middle" font-size="15" fill="#1e293b" font-weight="bold">寄存器组</text>
+  <text x="100" y="140" text-anchor="middle" font-size="13" fill="#475569">双独立读端口</text>
+  <text x="100" y="163" text-anchor="middle" font-size="13" fill="#475569">读地址1←RS 读地址2←RT</text>
+  <line x1="180" y1="128" x2="298" y2="128" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="239" y="118" text-anchor="middle" font-size="13" fill="#475569">Read Data 1</text>
+  <text x="239" y="145" text-anchor="middle" font-size="13" fill="#475569">（基址 58）</text>
+  <rect x="300" y="100" width="140" height="56" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="370" y="123" text-anchor="middle" font-size="14" fill="#1e293b">ALU（加法）</text>
+  <text x="370" y="143" text-anchor="middle" font-size="13" fill="#1e293b">基址 + 偏移量</text>
+  <line x1="440" y1="128" x2="558" y2="128" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="500" y="118" text-anchor="middle" font-size="13" fill="#475569">地址 59</text>
+  <rect x="560" y="85" width="140" height="95" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="630" y="113" text-anchor="middle" font-size="15" fill="#1e293b" font-weight="bold">RAM</text>
+  <text x="630" y="138" text-anchor="middle" font-size="13" fill="#475569">地址端口 ← 59</text>
+  <text x="630" y="162" text-anchor="middle" font-size="13" fill="#475569">数据端口 ← R1</text>
+  <rect x="300" y="205" width="140" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="370" y="230" text-anchor="middle" font-size="13" fill="#1e293b">偏移量（立即数 1）</text>
+  <line x1="370" y1="205" x2="370" y2="162" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <polyline points="100,180 100,270 630,270 630,186" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="365" y="262" text-anchor="middle" font-size="13" fill="#475569">Read Data 2：待写入数据（R1）</text>
+</svg>
+
 ---
 
-## 四、 硬件冲突与解决方案
+## 四、硬件冲突与解决方案
 
 引入基址偏移寻址后，新的硬件挑战出现了。
 
@@ -102,7 +133,7 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 
 ---
 
-## 五、 关键指令剖析：RT字段的双重角色
+## 五、关键指令剖析：RT字段的双重角色
 
 此时，一个精妙的设计细节浮出水面：指令字段`RT`同时连接了寄存器组的**写地址端口**和**第二读地址端口**。这难道不会在同时读写时冲突吗？
 
@@ -131,7 +162,7 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 
 ---
 
-## 六、 课程总结
+## 六、课程总结
 
 ### 1. 设计思想回顾
 
@@ -145,43 +176,3 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 3. **领悟字段复用艺术**：明白指令字段（如RT）在不同指令上下文中，通过控制信号的配合，可以实现多功能复用而不冲突，这是指令集精简设计的重要体现。
 
 **关键词**：MOV指令，RAM，I型指令，立即数，内存寻址，数组，指针，MIPS架构，基地址，寄存器组
-
-![](https://feishu.cn/file/JMGQbJEZko5dM0xrYHYcGS81nyf)
-
-![](https://feishu.cn/file/AcQCbNCGlo2OksxWBxLcL4gBnJf)
-
-![](https://feishu.cn/file/AsCrbApUhoaN4xxiI7hcucOnnlq)
-
-![](https://feishu.cn/file/NPakbsrPGoihE7xC7YQc1cFXn4d)
-
-![](https://feishu.cn/file/NdpdbHlbNoxugLxygUmcR0fnnxg)
-
-![](https://feishu.cn/file/TfYEb7wWIoQ3fpxWygOcAiolnKc)
-
-![](https://feishu.cn/file/ZmcEbuzGJoabHfxTsRBcVfkunxd)
-
-![](https://feishu.cn/file/PFvqb2hHloO9WsxJaCyc8ZownGd)
-
-![](https://feishu.cn/file/EoLsbwyy6oOTKKxVQ2ScRE3an47)
-
-![](https://feishu.cn/file/DPUHbzIPpobNe1xDf5kchjBQnfb)
-
-![](https://feishu.cn/file/ULq6b8CcuovpygxYoe3cJgwsnWd)
-
-![](https://feishu.cn/file/XW6CbqlhYooA31xsnRPcvufbnZg)
-
-![](https://feishu.cn/file/MveObvIk4owhsKxhvYdcAjrOn9c)
-
-![](https://feishu.cn/file/D33PbgeKEohETQxCSlFcCK16nCg)
-
-![](https://feishu.cn/file/OATyb6NwhosopuxAdJycJlgbnab)
-
-![](https://feishu.cn/file/Wo0XbdMHcozw1VxNTVwc57Q4nQd)
-
-![](https://feishu.cn/file/WW8wbBmDUogWl2xN2jwc6S5cnye)
-
-![](https://feishu.cn/file/W0PEbacxiopUG9xKeh8ceKrOnQc)
-
-![](https://feishu.cn/file/LLbpbUqo1ofNlPxDsUlcbPDSnrb)
-
-![](https://feishu.cn/file/FlOObpCQIomfdux2BeRcdVqbnKe)
