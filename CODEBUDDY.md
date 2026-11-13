@@ -62,7 +62,7 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 
 | 层 | 内容 | 状态 |
 |----|------|------|
-| 公开成品 | 根 `index.html`、`library/` 未排除目录、`blog/`、`assets/` | 已跟踪（3039 个文件，其中 md 1650、`library/` 下 2981 个） |
+| 公开成品 | 根 `index.html`、`library/` 未排除目录、`blog/`、`assets/` | 已跟踪（3001 个文件，其中 md 1639、`library/` 下 2972 个） |
 | 本地工具 | 顶层 `tools/` | 2026-11-13 起整体排除（`.gitignore` 的 `tools/` + `git rm -r --cached tools`） |
 | 私有来源 | `library/家庭/`、`library/隐私/`、`library/投资/01-我的实盘与成长史/`、`library/工作/客户跟踪/` | `.gitignore` 排除，仅本地存在 |
 | 本地资产层 | 顶层 `agent/`、`output/` | 整体排除，历史上从未入库 |
@@ -122,7 +122,7 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 ## 已知待办与坑
 
 - 根 `index.html` 有 4 处链接指向 `library/17年技术经验总结/09-技术知识库/...`，但实际路径是 `library/技术/17年技术经验总结/09-技术知识库/...`（成品拆分进六库后的残留死链）。
-- ~~`SKIP_DIRS` 与 gitignore 漂移~~（2026-11-13 已修）：`build_tree.py` 改为运行时 `git check-ignore --no-index` 判定，`SKIP_DIRS` 只留 `__pycache__`/`node_modules` 之类的技术目录，私有目录由 gitignore 单一来源决定。修复后 `tree.json` 从 984 篇回到 **1643 篇**（4 个公开库：技术/投资/工作/考证），原先白丢的约 660 篇公开文档已回到侧边栏。git 不可用时退回 `FALLBACK_IGNORED_DIRS`（`家庭`/`隐私`/`01-我的实盘与成长史`/`客户跟踪`）兜底，新增私有目录时记得同步这两处。
+- ~~`SKIP_DIRS` 与 gitignore 漂移~~（2026-11-13 已修）：`build_tree.py` 改为运行时 `git check-ignore --no-index` 判定，`SKIP_DIRS` 只留 `__pycache__`/`node_modules` 之类的技术目录，私有目录由 gitignore 单一来源决定。修复后 `tree.json` 从 984 篇回到 **1643 篇**（4 个公开库：技术/投资/工作/考证；同日清理 `工作/基础学习` 9 篇冗余文档后为 1634 篇），原先白丢的约 660 篇公开文档已回到侧边栏。git 不可用时退回 `FALLBACK_IGNORED_DIRS`（`家庭`/`隐私`/`01-我的实盘与成长史`/`客户跟踪`）兜底，新增私有目录时记得同步这两处。
 - `blog/_seed/post_*.b64`、`blocks.jsonl`、`seed_posts.jsonl` 是生成产物，`.gitignore` 已列规则但仍被跟踪（忽略规则对已跟踪文件无效）；当前刻意保留作离线兜底，要清理需先 `git rm --cached`。
 - `library/tree.json` 是生成产物，不要手改；`build_tree.py` 只认 `.md/.markdown/.pptx`，新增其他类型不会出现在侧边栏。
 - `library/wiki.md` 是分类导航索引，但其中的技术类链接全部指向重构前的旧路径，直接点击会 404；引用前先核对磁盘。
