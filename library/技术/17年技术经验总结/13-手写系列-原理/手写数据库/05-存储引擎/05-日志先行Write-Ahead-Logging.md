@@ -90,6 +90,38 @@ public class WALogManager {
 }
 ```
 
+*图：WAL 日志写入流程（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="25" y="30" width="170" height="34" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="110" y="52" text-anchor="middle" font-size="13" fill="#1e293b">事务执行修改</text>
+  <line x1="195" y1="47" x2="210" y2="47" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="210" y="30" width="210" height="34" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="315" y="52" text-anchor="middle" font-size="13" fill="#1e293b">构造 LogRecord，分配 LSN</text>
+  <line x1="420" y1="47" x2="440" y2="47" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="440" y="30" width="190" height="34" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="535" y="52" text-anchor="middle" font-size="13" fill="#1e293b">追加到 LogBuffer</text>
+  <line x1="535" y1="64" x2="535" y2="94" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="445" y="94" width="180" height="34" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="535" y="116" text-anchor="middle" font-size="13" fill="#1e293b">shouldFlush()？</text>
+  <path d="M445,111 L315,111 L315,150" fill="none" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="380" y="105" font-size="12" fill="#475569">否</text>
+  <rect x="210" y="150" width="210" height="34" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="315" y="172" text-anchor="middle" font-size="13" fill="#1e293b">暂留 LogBuffer，返回 LSN</text>
+  <line x1="535" y1="128" x2="535" y2="150" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="545" y="144" font-size="12" fill="#475569">是</text>
+  <rect x="430" y="150" width="220" height="34" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="540" y="172" text-anchor="middle" font-size="13" fill="#1e293b">flushLog()：flush + sync 落盘</text>
+  <line x1="540" y1="184" x2="540" y2="202" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="430" y="202" width="220" height="34" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="540" y="224" text-anchor="middle" font-size="13" fill="#1e293b">日志先写磁盘，才能修改数据页</text>
+</svg>
+
 ---
 
 ## 四、LSN与Checkpoint

@@ -15,6 +15,32 @@
   ResultWriter: 返回结果
 ```
 
+*图：Socket 服务端请求处理流水线（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 130" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="25" y="30" width="145" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="97" y="53" text-anchor="middle" font-size="14" fill="#1e293b">ServerSocket</text>
+  <text x="97" y="74" text-anchor="middle" font-size="12" fill="#475569">监听端口 3306</text>
+  <line x1="170" y1="58" x2="196" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="200" y="30" width="145" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="272" y="53" text-anchor="middle" font-size="14" fill="#1e293b">ConnectionAcceptor</text>
+  <text x="272" y="74" text-anchor="middle" font-size="12" fill="#475569">接收连接</text>
+  <line x1="345" y1="58" x2="371" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="375" y="30" width="145" height="56" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="447" y="53" text-anchor="middle" font-size="14" fill="#1e293b">QueryExecutor</text>
+  <text x="447" y="74" text-anchor="middle" font-size="12" fill="#475569">执行查询</text>
+  <line x1="520" y1="58" x2="546" y2="58" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="550" y="30" width="145" height="56" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="622" y="53" text-anchor="middle" font-size="14" fill="#1e293b">ResultWriter</text>
+  <text x="622" y="74" text-anchor="middle" font-size="12" fill="#475569">返回结果</text>
+  <text x="360" y="116" text-anchor="middle" font-size="12" fill="#475569">Selector 就绪事件分发 + 线程池并发处理</text>
+</svg>
+
 ---
 
 ## 二、NIO服务端实现
