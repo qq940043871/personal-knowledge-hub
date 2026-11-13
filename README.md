@@ -1,6 +1,6 @@
-# personal-tech-knowledge
+# personal-knowledge-hub
 
-> 工作区目录名是 `personal-knowledge-hub`，仓库内页标题与启动脚本沿用旧名 `personal-tech-knowledge`——两者指同一份工程，暂不改名（改名会牵动 `index.html` / `start.bat` / 历史链接）。
+> 命名口径：本文件标题、`index.html` 页标题与页面 logo、`start.bat` 启动横幅、工作区目录名、GitHub 仓库名已全部统一为 `personal-knowledge-hub`。旧名 `personal-tech-knowledge` 只作为历史叙述留在内容库正文里，不再是工程标识。
 > 更新日期：2026-11-13 ｜ 数字口径：以磁盘现状与 `git ls-files` 为准
 
 个人 IT 技术知识库与创作资产工程。自 `p000_0000_it` 拆分而来，历史经 `git-filter-repo` 路径过滤保留。主体是**静态内容 + 轻量阅读器**，没有构建系统、测试套件或打包流程。

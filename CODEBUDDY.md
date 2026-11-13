@@ -1,6 +1,6 @@
 # CODEBUDDY.md This file provides guidance to CodeBuddy when working with code in this repository.
 
-工作区目录名是 `personal-knowledge-hub`，仓库内的页面标题、`start.bat` 与历史链接仍沿用旧名 `personal-tech-knowledge`——同一个工程，勿擅自改名。
+命名口径：仓库名、工作区目录名、`README.md` 标题、`index.html` 页标题与 logo、`start.bat` 启动横幅统一为 `personal-knowledge-hub`。旧名 `personal-tech-knowledge` 仅残留在 `library/` 正文的历史说明里，勿据此回改名。
 
 本仓库是**静态内容 + 轻量阅读器 + 一次性维护脚本**，没有构建系统、测试套件、linter 或包管理清单（`requirements.txt` 只有 Flask，仅服务 library 的 Flask 阅读器）。
 

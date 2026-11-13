@@ -7,7 +7,7 @@ set "SCRIPT_DIR=%~dp0"
 cd /d "%SCRIPT_DIR%"
 
 echo ========================================
-echo   personal-tech-knowledge - Local Preview
+echo   personal-knowledge-hub - Local Preview
 echo   Port: %PORT%
 echo ========================================
 echo.
