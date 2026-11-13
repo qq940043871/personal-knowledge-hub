@@ -56,23 +56,28 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 
 ### 一句话结构
 
-一个暗色门户 `index.html` → 两条访问路径：`library/`（Markdown 知识库 + 静态阅读器）与 `blog/`（云后端 SPA）。`tools/` 是维护脚本，顶层 `agent/`、`output/` 是本地资产层（不入库）。
+一个暗色门户 `index.html` → 两条访问路径：`library/`（Markdown 知识库 + 静态阅读器）与 `blog/`（云后端 SPA）。`tools/` 是维护脚本（2026-11-13 起整体不入库），顶层 `agent/`、`output/` 是本地资产层（不入库）。
 
 ### 版本控制三层（改内容前必须确认自己改的是哪层）
 
 | 层 | 内容 | 状态 |
 |----|------|------|
-| 公开成品 | 根 `index.html`、`library/` 未排除目录、`blog/`、`tools/`、`assets/` | 已跟踪（795 个文件） |
-| 私有来源 | 六库中被逐目录排除的飞书/语雀/为知/腾讯导出、家庭库、`library/_备份元数据/` | `.gitignore` 排除，仅本地存在 |
+| 公开成品 | 根 `index.html`、`library/` 未排除目录、`blog/`、`assets/` | 已跟踪（3039 个文件，其中 md 1650、`library/` 下 2981 个） |
+| 本地工具 | 顶层 `tools/` | 2026-11-13 起整体排除（`.gitignore` 的 `tools/` + `git rm -r --cached tools`） |
+| 私有来源 | `library/家庭/`、`library/隐私/`、`library/投资/01-我的实盘与成长史/`、`library/工作/客户跟踪/` | `.gitignore` 排除，仅本地存在 |
 | 本地资产层 | 顶层 `agent/`、`output/` | 整体排除，历史上从未入库 |
 
-目录被整体排除后 Git 不再递归进入，`!` 否定规则无效——确需入库单个文件只能用 `git add -f <path>`。`build_tree.py` 的 `SKIP_DIRS` 常量是同一份私有目录名单的复制品，静态站点因此不会暴露私有内容；**新增私有目录时 `.gitignore` 与 `SKIP_DIRS` 两处都要改**。
+目录被整体排除后 Git 不再递归进入，`!` 否定规则无效——确需入库单个文件只能用 `git add -f <path>`。
 
-唯一例外是 `library/技术/飞书·人工智能/`：2026-11-12 起已从 `SKIP_DIRS` 与 `.gitignore` 同时放行（AI 内容唯一归口，需在阅读器里可浏览、也要随站点发布）。它是「私有来源里被提升为公开成品」的唯一案例，其余飞书/语雀/为知导出目录仍为私有。
+私有名单有**两道复制品**，新增或放行私有目录时两处必须同步：根 `.gitignore`、`library/.gitignore`（2026-11-13 新增的第二道防线，防止根文件被编辑器陈旧缓冲区回写覆盖）。第三处不再手抄：`build_tree.py` 运行时对每个目录执行 `git check-ignore --no-index`，被忽略的才不进 `tree.json`（仅 `FALLBACK_IGNORED_DIRS` 在 git 不可用时兜底），因此站点树不会与 gitignore 漂移。
+
+唯一例外是 `library/技术/飞书·人工智能/`：2026-11-12 起已从 `.gitignore` 放行（AI 内容唯一归口，需在阅读器里可浏览、也要随站点发布）。它是「私有来源里被提升为公开成品」的唯一案例。
 
 ### library/：内容布局与索引管线
 
-六库固定为 `技术/ 投资/ 工作/ 考证/ 家庭/ 创作/`，每库内区分「成品（公开）」与「私有来源」。成品目录遵循编号约定：`00-总览/`、`01-基础/`、`02-进阶/`、`99-参考速查.md`。
+当前是**四公开库 + 两私有库**：`技术/ 投资/ 工作/ 考证/` 为成品公开库，`家庭/`、`隐私/` 整库私有。`创作/` 已于 2026-11-13 下线（小说与股林武侠素材归入本地资产层 `output/novels/`）。成品目录遵循编号约定：`00-总览/`、`01-基础/`、`02-进阶/`、`99-参考速查.md`。
+
+`技术/` 现已收敛为四个顶层目录：`17年技术经验总结/`（15 个编号分册，是主要成品区）、`从0到1设计计算机/`、`飞书·飞天闪客/`、`飞书·人工智能/`。原先散在 `技术/` 下的「手写」系列、中间件学习指南、Java 框架全景图等已全部并入 `17年技术经验总结/13-手写系列-原理`、`11-Linux学习指南`、`12-Java框架全景图` 等分册——**旧路径（如 `技术/Linux学习指南/`）已不存在**，别按历史记忆找目录。
 
 导航不硬编码：`build_tree.py` 扫描磁盘，只收录 `.md/.markdown/.pptx`，跳过隐藏目录与顶层元数据文件，输出 `tree.json`（生成产物，`start.bat` 每次启动重建，写临时文件后 `os.replace` 原子替换）。数据形态是三层嵌套：`{分类: [files] | {子目录: [files] | {子子目录: [files]}}}`，目录直属文件用特殊键 `_files` 承载；更深的层级被**折叠**进 `父/子` 标签键（`emit_deep`）。`library/index.html` 按这个形状硬编码三段循环渲染并 `fetch(path)` 取正文。
 
@@ -98,6 +103,8 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 
 ### tools/：一次性脚本的约定
 
+`tools/` 自 2026-11-13 起**整体不入库**（`.gitignore` 有 `tools/`，历史文件已 `git rm -r --cached`），脚本只在本机跑、产物落到 `library/` 或 `output/`，因此改脚本不需要提交。
+
 绝大多数脚本用 `WS = Path(__file__).resolve().parent.parent` 定位仓库根，不依赖 cwd；路径口径是**仓库根相对（含 `library/` 前缀）**。重组管线有严格顺序：`reorg4sources.py --plan`（产出 `library/_备份元数据/reorg_manifest.json` 全文件级清单）→ `--apply` → `reorg_relink.py`（按 manifest 改写链接）→ `reorg_library_split.py`（成品拆进六库，先算新内容再搬目录）→ `repair_stale_links.py`（修"文件搬了链接没跟着改"的存量链接）。删除类脚本一律「先 grep 全库入链、有入链则记录并改写」再动手。
 
 ### 内嵌子项目：library/投资/08-fianace-console/
@@ -109,12 +116,13 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 ### 内容规范
 
 - 中文写作，实用直给，结构走「场景 → 原因分析 → 解决」，第二人称「你」。
-- 文档体系遵循 Divio 四象限（`library/技术/技术文档体系/DOC_SYSTEM.md`）：Tutorial / How-to / Reference / Explanation，一篇文档只承担一种用途。
-- 分类导航入口是 `library/wiki.md`，库总说明是 `library/README.md`（其统计数字落后于根 `README.md`，以磁盘现状为准）。
+- 文档体系原遵循 Divio 四象限（`library/技术/技术文档体系/DOC_SYSTEM.md` 等），该目录已在 2026-11-13 重组中移除；现在只保留本条约定，无独立规范文件可引。
+- 分类导航入口是 `library/wiki.md`（**内容已严重滞后**：技术类链接都还是 `技术/xxx学习指南/` 这类已不存在的路径），库总说明是 `library/README.md`，两者统计口径均以根 `README.md` 与磁盘现状为准。
 
 ## 已知待办与坑
 
 - 根 `index.html` 有 4 处链接指向 `library/17年技术经验总结/09-技术知识库/...`，但实际路径是 `library/技术/17年技术经验总结/09-技术知识库/...`（成品拆分进六库后的残留死链）。
-- `library/投资/08-fianace-console/`（107 个文件）与 `library/毕业十年.md` 未被忽略、也未 `git add`，属待入库项，不是待清理垃圾。
+- ~~`SKIP_DIRS` 与 gitignore 漂移~~（2026-11-13 已修）：`build_tree.py` 改为运行时 `git check-ignore --no-index` 判定，`SKIP_DIRS` 只留 `__pycache__`/`node_modules` 之类的技术目录，私有目录由 gitignore 单一来源决定。修复后 `tree.json` 从 984 篇回到 **1643 篇**（4 个公开库：技术/投资/工作/考证），原先白丢的约 660 篇公开文档已回到侧边栏。git 不可用时退回 `FALLBACK_IGNORED_DIRS`（`家庭`/`隐私`/`01-我的实盘与成长史`/`客户跟踪`）兜底，新增私有目录时记得同步这两处。
 - `blog/_seed/post_*.b64`、`blocks.jsonl`、`seed_posts.jsonl` 是生成产物，`.gitignore` 已列规则但仍被跟踪（忽略规则对已跟踪文件无效）；当前刻意保留作离线兜底，要清理需先 `git rm --cached`。
 - `library/tree.json` 是生成产物，不要手改；`build_tree.py` 只认 `.md/.markdown/.pptx`，新增其他类型不会出现在侧边栏。
+- `library/wiki.md` 是分类导航索引，但其中的技术类链接全部指向重构前的旧路径，直接点击会 404；引用前先核对磁盘。
