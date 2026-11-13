@@ -1,6 +1,6 @@
 # 计算机存储器与CPU基础
 
-## 一、 课程引言
+## 一、课程引言
 
 ### 1. 课程定位与学习目标
 
@@ -16,7 +16,7 @@
 
 在学习本课程前，建议对第二季《数字电路》课程中涉及的**基本电气原理**（如电平、高低电平、脉冲信号、边沿触发等）有基本了解。即使您对这些概念有些生疏，也不必过分担心，本课程将侧重于应用层面的理解。
 
-## 二、 存储器的核心概念
+## 二、存储器的核心概念
 
 为了直观地理解存储器，我们可以从一个简单的比喻开始。
 
@@ -30,7 +30,7 @@
 
 因此，对存储器的访问，本质上就是通过“地址”这个编号，去找到对应的“抽屉”，并从中取出（读）或放入（写）数据。
 
-## 三、 存储器的外部接口
+## 三、存储器的外部接口
 
 存储器并非孤立存在，它需要与计算机的其他部分（如CPU）交换信息。这种交换是通过其**外部接口**（即引出的线路）实现的。
 
@@ -48,7 +48,39 @@
 - **功能：** 数据线用于**传输从存储器读出或写入的数据**。它是信息进出存储器的通道。
 - **位数：** 数据线的根数通常与**存储单元的位宽**一致。如果每个存储单元存储1字节（8位）的数据，那么就会有**8根数据线**，共同构成一个8位的数据总线。
 
-## 四、 ROM（只读存储器）的工作原理
+*图：存储器与CPU的外部接口（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="arwl" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto">
+      <path d="M7,0 L0,3 L7,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="20" y="90" width="130" height="110" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="85" y="135" text-anchor="middle" font-size="15" fill="#1e293b" font-weight="bold">CPU</text>
+  <text x="85" y="160" text-anchor="middle" font-size="13" fill="#475569">读取指令 · 执行计算</text>
+  <text x="85" y="180" text-anchor="middle" font-size="13" fill="#475569">控制其他部件</text>
+  <rect x="560" y="70" width="140" height="150" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="630" y="100" text-anchor="middle" font-size="15" fill="#1e293b" font-weight="bold">存储器</text>
+  <text x="630" y="125" text-anchor="middle" font-size="13" fill="#475569">256个“抽屉”</text>
+  <text x="630" y="148" text-anchor="middle" font-size="13" fill="#475569">编号 0 ~ 255</text>
+  <text x="630" y="171" text-anchor="middle" font-size="13" fill="#475569">每格 1 字节</text>
+  <text x="630" y="194" text-anchor="middle" font-size="13" fill="#475569">（ROM / RAM）</text>
+  <line x1="150" y1="105" x2="558" y2="105" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="350" y="95" text-anchor="middle" font-size="13" fill="#475569">地址总线 A[7:0]（指定抽屉编号）</text>
+  <line x1="152" y1="132" x2="556" y2="132" stroke="#94a3b8" stroke-width="1.5" marker-start="url(#arwl)" marker-end="url(#arw)"/>
+  <text x="350" y="122" text-anchor="middle" font-size="13" fill="#475569">数据总线 D[7:0]（双向：读出/写入）</text>
+  <line x1="150" y1="159" x2="558" y2="159" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="350" y="149" text-anchor="middle" font-size="13" fill="#475569">读写控制线（0=读，1=写）</text>
+  <line x1="150" y1="186" x2="558" y2="186" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="350" y="176" text-anchor="middle" font-size="13" fill="#475569">写脉冲线 WE#（边沿触发写入）</text>
+  <text x="360" y="235" text-anchor="middle" font-size="13" fill="#475569">先设置地址与控制信号，再在脉冲边沿将数据锁存入指定单元</text>
+</svg>
+
+## 四、ROM（只读存储器）的工作原理
 
 ROM，即**只读存储器**，其特点是数据在制造时或编程后固定，一般用于存储需要长期保存且不需要修改的数据，如计算机的启动固件（BIOS）。
 
@@ -61,7 +93,7 @@ ROM的操作非常简单，主要就是**读取**：
 
 - **特点：** ROM具有**非易失性**，断电后数据不会丢失。
 
-## 五、 RAM（随机存取存储器）的工作原理
+## 五、RAM（随机存取存储器）的工作原理
 
 RAM，即**随机存取存储器**，是计算机中最常用的主存储器（内存）。它最大的特点是**数据可读可写**，但断电后数据会丢失。
 
@@ -89,7 +121,7 @@ RAM的读取操作与ROM完全相同：
 
 - **特点：** RAM具有**易失性**，断电后存储的数据会立即丢失。它非常适合需要频繁高速读写数据的场景，如作为CPU的工作缓存和程序运行空间。
 
-## 六、 CPU（中央处理器）简介
+## 六、CPU（中央处理器）简介
 
 ### 1. 角色定位
 
@@ -99,7 +131,7 @@ RAM的读取操作与ROM完全相同：
 
 了解存储器是理解计算机工作原理的第一步。CPU如何与存储器交互？它内部又是如何执行指令的？在接下来的课程中，我们将**“掀开CPU的外壳”**，初步探讨其内部的核心组成（如寄存器、算术逻辑单元ALU、控制单元）与工作方式。
 
-## 七、 总结与展望
+## 七、总结与展望
 
 ### 1. 本节核心知识点回顾
 
@@ -111,43 +143,3 @@ RAM的读取操作与ROM完全相同：
 ### 2. 引出后续主题
 
 掌握了存储器的基础知识，我们就拥有了构建计算机记忆与存储模块的能力。下一步，我们将聚焦于那个指挥这一切的**核心——CPU**，探索其内部机制，以及CPU、存储器等部件如何协同工作，构成一个完整的计算机系统。
-
-![](https://feishu.cn/file/NRY7boMPJoRcRixIAdXcLdJfneb)
-
-![](https://feishu.cn/file/Dw5EbZwf4o6ge4xUB9JcIQrBn2c)
-
-![](https://feishu.cn/file/WglrbDk8goiHwWxBgIcc3LpQn8g)
-
-![](https://feishu.cn/file/BKqcbeqhOoURYYxlFzYc1Zgmnqe)
-
-![](https://feishu.cn/file/XcWSbZc9coCunnx3IwmcP1o0nAd)
-
-![](https://feishu.cn/file/XQIbbKQoeoQWZ8x5B7tcmiVHnUh)
-
-![](https://feishu.cn/file/I4IWb2KduolN5Uxzd9KcB4lDnxd)
-
-![](https://feishu.cn/file/YyWWbBEBGoYwXwxwFyVcYEgXnkf)
-
-![](https://feishu.cn/file/ZZVeblQ87oRDuRxAeeEcDr6Hnv1)
-
-![](https://feishu.cn/file/POZibyxeKoYUynxVPJMcYke2nDg)
-
-![](https://feishu.cn/file/T0jxbGtlgopxyhxZVjdcu8qznzh)
-
-![](https://feishu.cn/file/PJbZb6i7qoD3JExyIxocaAUbnJf)
-
-![](https://feishu.cn/file/FjdYbC4JSoyOzxxdoWAcTcuRnNe)
-
-![](https://feishu.cn/file/SBfJb6Gj2oDxhPxe7PaczPdUnDg)
-
-![](https://feishu.cn/file/JJFIbScIxoFTn0xdqUYc9ZGhnce)
-
-![](https://feishu.cn/file/DSPMbEfAbo8SROxXJ3Kc2WG5nBb)
-
-![](https://feishu.cn/file/Ia6nbVvZBohwAAxJgKHcEjzjn3f)
-
-![](https://feishu.cn/file/WVrDbw9hko7VXOxs3GTcuSEjnPc)
-
-![](https://feishu.cn/file/CGChboMS8opSuzx1239codEknob)
-
-![](https://feishu.cn/file/O7Ofb1aL7oA1wrxotLkcs3Kpn5b)

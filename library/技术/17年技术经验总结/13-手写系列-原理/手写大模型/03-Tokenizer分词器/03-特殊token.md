@@ -3,9 +3,9 @@
 > 模块：Tokenizer分词器
 > 更新时间：2026-03-29
 
----
+## 特殊 token 类型：BOS / EOS / PAD / UNK / MASK / SEP 六类
 
-## 一、特殊token类型
+> 六类特殊 token 各司其职：**BOS 标记开始、EOS 触发停止、PAD 对齐长度、UNK 兜底未知词、MASK 服务 MLM 预训练、SEP 分隔段落**。
 
 ```
 特殊token体系：
@@ -34,9 +34,43 @@
      - 分隔不同段落或对话角色
 ```
 
----
+*图：六类特殊 token 及其用途（示意）*
 
-## 二、Chat Template设计
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 280" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <rect x="15" y="20" width="220" height="104" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">BOS</text>
+  <text x="125" y="67" text-anchor="middle" font-size="12" fill="#475569">Beginning of Sequence</text>
+  <text x="125" y="92" text-anchor="middle" font-size="13" fill="#1e293b">序列开始标记</text>
+  <text x="125" y="112" text-anchor="middle" font-size="12" fill="#475569">告诉模型"从此开始生成"</text>
+  <rect x="250" y="20" width="220" height="104" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">EOS</text>
+  <text x="360" y="67" text-anchor="middle" font-size="12" fill="#475569">End of Sequence</text>
+  <text x="360" y="92" text-anchor="middle" font-size="13" fill="#1e293b">序列结束标记</text>
+  <text x="360" y="112" text-anchor="middle" font-size="12" fill="#475569">生成到此token时停止</text>
+  <rect x="485" y="20" width="220" height="104" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="47" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">PAD</text>
+  <text x="595" y="67" text-anchor="middle" font-size="12" fill="#475569">Padding</text>
+  <text x="595" y="92" text-anchor="middle" font-size="13" fill="#1e293b">填充标记</text>
+  <text x="595" y="112" text-anchor="middle" font-size="12" fill="#475569">将不同长度的序列对齐到相同长度</text>
+  <rect x="15" y="148" width="220" height="104" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="125" y="175" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">UNK</text>
+  <text x="125" y="195" text-anchor="middle" font-size="12" fill="#475569">Unknown</text>
+  <text x="125" y="220" text-anchor="middle" font-size="13" fill="#1e293b">未知token</text>
+  <text x="125" y="240" text-anchor="middle" font-size="12" fill="#475569">词表中不存在的token用此替代</text>
+  <rect x="250" y="148" width="220" height="104" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="175" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">MASK</text>
+  <text x="360" y="220" text-anchor="middle" font-size="13" fill="#1e293b">掩码标记</text>
+  <text x="360" y="240" text-anchor="middle" font-size="12" fill="#475569">BERT等MLM预训练任务使用</text>
+  <rect x="485" y="148" width="220" height="104" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="595" y="175" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">SEP</text>
+  <text x="595" y="195" text-anchor="middle" font-size="12" fill="#475569">Separator</text>
+  <text x="595" y="220" text-anchor="middle" font-size="13" fill="#1e293b">分隔标记</text>
+  <text x="595" y="240" text-anchor="middle" font-size="12" fill="#475569">分隔不同段落或对话角色</text>
+</svg>
+
+## Chat Template 设计：把消息列表拼成模型输入串
+
+> `ChatTemplate` 持有 bos/eos 与 Llama 风格的 `<<SYS>>`、`[INST]` 包裹符；`apply()` 把 system prompt 放进第一轮 user 消息，再按 user/assistant 交替拼接，最后返回以 `<s>` 开头的完整输入串。
 
 ```python
 from dataclasses import dataclass, field
@@ -101,9 +135,11 @@ prompt = template.apply(messages)
 # 什么是装饰器？ [/INST]
 ```
 
----
+## 特殊 token 与训练：注册管理与 MLM 掩码
 
-## 三、特殊token与训练
+- `SpecialTokenManager` 维护 **name↔id 双向映射**（special_tokens / token_names），bos/eos/pad 提供 `get_bos_id()` 等默认值（1 / 2 / 0）；
+- `is_special_token()` 按 id 判断是否为特殊 token；
+- `mask_non_special()` 把序列中的**非特殊 token 替换为 MASK**（默认 id=4），用于 MLM 预训练。
 
 ```python
 class SpecialTokenManager:
@@ -138,7 +174,5 @@ class SpecialTokenManager:
         return [tid if self.is_special_token(tid) else mask_id
                 for tid in token_ids]
 ```
-
----
 
 *下一步：Skill架构*
