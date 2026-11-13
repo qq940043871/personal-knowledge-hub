@@ -48,8 +48,6 @@
 - **功能：** 数据线用于**传输从存储器读出或写入的数据**。它是信息进出存储器的通道。
 - **位数：** 数据线的根数通常与**存储单元的位宽**一致。如果每个存储单元存储1字节（8位）的数据，那么就会有**8根数据线**，共同构成一个8位的数据总线。
 
-*图：存储器与CPU的外部接口（示意）*
-
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 250" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
   <defs>
     <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
@@ -79,6 +77,8 @@
   <text x="350" y="176" text-anchor="middle" font-size="13" fill="#475569">写脉冲线 WE#（边沿触发写入）</text>
   <text x="360" y="235" text-anchor="middle" font-size="13" fill="#475569">先设置地址与控制信号，再在脉冲边沿将数据锁存入指定单元</text>
 </svg>
+
+*图：存储器与CPU的外部接口（示意）*
 
 ## 四、ROM（只读存储器）的工作原理
 
@@ -120,6 +120,39 @@ RAM的读取操作与ROM完全相同：
 4. **产生脉冲（关键步骤）：** 产生一个短促的、**边沿触发的脉冲信号**（连接到RAM的**脉冲线**，常标记为 `WE#` 或 `WR`）。这个脉冲就像一个“确认”或“执行”指令，它的边沿（上升沿或下降沿）会触发RAM内部电路，将当前写数据线上的数据，锁存（存入）到指定地址的单元中。
 
 - **特点：** RAM具有**易失性**，断电后存储的数据会立即丢失。它非常适合需要频繁高速读写数据的场景，如作为CPU的工作缓存和程序运行空间。
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 300" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ar3" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="370" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">ROM 与 RAM 工作原理对比</text>
+  <rect x="20" y="50" width="340" height="230" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="76" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">ROM（只读存储器）</text>
+  <rect x="60" y="90" width="260" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="117" text-anchor="middle" font-size="13" fill="#1e293b">地址线 → 选中目标单元</text>
+  <line x1="190" y1="134" x2="190" y2="156" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <rect x="60" y="160" width="260" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="190" y="187" text-anchor="middle" font-size="13" fill="#1e293b">数据线 ← 数据自动输出</text>
+  <text x="190" y="224" text-anchor="middle" font-size="13" fill="#475569">操作：仅支持读取</text>
+  <text x="190" y="244" text-anchor="middle" font-size="13" fill="#475569">特性：非易失性，断电不丢失</text>
+  <text x="190" y="264" text-anchor="middle" font-size="13" fill="#475569">用途：固件、启动程序等</text>
+  <rect x="380" y="50" width="340" height="230" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="550" y="76" text-anchor="middle" font-size="15" font-weight="bold" fill="#1e293b">RAM（随机存取存储器）</text>
+  <rect x="420" y="90" width="260" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="550" y="115" text-anchor="middle" font-size="13" fill="#1e293b">地址线 → 选中目标单元</text>
+  <line x1="550" y1="130" x2="550" y2="150" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <rect x="420" y="154" width="260" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="550" y="179" text-anchor="middle" font-size="13" fill="#1e293b">数据线 ← 读出数据（读操作）</text>
+  <line x1="550" y1="194" x2="550" y2="214" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ar3)"/>
+  <rect x="420" y="218" width="260" height="40" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="550" y="243" text-anchor="middle" font-size="13" fill="#1e293b">数据线 → 写入数据（写操作）</text>
+  <text x="550" y="272" text-anchor="middle" font-size="13" fill="#475569">特性：易失性，断电即丢失</text>
+  <text x="550" y="288" text-anchor="middle" font-size="13" fill="#475569">用途：工作缓存、程序运行空间</text>
+</svg>
+
+*图：ROM与RAM工作原理对比（示意）*
 
 ## 六、CPU（中央处理器）简介
 

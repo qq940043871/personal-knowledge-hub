@@ -1,4 +1,4 @@
-# Transformer 其实是个简单的架构 这不是我说的 明天我会尝试做个 Attention Is All Yo...
+# Transformer 其实是个简单的架构
 
 > Transformer架构核心解析：从原理到实现
 

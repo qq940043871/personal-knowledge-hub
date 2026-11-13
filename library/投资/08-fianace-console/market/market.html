@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>市场数据</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50:'#EEF2FF',500:'#6366F1',600:'#4F46E5' },
+                        up: '#DC2626', down: '#10B981', surface: '#F8FAFC'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: #F8FAFC; }
+        .card { background: #fff; border: 1px solid #E2E8F0; border-radius: 10px; }
+        .card-header { padding: 14px 18px; border-bottom: 1px solid #F1F5F9; display: flex; align-items: center; justify-content: space-between; }
+        .card-header h3 { font-size: 13px; font-weight: 600; color: #334155; }
+        .card-body { padding: 16px 18px; }
+        .tab-btn { font-size: 12px; padding: 6px 14px; border-radius: 6px; cursor: pointer; color: #64748B; transition: all 0.15s; border: 0; background: none; }
+        .tab-btn.active { background: #EEF2FF; color: #4F46E5; font-weight: 600; }
+        .stock-row { transition: background 0.1s; }
+        .stock-row:hover { background: #F8FAFC; }
+    </style>
+</head>
+<body>
+<main class="p-5 max-w-[1280px] mx-auto">
+
+    <!-- 标题 -->
+    <div class="mb-5">
+        <h1 class="text-xl font-bold text-slate-800">市场数据</h1>
+        <p class="text-xs text-slate-400 mt-0.5">实时行情 · 指数走势 · 热门股票 · 板块分析</p>
+    </div>
+
+    <!-- 指数概览 -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+        <div class="card card-body">
+            <div class="flex justify-between items-start">
+                <div><p class="text-xs text-slate-400">上证指数</p><p class="text-xl font-bold text-slate-800">3,250.12</p></div>
+                <div class="text-right"><p class="text-sm font-semibold text-up">+40.25</p><p class="text-xs text-up">+1.25%</p></div>
+            </div>
+        </div>
+        <div class="card card-body">
+            <div class="flex justify-between items-start">
+                <div><p class="text-xs text-slate-400">深证成指</p><p class="text-xl font-bold text-slate-800">10,890.45</p></div>
+                <div class="text-right"><p class="text-sm font-semibold text-up">+91.67</p><p class="text-xs text-up">+0.85%</p></div>
+            </div>
+        </div>
+        <div class="card card-body">
+            <div class="flex justify-between items-start">
+                <div><p class="text-xs text-slate-400">创业板指</p><p class="text-xl font-bold text-slate-800">2,180.33</p></div>
+                <div class="text-right"><p class="text-sm font-semibold text-down">-7.62</p><p class="text-xs text-down">-0.35%</p></div>
+            </div>
+        </div>
+        <div class="card card-body">
+            <div class="flex justify-between items-start">
+                <div><p class="text-xs text-slate-400">沪深300</p><p class="text-xl font-bold text-slate-800">4,120.67</p></div>
+                <div class="text-right"><p class="text-sm font-semibold text-up">+38.92</p><p class="text-xs text-up">+0.95%</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 走势图 + 热门股票 -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+        <div class="card lg:col-span-2">
+            <div class="card-header">
+                <h3>上证指数 · 走势图</h3>
+                <div class="flex gap-1">
+                    <button class="tab-btn active" onclick="switchPeriod('day',this)">日线</button>
+                    <button class="tab-btn" onclick="switchPeriod('week',this)">周线</button>
+                    <button class="tab-btn" onclick="switchPeriod('month',this)">月线</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="height:320px"><canvas id="chartIndex"></canvas></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header"><h3>热门股票</h3></div>
+            <div class="card-body p-0 overflow-y-auto" style="max-height:370px">
+                <table class="w-full text-xs">
+                    <thead><tr class="border-b border-slate-100 text-slate-400">
+                        <th class="text-left px-4 py-2.5 font-medium">名称</th>
+                        <th class="text-right px-4 py-2.5 font-medium">最新价</th>
+                        <th class="text-right px-4 py-2.5 font-medium">涨跌幅</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">中科曙光</td><td class="px-4 py-2.5 text-right text-slate-600">58.92</td><td class="px-4 py-2.5 text-right font-semibold text-up">+10.01%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">浪潮信息</td><td class="px-4 py-2.5 text-right text-slate-600">42.65</td><td class="px-4 py-2.5 text-right font-semibold text-up">+9.98%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">寒武纪</td><td class="px-4 py-2.5 text-right text-slate-600">235.80</td><td class="px-4 py-2.5 text-right font-semibold text-up">+8.75%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">拓荆科技</td><td class="px-4 py-2.5 text-right text-slate-600">328.50</td><td class="px-4 py-2.5 text-right font-semibold text-up">+7.63%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">中芯国际</td><td class="px-4 py-2.5 text-right text-slate-600">72.35</td><td class="px-4 py-2.5 text-right font-semibold text-up">+6.82%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">北方华创</td><td class="px-4 py-2.5 text-right text-slate-600">298.40</td><td class="px-4 py-2.5 text-right font-semibold text-up">+5.91%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">宁德时代</td><td class="px-4 py-2.5 text-right text-slate-600">235.80</td><td class="px-4 py-2.5 text-right font-semibold text-up">+4.75%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">比亚迪</td><td class="px-4 py-2.5 text-right text-slate-600">325.60</td><td class="px-4 py-2.5 text-right font-semibold text-up">+3.82%</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="px-4 py-2.5 font-medium text-slate-700">贵州茅台</td><td class="px-4 py-2.5 text-right text-slate-600">1,780.50</td><td class="px-4 py-2.5 text-right font-semibold text-up">+2.95%</td></tr>
+                        <tr class="stock-row"><td class="px-4 py-2.5 font-medium text-slate-700">五粮液</td><td class="px-4 py-2.5 text-right text-slate-600">198.75</td><td class="px-4 py-2.5 text-right font-semibold text-up">+2.33%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 股票列表 -->
+    <div class="card mb-5">
+        <div class="card-header">
+            <h3>股票列表</h3>
+            <div class="flex gap-1">
+                <button class="tab-btn active">A股</button>
+                <button class="tab-btn">港股</button>
+                <button class="tab-btn">美股</button>
+                <button class="tab-btn">指数</button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="flex gap-3 mb-4">
+                <div class="relative flex-1 max-w-xs">
+                    <input type="text" placeholder="搜索股票代码或名称..." class="w-full pl-9 pr-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-brand-500">
+                    <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 text-xs"></i>
+                </div>
+                <select class="px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-600">
+                    <option>全部行业</option><option>科技</option><option>金融</option><option>消费</option><option>能源</option><option>医药</option>
+                </select>
+                <select class="px-3 py-2 border border-slate-200 rounded-lg text-sm text-slate-600">
+                    <option>默认排序</option><option>涨幅从高到低</option><option>成交量从高到低</option>
+                </select>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead><tr class="text-xs text-slate-400 border-b border-slate-100">
+                        <th class="text-left pb-3 font-medium">股票名称</th>
+                        <th class="text-left pb-3 font-medium">代码</th>
+                        <th class="text-right pb-3 font-medium">最新价</th>
+                        <th class="text-right pb-3 font-medium">涨跌额</th>
+                        <th class="text-right pb-3 font-medium">涨跌幅</th>
+                        <th class="text-right pb-3 font-medium">成交量</th>
+                        <th class="text-right pb-3 font-medium">成交额</th>
+                    </tr></thead>
+                    <tbody>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">贵州茅台</td><td class="py-3 text-slate-400">600519</td><td class="py-3 text-right font-medium">1,780.50</td><td class="py-3 text-right text-up">+51.20</td><td class="py-3 text-right text-up font-medium">+2.95%</td><td class="py-3 text-right text-slate-500">58,234</td><td class="py-3 text-right text-slate-500">10.38亿</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">五粮液</td><td class="py-3 text-slate-400">000858</td><td class="py-3 text-right font-medium">198.75</td><td class="py-3 text-right text-up">+4.50</td><td class="py-3 text-right text-up font-medium">+2.33%</td><td class="py-3 text-right text-slate-500">89,456</td><td class="py-3 text-right text-slate-500">17.78亿</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">宁德时代</td><td class="py-3 text-slate-400">300750</td><td class="py-3 text-right font-medium">235.80</td><td class="py-3 text-right text-up">+10.80</td><td class="py-3 text-right text-up font-medium">+4.75%</td><td class="py-3 text-right text-slate-500">125,678</td><td class="py-3 text-right text-slate-500">29.65亿</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">比亚迪</td><td class="py-3 text-slate-400">002594</td><td class="py-3 text-right font-medium">325.60</td><td class="py-3 text-right text-up">+12.10</td><td class="py-3 text-right text-up font-medium">+3.82%</td><td class="py-3 text-right text-slate-500">98,765</td><td class="py-3 text-right text-slate-500">32.15亿</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">隆基绿能</td><td class="py-3 text-slate-400">601012</td><td class="py-3 text-right font-medium">38.95</td><td class="py-3 text-right text-up">+2.15</td><td class="py-3 text-right text-up font-medium">+5.83%</td><td class="py-3 text-right text-slate-500">156,342</td><td class="py-3 text-right text-slate-500">6.09亿</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">万科A</td><td class="py-3 text-slate-400">000002</td><td class="py-3 text-right font-medium">17.85</td><td class="py-3 text-right text-down">-0.65</td><td class="py-3 text-right text-down font-medium">-3.51%</td><td class="py-3 text-right text-slate-500">234,567</td><td class="py-3 text-right text-slate-500">4.19亿</td></tr>
+                        <tr class="stock-row border-b border-slate-50"><td class="py-3 font-medium text-slate-700">中国平安</td><td class="py-3 text-slate-400">601318</td><td class="py-3 text-right font-medium">48.90</td><td class="py-3 text-right text-up">+1.20</td><td class="py-3 text-right text-up font-medium">+2.51%</td><td class="py-3 text-right text-slate-500">189,234</td><td class="py-3 text-right text-slate-500">9.25亿</td></tr>
+                        <tr class="stock-row"><td class="py-3 font-medium text-slate-700">招商银行</td><td class="py-3 text-slate-400">600036</td><td class="py-3 text-right font-medium">42.65</td><td class="py-3 text-right text-up">+0.95</td><td class="py-3 text-right text-up font-medium">+2.28%</td><td class="py-3 text-right text-slate-500">145,678</td><td class="py-3 text-right text-slate-500">6.21亿</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- 美联储利率 -->
+    <div class="card">
+        <div class="card-header">
+            <h3>美联储利率</h3>
+            <button class="text-xs text-brand-500 hover:underline" onclick="navTo('policy/fed.html')">详情 <i class="fas fa-arrow-right ml-1"></i></button>
+        </div>
+        <div class="card-body">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="border-l-3 border-brand-500 pl-4" style="border-left-width:3px">
+                    <p class="text-xs text-slate-400">当前联邦基金利率</p>
+                    <p class="text-lg font-bold text-slate-800">5.25% - 5.50%</p>
+                </div>
+                <div class="border-l-3 border-amber-400 pl-4" style="border-left-width:3px">
+                    <p class="text-xs text-slate-400">最近一次调整</p>
+                    <p class="text-lg font-bold text-slate-800">维持不变</p>
+                </div>
+                <div class="border-l-3 border-green-400 pl-4" style="border-left-width:3px">
+                    <p class="text-xs text-slate-400">下次会议时间</p>
+                    <p class="text-lg font-bold text-slate-800">2025-12-17</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+function navTo(page) { if (window.parent && window.parent.loadPage) window.parent.loadPage(page); }
+
+// === 主走势图 ===
+(function(){
+    var ctx = document.getElementById('chartIndex').getContext('2d');
+    var labels = [], data = [], v = 3150;
+    for (var i=0; i<60; i++) { v += (Math.random()-0.46)*30; labels.push(''); data.push(Math.round(v*100)/100); }
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: data, borderColor: '#6366F1', backgroundColor: 'rgba(99,102,241,0.05)',
+                borderWidth: 2, fill: true, pointRadius: 0, pointHoverRadius: 4,
+                pointHoverBackgroundColor: '#6366F1', tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            interaction: { intersect: false, mode: 'index' },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1E293B', titleColor: '#F1F5F9', bodyColor: '#CBD5E1',
+                    callbacks: { label: function(c) { return '上证: '+c.parsed.y.toFixed(2); } }
+                }
+            },
+            scales: {
+                x: { grid: { display: false }, ticks: { color: '#94A3B8', font: { size: 10 }, maxTicksLimit: 15 } },
+                y: { grid: { color: '#F1F5F9' }, ticks: { color: '#94A3B8', font: { size: 10 }, callback: function(v){ return v.toFixed(0); } } }
+            }
+        }
+    });
+})();
+
+function switchPeriod(p, btn) {
+    btn.parentElement.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+}
+</script>
+</body>
+</html>

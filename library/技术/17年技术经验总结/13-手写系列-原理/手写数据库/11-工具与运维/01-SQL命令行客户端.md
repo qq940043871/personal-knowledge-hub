@@ -5,7 +5,9 @@
 
 ---
 
-## 一、客户端实现
+## 一、客户端实现：Socket 交互与查询执行
+
+客户端通过 Socket 连接服务器，交互循环中读取用户输入：**`exit`/`quit` 退出，`\c` 清除当前行**；查询结果按行读取，直到收到 `END` 标记为止。
 
 ```java
 public class SqlClient {
@@ -66,7 +68,9 @@ public class SqlClient {
 
 ---
 
-## 二、结果显示
+## 二、结果显示：列宽对齐的表格格式化
+
+格式化器先**扫描全部数据计算每列最大宽度**，再依次打印表头、分隔线与数据行，末尾输出 `N rows in set` 行数统计；NULL 值统一显示为字符串 `NULL`。
 
 ```java
 public class ResultFormatter {

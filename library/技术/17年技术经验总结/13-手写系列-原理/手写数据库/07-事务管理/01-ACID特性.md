@@ -5,7 +5,9 @@
 
 ---
 
-## 一、事务概述
+## 一、事务与 ACID 四特性总览
+
+> 事务是一组原子性的数据库操作序列：**要么全部成功，要么全部失败**。
 
 ```
 事务（Transaction）：
@@ -21,7 +23,9 @@ ACID特性：
 
 ---
 
-## 二、事务接口
+## 二、事务接口与状态流转
+
+> commit 前先写 COMMIT 日志并强制刷盘；rollback 按**逆序 undo 所有操作**后再写 ROLLBACK 日志。
 
 ```java
 public interface Transaction {
@@ -92,9 +96,41 @@ public enum TransactionState {
 }
 ```
 
+*图：事务状态机——ACTIVE 出发，提交走 COMMITTING 到 COMMITTED，回滚走 ROLLING_BACK 到 ROLLED_BACK（示意）*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 230" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="360" y="30" text-anchor="middle" font-size="16" font-weight="bold" fill="#1e293b">事务状态机（TransactionState）</text>
+  <rect x="60" y="60" width="140" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="130" y="87" text-anchor="middle" font-size="14" fill="#1e293b">ACTIVE</text>
+  <text x="130" y="125" text-anchor="middle" font-size="12" fill="#475569">begin() 进入</text>
+  <rect x="300" y="60" width="150" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="375" y="87" text-anchor="middle" font-size="14" fill="#1e293b">COMMITTING</text>
+  <rect x="540" y="60" width="150" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="615" y="87" text-anchor="middle" font-size="14" fill="#1e293b">COMMITTED</text>
+  <rect x="300" y="160" width="150" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="375" y="187" text-anchor="middle" font-size="14" fill="#1e293b">ROLLING_BACK</text>
+  <rect x="540" y="160" width="150" height="44" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="615" y="187" text-anchor="middle" font-size="14" fill="#1e293b">ROLLED_BACK</text>
+  <line x1="200" y1="82" x2="295" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="247" y="74" text-anchor="middle" font-size="12" fill="#475569">写COMMIT日志</text>
+  <line x1="450" y1="82" x2="535" y2="82" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="492" y="74" text-anchor="middle" font-size="12" fill="#475569">flushLog</text>
+  <line x1="200" y1="100" x2="295" y2="170" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="215" y="150" text-anchor="middle" font-size="12" fill="#475569">rollback()</text>
+  <line x1="450" y1="182" x2="535" y2="182" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <text x="492" y="174" text-anchor="middle" font-size="12" fill="#475569">undo 所有操作</text>
+</svg>
+
 ---
 
-## 三、事务边界
+## 三、事务管理器：事务边界的开启与结束
+
+> 提交或回滚完成后，**释放该事务的全部锁**，并从活跃事务表中移除。
 
 ```java
 public class TransactionManager {

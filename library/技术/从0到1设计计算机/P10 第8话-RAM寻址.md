@@ -16,11 +16,11 @@
 
 我们以最简单的存储指令`SW`（Store Word）为例，尝试将值“1”存储到RAM的1号地址。
 
-- **指令格式**：该指令包含操作码、源寄存器字段（RS）和一个立即数字段。立即数字段的存在，强烈暗示它属于**I型指令**格式。
+- **指令格式**：该指令包含操作码、源寄存器字段（`RS`）和一个立即数字段。立即数字段的存在，强烈暗示它属于**I型指令**格式。
 - **硬件控制信号解析**：
 
   - **操作码 (001000)**：定义了本次操作是“写RAM”。
-  - **寄存器组控制**：允许读（通过RS字段，如0，选中R0），禁止写（写使能信号为0，因此写地址端口输入值无意义）。
+  - **寄存器组控制**：允许读（通过`RS`字段，如0，选中`R0`），禁止写（写使能信号为0，因此写地址端口输入值无意义）。
   - **运算器状态**：不参与本次数据运算，其功能码和输入可任意设置。
 - **初始设计的直觉**：指令中的立即数“1”自然地被认为是RAM的地址。因此，将立即数1连接到RAM的地址端口，选择RAM的1号存储单元。
 
@@ -45,7 +45,7 @@
 - 要写入`arr[0]`，指令需包含绝对地址58。
 - 要写入`arr[1]`，指令需包含绝对地址59。
 - 要写入`arr[2]`，指令需包含绝对地址60。
-……
+- ……
 这会导致两个严重问题：
 
 1. **代码繁琐且不灵活**：每个数组元素的访问都需要在指令中硬编码一个不同的绝对地址，代码冗长且缺乏通用性。
@@ -64,14 +64,70 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 - **场景设定**：假设RAM中从地址58开始有一个数组。
 - **步骤分解**：
 
-  1. **加载基地址**：首先使用`MOV`指令，将数组的首地址（58）加载到一个专门的寄存器（如R0）中。R0此时被称为**基址寄存器**。
+  1. **加载基地址**：首先使用`MOV`指令，将数组的首地址（58）加载到一个专门的寄存器（如`R0`）中。`R0`此时被称为**基址寄存器**。
   2. **使用偏移量访问**：在后续的`SW`或`LW`（Load Word）指令中，立即数字段不再表示绝对地址，而是表示相对于**基地址**的**偏移量**。
 - **硬件实现**：
 
-  - 寄存器组的第一个输出端口（Read Data 1）输出基址寄存器R0的值（即58）。
+  - 寄存器组的第一个输出端口（Read Data 1）输出基址寄存器`R0`的值（即58）。
   - 立即数（如1）作为运算器的第二个输入。
   - 运算器被设置为**加法模式**，计算 `基地址 + 偏移量`（即 `58 + 1 = 59`）。
   - 将运算器的输出结果连接到RAM的地址端口，从而选中目标内存单元。
+
+*图：RAM地址映射图——地址线经译码器选中存储单元，数据线完成读写*
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="ard" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <text x="380" y="32" text-anchor="middle" font-size="16" fill="#1e293b" font-weight="bold">RAM 地址映射图</text>
+  <!-- 地址输入 -->
+  <rect x="30" y="120" width="130" height="80" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="95" y="145" text-anchor="middle" font-size="14" fill="#1e293b" font-weight="bold">地址输入</text>
+  <text x="95" y="165" text-anchor="middle" font-size="13" fill="#475569">Address</text>
+  <text x="95" y="183" text-anchor="middle" font-size="13" fill="#475569">（如 58 + 1 = 59）</text>
+  <!-- 地址线 -->
+  <line x1="160" y1="140" x2="285" y2="140" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="222" y="132" text-anchor="middle" font-size="13" fill="#475569">地址线</text>
+  <!-- 译码器 -->
+  <rect x="290" y="105" width="130" height="70" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="355" y="132" text-anchor="middle" font-size="14" fill="#1e293b" font-weight="bold">译码器</text>
+  <text x="355" y="152" text-anchor="middle" font-size="13" fill="#475569">Decoder</text>
+  <text x="355" y="168" text-anchor="middle" font-size="13" fill="#475569">3-8 译码</text>
+  <!-- 译码输出线到各存储单元 -->
+  <line x1="420" y1="120" x2="515" y2="95" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="420" y1="135" x2="515" y2="120" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="420" y1="150" x2="515" y2="145" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="420" y1="165" x2="515" y2="170" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="435" y="185" text-anchor="middle" font-size="13" fill="#475569">选择线</text>
+  <!-- 存储单元阵列 -->
+  <rect x="520" y="70" width="80" height="35" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="560" y="92" text-anchor="middle" font-size="12" fill="#475569">单元0</text>
+  <rect x="520" y="105" width="80" height="35" rx="6" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+  <text x="560" y="127" text-anchor="middle" font-size="12" fill="#1e293b" font-weight="bold">单元1</text>
+  <text x="560" y="140" text-anchor="middle" font-size="11" fill="#7c3aed">选中</text>
+  <rect x="520" y="140" width="80" height="35" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="560" y="162" text-anchor="middle" font-size="12" fill="#475569">单元2</text>
+  <rect x="520" y="175" width="80" height="35" rx="6" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.2"/>
+  <text x="560" y="197" text-anchor="middle" font-size="12" fill="#475569">单元3</text>
+  <!-- 数据线 -->
+  <line x1="600" y1="122" x2="710" y2="122" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ard)"/>
+  <line x1="710" y1="138" x2="600" y2="138" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#ard)"/>
+  <text x="655" y="114" text-anchor="middle" font-size="13" fill="#475569">数据线</text>
+  <text x="655" y="160" text-anchor="middle" font-size="13" fill="#475569">Data</text>
+  <!-- 数据端口 -->
+  <rect x="710" y="100" width="40" height="64" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="730" y="127" text-anchor="middle" font-size="11" fill="#1e293b">数据</text>
+  <text x="730" y="142" text-anchor="middle" font-size="11" fill="#1e293b">端口</text>
+  <!-- 读写标注 -->
+  <rect x="30" y="245" width="175" height="38" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="117" y="269" text-anchor="middle" font-size="13" fill="#1e293b" font-weight="bold">① 地址 → 寻址 → 选中单元</text>
+  <rect x="300" y="245" width="175" height="38" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="387" y="269" text-anchor="middle" font-size="13" fill="#1e293b" font-weight="bold">② 数据线 → 读写选中单元</text>
+  <rect x="570" y="245" width="180" height="38" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="660" y="269" text-anchor="middle" font-size="13" fill="#1e293b" font-weight="bold">③ 每周期完成一次存取</text>
+</svg>
 
 ### 2. 方案优势
 
@@ -139,26 +195,26 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 
 ### 1. 核心矛盾点
 
-- `RT`字段 → 寄存器组**写地址端口**（用于LW指令，指定数据写入哪个寄存器）。
-- `RT`字段 → 寄存器组**第二读地址端口**（用于SW指令，指定从哪个寄存器读取待存数据）。
+- `RT`字段 → 寄存器组**写地址端口**（用于`LW`指令，指定数据写入哪个寄存器）。
+- `RT`字段 → 寄存器组**第二读地址端口**（用于`SW`指令，指定从哪个寄存器读取待存数据）。
 
 ### 2. 指令对分析
 
 让我们通过一对互补的指令来剖析：
 
-- **存数指令 (SW)**：`SW R1, 1(R0)` （将R1的值存入地址为 R0+1 的内存单元）
+- **存数指令 (`SW`)**：`SW R1, 1(R0)` （将`R1`的值存入地址为 `R0`+1 的内存单元）
 
   - **目的**：将**寄存器数据**存入**内存**。
-  - **RT字段作用**：仅控制**第二读地址**，选中R1，通过第二输出端口将数据送到RAM的数据端口。**写允许信号为0**，因此写地址端口上的输入（由RT驱动）**完全无效**。
-- **取数指令 (LW)**：`LW R1, 1(R0)` （将地址为 R0+1 的内存数据加载到R1）
+  - **`RT`字段作用**：仅控制**第二读地址**，选中`R1`，通过第二输出端口将数据送到RAM的数据端口。**写允许信号为0**，因此写地址端口上的输入（由`RT`驱动）**完全无效**。
+- **取数指令 (`LW`)**：`LW R1, 1(R0)` （将地址为 `R0`+1 的内存数据加载到`R1`）
 
   - **目的**：将**内存数据**加载到**寄存器**。
-  - **RT字段作用**：控制**写地址**，指定从RAM传来的数据应写入寄存器R1。**第二读地址**虽然也被RT驱动，导致R1的数据出现在第二输出端口并送往RAM数据端口，但此时**RAM的读写控制信号处于读模式（不写）**，因此这个数据“给了也白给”，**无实际影响**。
+  - **`RT`字段作用**：控制**写地址**，指定从RAM传来的数据应写入寄存器`R1`。**第二读地址**虽然也被`RT`驱动，导致`R1`的数据出现在第二输出端口并送往RAM数据端口，但此时**RAM的读写控制信号处于读模式（不写）**，因此这个数据“给了也白给”，**无实际影响**。
 
 ### 3. 冲突避免的根本原理
 
 - **读写操作的互斥性**：在任何给定的时钟周期内，数据通路在寄存器组与RAM之间只能**单向流动**——要么是**寄存器→RAM（写操作）**，要么是**RAM→寄存器（读操作）**，绝不可能同时双向流动。
-- **结论**：由于SW和LW指令在数据流向上是严格互斥的，`RT`字段虽然物理上连接了两个功能不同的端口，但在任一指令执行周期内，**只有一个连接是真正生效并相关的**。另一个连接要么因为控制信号无效而被忽略，要么因为操作方向相反而不产生实际数据影响。因此，这种设计在**逻辑和时序上均无冲突**。
+- **结论**：由于`SW`和`LW`指令在数据流向上是严格互斥的，`RT`字段虽然物理上连接了两个功能不同的端口，但在任一指令执行周期内，**只有一个连接是真正生效并相关的**。另一个连接要么因为控制信号无效而被忽略，要么因为操作方向相反而不产生实际数据影响。因此，这种设计在**逻辑和时序上均无冲突**。
 
 ---
 
@@ -173,6 +229,6 @@ MIPS架构提出了一种巧妙且强大的解决方案——**基址寻址**（
 
 1. **掌握基址偏移寻址**：理解其如何通过“基地址 + 偏移量”的模型，统一、高效地解决变量与数组的内存访问问题。
 2. **理解冲突解决方法**：掌握了通过**增加硬件资源（多端口）** 和**利用操作互斥性（读写不同时）** 来解决数据通路冲突的经典设计模式。
-3. **领悟字段复用艺术**：明白指令字段（如RT）在不同指令上下文中，通过控制信号的配合，可以实现多功能复用而不冲突，这是指令集精简设计的重要体现。
+3. **领悟字段复用艺术**：明白指令字段（如`RT`）在不同指令上下文中，通过控制信号的配合，可以实现多功能复用而不冲突，这是指令集精简设计的重要体现。
 
-**关键词**：MOV指令，RAM，I型指令，立即数，内存寻址，数组，指针，MIPS架构，基地址，寄存器组
+**关键词**：`MOV`指令，`RAM`，I型指令，立即数，内存寻址，数组，指针，`MIPS`架构，基地址，寄存器组
