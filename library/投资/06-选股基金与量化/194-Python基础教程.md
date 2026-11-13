@@ -1,0 +1,7 @@
+# Python基础教程
+
+> 📄 **语雀草稿文档**：该文档在语雀中未发布且无内容（word_count=0），备份时为空。
+> 原地址：https://www.yuque.com/haswhere/kq53wg/qhk4y8mak6vw00gg
+
+---
+> 🏷️ 本文属《投资知识库 · 06-选股基金与量化》，重排于 2026-11。
