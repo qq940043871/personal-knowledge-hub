@@ -5,7 +5,11 @@
 
 ---
 
+Skill 市场由三部分组成：**元数据规范**（SkillMetadata / skill.json）、**发现与安装**（SkillRegistry）、**版本管理**（SkillVersionManager）。
+
 ## 一、Skill元数据规范
+
+> 每个 Skill 用 `SkillMetadata` 描述元数据（唯一标识、语义化版本号、一句话描述等），并可通过 `to_manifest` 导出为 **skill.json** 清单格式。
 
 ```python
 from dataclasses import dataclass, field
@@ -50,6 +54,35 @@ class SkillMetadata:
 ---
 
 ## 二、Skill发现与安装
+
+> `SkillRegistry` 提供搜索与安装：安装时先下载包并做 **SHA-256 完整性校验**（失败即抛 `ValueError`），再解压到本地目录，最后递归安装 `dependencies` 依赖。
+
+*图：Skill 安装流程（示意）*
+
+```html
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="220" y="20" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="47" text-anchor="middle" font-size="14" fill="#1e293b">1. 获取 Skill 包信息</text>
+  <line x1="360" y1="64" x2="360" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="84" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="111" text-anchor="middle" font-size="14" fill="#1e293b">2. 下载 Skill 包</text>
+  <line x1="360" y1="128" x2="360" y2="144" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="148" width="280" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="175" text-anchor="middle" font-size="14" fill="#1e293b">3. SHA-256 完整性校验</text>
+  <text x="590" y="175" text-anchor="middle" font-size="13" fill="#475569">失败抛 ValueError</text>
+  <line x1="360" y1="192" x2="360" y2="208" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="212" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="239" text-anchor="middle" font-size="14" fill="#1e293b">4. 解压到本地目录</text>
+  <line x1="360" y1="256" x2="360" y2="272" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="276" width="280" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="303" text-anchor="middle" font-size="14" fill="#1e293b">5. 递归安装依赖 dependencies</text>
+</svg>
+```
 
 ```python
 import hashlib
@@ -127,6 +160,8 @@ class SkillRegistry:
 ---
 
 ## 三、版本管理
+
+> `SkillVersionManager` 基于 `packaging.version.Version` 比较已安装版本与最新版本，仅当最新版本更高时才触发更新；`update_all` 批量更新所有已安装 Skill 并返回更新名单。
 
 ```python
 from packaging.version import Version

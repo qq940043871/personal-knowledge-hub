@@ -5,7 +5,11 @@
 
 ---
 
+MCP 工具定义围绕三件事：**Schema 规范**（name / description / inputSchema）、**定义实现**（ToolParameter → JSON Schema → 参数校验）、**注解注册**（ToolRegistry 装饰器）。
+
 ## 一、Tool Schema规范
+
+> MCP 工具定义三要素：**name**（工具唯一标识，如 `weather.get_forecast`）、**description**（工具功能描述，供 LLM 理解何时调用）、**inputSchema**（JSON Schema 格式的参数定义，含 type、properties、required）。
 
 ```
 MCP工具定义结构：
@@ -20,6 +24,8 @@ MCP工具定义结构：
 ---
 
 ## 二、Tool定义实现
+
+> `ToolDefinition` 用 `ToolParameter` 列表描述参数，`to_schema` 导出 JSON Schema，`validate_input` 基于 **jsonschema** 校验入参，失败抛 `ValueError`。
 
 ```python
 from dataclasses import dataclass, field
@@ -88,6 +94,37 @@ class ToolDefinition:
 ---
 
 ## 三、工具注解与注册
+
+> `ToolRegistry` 提供装饰器注册（`@registry.tool(...)`）、Schema 列表输出与统一调用入口；`call_tool` 依次完成**查找工具 → 参数校验 → 执行 handler**，任一步失败都抛 `ValueError`。
+
+*图：工具调用流程（示意）*
+
+```html
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 340" font-family="'Microsoft YaHei','PingFang SC',sans-serif">
+  <defs>
+    <marker id="arw" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#94a3b8"/>
+    </marker>
+  </defs>
+  <rect x="220" y="20" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="47" text-anchor="middle" font-size="14" fill="#1e293b">call_tool(name, arguments)</text>
+  <line x1="360" y1="64" x2="360" y2="80" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="84" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="111" text-anchor="middle" font-size="14" fill="#1e293b">1. 查找工具 registry.tools</text>
+  <text x="595" y="111" text-anchor="middle" font-size="13" fill="#dc2626">未找到 → ValueError</text>
+  <line x1="360" y1="128" x2="360" y2="144" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="148" width="280" height="44" rx="8" fill="#fffbeb" stroke="#d97706" stroke-width="1.5"/>
+  <text x="360" y="175" text-anchor="middle" font-size="14" fill="#1e293b">2. 参数校验 jsonschema.validate</text>
+  <text x="595" y="175" text-anchor="middle" font-size="13" fill="#dc2626">校验失败 → ValueError</text>
+  <line x1="360" y1="192" x2="360" y2="208" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="212" width="280" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="360" y="239" text-anchor="middle" font-size="14" fill="#1e293b">3. 执行 handler</text>
+  <text x="595" y="239" text-anchor="middle" font-size="13" fill="#dc2626">无 handler → ValueError</text>
+  <line x1="360" y1="256" x2="360" y2="272" stroke="#94a3b8" stroke-width="1.5" marker-end="url(#arw)"/>
+  <rect x="220" y="276" width="280" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="360" y="303" text-anchor="middle" font-size="14" fill="#1e293b">返回执行结果</text>
+</svg>
+```
 
 ```python
 from functools import wraps

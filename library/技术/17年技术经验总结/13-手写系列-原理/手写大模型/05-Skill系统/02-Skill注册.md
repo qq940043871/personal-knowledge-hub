@@ -5,7 +5,11 @@
 
 ---
 
+Skill 注册有两种方式：**装饰器注册**与**动态注册**。装饰器注册适合编写时静态声明；动态注册则从文件路径加载 Skill 模块，支持热重载。
+
 ## 一、装饰器注册
+
+> `SkillRegistry.register` 是注册装饰器：实例化 Skill 时写回 `name`、`description`、`parameters`，并调用 `SkillManager().register(self)` 完成注册。
 
 ```python
 class SkillRegistry:
@@ -61,6 +65,8 @@ class WeatherSkill(Skill):
 ---
 
 ## 二、动态注册
+
+> `DynamicSkillLoader` 负责动态加载 Skill：用 `importlib` 从文件路径加载模块并缓存，找到 Skill 类后实例化，支持热重载。
 
 ```python
 class DynamicSkillLoader:
