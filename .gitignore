@@ -34,45 +34,7 @@ blog/_seed/seed_posts.jsonl
 
 # ---- 六主题知识库中的私有来源子目录(2026-11-07 精细忽略;成品保持公开,个人数据本地不入库) ----
 library/投资/01-我的实盘与成长史/
-library/投资/02-交易心理与悟道/
-library/投资/03-交易系统与实战战法/
-library/投资/04-游资与高手实录/
-library/投资/05-宏观与行业底层逻辑/
-library/投资/06-选股基金与量化/
-library/投资/07-新手学习路线/
 library/工作/客户跟踪/
-library/工作/技术方案/
-library/工作/基础学习/
-library/工作/团队管理/
-library/工作/腾讯项目文档/
-library/工作/飞书·项目经验/
-library/工作/求职与面试/
-library/工作/为知·工作记录/
-library/工作/飞书周报/
-library/技术/飞书·Agent开发/
-library/技术/飞书·Java架构师/
-library/技术/飞书·LLM底层/
-library/技术/飞书·技术架构/
-library/技术/飞书·飞天闪客/
-library/技术/飞书·工程化/
-library/技术/语雀·工作与计算机/
-library/技术/语雀·人工智能/
-library/技术/为知·技术专栏/
-library/技术/为知·运维/
-library/考证/软考-架构师/
-library/考证/软考-管理师/
-library/考证/腾讯·职场进阶/
-library/考证/项目管理文章/
-library/考证/微权力下的项目管理/
-library/创作/自媒体与股林武侠/
-library/家庭/
-library/_备份元数据/
-# 例外(2026-11-12 放行)：技术/飞书·人工智能 与 技术/从0到1设计计算机 已提升为公开成品，
-# 不再列于本节；与 build_tree.py 的 SKIP_DIRS 保持同步。
-
-# ---- 隐私库(2026-11-13 新增;本地保留,不入库) ----
-# library/隐私/ 统一收纳个人隐私内容(工作/技术/投资三块)，只在本机阅读。
-# 同时已在 library/build_tree.py 的 SKIP_DIRS 中排除，避免进入公开站点的侧边栏。
 library/隐私/
 
 # ---- AI 工具与平台本地配置 ----
