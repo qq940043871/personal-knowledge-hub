@@ -6,7 +6,8 @@
 #
 # 本文件是同一份名单的第二道防线：即使根 .gitignore 被覆盖，这里的规则仍然生效。
 # 路径写法相对本目录（library/），与根 .gitignore 的 library/xxx/ 写法对应。
-# 新增私有目录时，三处要同步：根 .gitignore、本文件、build_tree.py 的 SKIP_DIRS。
+# 新增私有目录时，两处要同步：根 .gitignore、本文件。
+# build_tree.py 不需要改：它运行时用 git check-ignore 判定，被忽略的目录自动不进公开站点树。
 
 # ---- 投资 ----
 投资/01-我的实盘与成长史/

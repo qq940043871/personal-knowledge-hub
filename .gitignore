@@ -1,10 +1,10 @@
 # personal-tech-knowledge / 工作区目录名 personal-knowledge-hub
-# 校准口径：2026-11-10
+# 校准口径：2026-11-13
 #
 # 版本控制分三层：
-#   1) 公开成品   —— index.html / library 未排除目录 / blog / tools / assets（入 git）
+#   1) 公开成品   —— index.html / library 未排除目录 / blog / assets（入 git）
 #   2) 私有来源   —— 六库中逐目录排除的飞书·语雀·为知导出、家庭库、备份元数据（本地保留）
-#   3) 本地资产层 —— agent/ 与 output/ 两个顶层目录整体排除（见文末）
+#   3) 本地资产层 —— agent/ 与 output/ 两个顶层目录整体排除；tools/ 亦整体排除（见文末）
 
 # ---- Python ----
 __pycache__/
@@ -49,18 +49,13 @@ library/隐私/
 skills/
 skills-lock.json
 
-# ---- tools/ 临时脚本与扫描产物(2026-11-13 新增;本地保留,不入库) ----
+# ---- tools/ 维护脚本与扫描产物(2026-11-13 改：整体不入库,本地保留) ----
 # 仓库约定：临时生成的一次性 Python 处理脚本一律放 tools/（scripts/ 已弃用并删除）。
-# 以下 6 个由 output/ 根目录归口进来，只在本机跑，读取/写入的 json、md 产物仍在 output/。
-tools/ai_cleanup_apply.py
-tools/ai_cleanup_plan.py
-tools/ai_quality_audit.py
-tools/ai_quality_candidates.py
-tools/lexiang_invest_merge.py
-tools/lexiang_invest_put.py
-# 扫描类中间产物（format_scan / restyle / tech_queue / quality_scan 等），可随时重跑再生成
-tools/_*.json
-tools/_*.txt
+# 2026-11-13 起 tools/ 整个目录排除：脚本只在本机跑，产物落到 library/ 或 output/。
+# 注意：此前约有 29 个文件已被 git 跟踪，忽略规则对已跟踪文件不生效，需先执行
+#   git rm -r --cached tools
+# 才能让本条规则真正生效（只改索引，本地文件保留）。
+tools/
 
 # ---- 本地资产层(2026-11-10 新增;顶层目录整体不入库) ----
 # 这两个目录历史上从未入库，合计约 5.7G，显式声明以免 git add . 误提交。
