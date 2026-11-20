@@ -1,7 +1,7 @@
 # OpenAI Embeddings
 
 > 模块：Embedding模型
-> 更新时间：2026-03-29
+> 更新时间：2026-11-15（代码口径：openai SDK 1.x，密钥走环境变量）
 
 ---
 
@@ -48,9 +48,13 @@ OpenAI Embeddings是**将文本转换为向量表示的模型服务**，用于�
 ### 场景1：基础使用
 
 ```python
+# pip install openai（SDK 1.x）
+import os
+
 from openai import OpenAI
 
-client = OpenAI(api_key="your-api-key")
+# API key 一律从环境变量读取（export OPENAI_API_KEY=...），禁止硬编码
+client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 # 获取文本嵌入
 response = client.embeddings.create(
@@ -82,6 +86,28 @@ response = client.embeddings.create(
 
 embeddings = [item.embedding for item in response.data]
 print(f"生成 {len(embeddings)} 个向量")
+```
+
+**429 限流重试**：批量嵌入很容易触发限流（RateLimitError），生产代码要带指数退避重试：
+
+```python
+import time
+
+from openai import OpenAI, RateLimitError
+
+def embed_with_retry(client: OpenAI, texts: list[str],
+                     model: str = "text-embedding-3-small",
+                     max_retries: int = 5):
+    """带指数退避的重试：429 时等待 1s/2s/4s/... 后重试（示意）。
+    大批量任务也可改用 openai SDK 自带的 max_retries 参数或官方批处理接口。"""
+    for attempt in range(max_retries):
+        try:
+            return client.embeddings.create(model=model, input=texts)
+        except RateLimitError:
+            if attempt == max_retries - 1:
+                raise
+            time.sleep(2 ** attempt)  # 指数退避：1s, 2s, 4s, ...
+    raise RuntimeError("嵌入请求重试次数用尽")
 ```
 
 ### 场景3：语义搜索
@@ -199,6 +225,20 @@ OpenAI Embeddings是**最方便使用的Embedding服务**，适合快速原型�
 - 需要API Key和网络访问
 - 有使用成本
 - 国内访问可能不稳定
+
+---
+
+### 企业级升级要点
+
+云端 Embedding 服务好用，但企业级 RAG 对嵌入层还有更多工程要求，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+
+- **密钥纪律**：API key 只走环境变量（本文 `os.environ["OPENAI_API_KEY"]`），不落配置文件与代码库，参考 `ownrag/config.py`（`OWNRAG_CHAT_API_KEY` 只进环境变量）。
+- **限流与重试**：批量嵌入必须带指数退避重试与失败记录（本文 429 示例），必要时切自托管模型（如 BAAI/bge-m3）消除外部依赖，参考 `ownrag/index/embedder.py`。
+- **模型一致性**：入库与查询必须用同一嵌入模型与维度（模型换了就要全量重建索引），ownrag 把嵌入参数纳入启动期配置校验，见 `ownrag/index/embedder.py` 与 `ownrag/config.py`。
+- **成本与预算**：嵌入按 token 计费，大批量任务先估算成本、可切批处理接口；ownrag 在生成层做了 token 预算控制，思路一致，见 `ownrag/generate/budget.py`。
+- **质量评测**：换嵌入模型要过评测集（召回率/排序质量回归），没有评测集不切换，见 08-评估测试 RAGAS 篇。
+
+延伸阅读：[70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)
 
 ---
 

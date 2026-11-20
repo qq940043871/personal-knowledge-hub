@@ -18,9 +18,9 @@
 | 工具 | 作用 | 选型原因 |
 | --- | --- | --- |
 | MinerU | 文档解析 | 字节开源的高精度文档解析工具，完美解决复杂 PDF、表格、公式、扫描件的解析问题，比传统的 PDFPlumber/POI 准确率高 30%，支持离线 |
-| LLMFactory | 模型微调 | 阿里开源的一站式微调框架，支持 LoRA/QLoRA/ 全参数微调，支持上百种主流大模型，分布式训练效率高，比自研微调框架节省 50% 的训练成本，支持离线 |
+| LLMFactory | 模型微调 | hiyouga 开源的 LLaMA-Factory 一站式微调框架，支持 LoRA/QLoRA/ 全参数微调，支持上百种主流大模型，分布式训练效率高，比自研微调框架节省 50% 的训练成本，支持离线 |
 | GPUStack(vLLM+TensorRT-LLM) | 模型推理部署 | 基于 NVIDIA GPU 的推理栈，用 vLLM 做连续批处理，把 GPU 利用率从 30% 提升到 70%，吞吐量提升 3 倍，支持 GPTQ/AWQ 量化，完美适配离线部署的资源限制 |
-| Dify | Agent 平台底座 | 低代码的企业级 Agent 开发平台，底层基于 LangChain+LangGraph，内置了 RAG、多智能体、工具调用的基础能力，我们可以在它的基础上做定制化优化，快速搭建平台，支持完全离线部署 |
+| Dify | Agent 平台底座 | 低代码的企业级 Agent 开发平台，早期基于 LangChain+LangGraph，现已自研工作流引擎，内置了 RAG、多智能体、工具调用的基础能力，我们可以在它的基础上做定制化优化，快速搭建平台，支持完全离线部署 |
 | Milvus | 向量数据库 | 之前项目已经验证过的向量库，稳定、高性能，支持分布式扩容，完美适配离线场景 |
 | MinIO | 对象存储 | 分布式对象存储，存储原始文档、模型文件，支持离线，数据本地存储 |
 | RocketMQ | 消息队列 | 之前验证过的消息队列，做异步削峰，处理高并发的请求 |
@@ -230,7 +230,7 @@
 
 ## 七、LangChain 与 LangGraph 的整合说明
 
-很多人会问，这套方案里，LangChain 和 LangGraph 的作用是什么？ 其实 Dify 的底层就是基于 LangChain 和 LangGraph 的：
+很多人会问，这套方案里，LangChain 和 LangGraph 的作用是什么？ 其实 Dify 早期就是基于 LangChain 和 LangGraph 开发的，现已演进为自研工作流引擎：
 
 - LangChain 负责封装大模型、Embedding、工具调用的通用能力，我们之前的项目里，早期就用过 LangChain 的这些组件，对它非常熟悉
 - LangGraph 负责多智能体的状态管理、任务规划，解决多智能体的协作、死锁的问题，我们之前的自研的状态机，其实和 LangGraph 的能力是一致的，现在用 LangGraph，我们可以不用自己维护这部分的代码，直接用成熟的开源实现

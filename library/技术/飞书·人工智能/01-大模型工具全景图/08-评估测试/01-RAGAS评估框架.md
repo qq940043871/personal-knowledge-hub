@@ -1,7 +1,7 @@
 # RAGAS评估框架
 
 > 模块：评估测试
-> 更新时间：2026-05-19
+> 更新时间：2026-11-15（代码口径：ragas 0.2+ EvaluationDataset / LangchainLLMWrapper）
 
 ---
 
@@ -39,35 +39,50 @@ RAGAS（Retrieval Augmented Generation Assessment）：
 
 ```python
 # 安装
-# pip install ragas
+# pip install ragas langchain-openai
 
-from ragas import evaluate
+import os
+
+from langchain_openai import ChatOpenAI
+from ragas import EvaluationDataset, evaluate
+from ragas.llms import LangchainLLMWrapper
 from ragas.metrics import (
-    faithfulness,
     answer_relevancy,
     context_precision,
     context_recall,
+    faithfulness,
 )
-from datasets import Dataset
 
 def quick_evaluate():
-    """快速评估示例"""
-    # 准备评估数据
-    eval_data = {
-        "question": ["什么是RAG？"],
-        "answer": ["RAG是检索增强生成，通过检索外部知识来增强大模型的回答质量。"],
-        "contexts": [["RAG（Retrieval Augmented Generation）是一种结合检索和生成的技术，"
-                      "通过从外部知识库检索相关文档，将其作为上下文输入给大模型，"
-                      "从而提升回答的准确性和时效性。"]],
-        "ground_truth": ["RAG是检索增强生成技术，通过检索外部知识库来增强大模型输出。"],
-    }
-    dataset = Dataset.from_dict(eval_data)
+    """快速评估示例（ragas 0.2+ 现行写法）"""
+    # 准备评估数据：ragas 0.2+ 用 EvaluationDataset，
+    # 单轮样本字段为 user_input / response / retrieved_contexts / reference
+    eval_samples = [
+        {
+            "user_input": "什么是RAG？",
+            "response": "RAG是检索增强生成，通过检索外部知识来增强大模型的回答质量。",
+            "retrieved_contexts": [
+                "RAG（Retrieval Augmented Generation）是一种结合检索和生成的技术，"
+                "通过从外部知识库检索相关文档，将其作为上下文输入给大模型，"
+                "从而提升回答的准确性和时效性。"
+            ],
+            "reference": "RAG是检索增强生成技术，通过检索外部知识库来增强大模型输出。",
+        },
+    ]
+    dataset = EvaluationDataset.from_dict(eval_samples)
+
+    # 评估用 LLM：用 LangchainLLMWrapper 包装现行 LangChain 模型
+    #（API key 从环境变量读取，禁止硬编码）
+    evaluator_llm = LangchainLLMWrapper(
+        ChatOpenAI(model="gpt-4o-mini", api_key=os.environ["OPENAI_API_KEY"])
+    )
 
     # 执行评估
     result = evaluate(
         dataset=dataset,
         metrics=[faithfulness, answer_relevancy,
                  context_precision, context_recall],
+        llm=evaluator_llm,
     )
 
     print(result)
@@ -80,70 +95,49 @@ def quick_evaluate():
 
 ## 三、评估指标详解
 
+生产环境优先使用 ragas 内置指标（配合上文 LangchainLLMWrapper）。下面两个自定义类是**教学示意**，用来说明指标背后的实现原理——接口改用现行 LangChain 写法（`llm.invoke()`，不再依赖非标准的 `llm.generate()`），判定也从"全文子串计数"改为按行末标注逐条统计：
+
 ```python
-import numpy as np
-from typing import List, Dict
+import re
+from typing import List
+
+from langchain_core.messages import HumanMessage
 
 class FaithfulnessEvaluator:
-    """忠实度评估：检查回答是否基于上下文"""
+    """忠实度评估（教学示意，生产用 ragas 内置 faithfulness 指标）：
+    检查回答中的每个声明是否有上下文支持。"""
 
     def __init__(self, llm):
-        self.llm = llm
+        self.llm = llm               # 现行 LangChain 聊天模型（llm.invoke 接口）
 
-    async def evaluate(self, question: str, answer: str,
-                       contexts: List[str]) -> float:
+    def evaluate(self, question: str, answer: str, contexts: List[str]) -> float:
         context_text = "\n".join(contexts)
-
-        # 让LLM判断回答中的每个声明是否有上下文支持
-        prompt = f"""基于以下上下文，判断回答中的每个声明是否有依据。
-
-上下文：
-{context_text}
-
-问题：{question}
-回答：{answer}
-
-请列出回答中的每个声明，并判断是否有上下文支持（是/否）。
-格式：声明内容 | 支持/不支持"""
-
-        result = await self.llm.generate(prompt)
-        # 统计支持的声明比例
-        supported = result.count("支持")
-        total = result.count("支持") + result.count("不支持")
+        # 让 LLM 逐条列出声明并在行末标注 支持/不支持；判定按行末标注逐条统计——
+        # 比全文子串计数更稳（能区分"支持"出现在声明内容里的情况）
+        prompt = (
+            f"基于以下上下文，判断回答中的每个声明是否有依据。\n"
+            f"上下文：{context_text}\n问题：{question}\n回答：{answer}\n"
+            "请逐条列出回答中的声明，并在每行末尾标注 支持 或 不支持。\n"
+            "格式：声明内容 | 支持/不支持")
+        result = self.llm.invoke([HumanMessage(content=prompt)])   # 返回 AIMessage
+        text = result.content
+        supported = len(re.findall(r"\|\s*支持\s*$", text, flags=re.MULTILINE))
+        unsupported = len(re.findall(r"\|\s*不支持\s*$", text, flags=re.MULTILINE))
+        total = supported + unsupported
         return supported / total if total > 0 else 0.0
 
 class AnswerRelevanceEvaluator:
-    """答案相关性评估"""
+    """答案相关性评估（教学示意，生产用 ragas 内置 answer_relevancy 指标）：
+    根据答案反向生成问题，再算与原问题的语义相似度；
+    embedder 需提供 encode(texts) -> 向量矩阵 接口（如 sentence-transformers）。"""
 
     def __init__(self, llm, embedder):
-        self.llm = llm
-        self.embedder = embedder
+        self.llm, self.embedder = llm, embedder
 
-    async def evaluate(self, question: str, answer: str) -> float:
-        # 让LLM根据答案反向生成问题
-        prompt = f"""根据以下回答，生成3个可能的问题：
-
-回答：{answer}
-
-问题1：
-问题2：
-问题3："""
-
-        result = await self.llm.generate(prompt)
-        generated_questions = [q.strip() for q in result.split("\n")
-                               if q.strip().startswith("问题")]
-
-        # 计算生成问题与原始问题的语义相似度
-        orig_embedding = self.embedder.encode(question)
-        similarities = []
-        for gen_q in generated_questions:
-            gen_embedding = self.embedder.encode(gen_q)
-            sim = np.dot(orig_embedding, gen_embedding) / (
-                np.linalg.norm(orig_embedding) * np.linalg.norm(gen_embedding)
-            )
-            similarities.append(sim)
-
-        return float(np.mean(similarities))
+    def evaluate(self, question: str, answer: str) -> float:
+        # 伪代码：1) llm.invoke 反向生成 3 个问题；2) embedder.encode([question] + 生成问题)
+        #         一次批量编码；3) 与原问题余弦相似度取均值（numpy 向量化；无生成问题返回 0.0）
+        ...
 ```
 
 ---
@@ -175,4 +169,18 @@ RAGAS vs LangSmith Evals：
 
 ---
 
-*下一步：RAG系统实战*
+### 企业级升级要点
+
+评估不是跑一次看个分数，而是要进回归门禁，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+
+- **评测先行**：没有评测集之前调检索权重、换模型都是猜——ownrag 的检索融合明确写着"RRF 等权起步，评测先行"，见 `ownrag/retrieve/hybrid.py`。
+- **指标对齐闸门**：Faithfulness 检测的幻觉问题，ownrag 在生成后用纯代码闸门兜底（引用块必须在候选池内、数字/日期能在原文核验），规则可测试、进 Git 随评测集回归，见 `ownrag/generate/gates.py`。
+- **拒答语义校准**：向量检索永远"捞得到"语义邻近块，拒答标准要从"零召回"迁移到"重排分不足"，阈值随评测集校准，见 `ownrag/generate/gates.py` 的 `_MIN_RERANK_SCORE`。
+- **解析质量进评测**：错在解析在问答阶段几乎无法回溯，ownrag 在入库前设人工复核闸（解析产物落盘给人确认），见 `ownrag/review.py`。
+- **评估成本控制**：LLM-as-judge 按 token 计费，抽样评估 + 预算控制思路参考 `ownrag/generate/budget.py`。
+
+延伸阅读：[70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)
+
+---
+
+*下一步：评估体系全景*

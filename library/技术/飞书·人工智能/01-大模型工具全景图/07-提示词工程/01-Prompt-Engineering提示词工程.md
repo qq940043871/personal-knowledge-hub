@@ -170,7 +170,9 @@ REACT_PROMPT = """
 ### 场景1：结构化输出
 
 ```python
-from langchain.output_parsers import PydanticOutputParser
+# 现行分包：parser 与 prompt 模板统一从 langchain_core 导入
+from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel, Field
 
 class PersonInfo(BaseModel):
@@ -293,7 +295,10 @@ CRISP_TEMPLATE = """
 ```python
 # 解决方案：更严格的格式定义 + 后处理
 import json
+import logging
 import re
+
+logger = logging.getLogger(__name__)
 
 def extract_json(text):
     # 尝试从输出中提取JSON
@@ -301,8 +306,9 @@ def extract_json(text):
     if match:
         try:
             return json.loads(match.group())
-        except:
-            pass
+        except json.JSONDecodeError as e:
+            # JSON 解析失败时记录具体原因，便于排查模型输出问题
+            logger.warning("模型输出 JSON 解析失败: %s，原文: %s", e, text[:200])
     return {"raw_text": text}
 ```
 
@@ -351,6 +357,16 @@ CONCISE_PROMPT = """
 3. 学会角色扮演设定
 4. 了解常见问题解决方案
 5. 持续迭代优化提示词
+
+### 企业级升级要点
+
+- **提示词版本化**：生产提示词像代码一样纳入版本控制，变更走评审，避免口头传改
+- **结构化输出兜底**：对 LLM 输出做 JSON Schema 校验与解析失败重试，不信任"裸"输出
+- **评测驱动迭代**：建立提示词回归评测集，每次修改先跑分再上线，防止效果回退
+- **导入规范**：LangChain 分包后统一从 langchain_core 导入模板与解析器，锁定版本
+- **异常可观测**：解析失败、超长截断等异常要记录日志并统计失败率，而非静默吞掉
+
+> 更多工程化实践（评测基准、灰度发布、成本控制）参见 [70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)。
 
 ---
 

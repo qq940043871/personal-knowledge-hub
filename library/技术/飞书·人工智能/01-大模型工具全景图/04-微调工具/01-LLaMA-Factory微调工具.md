@@ -33,15 +33,21 @@ pip install -e .
 
 ### 2. 准备数据
 
-```json
-// data/training_data.json
-{
-  "instruction": "将以下中文翻译成英文",
-  "input": "今天天气真好",
-  "output": "The weather is nice today."
-}
+LLaMA-Factory 支持两类常用数据格式。**格式1：Alpaca 指令格式**（注意文件内容必须是 JSON 数组，即使只有一条样本）：
 
-// 数据格式2：对话格式
+```json
+[
+  {
+    "instruction": "将以下中文翻译成英文",
+    "input": "今天天气真好",
+    "output": "The weather is nice today."
+  }
+]
+```
+
+**格式2：ShareGPT 对话格式**：
+
+```json
 {
   "conversations": [
     {"from": "human", "value": "什么是Python？"},
@@ -96,7 +102,7 @@ lora_target: all  # 或指定层: [q_proj, k_proj, v_proj, o_proj]
 ### 2. QLoRA微调（量化+LoRA）
 
 ```bash
-# QLoRA适合显存有限的场景
+# QLoRA适合显存有限的场景：LoRA + 量化只需 --quantization_bit，无需额外 flag
 llamafactory-cli train \
     --stage sft \
     --model_name_or_path meta-llama/Llama-3-8b-Instruct \
@@ -104,7 +110,6 @@ llamafactory-cli train \
     --template llama3 \
     --finetuning_type lora \
     --quantization_bit 4 \
-    --q_lora \
     --output_dir ./output/llama3_qlora
 ```
 
@@ -150,8 +155,9 @@ llamafactory-cli train \
 
 ## 四、训练数据配置：dataset_info.json
 
+在数据目录下的 `dataset_info.json` 中注册自定义数据集：
+
 ```json
-// dataset_info.json
 {
   "my_dataset": {
     "file_name": "my_data.json",
@@ -189,12 +195,12 @@ llamafactory-cli webchat \
     --model_name_or_path meta-llama/Llama-3-8b-Instruct \
     --adapter_name_or_path ./output/llama3_lora
 
-# 命令行推理
-llamafactory-cli inference \
+# 命令行推理：实际子命令是 chat，启动后在交互输入框中输入问题
+llamafactory-cli chat \
     --model_name_or_path meta-llama/Llama-3-8b-Instruct \
     --adapter_name_or_path ./output/llama3_lora \
-    --template llama3 \
-    --fuseright: 写一首关于春天的诗
+    --template llama3
+# 启动后输入：写一首关于春天的诗
 ```
 
 ---
@@ -204,8 +210,8 @@ llamafactory-cli inference \
 ### 显存不足？
 
 ```bash
-# 使用QLoRA
---quantization_bit 4 --q_lora
+# 使用QLoRA（LoRA + 量化位宽，即上一节的写法）
+--finetuning_type lora --quantization_bit 4
 
 # 减小batch_size
 --per_device_train_batch_size 2
@@ -239,6 +245,16 @@ LLaMA-Factory是**中文开源社区最活跃的微调工具**，Web界面友好
 3. 熟练使用Web界面
 4. 理解训练参数调优
 5. 掌握模型导出和推理
+
+### 企业级升级要点
+
+- **数据质量优先**：训练数据先做清洗与去重，指令覆盖度比数量更重要；数据格式必须为合法 JSON（Alpaca 格式是数组）
+- **参数即配置**：训练命令用 YAML 配置文件管理并纳入版本控制，避免口口相传的命令行；不使用虚构或不存在的 CLI 参数
+- **可复现性**：固定随机种子、记录基座模型版本与 adapter 版本，评估集与训练集严格隔离
+- **评测闸门**：微调后先过自动化评测（如 LLaMA-Factory eval 或外部基准），达标才能进入部署流程
+- **量化与显存**：显存不足时用 `--quantization_bit 4`（QLoRA），而不是更换不可用的参数；导出前核对 adapter 与基座匹配
+
+> 更多工程化实践（评测基准、灰度发布、成本控制）参见 [70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)。
 
 ---
 

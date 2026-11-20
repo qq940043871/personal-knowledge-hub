@@ -1,7 +1,7 @@
 # LangChain详解
 
 > 模块：应用开发框架
-> 更新时间：2026-03-29
+> 更新时间：2026-11-15（代码口径：LangChain 1.x 分包架构 + LCEL）
 
 ---
 
@@ -64,17 +64,21 @@ LangChain是一个用于构建基于大语言模型应用的开发框架，由Ha
 ### 1. Model I/O - 模型交互
 
 ```python
-from langchain.chat_models import ChatOpenAI
-from langchain.schema import HumanMessage, SystemMessage
+# 现行分包：langchain-core（基础抽象）+ langchain-openai（模型集成）
+# pip install langchain-core langchain-openai
+import os
 
-# 初始化模型
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
+
+# 初始化模型（API key 一律从环境变量读取，禁止硬编码进代码）
 llm = ChatOpenAI(
-    model="gpt-4",
+    model="gpt-4o-mini",
     temperature=0.7,
-    openai_api_key="your-api-key"
+    api_key=os.environ["OPENAI_API_KEY"],
 )
 
-# 简单对话
+# 简单对话：Runnable 接口统一用 .invoke()
 response = llm.invoke("用Python写一个快速排序")
 print(response.content)
 
@@ -89,7 +93,12 @@ print(chat.content)
 ### 2. Prompt Template - 提示模板
 
 ```python
-from langchain.prompts import ChatPromptTemplate
+# 提示模板全部来自 langchain_core.prompts
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import (
+    ChatPromptTemplate,
+    FewShotChatMessagePromptTemplate,
+)
 
 # 创建提示模板
 template = ChatPromptTemplate.from_messages([
@@ -97,18 +106,14 @@ template = ChatPromptTemplate.from_messages([
     ("human", "教我如何实现{feature}功能")
 ])
 
-# 使用模板
-prompt = template.invoke({
+# 使用模板：LCEL 管道 + .invoke() 传入 dict
+chain = template | llm | StrOutputParser()
+print(chain.invoke({
     "language": "Python",
     "feature": "装饰器"
-})
+}))
 
-response = llm.invoke(prompt)
-print(response.content)
-
-# 带示例的提示
-from langchain.prompts import FewShotChatMessagePromptTemplate
-
+# 带示例的提示（few-shot）
 examples = [
     {"input": "你好", "output": "你好！有什么可以帮助你的吗？"},
     {"input": "你是谁", "output": "我是一个AI助手。"}
@@ -123,26 +128,40 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
     examples=examples,
     example_prompt=example_prompt
 )
+
+# few-shot 模板作为消息段拼进最终 prompt
+final_prompt = ChatPromptTemplate.from_messages([
+    ("system", "你是一个简洁的对话助手"),
+    few_shot_prompt,
+    ("human", "{input}"),
+])
+few_shot_chain = final_prompt | llm | StrOutputParser()
+print(few_shot_chain.invoke({"input": "用一句话介绍装饰器"}))
 ```
 
 ### 3. Chain - 链式调用
 
 ```python
-from langchain.chains import LLMChain
+# 现行写法：用 LCEL（| 运算符）组装链，取代已废弃的 LLMChain
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
 
-# 创建链
-chain = LLMChain(
-    llm=llm,
-    prompt=template
+chain = (
+    ChatPromptTemplate.from_messages([
+        ("system", "你是一个{language}编程专家"),
+        ("human", "教我如何实现{feature}功能"),
+    ])
+    | llm
+    | StrOutputParser()
 )
 
-# 执行链
+# 执行链：.invoke() 传入 dict，返回解析后的字符串
 result = chain.invoke({
     "language": "Java",
     "feature": "单例模式"
 })
 
-print(result["text"])
+print(result)
 ```
 
 ---
@@ -151,112 +170,147 @@ print(result["text"])
 
 ### 场景1：RAG问答系统
 
+RAG 是 LangChain 最典型的应用场景。这里给出现行 API 的**骨架代码**（示意），完整企业级实现见 [06-RAG系统实战](../../06-Agent开发/40-RAG与检索/06-RAG系统实战.md)。
+
 ```python
-from langchain.document_loaders import TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
-from langchain.chains import RetrievalQA
+# 现行分包：加载器在 langchain-community，切分器在 langchain-text-splitters，
+# Embedding 在 langchain-openai，Chroma 集成在 langchain-chroma
+import os
 
-# 1. 加载文档
-loader = TextLoader("document.txt")
-documents = loader.load()
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import TextLoader
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# 2. 文档分块
-text_splitter = RecursiveCharacterTextSplitter(
+# 1. 加载文档并分块
+documents = TextLoader("document.txt").load()
+chunks = RecursiveCharacterTextSplitter(
     chunk_size=1000,
     chunk_overlap=200
+).split_documents(documents)
+
+# 2. 创建向量存储与检索器
+vectorstore = Chroma.from_documents(chunks, OpenAIEmbeddings())
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
+
+# 3. LCEL 组装 RAG 问答链（取代已废弃的 RetrievalQA）
+def format_docs(docs):
+    return "\n\n".join(d.page_content for d in docs)
+
+rag_prompt = ChatPromptTemplate.from_messages([
+    ("system", "仅依据以下检索到的上下文回答问题，无依据时明确说明：\n\n{context}"),
+    ("human", "{question}"),
+])
+
+rag_chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | rag_prompt
+    | ChatOpenAI(model="gpt-4o-mini", api_key=os.environ["OPENAI_API_KEY"])
+    | StrOutputParser()
 )
-chunks = text_splitter.split_documents(documents)
 
-# 3. 创建向量存储
-embeddings = OpenAIEmbeddings()
-vectorstore = Chroma.from_documents(chunks, embeddings)
-
-# 4. 创建检索QA链
-qa_chain = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vectorstore.as_retriever()
-)
-
-# 5. 问答
+# 4. 问答：.invoke() 传入 dict
 question = "这篇文章的主要内容是什么？"
-result = qa_chain.invoke({"query": question})
-print(result["result"])
+print(rag_chain.invoke({"question": question}))
 ```
 
 ### 场景2：多步骤Agent
 
+Agent 编排在 `langchain` 包，现成工具在 `langchain-community`（这里是真实的 Wikipedia 查询工具，不是 mock）。
+
 ```python
-from langchain.agents import AgentExecutor, create_openai_functions_agent
-from langchain.tools import Tool
-from langchain import hub
+# pip install langchain langchain-community wikipedia
+from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_community.tools import WikipediaQueryRun
+from langchain_community.utilities import WikipediaAPIWrapper
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 
-# 定义工具
-def search_wikipedia(query: str) -> str:
-    """搜索维基百科"""
-    # 实际项目中调用Wikipedia API
-    return f"关于{query}的信息..."
-
-tools = [
-    Tool(
-        name="Wikipedia",
-        func=search_wikipedia,
-        description="搜索维基百科获取信息"
+# 真实工具：封装 Wikipedia API（langchain_community 提供）
+wikipedia_tool = WikipediaQueryRun(
+    api_wrapper=WikipediaAPIWrapper(
+        top_k_results=2,
+        doc_content_chars_max=2000,
+        lang="zh",
     )
-]
-
-# 从Hub加载提示
-prompt = hub.pull("hwchase17/openai-functions-agent")
-
-# 创建Agent
-agent = create_openai_functions_agent(llm, tools, prompt)
-
-# 创建Agent执行器
-agent_executor = AgentExecutor(
-    agent=agent,
-    tools=tools,
-    verbose=True
 )
+tools = [wikipedia_tool]
+
+# 提示模板：工具调用 Agent 必须带 agent_scratchpad 占位（承接上文的 llm）
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "你是一个乐于助人的研究助手，回答时注明信息来源"),
+    ("human", "{input}"),
+    MessagesPlaceholder("agent_scratchpad"),
+])
+
+# 创建 Agent 与执行器
+agent = create_tool_calling_agent(llm, tools, prompt)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
 # 执行
 result = agent_executor.invoke({
     "input": "介绍一下Python语言的历史"
 })
+print(result["output"])
 ```
+
+> 说明：`AgentExecutor + create_tool_calling_agent` 是 langchain 包内的现行经典写法；更复杂的多智能体编排（状态图、检查点、人工介入）官方已指向 **LangGraph**，见下文 Legacy 对照。
 
 ### 场景3：对话式Memory
 
+现行写法是**会话历史 + RunnableWithMessageHistory**（取代已废弃的 ConversationChain/ConversationBufferMemory）。
+
 ```python
-from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationChain
+# 会话历史抽象在 langchain-core，按 session_id 存取
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
-# 创建内存
-memory = ConversationBufferMemory()
+# 会话存储：生产环境换成 Redis / SQL 等持久化实现（接口一致）
+store: dict[str, InMemoryChatMessageHistory] = {}
 
-# 创建对话链
-conversation = ConversationChain(
-    llm=llm,
-    memory=memory,
-    verbose=True
+def get_session_history(session_id: str) -> InMemoryChatMessageHistory:
+    if session_id not in store:
+        store[session_id] = InMemoryChatMessageHistory()
+    return store[session_id]
+
+# 带 history 占位的对话链（承接上文的 llm）
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "你是一个友好的助手"),
+    MessagesPlaceholder("history"),
+    ("human", "{input}"),
+])
+chain = prompt | llm
+
+# 用 RunnableWithMessageHistory 自动注入/回写历史
+conversation = RunnableWithMessageHistory(
+    chain,
+    get_session_history,
+    input_messages_key="input",
+    history_messages_key="history",
 )
 
-# 对话
-conversation.invoke("我叫张三")
-conversation.invoke("我叫什么名字？")
-# Agent会记住之前的对话
-
-# 保存对话历史
-history = memory.load_memory_variables({})
+# 同一 session 的两次对话能接上上下文
+conversation.invoke(
+    {"input": "我叫张三"},
+    config={"configurable": {"session_id": "user-123"}},
+)
+response = conversation.invoke(
+    {"input": "我叫什么名字？"},
+    config={"configurable": {"session_id": "user-123"}},
+)
+print(response.content)  # 会记住"张三"
 ```
 
 ### 场景4：输出解析器
 
 ```python
-from langchain.output_parsers import PydanticOutputParser
+# PydanticOutputParser 与 PromptTemplate 均在 langchain_core
+from langchain_core.output_parsers import PydanticOutputParser
+from langchain_core.prompts import PromptTemplate
 from pydantic import BaseModel, Field
-from typing import List
 
 # 定义输出格式
 class Movie(BaseModel):
@@ -265,24 +319,24 @@ class Movie(BaseModel):
     rating: float = Field(description="评分")
 
 class MovieList(BaseModel):
-    movies: List[Movie] = Field(description="电影列表")
+    movies: list[Movie] = Field(description="电影列表")
 
 # 创建解析器
 parser = PydanticOutputParser(pydantic_object=MovieList)
 
-# 创建提示
+# 创建提示：format_instructions 由解析器生成（含 JSON Schema 说明），承接上文的 llm
 prompt = PromptTemplate(
     template="列出三部经典科幻电影及其信息。\n{format_instructions}",
     input_variables=[],
     partial_variables={"format_instructions": parser.get_format_instructions()}
 )
 
-# 执行
-chain = LLMChain(llm=llm, prompt=prompt)
+# LCEL 执行（取代已废弃的 LLMChain）
+chain = prompt | llm
 result = chain.invoke({})
 
-# 解析输出
-parsed = parser.invoke(result["text"])
+# 解析输出：AIMessage.content 是模型返回的文本
+parsed = parser.invoke(result.content)
 print(parsed.movies)
 ```
 
@@ -293,13 +347,24 @@ print(parsed.movies)
 ### LangChain表达式语言（LCEL）
 
 ```python
-from langchain.schema import StrOutputParser
-from langchain.runnable import RunnablePassthrough
+# LCEL 核心组件全部来自 langchain_core.runnables / langchain_core.output_parsers
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnableLambda, RunnablePassthrough
 
-# 使用LCEL构建链
+# retriever 承接场景1的向量库；RunnableLambda 包装任意函数，
+# RunnablePassthrough 原样透传输入，dict 写法实现并行分支
+def format_docs(docs):
+    return "\n\n".join(d.page_content for d in docs)
+
+rag_prompt = ChatPromptTemplate.from_messages([
+    ("system", "仅依据以下上下文回答问题，找不到依据时明确说明：\n{context}"),
+    ("human", "{question}"),
+])
+
 chain = (
-    {"context": retrieval_chain, "question": RunnablePassthrough()}
-    | prompt
+    {"context": retriever | RunnableLambda(format_docs), "question": RunnablePassthrough()}
+    | rag_prompt
     | llm
     | StrOutputParser()
 )
@@ -309,14 +374,32 @@ for chunk in chain.stream({"question": "什么是机器学习"}):
     print(chunk, end="", flush=True)
 ```
 
+### Legacy API 对照（已废弃，官方指向 LangGraph / LCEL）
+
+旧版教程里的单链 API 已全部废弃，迁移只需改导入来源与组装方式，Prompt 与模型调用逻辑不变：
+
+```
+已废弃写法                                            现行替代
+langchain.chat_models / langchain.schema             langchain-openai / langchain-core.messages
+langchain.document_loaders / langchain.embeddings    langchain-community / langchain-openai
+langchain.vectorstores.Chroma                        langchain-chroma.Chroma
+langchain.text_splitter                              langchain-text-splitters
+langchain.chains.LLMChain                            prompt | llm | StrOutputParser()
+langchain.chains.RetrievalQA                         {"context": retriever|fmt} | prompt | llm（场景1）
+langchain.chains.ConversationChain                   RunnableWithMessageHistory（场景3）
+langchain.memory.ConversationBufferMemory            langchain_core.chat_history 会话历史
+langchain.runnable.RunnablePassthrough（从未存在）     langchain_core.runnables.RunnablePassthrough
+复杂多智能体编排（Agent/状态机/人工介入）               LangGraph（官方新一代 Agent 框架）
+```
+
 ### LangSmith - 监控和调试
 
 ```python
-# 设置LangSmith
+# 设置LangSmith（开关写进代码，密钥只从部署环境注入，不入库）
 import os
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_API_KEY"] = "your-api-key"
 os.environ["LANGCHAIN_PROJECT"] = "my-project"
+# LANGCHAIN_API_KEY 请在终端或部署环境中设置（export LANGCHAIN_API_KEY=...）
 
 # 所有链调用都会自动追踪
 # 可以在LangSmith平台上查看调用历史、成本、延迟等
@@ -334,6 +417,20 @@ LangChain是**大模型应用开发的首选框架**，掌握它能快速构建�
 3. 熟练使用LCEL表达式语言
 4. 理解Agent和Tool的使用
 5. 了解Memory和Callback机制
+
+---
+
+### 企业级升级要点
+
+教学示例和企业级 RAG 之间隔的是工程纪律，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+
+- **密钥与配置**：API key 只走环境变量、配置错误在启动期暴露（配置即代码），参考 `ownrag/config.py`——`OWNRAG_CHAT_API_KEY` 不落任何配置文件。
+- **检索工程化**：单路向量检索只是起点，ownrag 用"先过滤后召回 → 向量+BM25 双路 → RRF 名次融合"，见 `ownrag/retrieve/hybrid.py`；重排 provider 可插拔、失败降级可见，见 `ownrag/retrieve/rerank.py`。
+- **生成闸门**：候选不足不进模型（拒答是合法答案）、引用块必须在候选池内、数字/日期可在原文核验——两道纯代码闸门见 `ownrag/generate/gates.py`，把"模型会错"变成可测试规则。
+- **入库前复核**：解析产物落盘给人看、人工通过才写索引（解析是 RAG 链路最不可控的一段），见 `ownrag/review.py` 与 `ownrag/core/pipeline.py`。
+- **评测先行**：没有评测集不调参数，用 RAGAS 指标随回归跑（见本文对应篇目 08-评估测试）。
+
+延伸阅读：[70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)
 
 ---
 

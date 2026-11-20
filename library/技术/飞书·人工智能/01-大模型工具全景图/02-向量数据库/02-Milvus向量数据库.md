@@ -1,7 +1,7 @@
 # Milvus向量数据库
 
 > 模块：向量数据库
-> 更新时间：2026-03-29
+> 更新时间：2026-11-15（代码口径：pymilvus 2.4+，推荐 MilvusClient）
 
 ---
 
@@ -39,15 +39,13 @@ Milvus核心概念：
 
 ### 场景1：Python SDK基础操作
 
+先看经典的 ORM 式写法（`connections.connect` + `Collection`），大量存量代码仍在使用：
+
 ```python
-from pymilvus import connections, Collection, FieldSchema, CollectionSchema, Collection, DataType, utility
+from pymilvus import Collection, CollectionSchema, DataType, FieldSchema, connections
 
 # 1. 连接
-connections.connect(
-    alias="default",
-    host="localhost",
-    port="19530"
-)
+connections.connect(alias="default", host="localhost", port="19530")
 
 # 2. 定义Schema
 fields = [
@@ -109,9 +107,44 @@ results = collection.query(
 )
 ```
 
+**现行推荐：MilvusClient（pymilvus 2.4+）**——同样能力、更简洁的接口，新项目优先用它：
+
+```python
+# （伪代码：保留 Schema / 索引 / dict 插入 / filter 搜索四个关键调用形态）
+import numpy as np
+from pymilvus import DataType, MilvusClient
+# 连接（★特殊点1 默认凭据治理：token 格式 "用户名:密码"，默认 root/Milvus，
+# 上线前必须替换并走环境变量/密钥管理）
+client = MilvusClient(uri="http://localhost:19530", token="root:Milvus")
+# 1) Schema：add_field 每字段一行（content / category 等 VARCHAR 字段同形，从略）
+schema = client.create_schema(auto_id=False, enable_dynamic_field=True)
+schema.add_field("id", DataType.INT64, is_primary=True)
+schema.add_field("embedding", DataType.FLOAT_VECTOR, dim=768)
+# 2) 索引参数 + 创建集合（创建即加载到内存，可直接检索；同名集合先 drop，从略）
+index_params = client.prepare_index_params()
+index_params.add_index(field_name="embedding", index_type="IVF_FLAT",
+                       metric_type="L2", params={"nlist": 128})
+client.create_collection("my_documents", schema=schema, index_params=index_params)
+# 3) 插入：一行一个 dict（embedding 为 768 维向量，示意 1 行）
+client.insert("my_documents", data=[{"id": 1, "embedding": np.random.rand(768).tolist(),
+                                     "content": "内容1", "category": "科技"}])
+# 4) 搜索（现行 API：标量过滤参数是 filter=）
+results = client.search(
+    "my_documents", data=[np.random.rand(768).tolist()],   # 查询向量（示意）
+    anns_field="embedding", limit=10,
+    search_params={"metric_type": "L2", "params": {"nprobe": 10}},
+    filter='category == "科技"', output_fields=["id", "content", "category"])
+```
+
 ### 场景2：混合搜索
 
 ```python
+import numpy as np
+
+# 承接场景1的 collection / search_params；以下两个变量为示意定义：
+query = "示例查询：向量数据库的索引类型"
+query_vector = np.random.rand(768).tolist()  # 示意：实际项目用 Embedding 模型把 query 编码成 768 维
+
 # 搜索时同时返回向量
 results = collection.search(
     data=[query_vector],
@@ -129,6 +162,12 @@ results = collection.search(
     limit=50,  # 取更多候选
     output_fields=["embedding", "content"]
 )
+
+def rerank_with_cross_encoder(results, query: str):
+    """示意：Cross-Encoder 重排接口形态——真实实现把 (query, doc) 对喂给重排模型
+    （如 BAAI/bge-reranker-v2-m3）按重排分降序；provider 化与失败降级见
+    ownrag/retrieve/rerank.py。此处按向量距离升序返回，保证示例可独立运行。"""
+    return sorted(results[0], key=lambda r: r.distance)
 
 # 本地重排序（使用更精确的模型）
 reranked = rerank_with_cross_encoder(results, query)
@@ -185,6 +224,8 @@ index_params = {
 
 ```yaml
 # docker-compose.yml
+# 注意：下面镜像版本是旧版教学示例（v2.3.3），
+# 生产部署请到 https://github.com/milvus-io/milvus/releases 下载与所用 pymilvus 匹配的最新稳定版 compose 文件
 version: '3.8'
 
 services:
@@ -199,13 +240,15 @@ services:
   minio:
     image: minio/minio:RELEASE.2023-03-20T20-16-18Z
     environment:
+      # 安全提示：minioadmin/minioadmin 是默认凭据，生产环境务必修改，
+      # 并通过密钥管理或环境变量注入，不要提交到代码仓库
       MINIO_ACCESS_KEY: minioadmin
       MINIO_SECRET_KEY: minioadmin
     volumes:
       - minio_data:/minio_data
   
   milvus:
-    image: milvusdb/milvus:v2.3.3
+    image: milvusdb/milvus:v2.3.3  # 旧版示例，建议升级到最新稳定版
     ports:
       - "19530:19530"
       - "9091:9091"
@@ -300,6 +343,20 @@ Milvus是**企业级向量数据库的首选**，支持大规模数据、高并�
 - 生产级RAG系统
 - 推荐系统
 - 图像/视频检索
+
+---
+
+### 企业级升级要点
+
+Milvus 解决的是"存得下、查得快"，企业级 RAG 还要补齐检索质量与运维纪律，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+
+- **默认凭据必须改**：Milvus/etcd/MinIO 的默认账号密码（如 minioadmin、root/Milvus）上线前全部替换并走密钥管理，密钥只进环境变量，参考 `ownrag/config.py`。
+- **混合检索**：向量召回之外补 BM25 关键词通道，双路结果用 RRF 名次融合（等权起步、评测先行），见 `ownrag/retrieve/hybrid.py`。
+- **重排与降级**：粗排候选用重排模型精排（如 bge-reranker-v2-m3），provider 可插拔、失败降级可见，见 `ownrag/retrieve/rerank.py`。
+- **版本与配置纪律**：镜像版本与 pymilvus 版本配套升级（本文 compose 的 v2.3.3 只是示例），配置即代码、启动期校验，避免"跑得起来但语义漂移"。
+- **数据可治理**：集合/分区按业务与权限划分，能按 doc_id 精确删除与重建——参考 `ownrag/index/store.py` 的透明存储设计。
+
+延伸阅读：[70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)
 
 ---
 

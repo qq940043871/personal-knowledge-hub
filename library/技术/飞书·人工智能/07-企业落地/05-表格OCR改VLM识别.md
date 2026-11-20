@@ -62,79 +62,80 @@ class BatchAnalyze:
 ### 2. 添加VLM预测器获取方法
 
 ```Python
-def get_vlm_predictor(self):
-    """获取VLM预测器"""
-    if self.vlm_predictor is None:
-        self.vlm_predictor = self.vlm_model_singleton.get_model(
-            backend="transformers",
-            model_path=None,
-            server_url=None
-        )
-    return self.vlm_predictor
+# 以下方法均属 BatchAnalyze 类，与上文 __init__ 同级缩进（此处补全类上下文，__init__ 略）
+# logger 来源：MinerU 模块统一使用 loguru —— from loguru import logger
+from loguru import logger
 
-def image_to_base64(self, pil_image):
-    """将PIL图像转换为base64字符串"""
-    import base64
-    from io import BytesIO
-    
-    buffer = BytesIO()
-    pil_image.save(buffer, format='PNG')
-    img_bytes = buffer.getvalue()
-    return base64.b64encode(img_bytes).decode('utf-8')
 
-# 从VLM输出中提取表格HTML
-def extract_table_from_vlm_output(self, vlm_result,table_img):
-    """从VLM输出中提取表格HTML"""
-    try:
-        # 解析VLM token输出，提取表格内容
-        from mineru.backend.vlm.vlm_magic_model import MagicModel
+class BatchAnalyze:
+    # __init__ 见上一节，此处省略
 
-        # 假设vlm_result是token字符串，需要解析出表格部分
-        # 这里需要根据实际VLM输出格式进行调整
-        print('vlm_result', vlm_result)
-        magic_model = MagicModel(vlm_result, 1000, 1000)  # 使用标准化尺寸
-        table_blocks = magic_model.get_table_blocks()
-        print('table_blocks',table_blocks)
-        if table_blocks:
-            # 提取第一个表格块的内容并转换为HTML
-            table_block = table_blocks[0]
-            # 这里需要实现从VLM表格块到HTML的转换逻辑
-            # 具体实现取决于VLM输出的表格格式
-            return self.convert_vlm_table_to_html(table_block)
+    def get_vlm_predictor(self):
+        """获取VLM预测器"""
+        if self.vlm_predictor is None:
+            self.vlm_predictor = self.vlm_model_singleton.get_model(
+                backend="transformers",
+                model_path=None,
+                server_url=None
+            )
+        return self.vlm_predictor
 
-        return None
-    except Exception as e:
-        logger.warning(f"Failed to extract table from VLM output: {e}")
-        return None
+    def image_to_base64(self, pil_image):
+        """将PIL图像转换为base64字符串"""
+        import base64
+        from io import BytesIO
 
-# 将VLM表格块转换为HTML格式
-def convert_vlm_table_to_html(self, para_block):
-    """将VLM表格块转换为HTML格式"""
-    # 这里需要根据VLM表格块的具体格式实现转换逻辑
-    # 参考VLM后端的表格处理方式
-    try:
-        # 假设table_block包含表格的结构化信息
-        # 需要将其转换为HTML表格格式
-        html_content = "<table>"
+        buffer = BytesIO()
+        pil_image.save(buffer, format='PNG')
+        img_bytes = buffer.getvalue()
+        return base64.b64encode(img_bytes).decode('utf-8')
 
-        # 这里需要根据实际的table_block结构进行实现
-        # 示例代码，需要根据实际情况调整
-        from mineru.utils.enum_class import MakeMode, BlockType, ContentType
-        para_type = para_block['type']
-        if para_type == BlockType.TABLE:
-            for block in para_block['blocks']:  # 2nd.拼table_body
-                if block['type'] == BlockType.TABLE_BODY:
-                    for line in block['lines']:
-                        for span in line['spans']:
-                            if span['type'] == ContentType.TABLE:
-                                # if processed by table model
-                                if span.get('html', ''):
-                                    html_content += span.get('html', '')
-        html_content += "</table>"
-        return html_content
-    except Exception as e:
-        logger.warning(f"Failed to convert VLM table to HTML: {e}")
-        return None
+    def extract_table_from_vlm_output(self, vlm_result, table_img):
+        """从VLM输出中提取表格HTML"""
+        try:
+            # 解析VLM token输出，提取表格内容
+            from mineru.backend.vlm.vlm_magic_model import MagicModel
+
+            # TODO: 假设vlm_result是token字符串，需根据实际VLM输出格式调整解析逻辑
+            logger.debug(f"vlm_result: {vlm_result}")
+            magic_model = MagicModel(vlm_result, 1000, 1000)  # 使用标准化尺寸
+            table_blocks = magic_model.get_table_blocks()
+            logger.debug(f"table_blocks: {table_blocks}")
+            if table_blocks:
+                # 提取第一个表格块的内容并转换为HTML
+                # TODO: 从VLM表格块到HTML的转换逻辑取决于VLM输出的表格格式
+                table_block = table_blocks[0]
+                return self.convert_vlm_table_to_html(table_block)
+
+            return None
+        except Exception as e:
+            logger.warning(f"Failed to extract table from VLM output: {e}")
+            return None
+
+    def convert_vlm_table_to_html(self, para_block):
+        """将VLM表格块转换为HTML格式"""
+        # TODO: 需根据VLM表格块的具体格式实现转换逻辑，参考VLM后端的表格处理方式
+        try:
+            # 假设table_block包含表格的结构化信息，需转换为HTML表格格式
+            html_content = "<table>"
+
+            # TODO: 示例实现，需根据实际的table_block结构调整
+            from mineru.utils.enum_class import MakeMode, BlockType, ContentType
+            para_type = para_block['type']
+            if para_type == BlockType.TABLE:
+                for block in para_block['blocks']:  # 2nd.拼table_body
+                    if block['type'] == BlockType.TABLE_BODY:
+                        for line in block['lines']:
+                            for span in line['spans']:
+                                if span['type'] == ContentType.TABLE:
+                                    # 仅拼接已被表格模型处理过的span
+                                    if span.get('html', ''):
+                                        html_content += span.get('html', '')
+            html_content += "</table>"
+            return html_content
+        except Exception as e:
+            logger.warning(f"Failed to convert VLM table to HTML: {e}")
+            return None
 ```
 
 ### 3. 替换表格识别逻辑
@@ -204,3 +205,13 @@ if self.table_enable:
 ### 4. 注意事项
 
 1. **VLM输出格式解析**：需要根据实际的VLM输出格式实现 `extract_table_from_vlm_output` 和 `convert_vlm_table_to_html` 方法。
+
+### 企业级升级要点
+
+- **降级预案**：VLM 表格识别失败时明确回退策略（回退 OCR 或跳过并记录），不允许静默丢表
+- **结果校验**：对 VLM 输出做结构校验（如 HTML 闭合标签检查）后再入库，脏数据直接告警
+- **调试留痕**：用 logging（如 loguru 的 debug 级别）替代 print 调试，生产环境按级别开关
+- **性能评估**：VLM 路径延迟与吞吐显著高于 OCR，先在抽样集上对比准确率与耗时再全量切换
+- **TODO 收口**：留空的转换逻辑（TODO）必须有跟进人，防止演示代码直接进入生产
+
+> 更多工程化实践（评测基准、灰度发布、成本控制）参见 [70-企业级工程基准](../06-Agent开发/70-企业级工程基准.md)。

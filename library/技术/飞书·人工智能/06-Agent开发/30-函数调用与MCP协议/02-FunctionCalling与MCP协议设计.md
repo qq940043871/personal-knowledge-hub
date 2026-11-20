@@ -48,7 +48,7 @@
 
 > （原文此处为飞书画板图示，未随文档导出）
 
-````Shell
+````text
 # 你的角色
 你是一个函数调用助手，我将提供多个函数的定义信息，包括函数名称、作用、参数及参数类型。
 
@@ -71,11 +71,11 @@
 
 ````
 
-```Shell
+```text
 “广州的天气怎么样？”
 ```
 
-```Shell
+```text
 { "name": "get_weather", "arguments": { "city": "广州" } }
 ```
 
@@ -136,6 +136,9 @@
    }
    
    ```
+
+   > 注：`functions` 参数是 OpenAI 旧版 Chat Completions API（2023-06 引入）的写法，现已被 `tools` / `tool_choice` 取代并标记为 deprecated；响应中的 `function_call` 字段同理。此处保留旧版写法以呈现历史演进语境。
+
 3. **模型生成调用指令**
 模型会智能判断是否需要调用函数，选择合适的函数，并基于上下文自动生成结构化的**调用指令**（函数名 + 参数），例如：
 
@@ -345,7 +348,7 @@ MCP遵循客户端-服务器架构，其中 MCP Host——[Claude Code](https://
 
    - **stdio**（standard I/O）是**进程的标准输入/输出接口。**每个进程启动时，操作系统会给它分配 **三个文件描述符**：
 
-   ```Shell
+   ```text
    0 → stdin  （标准输入，默认是键盘）
    1 → stdout （标准输出，默认是屏幕）
    2 → stderr （标准错误输出，默认是屏幕）
@@ -366,7 +369,7 @@ MCP遵循客户端-服务器架构，其中 MCP Host——[Claude Code](https://
 ps aux
 ```
 
-```SCSS
+```text
 [键盘] → shell → ps(stdin) → ps(stdout) → [屏幕]
 ```
 
@@ -374,7 +377,7 @@ ps aux
 ps aux | grep python
 ```
 
-```SCSS
+```text
 # ps 和 grep 在执行时都会各自成为一个独立的进程
 # ps aux 列出进程 → grep python 过滤后留下包含 "python" 的进程
 # 管道 | 把 ps aux 的 stdout 作为 grep python 的 stdin
@@ -444,6 +447,8 @@ ps aux | grep python
    3. AI 应用和工具服务的**数据交换格式**需要统一（接口的请求 / 响应格式等）✅ **JSON-RPC 2.0**[ [6]](https://modelcontextprotocol.io/specification/2025-06-18/basic)[ [7]](https://www.jsonrpc.org/specification)。JSON-RPC 2.0 是一种轻量级的远程过程调用（RPC）协议，基于 JSON 格式进行通信，主要特点是所有消息都是 JSON 格式，便于解析和跨语言使用。
    4. AI 应用接入工具的**配置内容**需要进行标准化定义。以接入高德地图 MCP Server 为例，参考文档：https://lbs.amap.com/api/mcp-server/gettingstarted（来自ModelScope 的 MCP Server 市场：https://modelscope.cn/mcp）✅ 本地服务式接入（基于 Stdio 协议）✅ 远程服务式接入（基于 SSE  协议）
 
+      > 注：以下两段 mcpServers 配置为 **JSONC 格式**（允许 `//` 注释，是 Claude Desktop / Cursor 生态的配置惯例；严格 JSON 不支持注释，程序解析前需先剥离注释行）。
+
       ```JSON
       // 在 mcpServers 配置中新增一个叫 "amap-maps"（你自己起名）的 MCP Server
       // 通过 npx -y @amap/amap-maps-mcp-server 命令，运行高德官方提供的 MCP server
@@ -484,3 +489,15 @@ ps aux | grep python
 - 看 MCP 协议官方文档：https://modelcontextprotocol.io/docs/getting-started/intro，思考为何这么设计；
 - 通过官方 SDK，尝试编写一个 MCP Server 并启动服务；初始化一个后端应用，创建 MCP Client，完成 Client - Server 完整交互流程的开发。MCP SDK 地址：https://modelcontextprotocol.io/docs/sdk
 - 找一个开源的支持了 MCP 协议的 Agent 框架，追溯其中涉及到  MCP Client 、MCP Server 逻辑的所有代码。
+
+---
+
+### 企业级升级要点
+
+- **Function Calling 四步闭环**（模型出指令 → 本地执行 → 结果回传 → 模型再生成）正是 harness MainLoop 的 Think → Act → Observe 循环——参考 `ai-agent-harness/harness/main_loop.py`。
+- **工具注册表是 MCP「标准化接入」的进程内对应物**：schema 自动推断、统一分发、`dispatch_safe` 失败不炸循环——参考 `harness/tools/registry.py` 与 `harness/tools/base.py`（`infer_schema`）。
+- **MCP 工具可挂接进 ToolRegistry**：把 MCP Client 的 `tools/list` 发现结果注册为普通工具、`tools/call` 封装为 handler，上层 Agent 全程无感——参考 `harness/tools/plugins/` 与 `harness/subagent.py` 的扩展方式。
+- **传输层与协议层解耦**（JSON-RPC 2.0 跑在 Stdio / Streamable HTTP 之上）与 harness 的 Provider 抽象同构：上层逻辑不感知底层差异——参考 `harness/provider/`。
+- **外部工具必须过审批**：接入第三方 MCP Server 属于高信任边界操作，生产应叠加审批/白名单中间件——参考 `ai-agent-harness/harness/middleware.py`。
+
+参考：[70-企业级工程基准](../70-企业级工程基准.md)

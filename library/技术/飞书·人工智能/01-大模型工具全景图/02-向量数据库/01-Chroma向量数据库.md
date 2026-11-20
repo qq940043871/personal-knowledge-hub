@@ -1,7 +1,7 @@
 # Chroma向量数据库
 
 > 模块：向量数据库
-> 更新时间：2026-03-29
+> 更新时间：2026-11-15（代码口径：chromadb 0.4+ / langchain-chroma 分包）
 
 ---
 
@@ -129,10 +129,11 @@ collection = client.get_or_create_collection("my_docs")
 ### 场景3：与LangChain集成
 
 ```python
-from langchain.document_loaders import TextLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import Chroma
+# 现行分包：pip install langchain-community langchain-openai langchain-chroma langchain-text-splitters
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import TextLoader
+from langchain_openai import OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 # 1. 加载文档
 loader = TextLoader("document.txt")
@@ -142,18 +143,18 @@ documents = loader.load()
 splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
 chunks = splitter.split_documents(documents)
 
-# 3. 存入Chroma
+# 3. 存入Chroma（persist_directory 指定后自动持久化）
 vectorstore = Chroma.from_documents(
     documents=chunks,
     embedding=OpenAIEmbeddings(),
-    persist_directory="./chroma_db"  # 持久化
+    persist_directory="./chroma_db"  # 持久化目录
 )
 
 # 4. 检索
 docs = vectorstore.similarity_search("Python的特点", k=3)
 
-# 5. 保存
-vectorstore.persist()
+# 注意：chromadb 0.4+ 起 data 写入即自动持久化，vectorstore.persist() 已废弃并被移除，
+# 无需（也不能）再手动调用
 ```
 
 ### 场景4：元数据过滤
@@ -270,10 +271,17 @@ client = chromadb.Client()
 ```bash
 # 启动Chroma服务
 pip install chromadb[server]
+# 生产环境务必开启鉴权（token 认证示例），避免检索端口裸奔：
+#   export CHROMA_SERVER_AUTHN_PROVIDER=chromadb.auth.token_authn.TokenAuthServerProvider
+#   export CHROMA_SERVER_AUTHN_CREDENTIALS_FILE=./chroma_token.txt
 chroma run --host localhost --port 8000
 
-# 客户端连接
-client = chromadb.HttpClient(host="localhost", port=8000)
+# 客户端连接（对应携带同一 token）
+client = chromadb.HttpClient(
+    host="localhost",
+    port=8000,
+    headers={"Authorization": "Bearer <你的token>"},  # 与服务端配置一致
+)
 ```
 
 ### 3. Docker部署
@@ -310,6 +318,20 @@ Chroma是**入门向量数据库的最佳选择**，轻量、简单、功能齐�
 - 简单RAG系统
 
 **注意**：对于大规模生产环境，建议使用Milvus或Pinecone。
+
+---
+
+### 企业级升级要点
+
+Chroma 适合原型与中小规模，企业级 RAG 还要补齐以下工程能力，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+
+- **存储可审计**：ownrag 的向量库是本地可审计存储（建表/写索引/检索全透明、可物理删除），见 `ownrag/index/store.py`——生产要能回答"数据在哪、怎么删、谁动过"。
+- **服务隔离与鉴权**：向量库作为独立服务部署时必须加鉴权与网络隔离（本文服务模式的 token 即此意），密钥只走环境变量，参考 `ownrag/config.py`。
+- **混合检索**：纯向量召回会漏关键词精确命中，ownrag 用向量+BM25 双路 → RRF 名次融合，见 `ownrag/retrieve/hybrid.py`。
+- **重排与降级**：召回结果用重排模型（如 bge-reranker-v2-m3）精排、provider 失败降级可见，见 `ownrag/retrieve/rerank.py`。
+- **规模拐点**：数据到千万级/多租户时迁移 Milvus 等分布式方案，迁移前先用评测集确认召回质量不回退。
+
+延伸阅读：[70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)
 
 ---
 

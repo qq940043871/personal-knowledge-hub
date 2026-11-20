@@ -8,6 +8,16 @@
 ## 一、多头注意力
 
 ```python
+import math
+from typing import Tuple
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+Tensor = torch.Tensor
+
+
 class MultiHeadAttention(nn.Module):
     """多头注意力"""
 
@@ -61,6 +71,17 @@ class MultiHeadAttention(nn.Module):
 
         return output, attn_weights
 ```
+
+---
+
+### 企业级升级要点
+
+- **依赖显式声明**：`import math / torch / nn / F / typing` 齐全，代码块独立可读可跑——知识库代码的最小标准，对应 `ai-agent-harness/tests/` 可执行验证的约定。
+- **实现对照生产**：本篇是教学实现；生产应直接用 `nn.MultiheadAttention` / SDPA（`torch.nn.functional.scaled_dot_product_attention`），或 FlashAttention（见下一篇）。
+- **张量形状即契约**：`split_heads` 的 view/transpose 链路形状明确——与 harness「签名即 schema」的显式契约思想一致（`ai-agent-harness/harness/tools/base.py`）。
+- **mask 语义可扩展**：`masked_fill(mask == 0, -1e9)` 支持任意 0/1 掩码，因果掩码在 KV-Cache 篇与下一篇中体现。
+
+参考：[70-企业级工程基准](../70-企业级工程基准.md)
 
 ---
 

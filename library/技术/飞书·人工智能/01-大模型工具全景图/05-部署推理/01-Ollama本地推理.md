@@ -1,7 +1,7 @@
 # Ollama本地推理
 
 > 模块：部署推理
-> 更新时间：2026-03-29
+> 更新时间：2026-11-15（代码口径：langchain-ollama 分包 + LCEL）
 
 ---
 
@@ -110,35 +110,48 @@ for chunk in stream:
 
 ### 场景1：本地RAG系统
 
+用现行 LCEL 写法组装（旧教程里的 `RetrievalQA` 已废弃，且其 `.invoke()` 需传 dict 而非字符串）：
+
 ```python
-import ollama
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.llms import Ollama
-from langchain.chains import RetrievalQA
+# pip install langchain-core langchain-community langchain-ollama langchain-chroma langchain-text-splitters
+from langchain_chroma import Chroma
+from langchain_community.document_loaders import TextLoader
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.runnables import RunnablePassthrough
+from langchain_ollama import ChatOllama, OllamaEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-# 使用Ollama模型
-llm = Ollama(model="llama3")
-
-# 使用Ollama Embedding
+# 本地 LLM 与本地 Embedding（模型先用 ollama pull llama3 / nomic-embed-text 拉取）
+llm = ChatOllama(model="llama3")
 embeddings = OllamaEmbeddings(model="nomic-embed-text")
 
-# 创建向量存储
-from langchain_community.vectorstores import Chroma
+# 构建本地向量库（示意文档，实际项目替换为你的语料）
+chunks = RecursiveCharacterTextSplitter(
+    chunk_size=500, chunk_overlap=50
+).split_documents(TextLoader("document.txt").load())
+vectorstore = Chroma.from_documents(chunks, embeddings)
+retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
-vectorstore = Chroma(
-    embedding_function=embeddings,
-    persist_directory="./chroma_db"
+# LCEL 组装 RAG 链：检索 → 填充 Prompt → 本地 LLM → 解析
+def format_docs(docs):
+    return "\n\n".join(d.page_content for d in docs)
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "仅依据以下上下文回答，找不到依据时明确说明：\n{context}"),
+    ("human", "{question}"),
+])
+
+rag_chain = (
+    {"context": retriever | format_docs, "question": RunnablePassthrough()}
+    | prompt
+    | llm
+    | StrOutputParser()
 )
 
-# RAG问答
-qa = RetrievalQA.from_chain_type(
-    llm=llm,
-    chain_type="stuff",
-    retriever=vectorstore.as_retriever()
-)
-
-result = qa.invoke("什么是Python？")
-print(result["result"])
+# 问答：.invoke() 传入 dict
+result = rag_chain.invoke({"question": "什么是Python？"})
+print(result)
 ```
 
 ### 场景2：中文模型使用
@@ -162,5 +175,11 @@ ollama create my-model -f ./Modelfile
 # Modelfile示例
 FROM ./llama3-8b.Q4_K_M.gguf
 PARAMETER temperature 0.7
-PARAMETER top_p 0
+# 注意：top_p 是核采样阈值（0~1），设为 0 等于关闭采样多样性、输出退化，
+# 常用取值 0.9（Ollama 默认）；确实想要"只取最高概率词"应调低 temperature 而不是 top_p=0
+PARAMETER top_p 0.9
 ```
+
+---
+
+*姊妹篇：[02-多推理引擎对比](02-多推理引擎对比.md)（vLLM/SGLang/Ollama/LM Studio 选型与异构平台）*
