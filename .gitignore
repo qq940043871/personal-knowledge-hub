@@ -39,6 +39,8 @@ library/隐私/
 
 # ---- AI 工具与平台本地配置 ----
 .agents/
+# .agents 精简前整目录备份（2026-11-13，确认精简无误后可删除）
+.agents_backup_*/
 .claude/
 .codebuddy/
 .qoder/
@@ -58,9 +60,9 @@ skills-lock.json
 tools/
 
 # ---- 本地资产层(2026-11-10 新增;顶层目录整体不入库) ----
-# 这两个目录历史上从未入库，合计约 5.7G，显式声明以免 git add . 误提交。
-#   agent/  — AI 创作/发布子项目(media) 与读书拆解(personal-read-book)，8138 文件 / 1.6G
-#   output/ — 创作资产库(articles/books/coze/novels/photo/videos/wikis)，6131 文件 / 4.1G
+# 这两个目录历史上从未入库，合计约 5.2G，显式声明以免 git add . 误提交。
+#   agent/  — AI 创作/发布子项目(media) 与读书拆解(read-book)，8137 文件 / 1.5G
+#   output/ — 创作资产库(articles/books/coze/novels/photo/videos + ai_cleanup_backup_*)，6368 文件 / 3.7G
 # agent/media/.gitignore 里的 *.env 等子规则仍然有效，本处只做顶层兜底。
 # 注意：目录被整体排除后 Git 不再递归进入，单写 !agent/media/xxx.py 无法放行；
 #       确需入库某个文件请用 git add -f <path>。
