@@ -171,7 +171,7 @@ RAGAS vs LangSmith Evals：
 
 ### 企业级升级要点
 
-评估不是跑一次看个分数，而是要进回归门禁，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+评估不是跑一次看个分数，而是要进回归门禁，参考 ownrag 基准工程：
 
 - **评测先行**：没有评测集之前调检索权重、换模型都是猜——ownrag 的检索融合明确写着"RRF 等权起步，评测先行"，见 `ownrag/retrieve/hybrid.py`。
 - **指标对齐闸门**：Faithfulness 检测的幻觉问题，ownrag 在生成后用纯代码闸门兜底（引用块必须在候选池内、数字/日期能在原文核验），规则可测试、进 Git 随评测集回归，见 `ownrag/generate/gates.py`。

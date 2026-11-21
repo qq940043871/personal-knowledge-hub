@@ -422,7 +422,7 @@ LangChain是**大模型应用开发的首选框架**，掌握它能快速构建�
 
 ### 企业级升级要点
 
-教学示例和企业级 RAG 之间隔的是工程纪律，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+教学示例和企业级 RAG 之间隔的是工程纪律，参考 ownrag 基准工程：
 
 - **密钥与配置**：API key 只走环境变量、配置错误在启动期暴露（配置即代码），参考 `ownrag/config.py`——`OWNRAG_CHAT_API_KEY` 不落任何配置文件。
 - **检索工程化**：单路向量检索只是起点，ownrag 用"先过滤后召回 → 向量+BM25 双路 → RRF 名次融合"，见 `ownrag/retrieve/hybrid.py`；重排 provider 可插拔、失败降级可见，见 `ownrag/retrieve/rerank.py`。

@@ -323,7 +323,7 @@ Chroma是**入门向量数据库的最佳选择**，轻量、简单、功能齐�
 
 ### 企业级升级要点
 
-Chroma 适合原型与中小规模，企业级 RAG 还要补齐以下工程能力，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+Chroma 适合原型与中小规模，企业级 RAG 还要补齐以下工程能力，参考 ownrag 基准工程：
 
 - **存储可审计**：ownrag 的向量库是本地可审计存储（建表/写索引/检索全透明、可物理删除），见 `ownrag/index/store.py`——生产要能回答"数据在哪、怎么删、谁动过"。
 - **服务隔离与鉴权**：向量库作为独立服务部署时必须加鉴权与网络隔离（本文服务模式的 token 即此意），密钥只走环境变量，参考 `ownrag/config.py`。

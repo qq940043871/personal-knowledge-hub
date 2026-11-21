@@ -230,7 +230,7 @@ OpenAI Embeddings是**最方便使用的Embedding服务**，适合快速原型�
 
 ### 企业级升级要点
 
-云端 Embedding 服务好用，但企业级 RAG 对嵌入层还有更多工程要求，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+云端 Embedding 服务好用，但企业级 RAG 对嵌入层还有更多工程要求，参考 ownrag 基准工程：
 
 - **密钥纪律**：API key 只走环境变量（本文 `os.environ["OPENAI_API_KEY"]`），不落配置文件与代码库，参考 `ownrag/config.py`（`OWNRAG_CHAT_API_KEY` 只进环境变量）。
 - **限流与重试**：批量嵌入必须带指数退避重试与失败记录（本文 429 示例），必要时切自托管模型（如 BAAI/bge-m3）消除外部依赖，参考 `ownrag/index/embedder.py`。

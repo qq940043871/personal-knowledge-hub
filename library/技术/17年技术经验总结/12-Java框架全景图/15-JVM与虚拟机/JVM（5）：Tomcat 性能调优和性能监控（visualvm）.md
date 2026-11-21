@@ -19,9 +19,9 @@
 
 Tomcat默认可以使用的内存为较小的默认值（原数值已丢失），在较大型的应用项目中，这点内存是不够的，需要调大.
 
-Tomcat默认可以使用的内存为较小的默认值（原数值已丢失）,Windows下,在文件/bin/catalina.bat，Unix下，在文件/bin/catalina.sh的前面，增加如下设置： JAVA_OPTS=’-Xms【初始化内存大小】 -Xmx【可以使用的最大内存】 -XX:PermSize=<值丢失> -XX:MaxPermSize=<值丢失>’ 需要把几个参数值调大。
+Tomcat默认可以使用的内存为较小的默认值（原数值已丢失）,Windows下,在文件/bin/catalina.bat，Unix下，在文件/bin/catalina.sh的前面，增加如下设置： `JAVA_OPTS=’-Xms【初始化内存大小】 -Xmx【可以使用的最大内存】 -XX:PermSize=<值丢失> -XX:MaxPermSize=<值丢失>’` 需要把几个参数值调大。
 
-例如： JAVA_OPTS=’-Xms <A> -Xmx <B>’（A、B 为具体数值，已丢失） 表示初始化内存为 A，可以使用的最大内存为 B。
+例如： `JAVA_OPTS=’-Xms <A> -Xmx <B>’`（A、B 为具体数值，已丢失） 表示初始化内存为 A，可以使用的最大内存为 B。
 
 **参数详解**
 

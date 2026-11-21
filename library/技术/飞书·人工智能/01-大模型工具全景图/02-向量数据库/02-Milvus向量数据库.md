@@ -348,7 +348,7 @@ Milvus是**企业级向量数据库的首选**，支持大规模数据、高并�
 
 ### 企业级升级要点
 
-Milvus 解决的是"存得下、查得快"，企业级 RAG 还要补齐检索质量与运维纪律，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+Milvus 解决的是"存得下、查得快"，企业级 RAG 还要补齐检索质量与运维纪律，参考 ownrag 基准工程：
 
 - **默认凭据必须改**：Milvus/etcd/MinIO 的默认账号密码（如 minioadmin、root/Milvus）上线前全部替换并走密钥管理，密钥只进环境变量，参考 `ownrag/config.py`。
 - **混合检索**：向量召回之外补 BM25 关键词通道，双路结果用 RRF 名次融合（等权起步、评测先行），见 `ownrag/retrieve/hybrid.py`。

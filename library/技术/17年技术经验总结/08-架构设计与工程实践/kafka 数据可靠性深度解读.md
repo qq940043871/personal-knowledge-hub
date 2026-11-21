@@ -211,27 +211,27 @@ unclean.leader.election.enable这个参数对于leader的选举、系统的可�
 
 > 注：本节为推演示例，其中的副本数、replica/broker 编号、min.insync.replicas 取值等数字在导出时丢失，阅读时可自行代入一组示例（如副本数3，replica-1/2/3 分布于 broker-1/2/3），不影响逻辑理解。
 
-如果上图所示，假设某个partition中的副本数为（已丢失），replica-<a>, replica-<b>, replica-<c>分别存放在broker-<a>, broker-<b>和broker-<c>中（编号占位，原文已丢失）。AR=(<a>,<b>,<c>)，ISR=(其中两个，成员已丢失)。
+如果上图所示，假设某个partition中的副本数为（已丢失），replica-`<a>`, replica-`<b>`, replica-`<c>`分别存放在broker-`<a>`, broker-`<b>`和broker-`<c>`中（编号占位，原文已丢失）。AR=(`<a>`,`<b>`,`<c>`)，ISR=(其中两个，成员已丢失)。
 
 设置request.required.acks=-1（注：按上文 acks 取值定义修复）, min.insync.replicas=（值已丢失），unclean.leader.election.enable=false。这里讲broker中的副本也称之为broker，起初其中一台broker为leader（编号已丢失），其余为follower。
 
-当ISR中的replica-<a>出现crash的情况时（具体哪台先crash原文已丢失，下同），另一台ISR内的replica所在的broker选举为新的leader[ISR=(成员已丢失)]，因为受min.insync.replicas=（值已丢失）影响，write不能服务，但是read能继续正常服务。此种情况恢复方案：
+当ISR中的replica-`<a>`出现crash的情况时（具体哪台先crash原文已丢失，下同），另一台ISR内的replica所在的broker选举为新的leader[ISR=(成员已丢失)]，因为受min.insync.replicas=（值已丢失）影响，write不能服务，但是read能继续正常服务。此种情况恢复方案：
 
-尝试恢复(重启)replica-<a>，如果能起来，系统正常；
+尝试恢复(重启)replica-`<a>`，如果能起来，系统正常；
 
-如果replica-<a>不能恢复，需要将min.insync.replicas设置为（值已丢失），恢复write功能。
+如果replica-`<a>`不能恢复，需要将min.insync.replicas设置为（值已丢失），恢复write功能。
 
-当ISR中的replica-<a>出现crash，紧接着replica-<b>也出现了crash, 此时[ISR=(成员已丢失),leader=<已丢失>],不能对外提供服务，此种情况恢复方案：
+当ISR中的replica-`<a>`出现crash，紧接着replica-`<b>`也出现了crash, 此时[ISR=(成员已丢失),leader=`<已丢失>`],不能对外提供服务，此种情况恢复方案：
 
-尝试恢复replica-<a>和replica-<b>，如果都能起来，则系统恢复正常；
+尝试恢复replica-`<a>`和replica-`<b>`，如果都能起来，则系统恢复正常；
 
-如果replica-<a>起来，而replica-<b>不能起来，这时候仍然不能选出leader，因为当设置unclean.leader.election.enable=false时，leader只能从ISR中选举，当ISR中所有副本都失效之后，需要ISR中最后失效的那个副本能恢复之后才能选举leader, 即replica-<a>先失效，replica-<b>后失效，需要最后失效的replica-<b>恢复后才能选举leader。保守的方案建议把unclean.leader.election.enable设置为true,但是这样会有丢失数据的情况发生，这样可以恢复read服务。同样需要将min.insync.replicas设置为（值已丢失），恢复write功能；
+如果replica-`<a>`起来，而replica-`<b>`不能起来，这时候仍然不能选出leader，因为当设置unclean.leader.election.enable=false时，leader只能从ISR中选举，当ISR中所有副本都失效之后，需要ISR中最后失效的那个副本能恢复之后才能选举leader, 即replica-`<a>`先失效，replica-`<b>`后失效，需要最后失效的replica-`<b>`恢复后才能选举leader。保守的方案建议把unclean.leader.election.enable设置为true,但是这样会有丢失数据的情况发生，这样可以恢复read服务。同样需要将min.insync.replicas设置为（值已丢失），恢复write功能；
 
-replica-<b>恢复，replica-<a>不能恢复，这个情况上面遇到过，read服务可用，需要将min.insync.replicas设置为（值已丢失），恢复write功能；
+replica-`<b>`恢复，replica-`<a>`不能恢复，这个情况上面遇到过，read服务可用，需要将min.insync.replicas设置为（值已丢失），恢复write功能；
 
-replica-<a>和replica-<b>都不能恢复，这种情况可以参考情形（编号已丢失）。
+replica-`<a>`和replica-`<b>`都不能恢复，这种情况可以参考情形（编号已丢失）。
 
-当ISR中的replica-<a>, replica-<b>同时宕机,此时[ISR=(成员已丢失)],不能对外提供服务，此种情况恢复方案：尝试恢复replica-<a>和replica-<b>，当其中任意一个副本恢复正常时，对外可以提供read服务。直到满足 min.insync.replicas 所需数量的副本恢复正常，write功能才能恢复（注：原导出数字缺失，按 min.insync.replicas 生效条件改写），或者将将min.insync.replicas设置为（值已丢失）。
+当ISR中的replica-`<a>`, replica-`<b>`同时宕机,此时[ISR=(成员已丢失)],不能对外提供服务，此种情况恢复方案：尝试恢复replica-`<a>`和replica-`<b>`，当其中任意一个副本恢复正常时，对外可以提供read服务。直到满足 min.insync.replicas 所需数量的副本恢复正常，write功能才能恢复（注：原导出数字缺失，按 min.insync.replicas 生效条件改写），或者将将min.insync.replicas设置为（值已丢失）。
 
 ### Kafka的发送模式
 

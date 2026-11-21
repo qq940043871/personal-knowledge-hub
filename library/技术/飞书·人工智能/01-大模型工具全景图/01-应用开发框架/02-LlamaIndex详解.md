@@ -265,7 +265,7 @@ LlamaIndex是**构建RAG系统的最佳选择**，学习曲线平缓，文档质
 
 ### 企业级升级要点
 
-LlamaIndex 教程示例与企业级 RAG 之间隔的是工程纪律，参考 ownrag 基准工程（D:\ai_person\personal-ai-engineering\ai-rag-self-engineering\ownrag）：
+LlamaIndex 教程示例与企业级 RAG 之间隔的是工程纪律，参考 ownrag 基准工程：
 
 - **自管索引而非托管黑盒**：ownrag 的向量库是可审计的本地存储（建表、写索引、检索 SQL 全透明），见 `ownrag/index/store.py`；框架默认索引适合原型，生产要能回答"数据在哪、怎么删"。
 - **切分可复核**：Node/Chunk 不只是数字游戏，切分预览要落盘给人确认后入库，见 `ownrag/index/chunker.py` 与 `ownrag/review.py`。
