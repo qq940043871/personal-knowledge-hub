@@ -1,5 +1,3 @@
-# Qwen 大模型 快速学习手册
-
 ## 📋 概述
 
 Qwen（通义千问）是阿里云开发的大语言模型系列，支持多种参数规模，可本地部署或通过 API 调用。
@@ -7,292 +5,101 @@ Qwen（通义千问）是阿里云开发的大语言模型系列，支持多种�
 ## 🏗️ 模型系列
 
 ```
-┌─────────────────────────────────────────────────────┐
-│                  Qwen 模型家族                        │
-├─────────────────────────────────────────────────────┤
-│  Qwen2.5      │  最新一代，支持超长上下文            │
-│  Qwen2        │  高性能，支持128K上下文             │
-│  Qwen1.5      │  轻量级，适合本地部署               │
-│  Qwen-Max     │  超大规模，云端专用                 │
-├─────────────────────────────────────────────────────┤
-│  参数规模: 0.5B / 1.5B / 7B / 14B / 72B / 110B    │
-└─────────────────────────────────────────────────────┘
+<code>┌─────────────────────────────────────────────────────┐<br/>│                  Qwen 模型家族                        │<br/>├─────────────────────────────────────────────────────┤<br/>│  Qwen2.5      │  最新一代，支持超长上下文            │<br/>│  Qwen2        │  高性能，支持128K上下文             │<br/>│  Qwen1.5      │  轻量级，适合本地部署               │<br/>│  Qwen-Max     │  超大规模，云端专用                 │<br/>├─────────────────────────────────────────────────────┤<br/>│  参数规模: 0.5B / 1.5B / 7B / 14B / 72B / 110B    │<br/>└─────────────────────────────────────────────────────┘</code>
 ```
 
 ## 🚀 快速开始
 
 ### 1. Ollama 本地部署
 
-```bash
-# 安装 Ollama
-# macOS/Linux: brew install ollama
-# Windows: 下载安装包
-
-# 拉取 Qwen 模型
-ollama pull qwen2.5:0.5b
-ollama pull qwen2.5:7b
-ollama pull qwen2.5:14b
-
-# 运行模型
-ollama run qwen2.5:7b
+```
+<code># 安装 Ollama<br/># macOS/Linux: brew install ollama<br/># Windows: 下载安装包<br/><br/># 拉取 Qwen 模型<br/>ollama pull qwen2.5:0.5b<br/>ollama pull qwen2.5:7b<br/>ollama pull qwen2.5:14b<br/><br/># 运行模型<br/>ollama run qwen2.5:7b</code>
 ```
 
 ### 2. API 调用
 
-```python
-import requests
-
-response = requests.post(
-    "http://localhost:11434/api/generate",
-    json={
-        "model": "qwen2.5:7b",
-        "prompt": "你好，请介绍一下自己",
-        "stream": False
-    }
-)
-
-print(response.json()["response"])
+```
+<code>import requests<br/><br/>response = requests.post(<br/>    "http://localhost:11434/api/generate",<br/>    json={<br/>        "model": "qwen2.5:7b",<br/>        "prompt": "你好，请介绍一下自己",<br/>        "stream": False<br/>    }<br/>)<br/><br/>print(response.json()["response"])</code>
 ```
 
 ## 📚 项目代码示例
 
 ### 1. LangChain + Ollama + Qwen
 
-```python
-from langchain_community.llms import Ollama
-from langchain.chains import RetrievalQA
-from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
-
-# 初始化 Qwen 模型
-ollama = Ollama(model="qwen2.5:0.5b")
-
-# 创建 RAG 问答链
-qa_chain = RetrievalQA.from_chain_type(
-    llm=ollama,
-    chain_type="stuff",
-    retriever=vector_store.as_retriever()
-)
-
-# 查询
-result = qa_chain({"query": "什么是人工智能？"})
-print(result["result"])
+```
+<code>from langchain_community.llms import Ollama<br/>from langchain.chains import RetrievalQA<br/>from langchain_community.vectorstores import Chroma<br/>from langchain_community.embeddings import HuggingFaceEmbeddings<br/><br/># 初始化 Qwen 模型<br/>ollama = Ollama(model="qwen2.5:0.5b")<br/><br/># 创建 RAG 问答链<br/>qa_chain = RetrievalQA.from_chain_type(<br/>    llm=ollama,<br/>    chain_type="stuff",<br/>    retriever=vector_store.as_retriever()<br/>)<br/><br/># 查询<br/>result = qa_chain({"query": "什么是人工智能？"})<br/>print(result["result"])</code>
 ```
 
 ### 2. SiliconFlow API 调用 Qwen
 
-```python
-import requests
-
-def chat_with_qwen(prompt, model_id="Qwen/Qwen2.5-7B-Instruct"):
-    """通过 SiliconFlow API 调用 Qwen"""
-
-    response = requests.post(
-        "https://api.siliconflow.cn/v1/chat/completions",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        },
-        json={
-            "model": model_id,
-            "messages": [
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.7,
-            "max_tokens": 1024
-        }
-    )
-
-    return response.json()["choices"][0]["message"]["content"]
-
-# 使用示例
-result = chat_with_qwen("用Python写一个快速排序")
-print(result)
+```
+<code>import requests<br/><br/>def chat_with_qwen(prompt, model_id="Qwen/Qwen2.5-7B-Instruct"):<br/>    """通过 SiliconFlow API 调用 Qwen"""<br/><br/>    response = requests.post(<br/>        "https://api.siliconflow.cn/v1/chat/completions",<br/>        headers={<br/>            "Authorization": f"Bearer {api_key}",<br/>            "Content-Type": "application/json"<br/>        },<br/>        json={<br/>            "model": model_id,<br/>            "messages": [<br/>                {"role": "user", "content": prompt}<br/>            ],<br/>            "temperature": 0.7,<br/>            "max_tokens": 1024<br/>        }<br/>    )<br/><br/>    return response.json()["choices"][0]["message"]["content"]<br/><br/># 使用示例<br/>result = chat_with_qwen("用Python写一个快速排序")<br/>print(result)</code>
 ```
 
 ### 3. 本地部署 Qwen + Ollama RAG
 
-```python
-from langchain_community.document_loaders import TextLoader
-from langchain_text_splitters import CharacterTextSplitter
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
-from langchain_community.llms import Ollama
-from langchain.chains import RetrievalQA
-from langchain_core.prompts import PromptTemplate
-
-# 1. 加载文档
-documents = TextLoader('dataset/example.txt', encoding='utf-8').load()
-
-# 2. 分割文档
-docs = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0).split_documents(documents)
-
-# 3. Embeddings（使用中文模型）
-embeddings = HuggingFaceEmbeddings(
-    model_name="damo/nlp_corom_sentence-embedding_chinese-base"
-)
-
-# 4. 创建向量数据库
-db = Chroma.from_documents(docs, embeddings)
-
-# 5. 初始化 Qwen 模型（本地 Ollama 部署）
-ollama = Ollama(model="qwen2.5:0.5b")
-
-# 6. 创建 QA 链
-prompt_template = """基于以下文档内容回答问题：
-{context}
-
-问题：{question}
-请根据上述内容回答。"""
-
-PROMPT = PromptTemplate(
-    template=prompt_template,
-    input_variables=["context", "question"]
-)
-
-qa_chain = RetrievalQA.from_chain_type(
-    llm=ollama,
-    chain_type="stuff",
-    retriever=db.as_retriever(),
-    chain_type_kwargs={"prompt": PROMPT}
-)
-
-# 7. 查询（新版统一用 .invoke()）
-result = qa_chain.invoke({"query": "文档主要内容是什么？"})
-print(result["result"])
+```
+<code>from langchain_community.document_loaders import TextLoader<br/>from langchain_text_splitters import CharacterTextSplitter<br/>from langchain_community.embeddings import HuggingFaceEmbeddings<br/>from langchain_community.vectorstores import Chroma<br/>from langchain_community.llms import Ollama<br/>from langchain.chains import RetrievalQA<br/>from langchain_core.prompts import PromptTemplate<br/><br/># 1. 加载文档<br/>documents = TextLoader('dataset/example.txt', encoding='utf-8').load()<br/><br/># 2. 分割文档<br/>docs = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0).split_documents(documents)<br/><br/># 3. Embeddings（使用中文模型）<br/>embeddings = HuggingFaceEmbeddings(<br/>    model_name="damo/nlp_corom_sentence-embedding_chinese-base"<br/>)<br/><br/># 4. 创建向量数据库<br/>db = Chroma.from_documents(docs, embeddings)<br/><br/># 5. 初始化 Qwen 模型（本地 Ollama 部署）<br/>ollama = Ollama(model="qwen2.5:0.5b")<br/><br/># 6. 创建 QA 链<br/>prompt_template = """基于以下文档内容回答问题：<br/>{context}<br/><br/>问题：{question}<br/>请根据上述内容回答。"""<br/><br/>PROMPT = PromptTemplate(<br/>    template=prompt_template,<br/>    input_variables=["context", "question"]<br/>)<br/><br/>qa_chain = RetrievalQA.from_chain_type(<br/>    llm=ollama,<br/>    chain_type="stuff",<br/>    retriever=db.as_retriever(),<br/>    chain_type_kwargs={"prompt": PROMPT}<br/>)<br/><br/># 7. 查询（新版统一用 .invoke()）<br/>result = qa_chain.invoke({"query": "文档主要内容是什么？"})<br/>print(result["result"])</code>
 ```
 
 ### 4. 多轮对话
 
-```python
-# 使用 Ollama 进行多轮对话
-ollama = Ollama(model="qwen2.5:7b")
-
-messages = [
-    {"role": "system", "content": "你是一个有帮助的AI助手。"},
-    {"role": "user", "content": "什么是机器学习？"},
-]
-
-# 第一轮对话
-response1 = ollama.invoke(messages)
-messages.append({"role": "assistant", "content": response1})
-
-# 第二轮对话（带上下文）
-messages.append({"role": "user", "content": "它和深度学习有什么区别？"})
-response2 = ollama.invoke(messages)
-
-print(response2)
+```
+<code># 使用 Ollama 进行多轮对话<br/>ollama = Ollama(model="qwen2.5:7b")<br/><br/>messages = [<br/>    {"role": "system", "content": "你是一个有帮助的AI助手。"},<br/>    {"role": "user", "content": "什么是机器学习？"},<br/>]<br/><br/># 第一轮对话<br/>response1 = ollama.invoke(messages)<br/>messages.append({"role": "assistant", "content": response1})<br/><br/># 第二轮对话（带上下文）<br/>messages.append({"role": "user", "content": "它和深度学习有什么区别？"})<br/>response2 = ollama.invoke(messages)<br/><br/>print(response2)</code>
 ```
 
 ## 🔧 模型配置参数
 
 ### 1. 生成参数
 
-```python
-config = {
-    "temperature": 0.7,        # 创造性（0-2）
-    "top_p": 0.9,              # 核采样
-    "top_k": 40,              # Top-K 采样
-    "repeat_penalty": 1.1,    # 重复惩罚
-    "seed": 42,               # 随机种子
-    "num_predict": 256,        # 最大生成长度
-    "stop": ["\n\n", "用户："]  # 停止序列
-}
-
-response = ollama.generate(model="qwen2.5:7b", prompt="你好", options=config)
+```
+<code>config = {<br/>    "temperature": 0.7,        # 创造性（0-2）<br/>    "top_p": 0.9,              # 核采样<br/>    "top_k": 40,              # Top-K 采样<br/>    "repeat_penalty": 1.1,    # 重复惩罚<br/>    "seed": 42,               # 随机种子<br/>    "num_predict": 256,        # 最大生成长度<br/>    "stop": ["\n\n", "用户："]  # 停止序列<br/>}<br/><br/>response = ollama.generate(model="qwen2.5:7b", prompt="你好", options=config)</code>
 ```
 
 ### 2. GPU 配置
 
-```bash
-# 查看 GPU 使用情况
-nvidia-smi
-
-# 设置 GPU 设备
-export CUDA_VISIBLE_DEVICES=0,1
-
-# 量化模型（减少显存）
-ollama pull qwen2.5:7b-q4_0   # 4位量化
-ollama pull qwen2.5:7b-q8_0   # 8位量化
+```
+<code># 查看 GPU 使用情况<br/>nvidia-smi<br/><br/># 设置 GPU 设备<br/>export CUDA_VISIBLE_DEVICES=0,1<br/><br/># 量化模型（减少显存）<br/>ollama pull qwen2.5:7b-q4_0   # 4位量化<br/>ollama pull qwen2.5:7b-q8_0   # 8位量化</code>
 ```
 
 ### 3. Ollama 配置文件
 
-```yaml
-# ~/.ollama/config.json
-{
-  "gpu": true,
-  "num_gpu": 1,
-  "fallback": ["cpu"],
-  "keep_alive": "5m",
-  "timeout": "120s"
-}
+```
+<code># ~/.ollama/config.json<br/>{<br/>  "gpu": true,<br/>  "num_gpu": 1,<br/>  "fallback": ["cpu"],<br/>  "keep_alive": "5m",<br/>  "timeout": "120s"<br/>}</code>
 ```
 
 ## 📊 Qwen vs 其他模型对比
 
-| 模型 | 参数量 | 上下文 | 中文能力 | 本地部署 |
-|------|--------|--------|---------|---------|
-| Qwen2.5-7B | 7B | 128K | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Qwen2.5-14B | 14B | 128K | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| Llama3-8B | 8B | 8K | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-| ChatGLM3-6B | 6B | 128K | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| th | th | th | th | th |
+| --- | --- | --- | --- | --- |
+| td | td | td | td | td |
+| td | td | td | td | td |
+| td | td | td | td | td |
+| td | td | td | td | td |
 
 ## 🐛 常见问题
 
 ### Q: 模型选择哪个版本？
 
-```bash
-# 资源有限（CPU推理）
-ollama pull qwen2.5:0.5b
-
-# 资源一般（GPU 8GB+）
-ollama pull qwen2.5:3b
-
-# 资源充足（GPU 16GB+）
-ollama pull qwen2.5:7b
-
-# 高质量输出（GPU 24GB+）
-ollama pull qwen2.5:14b
+```
+<code># 资源有限（CPU推理）<br/>ollama pull qwen2.5:0.5b<br/><br/># 资源一般（GPU 8GB+）<br/>ollama pull qwen2.5:3b<br/><br/># 资源充足（GPU 16GB+）<br/>ollama pull qwen2.5:7b<br/><br/># 高质量输出（GPU 24GB+）<br/>ollama pull qwen2.5:14b</code>
 ```
 
 ### Q: 如何提高生成质量？
 
-```python
-# 1. 使用更长的上下文
-ollama = Ollama(model="qwen2.5:7b", num_ctx=8192)
-
-# 2. 调整 temperature
-ollama = Ollama(model="qwen2.5:7b", temperature=0.3)  # 更确定性
-
-# 3. 使用few-shot提示
-prompt = """示例：
-问题：1+1=?
-答案：2
-
-问题：2+2=?
-答案：4
-
-问题：3+3=?
-答案："""
+```
+<code># 1. 使用更长的上下文<br/>ollama = Ollama(model="qwen2.5:7b", num_ctx=8192)<br/><br/># 2. 调整 temperature<br/>ollama = Ollama(model="qwen2.5:7b", temperature=0.3)  # 更确定性<br/><br/># 3. 使用few-shot提示<br/>prompt = """示例：<br/>问题：1+1=?<br/>答案：2<br/><br/>问题：2+2=?<br/>答案：4<br/><br/>问题：3+3=?<br/>答案："""</code>
 ```
 
 ### Q: Ollama 服务无法启动？
 
-```bash
-# 检查服务状态
-ollama serve
-
-# 查看日志
-journalctl -u ollama
-
-# 重启服务
-sudo systemctl restart ollama
+```
+<code># 检查服务状态<br/>ollama serve<br/><br/># 查看日志<br/>journalctl -u ollama<br/><br/># 重启服务<br/>sudo systemctl restart ollama</code>
 ```
 
 ## 📚 相关资源
 
-- 通义千问官网: https://tongyi.aliyun.com/
-- Ollama 官网: https://ollama.com/
-- Qwen GitHub: https://github.com/QwenLM/Qwen
-- 模型下载: https://ollama.com/library/qwen2.5
+- 通义千问官网: [https://tongyi.aliyun.com/](https://tongyi.aliyun.com/)
+- Ollama 官网: [https://ollama.com/](https://ollama.com/)
+- Qwen GitHub: [https://github.com/QwenLM/Qwen](https://github.com/QwenLM/Qwen)
+- 模型下载: [https://ollama.com/library/qwen2.5](https://ollama.com/library/qwen2.5)

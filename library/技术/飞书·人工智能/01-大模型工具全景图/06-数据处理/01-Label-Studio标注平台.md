@@ -1,15 +1,15 @@
 # Label Studio标注平台
 
-> 模块：数据处理
+> 模块：数据处理  
 > 更新时间：2026-03-29
 
 ---
 
-## 一、框架介绍
+---
 
 Label Studio是一个开源的数据标注平台，支持多种数据类型（文本、图像、音频、视频等）。
 
-**官网**：https://labelstudio.io
+**官网**：https://labelstudio.io  
 **GitHub**：https://github.com/HumanSignal/label-studio
 
 **核心特点**：
@@ -22,208 +22,85 @@ Label Studio是一个开源的数据标注平台，支持多种数据类型（�
 
 ---
 
-## 二、快速开始
+---
 
 ### 1. 安装
 
-```bash
-# pip安装
-pip install label-studio
-
-# 启动
-label-studio
-
-# 访问 http://localhost:8080
-# 首次访问需要创建账号
+```
+<code># pip安装<br/>pip install label-studio<br/><br/># 启动<br/>label-studio<br/><br/># 访问 http://localhost:8080<br/># 首次访问需要创建账号</code>
 ```
 
 ### 2. Docker部署
 
-```bash
-docker run -d \
-  -p 8080:8080 \
-  -v $(pwd)/label_studio_data:/label-studio/data \
-  heartexlabs/label-studio:latest
+```
+<code>docker run -d \<br/>  -p 8080:8080 \<br/>  -v $(pwd)/label_studio_data:/label-studio/data \<br/>  heartexlabs/label-studio:latest</code>
 ```
 
 ---
 
-## 三、文本标注配置
+---
 
 ### 1. 情感分类
 
-```xml
-<!-- labeling_config.xml -->
-<View>
-  <Text name="text" value="$text"/>
-  
-  <Choices name="sentiment" toName="text">
-    <Choice value="正面"/>
-    <Choice value="中性"/>
-    <Choice value="负面"/>
-  </Choices>
-  
-  <Text name="meta" value="$meta"/>
-</View>
+```
+<code>&lt;!-- labeling_config.xml --&gt;<br/>&lt;View&gt;<br/>  &lt;Text name="text" value="$text"/&gt;<br/><br/>  &lt;Choices name="sentiment" toName="text"&gt;<br/>    &lt;Choice value="正面"/&gt;<br/>    &lt;Choice value="中性"/&gt;<br/>    &lt;Choice value="负面"/&gt;<br/>  &lt;/Choices&gt;<br/><br/>  &lt;Text name="meta" value="$meta"/&gt;<br/>&lt;/View&gt;</code>
 ```
 
 ### 2. 命名实体识别
 
-```xml
-<Text name="text" value="$text"/>
-
-<Labels name="entities" toName="text">
-  <Label value="人名"/>
-  <Label value="地名"/>
-  <Label value="机构"/>
-  <Label value="时间"/>
-</Labels>
+```
+<code>&lt;Text name="text" value="$text"/&gt;<br/><br/>&lt;Labels name="entities" toName="text"&gt;<br/>  &lt;Label value="人名"/&gt;<br/>  &lt;Label value="地名"/&gt;<br/>  &lt;Label value="机构"/&gt;<br/>  &lt;Label value="时间"/&gt;<br/>&lt;/Labels&gt;</code>
 ```
 
 ### 3. 文本相似度
 
-```xml
-<View>
-  <Text name="text1" value="$text1"/>
-  <Text name="text2" value="$text2"/>
-  
-  <Number name="similarity" toName="text1,text2"
-          min="0" max="1" step="0.1"/>
-</View>
+```
+<code>&lt;View&gt;<br/>  &lt;Text name="text1" value="$text1"/&gt;<br/>  &lt;Text name="text2" value="$text2"/&gt;<br/><br/>  &lt;Number name="similarity" toName="text1,text2"<br/>          min="0" max="1" step="0.1"/&gt;<br/>&lt;/View&gt;</code>
 ```
 
 ### 4. 问答标注
 
-```xml
-<View>
-  <Header>请根据上下文回答问题</Header>
-  <Text name="context" value="$context"/>
-  <Text name="question" value="$question"/>
-  <TextArea name="answer" toName="context" 
-            showSublabels="true"/>
-</View>
+```
+<code>&lt;View&gt;<br/>  &lt;Header&gt;请根据上下文回答问题&lt;/Header&gt;<br/>  &lt;Text name="context" value="$context"/&gt;<br/>  &lt;Text name="question" value="$question"/&gt;<br/>  &lt;TextArea name="answer" toName="context" <br/>            showSublabels="true"/&gt;<br/>&lt;/View&gt;</code>
 ```
 
 ---
 
-## 四、Python SDK使用
+---
 
-```python
-import os
-
-from label_studio_sdk import Client
-
-# 连接（API Key 从环境变量读取，勿硬编码）
-ls = Client(
-    url="http://localhost:8080",
-    api_key=os.environ["LABEL_STUDIO_API_KEY"]
-)
-
-# 获取项目
-project = ls.get_project(1)
-
-# 导入数据
-project.import_data([
-    {"text": "这是一个好产品", "id": 1},
-    {"text": "质量一般", "id": 2},
-    {"text": "非常好用", "id": 3},
-])
-
-# 导出数据（不同 SDK 版本接口有差异：1.x 为 export_tasks，2.x 起为 project.exports.*，以所用版本文档为准）
-exported = project.export_tasks(export_type="JSON")
-print(exported)
-
-# 获取标注结果
-tasks = project.get_tasks()
-for task in tasks:
-    print(task["data"], task["annotations"])
+```
+<code>import os<br/><br/>from label_studio_sdk import Client<br/><br/># 连接（API Key 从环境变量读取，勿硬编码）<br/>ls = Client(<br/>    url="http://localhost:8080",<br/>    api_key=os.environ["LABEL_STUDIO_API_KEY"]<br/>)<br/><br/># 获取项目<br/>project = ls.get_project(1)<br/><br/># 导入数据<br/>project.import_data([<br/>    {"text": "这是一个好产品", "id": 1},<br/>    {"text": "质量一般", "id": 2},<br/>    {"text": "非常好用", "id": 3},<br/>])<br/><br/># 导出数据（不同 SDK 版本接口有差异：1.x 为 export_tasks，2.x 起为 project.exports.*，以所用版本文档为准）<br/>exported = project.export_tasks(export_type="JSON")<br/>print(exported)<br/><br/># 获取标注结果<br/>tasks = project.get_tasks()<br/>for task in tasks:<br/>    print(task["data"], task["annotations"])</code>
 ```
 
 ---
 
-## 五、API导入数据
+---
 
-```python
-import os
-
-import requests
-
-# 导入JSON格式数据
-data = {
-    "data": [
-        {"text": "样本文本1", "source": "微博"},
-        {"text": "样本文本2", "source": "知乎"},
-        {"text": "样本文本3", "source": "小红书"}
-    ]
-}
-
-response = requests.post(
-    "http://localhost:8080/api/projects/1/import",
-    json=data,
-    headers={"Authorization": f"Token {os.environ['LABEL_STUDIO_API_KEY']}"}
-)
-
-print(response.json())
+```
+<code>import os<br/><br/>import requests<br/><br/># 导入JSON格式数据<br/>data = {<br/>    "data": [<br/>        {"text": "样本文本1", "source": "微博"},<br/>        {"text": "样本文本2", "source": "知乎"},<br/>        {"text": "样本文本3", "source": "小红书"}<br/>    ]<br/>}<br/><br/>response = requests.post(<br/>    "http://localhost:8080/api/projects/1/import",<br/>    json=data,<br/>    headers={"Authorization": f"Token {os.environ['LABEL_STUDIO_API_KEY']}"}<br/>)<br/><br/>print(response.json())</code>
 ```
 
 ---
 
-## 六、导出格式
+---
 
-```python
-# 常用导出格式：JSON / JSON_MIN / CSV（不存在 "CODEC" 这种格式）
-project.export(export_type="JSON")
-
-# 导出为CSV
-project.export(export_type="CSV")
-
-# 导出为JSON_MIN（仅导出标注结果的最小 JSON）
-project.export(export_type="JSON_MIN")
+```
+<code># 常用导出格式：JSON / JSON_MIN / CSV（不存在 "CODEC" 这种格式）<br/>project.export(export_type="JSON")<br/><br/># 导出为CSV<br/>project.export(export_type="CSV")<br/><br/># 导出为JSON_MIN（仅导出标注结果的最小 JSON）<br/>project.export(export_type="JSON_MIN")</code>
 ```
 
 ---
 
-## 七、机器学习集成
+---
 
 自定义 ML 后端通过 `label-studio-ml` 启动独立服务（默认 9090 端口），再在 Label Studio 项目设置（Model 页面）中连接，不依赖本地 `.labelstudiorc` 之类的配置文件。
 
-```python
-# 自定义ML后端
-from label_studio_ml.model import LabelStudioMLBase
-
-class MyModel(LabelStudioMLBase):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # 最小示意模型：固定词表的情感分类器，实际项目替换为训练好的模型
-        self.positive_words = {"好", "好用", "喜欢", "满意"}
-        self.negative_words = {"差", "不满", "失望"}
-
-    def _predict_sentiment(self, text: str) -> str:
-        if any(w in text for w in self.negative_words):
-            return "负面"
-        if any(w in text for w in self.positive_words):
-            return "正面"
-        return "中性"
-
-    def predict(self, tasks, **kwargs):
-        predictions = []
-        for task in tasks:
-            text = task["data"]["text"]
-            sentiment = self._predict_sentiment(text)
-            predictions.append({
-                "result": [{
-                    "from_name": "sentiment",
-                    "to_name": "text",
-                    "type": "choices",
-                    "choices": [sentiment]
-                }]
-            })
-        return predictions
+```
+<code># 自定义ML后端<br/>from label_studio_ml.model import LabelStudioMLBase<br/><br/>class MyModel(LabelStudioMLBase):<br/>    def __init__(self, *args, **kwargs):<br/>        super().__init__(*args, **kwargs)<br/>        # 最小示意模型：固定词表的情感分类器，实际项目替换为训练好的模型<br/>        self.positive_words = {"好", "好用", "喜欢", "满意"}<br/>        self.negative_words = {"差", "不满", "失望"}<br/><br/>    def _predict_sentiment(self, text: str) -&gt; str:<br/>        if any(w in text for w in self.negative_words):<br/>            return "负面"<br/>        if any(w in text for w in self.positive_words):<br/>            return "正面"<br/>        return "中性"<br/><br/>    def predict(self, tasks, **kwargs):<br/>        predictions = []<br/>        for task in tasks:<br/>            text = task["data"]["text"]<br/>            sentiment = self._predict_sentiment(text)<br/>            predictions.append({<br/>                "result": [{<br/>                    "from_name": "sentiment",<br/>                    "to_name": "text",<br/>                    "type": "choices",<br/>                    "choices": [sentiment]<br/>                }]<br/>            })<br/>        return predictions</code>
 ```
 
 ---
 
-## 八、总结
+---
 
 **Label Studio是企业级数据标注的首选工具**，支持复杂标注任务和团队协作。
 
@@ -242,8 +119,8 @@ class MyModel(LabelStudioMLBase):
 - **版本对齐**：SDK 接口随版本变化较快（如 1.x 与 2.x 导出 API 不同），锁定版本并跟进官方迁移说明
 - **预标注提效**：接入 ML 后端做预标注，人工只做修正，显著降低单条标注成本
 
-> 更多工程化实践（评测基准、灰度发布、成本控制）参见 [70-企业级工程基准](../../06-Agent开发/70-企业级工程基准.md)。
+> 更多工程化实践（评测基准、灰度发布、成本控制）参见 70-企业级工程基准。
 
 ---
 
-*下一步：LangChain核心概念*
+---
