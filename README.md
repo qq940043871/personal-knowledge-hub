@@ -49,11 +49,10 @@ python library/app.py           # http://localhost:5000/
 # GET /api/files 列出文档；GET /api/file?path=<相对路径> 取正文（已做目录穿越防护）
 
 # 博客
-# 静态服务器下访问 /blog/；文章默认读云端 posts 表，云端不可达或 ?local=1 时
-# 回落 _seed/meta.json + blocks.jsonl + post_*.b64
+# 静态服务器下访问 /blog/；文章全部来自 blog/seed/（meta.json + blocks.jsonl），无后端
 ```
 
-依赖说明：`requirements.txt` 只覆盖 Flask 阅读器。博客依赖 WorkBuddy Cloud SDK（endpoint 与 publishableKey 写在 `blog/app.js`）与 CDN 的 highlight.js；静态门户和 `library/index.html` 无构建依赖。
+依赖说明：`requirements.txt` 只覆盖 Flask 阅读器。博客是纯静态 SPA，只依赖 CDN 的 marked / DOMPurify / highlight.js（2026-11-23 起云端后端与 WorkBuddy Cloud SDK 已移除）；静态门户和 `library/index.html` 无构建依赖。
 
 ---
 
@@ -71,7 +70,7 @@ python library/app.py           # http://localhost:5000/
 
 **已知待办 / 已知项**：
 
-- `blog/_seed/` 下 `post_*.b64` / `blocks.jsonl` / `seed_posts.jsonl` 是生成产物，`.gitignore` 已列规则，但目前仍被 git 跟踪。忽略规则对已跟踪文件不生效；当前刻意保留，作为博客离线兜底数据。要改成只留生成脚本，需先执行 `git rm --cached ...`（见 `.gitignore` 注释）。
+- `blog/seed/meta.json` + `blocks.jsonl` 由 `gen_blocks.py` 生成，2026-11-23 云端博客下线后成为站点唯一数据源，必须入库（原 `.gitignore` 忽略规则已删）。`library/` 内容变更后需重跑生成器，博客才会同步。
 - 根 `index.html` 有 4 处链接指向 `library/17年技术经验总结/09-技术知识库/...`，实际路径是 `library/技术/17年技术经验总结/09-技术知识库/...`（成品拆库后的残留死链）。
 
 ---

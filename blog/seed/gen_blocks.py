@@ -2,8 +2,8 @@
 """从当前仓库 library/ 精选知识库文章，加工后生成博客种子数据。
 
 输出：
-  _seed/meta.json    — 文章元信息（标题/摘要/标签/封面色/字数/块数）
-  _seed/blocks.jsonl — 文章正文块（按字符切分 + 逐块 base64，保证单行 <2000 字符）
+  seed/meta.json    — 文章元信息（标题/摘要/标签/封面色/字数/块数）
+  seed/blocks.jsonl — 文章正文块（按字符切分 + 逐块 base64，保证单行 <2000 字符）
 
 博客化加工：
   1. 标题重写为更具博客风格的表达
@@ -18,7 +18,7 @@ import os
 import re
 from pathlib import Path
 
-REPO_ROOT = Path(__file__).resolve().parents[2]   # blog/_seed/ → repo root
+REPO_ROOT = Path(__file__).resolve().parents[2]   # blog/seed/ → repo root
 LIB = REPO_ROOT / "library"
 SEED = Path(__file__).resolve().parent
 META_OUT = SEED / "meta.json"

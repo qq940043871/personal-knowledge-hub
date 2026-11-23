@@ -37,10 +37,10 @@ python tools/content_dup_scan.py library/技术 --min 0.55 --top 40
 ```
 
 ```bash
-# 博客离线种子数据：从 library/ 精选文章生成 meta.json + blocks.jsonl（改造标题/导语/截断）
-python blog/_seed/gen_blocks.py
+# 博客文章数据（站点唯一数据源）：从 library/ 精选文章生成 meta.json + blocks.jsonl（改造标题/导语/截断）
+python blog/seed/gen_blocks.py
 # 校验 blocks.jsonl 每块 b64 能否干净解码为 UTF-8
-python blog/_seed/check_b64.py
+python blog/seed/check_b64.py
 ```
 
 ```bash
@@ -56,7 +56,7 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 
 ### 一句话结构
 
-一个暗色门户 `index.html` → 两条访问路径：`library/`（Markdown 知识库 + 静态阅读器）与 `blog/`（云后端 SPA）。`tools/` 是维护脚本（2026-11-13 起整体不入库），顶层 `agent/`、`output/` 是本地资产层（不入库）。
+一个暗色门户 `index.html` → 两条访问路径：`library/`（Markdown 知识库 + 静态阅读器）与 `blog/`（纯静态博客 SPA，数据来自 `blog/seed/`，2026-11-23 起无后端）。`tools/` 是维护脚本（2026-11-13 起整体不入库），顶层 `agent/`、`output/` 是本地资产层（不入库）。
 
 ### 版本控制三层（改内容前必须确认自己改的是哪层）
 
@@ -91,15 +91,16 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 
 三者的共同限制：Markdown 正文被渲染进阅读器页面本身，没有 `<base>` 或 URL 重写，因此正文里的**相对图片/链接按阅读器页面所在目录解析，而非按 .md 所在目录**——归档层里大量 `![](images/xxx.png)` 形式的相对图在静态阅读器中会裂图，成品库因此多用内联 SVG。
 
-### blog/：云后端 SPA（无构建）
+### blog/：纯静态 SPA（无构建、无后端）
 
-`blog/index.html` 是外壳与全部样式，`blog/app.js` 是唯一逻辑文件（约 1200 行），通过 CDN 引入 WorkBuddy Cloud SDK、marked、DOMPurify、highlight.js。
+`blog/index.html` 是外壳与全部样式，`blog/app.js` 是唯一逻辑文件，通过 CDN 引入 marked、DOMPurify、highlight.js。
 
-- **数据抽象**：所有读操作走 `postsQuery()`，非本地模式返回 `cloud.database.from("posts")`，本地模式返回手写的 `localPosts()`——后者用 thenable 查询器模拟 `eq/gt/lt/contains/or/order/limit/range/select/maybeSingle` 的**子集**。新增查询条件时必须同时扩展 `localPosts()`，否则 `?local=1` 会静默走偏。
-- **离线种子链**：`_seed/meta.json`（元信息）+ `_seed/blocks.jsonl`（正文按 400 字符切块、逐块独立 base64）。解码是「每块独立 atob → 拼接字节 → TextDecoder」，**不能直接拼 b64 字符串**。`gen_seed.py` 是更早的迭代版本（读外部 `KB_ROOT`，产出 `post_*.b64`），`gen_blocks.py` 才是当前生成器（读本仓库 `library/`）。
-- **认证**：邮箱三通道（密码登录 / OTP 验证码登录 / 注册设密码）+ 忘记密码两段式（`resetPasswordForEmail` 返回的对象上再调 `updateUser({nonce, password})`）。OTP 状态存在模块级 `pendingEmailOtp`，切换邮箱会校验 `verificationId` 是否对应当前邮箱。
-- **云存储资源**：正文里用自定义协议 `cloudimg:<path>` / `cloudfile:<path>` 占位，渲染后由 `resolveCloudAssets()` 批量换签名 URL（`createSignedUrls`，600 秒）；未登录则降级为「登录后可查看」占位块。因此 DOMPurify 必须放行这两个协议（`ADD_URI_SAFE_ATTR`），否则 `src` 会被清掉。
-- **路由**：`location.hash` 手写路由表（`#/`、`#/post/:id`、`#/tags`、`#/tag/:t`、`#/login`、`#/write|#/edit/:id`、`#/mine`、`#/search/:kw`，纯数字 hash 视作首页分页）。所有 HTML 都经 `escapeHtml`。
+**2026-11-23 已彻底下线云端**：删除 WorkBuddy Cloud SDK 依赖、云数据库（posts 表）、邮箱认证（密码/OTP/注册/重置）、云存储（图片与附件上传、签名 URL）、写文章/编辑/我的文章/删除/阅读计数，同时删除 `blog/.wbapp_*.genie`、`gen_seed.py`、`post_*.b64`、`seed_posts.jsonl`、`split_96.json`。现在只有一个数据源：`blog/seed/`。
+
+- **数据层**：`loadPosts()` 启动时一次性 fetch `seed/meta.json` + `seed/blocks.jsonl`，解码后放进内存数组 `__posts`（含正文），之后所有列表/筛选/搜索都是内存操作，**不再有查询器抽象**（原来的 `postsQuery()` / `localPosts()` 已删）。正文按 400 字符切块、逐块独立 base64，解码是「每块独立 atob → 拼接字节 → TextDecoder」，**不能直接拼 b64 字符串**。
+- **展示字段**：种子数据不含发布时间与阅读数，`loadPosts()` 用索引生成稳定值（`views = 100 + (i*137)%1900`，`created_at` 从 `2026-11-21` 起每篇减 2 天），刷新不跳动，别改成 `Math.random()`。
+- **路由**：`location.hash` 手写路由表（`#/`、`#/post/:id`、`#/tags`、`#/tag/:t`、`#/about`、`#/search/:kw`，纯数字 hash 视作首页分页）。所有 HTML 都经 `escapeHtml`。
+- **部署**：仓库根有 `.nojekyll`（关掉 Jekyll，避免 `library/` 里含 `{{ }}` 的 md 被 Liquid 处理），`seed/` 目录名不带下划线也是为了绕开 Jekyll 的 `_` 前缀排除规则。GitHub Pages 上 `/blog/` 即可直接打开，无 CORS 依赖。
 
 ### tools/：一次性脚本的约定
 
@@ -123,6 +124,7 @@ node tools/yuque-export/build.mjs <rawDir> <outDir>
 
 - 根 `index.html` 有 4 处链接指向 `library/17年技术经验总结/09-技术知识库/...`，但实际路径是 `library/技术/17年技术经验总结/09-技术知识库/...`（成品拆分进六库后的残留死链）。
 - ~~`SKIP_DIRS` 与 gitignore 漂移~~（2026-11-13 已修）：`build_tree.py` 改为运行时 `git check-ignore --no-index` 判定，`SKIP_DIRS` 只留 `__pycache__`/`node_modules` 之类的技术目录，私有目录由 gitignore 单一来源决定。修复后 `tree.json` 从 984 篇回到 **1643 篇**（4 个公开库：技术/投资/工作/考证；同日清理 `工作/基础学习` 9 篇冗余文档后为 1634 篇），原先白丢的约 660 篇公开文档已回到侧边栏。git 不可用时退回 `FALLBACK_IGNORED_DIRS`（`家庭`/`隐私`/`01-我的实盘与成长史`/`客户跟踪`）兜底，新增私有目录时记得同步这两处。
-- `blog/_seed/post_*.b64`、`blocks.jsonl`、`seed_posts.jsonl` 是生成产物，`.gitignore` 已列规则但仍被跟踪（忽略规则对已跟踪文件无效）；当前刻意保留作离线兜底，要清理需先 `git rm --cached`。
+- `blog/seed/meta.json` + `blocks.jsonl` 是生成产物，但 2026-11-23 起是博客**唯一**数据源，必须入库（`.gitignore` 中原有的忽略规则已删除）。改完 `library/` 内容后要重跑 `gen_blocks.py` 才会反映到 blog。
+- 博客部署到 GitHub Pages 只依赖两条：仓库根有 `.nojekyll`（否则 Jekyll 会处理 `library/` 下含 `{{ }}` 的 md，并会排除 `_` 前缀路径）；`seed/` 目录名保持无下划线前缀。云端 CORS 已不再是问题（后端已下线）。
 - `library/tree.json` 是生成产物，不要手改；`build_tree.py` 只认 `.md/.markdown/.pptx`，新增其他类型不会出现在侧边栏。
 - `library/wiki.md` 是分类导航索引，但其中的技术类链接全部指向重构前的旧路径，直接点击会 404；引用前先核对磁盘。

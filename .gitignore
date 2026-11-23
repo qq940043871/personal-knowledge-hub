@@ -20,13 +20,9 @@ Thumbs.db
 desktop.ini
 
 # ---- 生成产物 ----
-# blog/_seed 下的种子数据由 gen_seed.py / gen_blocks.py 生成，源在 blog/_seed/*.py 与 meta.json。
-# 现状(2026-11-10)：下列文件仍被 git 跟踪，忽略规则对已跟踪文件不生效；
-# 当前刻意保留，作为博客的离线兜底数据。若要改为只保留生成脚本，需先执行：
-#   git rm --cached blog/_seed/post_*.b64 blog/_seed/blocks.jsonl blog/_seed/seed_posts.jsonl
-blog/_seed/post_*.b64
-blog/_seed/blocks.jsonl
-blog/_seed/seed_posts.jsonl
+# blog/seed/meta.json 与 blog/seed/blocks.jsonl 是 gen_blocks.py 生成的博客正文数据，
+# 2026-11-23 云端博客下线后它们成为站点唯一数据源，**必须入库**，故不再忽略。
+# 目录名同日由 _seed 改为 seed：GitHub Pages 的 Jekyll 会排除 _ 前缀目录，线上返回 503。
 
 # ---- 平台元数据 ----
 # 妙搭(WorkBuddy) 部署描述文件，由平台生成
