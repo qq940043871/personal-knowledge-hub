@@ -148,11 +148,6 @@
   .cards.cards-3 .chips{gap:6px;margin-bottom:18px}
   .cards.cards-3 .chips i{font-size:11px;padding:3px 9px}
   .cards.cards-3 .bigcard .go{margin-top:auto}
-  /* 四张站外卡改 2×2，避免三列布局最后一行空出一个坑 */
-  .cards.cards-4{grid-template-columns:1fr 1fr;gap:22px}
-  .cards.cards-4 .bigcard .inner{padding:30px 26px;display:flex;flex-direction:column}
-  .cards.cards-4 .bigcard .icon{width:66px;height:66px;font-size:30px;margin-bottom:18px}
-  .cards.cards-4 .bigcard .go{margin-top:auto}
   .bigcard{
     position:relative;border-radius:18px;padding:2px;overflow:hidden;
     background:linear-gradient(135deg,#22d3ee33,#1e293b 40%,#1e293b 60%,#a78bfa33);
@@ -247,11 +242,11 @@
   @media (max-width:820px){
     .cards{grid-template-columns:1fr}
     .cards.cards-3{grid-template-columns:1fr}
-    .cards.cards-4{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(2,1fr)}
     .more-grid{grid-template-columns:repeat(2,1fr)}
     .nav-links a:not(.pill){display:none}
   }
+  /* 三列在 1100px 以下会挤到文案频繁换行，退两列 */
   @media (max-width:1100px) and (min-width:821px){
     .cards.cards-3{grid-template-columns:1fr 1fr}
   }
@@ -312,7 +307,7 @@
   <section class="section">
     <h2 class="sec-title reveal">六大<span class="em">入口</span></h2>
     <p class="sec-sub">// pick your route · 站内两个 + 站外四个(新标签打开)</p>
-    <div class="cards">
+    <div class="cards cards-3">
       <div class="bigcard kb reveal" data-tilt>
         <div class="inner">
           <div class="icon">📚</div>
@@ -337,20 +332,6 @@
           <a class="go" href="blog/index.html">进入博客 <span class="arr">→</span></a>
         </div>
       </div>
-    </div>
-    <div class="cards cards-4" style="margin-top:26px">
-      <div class="bigcard ai reveal" data-tilt>
-        <div class="inner">
-          <div class="icon">🧠</div>
-          <h3>Own<span class="hl">RAG</span></h3>
-          <div class="en">Self-built LLM · External</div>
-          <p>自研 RAG 知识问答系统,私有部署在自有服务器上。文档切分、向量检索、重排、答案生成一条链路自己写——不租大厂套餐,自己攒的才叫 RAG。</p>
-          <div class="chips">
-            <i>RAG</i><i>向量检索</i><i>自研</i><i>私有部署</i><i>Overview</i>
-          </div>
-          <a class="go" href="http://1.15.152.134/ui/overview" target="_blank" rel="noopener noreferrer">打开 OwnRAG <span class="arr">↗</span></a>
-        </div>
-      </div>
       <div class="bigcard fsai reveal" data-tilt>
         <div class="inner">
           <div class="icon">🤖</div>
@@ -363,6 +344,32 @@
           <a class="go" href="https://rwe4y37qwy.feishu.cn/wiki/TITRwO5Ili53hSkHqZRcCAF4n0c" target="_blank" rel="noopener noreferrer">打开飞书 AI 笔记 <span class="arr">↗</span></a>
         </div>
       </div>
+    </div>
+    <div class="cards cards-3" style="margin-top:26px">
+      <div class="bigcard ai reveal" data-tilt>
+        <div class="inner">
+          <div class="icon">🧠</div>
+          <h3>Own<span class="hl">RAG</span></h3>
+          <div class="en">Self-built RAG</div>
+          <p>自研 RAG 知识问答系统,私有部署在自有服务器上。文档切分、向量检索、重排、答案生成一条链路自己写——不租大厂套餐,自己攒的才叫 RAG。</p>
+          <div class="chips">
+            <i>RAG</i><i>向量检索</i><i>自研</i><i>私有部署</i><i>Overview</i>
+          </div>
+          <a class="go" href="http://1.15.152.134/ui/overview" target="_blank" rel="noopener noreferrer">打开 OwnRAG <span class="arr">↗</span></a>
+        </div>
+      </div>
+      <div class="bigcard inv reveal" data-tilt>
+        <div class="inner">
+          <div class="icon">🎯</div>
+          <h3>面试<span class="hl">工作台</span></h3>
+          <div class="en">Interview Workbench</div>
+          <p>B2B 技术经理 + AI 智能体双线求职材料库:面试计划、简历、现货贸易与 AI 项目底稿、技术真题、技术管理。14 天主线任务、备战进度、面试模式,练兵这件事也讲究排兵布阵。</p>
+          <div class="chips">
+            <i>面试计划</i><i>技术真题</i><i>AI 智能体</i><i>技术管理</i><i>项目叙事</i>
+          </div>
+          <a class="go" href="https://qq940043871.github.io/personal-investment-notes/" target="_blank" rel="noopener noreferrer">打开面试工作台 <span class="arr">↗</span></a>
+        </div>
+      </div>
       <div class="bigcard aistudy reveal" data-tilt>
         <div class="inner">
           <div class="icon">🧪</div>
@@ -373,18 +380,6 @@
             <i>机器学习</i><i>深度学习</i><i>Transformer</i><i>推理解码</i><i>MCP</i><i>Agent 工程</i><i>公式与可视化</i>
           </div>
           <a class="go" href="https://qq940043871.github.io/personal-ai-engineering/" target="_blank" rel="noopener noreferrer">打开 AI 学习系统 <span class="arr">↗</span></a>
-        </div>
-      </div>
-      <div class="bigcard inv reveal" data-tilt>
-        <div class="inner">
-          <div class="icon">🎯</div>
-          <h3>面试<span class="hl">工作台</span></h3>
-          <div class="en">Interview Workbench · External</div>
-          <p>B2B 技术经理 + AI 智能体双线求职材料库:面试计划、简历、现货贸易与 AI 项目底稿、技术真题、技术管理。14 天主线任务、备战进度、面试模式,练兵这件事也讲究排兵布阵。</p>
-          <div class="chips">
-            <i>面试计划</i><i>技术真题</i><i>AI 智能体</i><i>技术管理</i><i>项目叙事</i>
-          </div>
-          <a class="go" href="https://qq940043871.github.io/personal-investment-notes/" target="_blank" rel="noopener noreferrer">打开面试工作台 <span class="arr">↗</span></a>
         </div>
       </div>
     </div>
