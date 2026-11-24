@@ -11,7 +11,6 @@ const SEED_META = "seed/meta.json";
 const SEED_BLOCKS = "seed/blocks.jsonl";
 let __posts = [];        // 全部文章（含正文），启动时一次性载入
 let __loading = null;    // 加载 Promise（只跑一次）
-window.__sort = "latest"; // latest | hot
 
 /* ---------- 2. 数据层：seed → 内存 ---------- */
 // seed/blocks.jsonl 每行是一块正文：{post, seq, b64}，每块独立 base64，
@@ -47,7 +46,7 @@ function loadPosts() {
       return new TextDecoder().decode(all);
     };
 
-    // 种子数据不含发布时间与阅读数，这里按索引生成稳定的展示值（刷新不跳动）
+    // 种子数据不含发布时间，这里按索引生成稳定的展示值（刷新不跳动）
     const BASE = Date.UTC(2026, 10, 21);
     __posts = meta.map((m, i) => {
       let content = "";
@@ -59,7 +58,6 @@ function loadPosts() {
         tags: m.tags || [],
         cover_emoji: m.emoji || "📝",
         cover_hue: m.hue || 210,
-        views: 100 + ((i * 137) % 1900),
         created_at: new Date(BASE - i * 2 * 86400000).toISOString(),
         content,
       };
@@ -72,11 +70,8 @@ function loadPosts() {
 function sortByDateDesc(list) {
   return list.slice().sort((a, b) => (a.created_at < b.created_at ? 1 : a.created_at > b.created_at ? -1 : 0));
 }
-function sortByViewsDesc(list) {
-  return list.slice().sort((a, b) => (b.views || 0) - (a.views || 0));
-}
 function currentSorted() {
-  return window.__sort === "hot" ? sortByViewsDesc(__posts) : sortByDateDesc(__posts);
+  return sortByDateDesc(__posts);
 }
 function findPost(id) {
   return __posts.find((p) => p.id === id) || null;
@@ -193,8 +188,7 @@ function postCardHtml(p, i) {
       <div class="post-title">${escapeHtml(p.title)}</div>
       <div class="post-summary">${escapeHtml(p.summary || "（暂无摘要）")}</div>
       <div class="post-meta">
-        <span>📅 ${fmtDate(p.created_at)}</span><span class="dot">·</span>
-        <span>👁 ${p.views || 0}</span>
+        <span class="meta-item">📅 ${fmtDate(p.created_at)}</span>
         ${(p.tags || []).slice(0, 3).map((t) => `<span class="tag-chip" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join("")}
       </div>
     </div></article>`;
@@ -209,26 +203,50 @@ function bindCardActions(posts) {
     });
   });
 }
+/* 分页：上一页 / 页码(带省略号) / 下一页。容器必须带 .pager 类，否则 CSS 不生效 */
+const PAGER_MAX_SLOTS = 7;   // 页码槽位上限（含省略号）
+function pagerPages(cur, total) {
+  if (total <= PAGER_MAX_SLOTS) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  // 首尾各固定，中间保留 cur 前后各 1 个；靠近两端时内侧补足到 3 个数字，避免只剩 2 个数
+  const set = new Set([1, total, cur]);
+  if (cur <= 2) { set.add(2); set.add(3); set.add(4); }
+  else if (cur >= total - 1) { set.add(total - 1); set.add(total - 2); set.add(total - 3); }
+  else { set.add(cur - 1); set.add(cur + 1); }
+  const nums = [...set].filter((n) => n >= 1 && n <= total).sort((a, b) => a - b);
+  const out = [];
+  nums.forEach((n, i) => {
+    if (i && n - nums[i - 1] > 1) out.push("…");
+    out.push(n);
+  });
+  return out;
+}
 function renderPager(page, total) {
   const pager = $("#pager");
   if (!pager) return;
   const pages = Math.ceil(total / PAGE_SIZE);
-  if (pages <= 1) { pager.innerHTML = ""; return; }
-  let html = "";
-  for (let i = 1; i <= pages; i++) {
-    if (pages > 7 && i > 2 && i < pages - 1 && Math.abs(i - page) > 1) {
-      if (!html.endsWith("…</span>")) html += '<span style="color:var(--text-2)">…</span>';
-      continue;
-    }
-    html += `<button class="${i === page ? "cur" : ""}" data-p="${i}">${i}</button>`;
-  }
+  if (pages <= 1) { pager.innerHTML = ""; pager.className = ""; return; }
+
+  const clamp = Math.min(Math.max(page, 1), pages);
+  const items = pagerPages(clamp, pages);
+  const goto = (p) => {
+    location.hash = p === 1 ? "#/" : `#/${p}`;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  let html = `<button class="pg-nav" data-go="${clamp - 1}" ${clamp === 1 ? "disabled" : ""} aria-label="上一页">‹ 上一页</button>`;
+  items.forEach((it) => {
+    html += it === "…"
+      ? `<span class="pg-gap" aria-hidden="true">…</span>`
+      : `<button class="pg-num${it === clamp ? " cur" : ""}" data-go="${it}" ${it === clamp ? 'aria-current="page"' : ""}>${it}</button>`;
+  });
+  html += `<button class="pg-nav" data-go="${clamp + 1}" ${clamp === pages ? "disabled" : ""} aria-label="下一页">下一页 ›</button>`;
+
+  pager.className = "pager";
   pager.innerHTML = html;
-  $$("#pager button").forEach((b) => {
-    b.onclick = () => {
-      const p = Number(b.dataset.p);
-      location.hash = p === 1 ? "#/" : `#/${p}`;
-      window.scrollTo({ top: 0 });
-    };
+  $$("button[data-go]", pager).forEach((b) => {
+    b.onclick = () => { if (!b.disabled) goto(Number(b.dataset.go)); };
   });
 }
 
@@ -236,10 +254,8 @@ function renderPager(page, total) {
 function pageHome(app, pageStr) {
   const page = Math.max(1, Number(pageStr) || 1);
   const tagSet = new Set();
-  let viewSum = 0;
   __posts.forEach((p) => {
     (p.tags || []).forEach((t) => tagSet.add(t));
-    viewSum += p.views || 0;
   });
   app.innerHTML = `
     <section class="hero page-fade">
@@ -247,32 +263,18 @@ function pageHome(app, pageStr) {
       <h1>码潮 CodeTide</h1>
       <p>记录每一次技术涨潮：Java 后端、数据库与中间件、系统架构，以及大模型时代的持续修炼。文章以静态数据随站点发布，打开即读。</p>
       <div class="hero-stats">
-        <div class="stat-pill"><b>${__posts.length}</b><span>文章</span></div>
-        <div class="stat-pill"><b>${tagSet.size}</b><span>标签</span></div>
-        <div class="stat-pill"><b>${viewSum}</b><span>总阅读</span></div>
+        <div class="stat-pill"><b>${__posts.length}</b><span>篇文章</span></div>
+        <div class="stat-pill"><b>${tagSet.size}</b><span>个标签</span></div>
+        <div class="stat-pill"><b>${Math.ceil(__posts.length / PAGE_SIZE)}</b><span>页连载</span></div>
       </div>
     </section>
     <div class="section-head page-fade">
       <h2 id="list-title">最新文章</h2>
-      <span class="sub" style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-sm" id="sort-latest">最新</button>
-        <button class="btn btn-sm" id="sort-hot">最热</button>
-      </span>
+      <span class="sub" id="list-count">共 ${__posts.length} 篇 · 第 ${page} 页</span>
     </div>
     <div id="post-area"></div>
     <div id="pager"></div>`;
-  bindSort();
   paintList(currentSorted(), page);
-}
-function bindSort() {
-  const l = $("#sort-latest"), h = $("#sort-hot");
-  const paint = () => {
-    l.classList.toggle("btn-primary", window.__sort === "latest");
-    h.classList.toggle("btn-primary", window.__sort === "hot");
-  };
-  paint();
-  l.onclick = () => { window.__sort = "latest"; paint(); paintList(currentSorted(), 1); };
-  h.onclick = () => { window.__sort = "hot"; paint(); paintList(currentSorted(), 1); };
 }
 
 /* ---------- 8. 页面：文章详情 ---------- */
@@ -295,7 +297,6 @@ function pagePost(app, id) {
         <h1>${escapeHtml(post.title)}</h1>
         <div class="article-meta">
           <span class="m">📅 ${fmtDate(post.created_at)}</span>
-          <span class="m">👁 ${post.views || 0} 阅读</span>
           <span class="article-tags">${(post.tags || []).map((t) => `<span class="tag-chip" data-tag="${escapeHtml(t)}">${escapeHtml(t)}</span>`).join("")}</span>
         </div>
       </div>
@@ -344,8 +345,8 @@ function pageTagFilter(app, tag) {
   const posts = currentSorted().filter((p) => (p.tags || []).includes(tag));
   app.innerHTML = `<div class="page-fade">
     <div class="section-head"><h2>🏷️ ${escapeHtml(tag)}</h2>
-      <span class="sub"><a href="#/tags">← 全部标签</a></span></div>
-    <div id="post-area"></div><div id="pager"></div></div>`;
+      <span class="sub">共 ${posts.length} 篇 · <a href="#/tags">← 全部标签</a></span></div>
+    <div id="post-area"></div><div id="pager" class="pager"></div></div>`;
   if (!posts.length) {
     $("#post-area").innerHTML = `<div class="empty-state"><div class="es-icon">🏝️</div>
       <p>这个标签下还没有文章。</p></div>`;

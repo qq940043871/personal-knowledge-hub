@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<title>personal-knowledge-hub · IT 知识库 × 技术博客</title>
+<title>我的知识宇宙 · IT 知识库 × 技术博客</title>
 <style>
   :root{
     --bg:#070b14; --bg2:#0b1120;
@@ -140,6 +140,14 @@
   .sec-title .em{color:var(--cyan)}
   .sec-sub{text-align:center;color:var(--faint);font-size:14px;margin-bottom:40px;font-family:var(--mono)}
   .cards{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .cards.cards-3{grid-template-columns:repeat(3,1fr);gap:20px}
+  .cards.cards-3 .bigcard .inner{padding:28px 24px;display:flex;flex-direction:column}
+  .cards.cards-3 .bigcard .icon{width:60px;height:60px;font-size:28px;margin-bottom:16px}
+  .cards.cards-3 .bigcard h3{font-size:20px}
+  .cards.cards-3 .bigcard p{font-size:13.5px;line-height:1.7;margin:12px 0 16px}
+  .cards.cards-3 .chips{gap:6px;margin-bottom:18px}
+  .cards.cards-3 .chips i{font-size:11px;padding:3px 9px}
+  .cards.cards-3 .bigcard .go{margin-top:auto}
   .bigcard{
     position:relative;border-radius:18px;padding:2px;overflow:hidden;
     background:linear-gradient(135deg,#22d3ee33,#1e293b 40%,#1e293b 60%,#a78bfa33);
@@ -159,10 +167,19 @@
   }
   .bigcard.kb .icon{background:#22d3ee1a;box-shadow:inset 0 0 0 1px #22d3ee44,0 0 30px #22d3ee22}
   .bigcard.bl .icon{background:#a78bfa1a;box-shadow:inset 0 0 0 1px #a78bfa44,0 0 30px #a78bfa22}
+  .bigcard.ai .icon{background:#4ade801a;box-shadow:inset 0 0 0 1px #4ade8044,0 0 30px #4ade8022}
+  .bigcard.inv .icon{background:#fbbf241a;box-shadow:inset 0 0 0 1px #fbbf2444,0 0 30px #fbbf2422}
+  .bigcard.fsai .icon{background:#22d3ee1a;box-shadow:inset 0 0 0 1px #22d3ee44,0 0 30px #22d3ee22}
   .bigcard h3{font-size:23px;margin-bottom:4px}
   .bigcard .en{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--faint);text-transform:uppercase}
   .bigcard.kb h3 .hl{color:var(--cyan)}
   .bigcard.bl h3 .hl{color:var(--violet)}
+  .bigcard.ai h3 .hl{color:#4ade80}
+  .bigcard.inv h3 .hl{color:var(--amber)}
+  .bigcard.fsai h3 .hl{color:var(--cyan)}
+  .bigcard.ai{background:linear-gradient(135deg,#4ade8033,#1e293b 40%,#1e293b 60%,#22d3ee33)}
+  .bigcard.inv{background:linear-gradient(135deg,#fbbf2433,#1e293b 40%,#1e293b 60%,#f472b633)}
+  .bigcard.fsai{background:linear-gradient(135deg,#22d3ee33,#1e293b 40%,#1e293b 60%,#4f8ef733)}
   .bigcard p{color:var(--dim);font-size:14.5px;line-height:1.75;margin:14px 0 20px}
   .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
   .chips i{
@@ -172,12 +189,18 @@
   .bigcard:hover .chips i{border-color:#475569}
   .bigcard.kb:hover .chips i:hover{color:var(--cyan);border-color:#22d3ee66}
   .bigcard.bl:hover .chips i:hover{color:var(--violet);border-color:#a78bfa66}
+  .bigcard.ai:hover .chips i:hover{color:#4ade80;border-color:#4ade8066}
+  .bigcard.inv:hover .chips i:hover{color:var(--amber);border-color:#fbbf2466}
+  .bigcard.fsai:hover .chips i:hover{color:var(--cyan);border-color:#22d3ee66}
   .go{
     display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:15px;
     color:var(--txt);transition:gap .2s;
   }
   .bigcard.kb .go{color:var(--cyan)}
   .bigcard.bl .go{color:var(--violet)}
+  .bigcard.ai .go{color:#4ade80}
+  .bigcard.inv .go{color:var(--amber)}
+  .bigcard.fsai .go{color:var(--cyan)}
   .bigcard:hover .go{gap:14px}
   .go .arr{transition:transform .2s}
   .bigcard:hover .go .arr{transform:translateX(2px)}
@@ -211,9 +234,13 @@
 
   @media (max-width:820px){
     .cards{grid-template-columns:1fr}
+    .cards.cards-3{grid-template-columns:1fr}
     .stats{grid-template-columns:repeat(2,1fr)}
     .more-grid{grid-template-columns:repeat(2,1fr)}
     .nav-links a:not(.pill){display:none}
+  }
+  @media (max-width:1100px) and (min-width:821px){
+    .cards.cards-3{grid-template-columns:1fr 1fr}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation:none!important;transition:none!important}
@@ -229,11 +256,14 @@
 <div class="glow g2"></div>
 
 <nav>
-  <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})"><span class="p">~/</span>personal-knowledge-hub<span class="caret"></span></div>
+  <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})"><span class="p">~/</span>我的知识宇宙<span class="caret"></span></div>
   <div class="nav-links">
     <a href="library/index.html">知识库</a>
     <a href="blog/index.html">博客</a>
-    <a class="pill" href="library/17年技术经验总结/09-技术知识库/index.html">⭐ 17年经验 · 知识库门户</a>
+    <a href="http://1.15.152.134/ui/overview" target="_blank" rel="noopener noreferrer">OwnRAG</a>
+    <a href="https://rwe4y37qwy.feishu.cn/wiki/TITRwO5Ili53hSkHqZRcCAF4n0c" target="_blank" rel="noopener noreferrer">飞书·AI</a>
+    <a href="https://qq940043871.github.io/personal-investment-notes/" target="_blank" rel="noopener noreferrer">面试工作台</a>
+    <a class="pill" href="library/技术/17年技术经验总结/09-技术知识库/index.html">⭐ 17年经验 · 知识库门户</a>
   </div>
 </nav>
 
@@ -249,6 +279,11 @@
       <a class="btn btn-main" href="library/index.html">📚 进入知识库</a>
       <a class="btn btn-ghost" href="blog/index.html">🌊 逛逛博客「码潮 CodeTide」</a>
     </div>
+    <div class="cta-row" style="margin-top:16px">
+      <a class="btn btn-ghost" style="font-size:14px;padding:10px 22px;border-color:#4ade8055;color:#4ade80" href="http://1.15.152.134/ui/overview" target="_blank" rel="noopener noreferrer">🧠 OwnRAG ↗</a>
+      <a class="btn btn-ghost" style="font-size:14px;padding:10px 22px;border-color:#22d3ee55;color:#22d3ee" href="https://rwe4y37qwy.feishu.cn/wiki/TITRwO5Ili53hSkHqZRcCAF4n0c" target="_blank" rel="noopener noreferrer">🤖 飞书·AI ↗</a>
+      <a class="btn btn-ghost" style="font-size:14px;padding:10px 22px;border-color:#fbbf2455;color:#fbbf24" href="https://qq940043871.github.io/personal-investment-notes/" target="_blank" rel="noopener noreferrer">🎯 面试工作台 ↗</a>
+    </div>
     <div class="scroll-hint">SCROLL</div>
   </header>
 
@@ -260,8 +295,8 @@
   </section>
 
   <section class="section">
-    <h2 class="sec-title reveal">两大<span class="em">主入口</span></h2>
-    <p class="sec-sub">// pick your route</p>
+    <h2 class="sec-title reveal">五大<span class="em">入口</span></h2>
+    <p class="sec-sub">// pick your route · 站内两个 + 站外三个(新标签打开)</p>
     <div class="cards">
       <div class="bigcard kb reveal" data-tilt>
         <div class="inner">
@@ -288,27 +323,65 @@
         </div>
       </div>
     </div>
+    <div class="cards cards-3" style="margin-top:26px">
+      <div class="bigcard ai reveal" data-tilt>
+        <div class="inner">
+          <div class="icon">🧠</div>
+          <h3>Own<span class="hl">RAG</span></h3>
+          <div class="en">Self-built LLM · External</div>
+          <p>自研 RAG 知识问答系统,私有部署在自有服务器上。文档切分、向量检索、重排、答案生成一条链路自己写——不租大厂套餐,自己攒的才叫 RAG。</p>
+          <div class="chips">
+            <i>RAG</i><i>向量检索</i><i>自研</i><i>私有部署</i><i>Overview</i>
+          </div>
+          <a class="go" href="http://1.15.152.134/ui/overview" target="_blank" rel="noopener noreferrer">打开 OwnRAG <span class="arr">↗</span></a>
+        </div>
+      </div>
+      <div class="bigcard fsai reveal" data-tilt>
+        <div class="inner">
+          <div class="icon">🤖</div>
+          <h3>飞书 <span class="hl">AI 笔记</span></h3>
+          <div class="en">Feishu Wiki · AI Track</div>
+          <p>飞书知识库里的人工智能学习线,295 篇笔记按「总览 → 入门 → 原理 → 应用 → 落地」编号排列:数学基础、机器学习、深度学习、NLP / CV、强化学习,一路走到 LLM 与 Agent 工程。</p>
+          <div class="chips">
+            <i>机器学习</i><i>深度学习</i><i>Transformer</i><i>LLM</i><i>Agent</i><i>RAG</i><i>面试题库</i>
+          </div>
+          <a class="go" href="https://rwe4y37qwy.feishu.cn/wiki/TITRwO5Ili53hSkHqZRcCAF4n0c" target="_blank" rel="noopener noreferrer">打开飞书 AI 笔记 <span class="arr">↗</span></a>
+        </div>
+      </div>
+      <div class="bigcard inv reveal" data-tilt>
+        <div class="inner">
+          <div class="icon">🎯</div>
+          <h3>面试<span class="hl">工作台</span></h3>
+          <div class="en">Interview Workbench · External</div>
+          <p>B2B 技术经理 + AI 智能体双线求职材料库:面试计划、简历、现货贸易与 AI 项目底稿、技术真题、技术管理。14 天主线任务、备战进度、面试模式,练兵这件事也讲究排兵布阵。</p>
+          <div class="chips">
+            <i>面试计划</i><i>技术真题</i><i>AI 智能体</i><i>技术管理</i><i>项目叙事</i>
+          </div>
+          <a class="go" href="https://qq940043871.github.io/personal-investment-notes/" target="_blank" rel="noopener noreferrer">打开面试工作台 <span class="arr">↗</span></a>
+        </div>
+      </div>
+    </div>
   </section>
 
   <section class="section" style="padding-top:0">
     <h2 class="sec-title reveal">探索<span class="em">更多</span></h2>
     <p class="sec-sub">// deep dive</p>
     <div class="more-grid">
-      <a class="mini reveal" href="library/17年技术经验总结/09-技术知识库/index.html">
+      <a class="mini reveal" href="library/技术/17年技术经验总结/09-技术知识库/index.html">
         <div class="m-icon">🗂️</div><b>知识库门户</b>
         <span>图文并茂的知识库站点,侧栏导航 + 全景交叉索引</span>
       </a>
-      <a class="mini reveal" href="library/17年技术经验总结/09-技术知识库/md-viewer.html?file=pages/00_overview/学习路径.md">
+      <a class="mini reveal" href="library/技术/17年技术经验总结/09-技术知识库/md-viewer.html?file=pages/00_overview/学习路径.md">
         <div class="m-icon">🧭</div><b>17 年经验总结</b>
         <span>从计算机组成到架构设计的学习路径与实战沉淀</span>
       </a>
-      <a class="mini reveal" href="library/17年技术经验总结/09-技术知识库/pages/05_system_architect/distributed/message-queue/message-system.html">
+      <a class="mini reveal" href="library/技术/17年技术经验总结/09-技术知识库/md-viewer.html?file=pages/05_system_architect/mq/message-system.md">
         <div class="m-icon">📮</div><b>消息中间件图文</b>
         <span>MQ 总览 · RabbitMQ · Kafka,手绘图解核心机制</span>
       </a>
-      <a class="mini reveal" href="library/17年技术经验总结/09-技术知识库/md-viewer.html?file=pages/00_overview/文档体系规划.md">
-        <div class="m-icon">🧱</div><b>技术文档体系</b>
-        <span>写作规范、文档模板与知识管理方法论</span>
+      <a class="mini reveal" href="library/技术/飞书·人工智能/README.md" target="_blank" rel="noopener noreferrer">
+        <div class="m-icon">🤖</div><b>飞书 AI 笔记(本地)</b>
+        <span>295 篇 AI 学习笔记的站内镜像,离线也能翻</span>
       </a>
     </div>
   </section>
@@ -316,7 +389,7 @@
 
 <footer>
   <div class="cmd"><span class="p">$</span> git commit -m <span class="s">"stay hungry, stay compiling"</span></div>
-  <small>© 2026 <a href="library/index.html">personal-knowledge-hub</a> · 手写系列 × 学习指南 × 码潮 CodeTide</small>
+  <small>© 2026 <a href="library/index.html">我的知识宇宙</a> · 手写系列 × 学习指南 × 码潮 CodeTide</small>
 </footer>
 
 <script>
